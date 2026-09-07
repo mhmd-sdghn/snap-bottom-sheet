@@ -98,6 +98,9 @@ export function createSpring(
     }
   };
   function tick(frameTime: number) {
+    // The token is spent, but `running` still says a flight is in progress, so
+    // a re-entrant set() from a subscriber takes the branch below rather than
+    // scheduling its own loop.
     handle = null;
     const elapsed = Math.max(0, Math.min(frameTime - lastTime, MaxFrameMs));
     lastTime = frameTime;
@@ -126,9 +129,12 @@ export function createSpring(
     const promise = new Promise<boolean>((resolve) => {
       resolveActive = resolve;
     });
+    // A set() from inside a frame notification lands here with `running` still
+    // true and `handle` momentarily null: the loop is alive and will schedule
+    // its own next frame, so only a genuinely idle spring starts one.
+    const idle = !running;
     running = true;
-    // Already looping: keep the current velocity and the current frame clock.
-    if (handle === null) {
+    if (idle) {
       lastTime = now();
       scheduleFrame();
     }

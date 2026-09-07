@@ -122,6 +122,54 @@ describe("createSpring", () => {
     expect(spring.animating).toBe(false);
   });
 
+  it("5c. a set() from inside a notification does not orphan a loop", async () => {
+    const spring = createSpring(0);
+    let retargeted = false;
+    spring.subscribe(() => {
+      // exactly what the sheet's frame writer does when a measurement lands
+      if (!retargeted) {
+        retargeted = true;
+        void spring.set(200);
+      }
+    });
+
+    const settled = record(spring.set(100));
+    // one frame in, there must be exactly one timer outstanding — a second
+    // loop would run the integrator twice per frame and outlive stop()
+    await vi.advanceTimersByTimeAsync(16);
+    expect(vi.getTimerCount()).toBe(1);
+
+    await vi.advanceTimersByTimeAsync(2000);
+    expect(settled.value).toBe(false);
+    expect(spring.get()).toBe(200);
+    expect(spring.animating).toBe(false);
+    expect(vi.getTimerCount()).toBe(0);
+  });
+
+  it("5d. stop() cancels every scheduled frame", async () => {
+    const spring = createSpring(0);
+    // one-shot: stop() notifies too, and a subscriber that re-set() on *that*
+    // notification would legitimately start a new flight
+    let retargeted = false;
+    spring.subscribe(() => {
+      if (!retargeted) {
+        retargeted = true;
+        void spring.set(300);
+      }
+    });
+
+    void spring.set(100);
+    await vi.advanceTimersByTimeAsync(64);
+    spring.stop();
+
+    expect(spring.animating).toBe(false);
+    expect(vi.getTimerCount()).toBe(0);
+
+    const frozen = spring.get();
+    await vi.advanceTimersByTimeAsync(1000);
+    expect(spring.get()).toBe(frozen);
+  });
+
   it("6. stop() freezes the value and resolves false", async () => {
     const spring = createSpring(0);
     const settled = record(spring.set(100));
