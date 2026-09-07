@@ -163,6 +163,12 @@ above does — or keep exactly one element child inside the panel. If the panel
 has several children and none is attributed, the measurement falls back to the
 panel, which is full-height, and `"content"` collapses to the view height.
 
+The wrapper is resolved **once, at attach**, and observed for as long as the
+controller lives. If you swap that element out later — re-rendering the panel's
+markup wholesale, say — the controller keeps measuring the old, detached node
+and `"content"` stops responding. Keep the wrapper stable and replace what is
+inside it, or `destroy()` and create the sheet again.
+
 ::: tip
 The React bindings always render the attributed inner div, which is why this
 only comes up in vanilla usage.

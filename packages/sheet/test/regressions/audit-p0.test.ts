@@ -288,21 +288,59 @@ describe("audit P0 regressions", () => {
 
   it("P0-7 — public types the README promised but the entry never exported", async () => {
     // 0.x: `import type { SnapPoint, ... }` from the package failed outright.
-    const entry = await import("../../src/index.ts");
-    expect(Object.keys(entry).sort()).toEqual(["createSheet", "steps"]);
+    const core = await import("../../src/index.ts");
+    const react = await import("../../src/react/index.ts");
 
-    // the type-only exports resolve at compile time; referencing them here is
-    // what proves they exist — a missing one fails `pnpm typecheck`.
-    const typeCheck: {
-      point: import("../../src/index.ts").SnapPoint;
-      config: import("../../src/index.ts").SnapPointConfig;
-      value: import("../../src/index.ts").SnapValue;
-      state: import("../../src/index.ts").SheetState;
-      options: import("../../src/index.ts").SheetOptions;
-      elements: import("../../src/index.ts").SheetElements;
-      controller: import("../../src/index.ts").SheetController;
-    } | null = null;
-    expect(typeCheck).toBeNull();
+    expect(Object.keys(core).sort()).toEqual(["createSheet", "steps"]);
+    expect(Object.keys(react).sort()).toEqual(["Sheet", "useSheetState"]);
+
+    // The compound parts are the other half of the promise.
+    for (const part of [
+      "Portal",
+      "Overlay",
+      "Content",
+      "Handle",
+      "Header",
+      "Body",
+      "Title",
+      "Description",
+      "Close",
+    ]) {
+      expect(react.Sheet).toHaveProperty(part);
+    }
+
+    // Type-only exports have no runtime footprint, so `satisfies` is what
+    // actually asserts them — a removed or renamed type fails `pnpm typecheck`
+    // rather than silently passing the way `expect(null).toBeNull()` did.
+    const point = 0.5 satisfies import("../../src/index.ts").SnapPoint;
+    const value = "50%" satisfies import("../../src/index.ts").SnapValue;
+    const config = {
+      value: "content",
+      scroll: true,
+    } satisfies import("../../src/index.ts").SnapPointConfig;
+    const options = {
+      snapPoints: [point, value, config],
+      modal: false,
+    } satisfies import("../../src/index.ts").SheetOptions;
+    expect(options.snapPoints).toHaveLength(3);
+
+    const state: import("../../src/index.ts").SheetState = {
+      open: false,
+      snapIndex: 0,
+      y: 0,
+      progress: 0,
+      dragging: false,
+      animating: false,
+      contentMode: false,
+    };
+    expect(state.open).toBe(false);
+
+    // and the React-side types the docs name
+    const props = {
+      snapPoints: [point],
+      onDragEnd: (index: number) => index,
+    } satisfies import("../../src/react/index.ts").SheetProps;
+    expect(props.snapPoints).toHaveLength(1);
   });
 
   it("P0-8 — content unreachable at a partial snap when scroll is on", async () => {

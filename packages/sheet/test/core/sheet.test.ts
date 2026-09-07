@@ -6,34 +6,15 @@ import {
   type SheetElements,
   type SheetOptions,
 } from "../../src/core/sheet.ts";
-import { settle } from "../helpers/env.ts";
+import {
+  installTestEnv,
+  isObserved,
+  resizeTo,
+  setHeight,
+  settle,
+  ViewHeight,
+} from "../helpers/env.ts";
 import { fire } from "../helpers/pointer.ts";
-
-const ViewHeight = 1000;
-
-type ResizeEntryLike = { target: Element };
-/**
- * measure.ts creates one module-level ResizeObserver on its first use and keeps
- * it for the lifetime of the module, so this list must NOT be reset per test —
- * clearing it would orphan the only callback that reaches the shared observer.
- */
-const observerCallbacks: ((entries: ResizeEntryLike[]) => void)[] = [];
-
-/** Fires every live ResizeObserver callback for one element. */
-const resizeTo = (el: HTMLElement, height: number) => {
-  Object.defineProperty(el, "offsetHeight", {
-    value: height,
-    configurable: true,
-  });
-  for (const cb of [...observerCallbacks]) cb([{ target: el }]);
-};
-
-const setHeight = (el: HTMLElement, height: number) => {
-  Object.defineProperty(el, "offsetHeight", {
-    value: height,
-    configurable: true,
-  });
-};
 
 interface Fixture extends SheetElements {
   wrapper: HTMLElement;
@@ -117,32 +98,7 @@ beforeEach(() => {
   document.body.innerHTML = "";
   document.documentElement.style.cssText = "";
   document.body.style.cssText = "";
-
-  Object.defineProperty(window, "innerHeight", {
-    value: ViewHeight,
-    configurable: true,
-  });
-  vi.stubGlobal(
-    "ResizeObserver",
-    class {
-      constructor(cb: (entries: ResizeEntryLike[]) => void) {
-        observerCallbacks.push(cb);
-      }
-      observe() {}
-      unobserve() {}
-      disconnect() {}
-    },
-  );
-  vi.stubGlobal("requestAnimationFrame", (cb: FrameRequestCallback) =>
-    setTimeout(() => cb(performance.now()), 16),
-  );
-  vi.stubGlobal("cancelAnimationFrame", clearTimeout);
-  vi.stubGlobal("matchMedia", (media: string) => ({
-    media,
-    matches: false,
-    addEventListener() {},
-    removeEventListener() {},
-  }));
+  installTestEnv();
 });
 
 afterEach(() => {
@@ -875,6 +831,9 @@ describe("createSheet", () => {
     expect(controller.getState().open).toBe(false);
     expect(el.content.getAttribute("data-state")).toBe("closed");
     expect(isBodyScrollLocked()).toBe(false);
+    // the point of "still warns": an ignored open() has to be distinguishable
+    // from a broken one
+    expect(warn.mock.calls.flat().join(" ")).toMatch(/no usable snap point/i);
     warn.mockRestore();
   });
 
@@ -1213,9 +1172,10 @@ describe("createSheet", () => {
 
   it("A.5 destroy() gives the body's inline styles back", async () => {
     const el = fixture();
-    el.body.style.overflow = "scroll";
-    el.body.style.flex = "2 2 auto";
-    const before = el.body.getAttribute("style");
+    const body = el.body as HTMLElement;
+    body.style.overflow = "scroll";
+    body.style.flex = "2 2 auto";
+    const before = body.getAttribute("style");
 
     const controller = make(el, {
       snapPoints: [{ value: 0.5, scroll: true }],
@@ -1224,11 +1184,11 @@ describe("createSheet", () => {
     await settle(controller);
     await opened;
     // the library has written its own overflow/flex by now
-    expect(el.body.style.overflowY).toBe("auto");
+    expect(body.style.overflowY).toBe("auto");
 
     controller.destroy();
 
-    expect(el.body.getAttribute("style")).toBe(before);
+    expect(body.getAttribute("style")).toBe(before);
   });
 
   it("A.6 a non-dismissible modal swallows Escape", async () => {
@@ -1263,7 +1223,7 @@ describe("createSheet", () => {
     await opened;
 
     const field = document.createElement("input");
-    el.body.append(field);
+    (el.body as HTMLElement).append(field);
     field.addEventListener("keydown", (event) => event.preventDefault());
 
     // cancelable matters: preventDefault() is a no-op without it, so the
@@ -1339,6 +1299,24 @@ describe("createSheet", () => {
 
     controller.update({ modal: false });
     expect(document.activeElement).toBe(outside);
+  });
+
+  it("A.14b destroy() stops observing the elements it watched", async () => {
+    const el = fixture();
+    const controller = make(el, { snapPoints: ["content", "header"] });
+    const opened = controller.open();
+    await settle(controller);
+    await opened;
+
+    expect(isObserved(el.inner)).toBe(true);
+    expect(isObserved(el.header as HTMLElement)).toBe(true);
+
+    controller.destroy();
+
+    // a leaked observer keeps a detached node alive and fires into a dead
+    // controller; the fake is target-aware now, so this can actually fail
+    expect(isObserved(el.inner)).toBe(false);
+    expect(isObserved(el.header as HTMLElement)).toBe(false);
   });
 
   it("destroy() is idempotent", () => {

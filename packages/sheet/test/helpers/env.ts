@@ -10,8 +10,16 @@ type ResizeCallback = (entries: ResizeEntryLike[]) => void;
  * measure.ts creates ONE ResizeObserver the first time it is used and keeps it
  * for the module's lifetime, so this list must never be cleared between tests —
  * clearing it orphans the only callback that reaches the shared observer.
+ *
+ * Each entry tracks what it is actually observing, so `unobserve`/`disconnect`
+ * mean something: a fake that fires every callback for every element cannot
+ * fail when the library forgets to stop observing a detached node.
  */
-const observerCallbacks: ResizeCallback[] = [];
+interface FakeObserver {
+  callback: ResizeCallback;
+  observed: Set<Element>;
+}
+const observers: FakeObserver[] = [];
 
 /**
  * Install the fake environment a sheet needs under jsdom: rAF driven by timers,
@@ -30,12 +38,20 @@ export function installTestEnv(
   vi.stubGlobal(
     "ResizeObserver",
     class {
+      private readonly self: FakeObserver;
       constructor(cb: ResizeCallback) {
-        observerCallbacks.push(cb);
+        this.self = { callback: cb, observed: new Set() };
+        observers.push(this.self);
       }
-      observe() {}
-      unobserve() {}
-      disconnect() {}
+      observe(el: Element) {
+        this.self.observed.add(el);
+      }
+      unobserve(el: Element) {
+        this.self.observed.delete(el);
+      }
+      disconnect() {
+        this.self.observed.clear();
+      }
     },
   );
   vi.stubGlobal("requestAnimationFrame", (cb: FrameRequestCallback) =>
@@ -58,10 +74,20 @@ export function setHeight(el: HTMLElement, height: number): void {
   });
 }
 
-/** Set a height and fire every live ResizeObserver callback for that element. */
+/**
+ * Set a height and notify only the observers actually watching this element —
+ * the way a real ResizeObserver behaves.
+ */
 export function resizeTo(el: HTMLElement, height: number): void {
   setHeight(el, height);
-  for (const cb of [...observerCallbacks]) cb([{ target: el }]);
+  for (const observer of [...observers]) {
+    if (observer.observed.has(el)) observer.callback([{ target: el }]);
+  }
+}
+
+/** Is anything still observing this element? Used to catch leaked observers. */
+export function isObserved(el: Element): boolean {
+  return observers.some((observer) => observer.observed.has(el));
 }
 
 /** Change the window height and fire the resize listener measure.ts installs. */
