@@ -315,8 +315,8 @@
     "semantic_hash": ""
   },
   "packages/sheet/src/core/env.ts": {
-    "mtime": 1788795252.8843913,
-    "ast_hash": "75bfb5d401cb65b52c35b8d753f259c7",
+    "mtime": 1788795650.848273,
+    "ast_hash": "72d019b117a3e488cef616b53f05a764",
     "semantic_hash": ""
   },
   "packages/sheet/src/core/measure.ts": {
@@ -377,6 +377,11 @@
   "docs/internal/tasks/06-meta.md": {
     "mtime": 1788795214.7001736,
     "ast_hash": "6dd92d1df689b2d1f552a87fb2a50657",
+    "semantic_hash": ""
+  },
+  "packages/sheet/test/core/env.test.ts": {
+    "mtime": 1788795667.7795343,
+    "ast_hash": "ce6c0208b3485a23f5bc9c6ab04a0431",
     "semantic_hash": ""
   }
 }

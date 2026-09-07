@@ -1552,11 +1552,11 @@
       "label": "warnOnce()",
       "file_type": "code",
       "source_file": "packages/sheet/src/core/env.ts",
-      "source_location": "L10",
+      "source_location": "L14",
       "_origin": "ast",
       "id": "packages_sheet_src_core_env_warnonce",
-      "community": 6,
-      "community_name": "Library Declarations Config",
+      "community": 3,
+      "community_name": "Compound Component and Types",
       "norm_label": "warnonce()"
     },
     {
@@ -2724,6 +2724,17 @@
       "community": 9,
       "community_name": "Semantic Extraction Spec",
       "norm_label": "getsnapvalues()"
+    },
+    {
+      "label": "env.test.ts",
+      "file_type": "code",
+      "source_file": "packages/sheet/test/core/env.test.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "packages_sheet_test_core_env_test",
+      "community": 3,
+      "community_name": "Compound Component and Types",
+      "norm_label": "env.test.ts"
     },
     {
       "label": "measure.test.ts",
@@ -9360,7 +9371,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "packages/sheet/src/core/env.ts",
-      "source_location": "L10",
+      "source_location": "L14",
       "weight": 1.0,
       "_origin": "ast",
       "source": "packages_sheet_src_core_env",
@@ -9412,6 +9423,18 @@
       "weight": 1.0,
       "_origin": "ast",
       "source": "packages_sheet_src_react_use_isomorphic_layout_effect",
+      "target": "packages_sheet_src_core_env",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/sheet/test/core/env.test.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "packages_sheet_test_core_env_test",
       "target": "packages_sheet_src_core_env",
       "confidence_score": 1.0
     },
@@ -9510,6 +9533,18 @@
       "_origin": "ast",
       "source": "packages_sheet_src_core_snap_resolvesnappoints",
       "target": "packages_sheet_src_core_env_warnonce"
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/sheet/test/core/env.test.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "packages_sheet_test_core_env_test",
+      "target": "packages_sheet_src_core_env_warnonce",
+      "confidence_score": 1.0
     },
     {
       "relation": "contains",
@@ -15057,5 +15092,5 @@
       "source_file": ".claude/skills/graphify/references/query.md"
     }
   ],
-  "built_at_commit": "8d2acc003e7037d0b75e6c6d5ec5104dbae7f8f1"
+  "built_at_commit": "3b444f4ad5c88913df7f4ddcbe2160242e4c94f7"
 }

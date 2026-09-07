@@ -1,16 +1,16 @@
 # Graph Report - new-session-f1b40c  (2026-09-07)
 
 ## Corpus Check
-- 70 files · ~32,786 words
+- 71 files · ~32,889 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 568 nodes · 746 edges · 57 communities (35 shown, 22 thin omitted)
+- 569 nodes · 748 edges · 57 communities (35 shown, 22 thin omitted)
 - Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 20 edges (avg confidence: 0.82)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `8d2acc00`
+- Built from commit: `3b444f4a`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -116,8 +116,8 @@ Cohesion: 0.50
 Nodes (4): graphify skill trigger (/graphify), graphify query-first workflow for this repo, snap-bottom-sheet (library overview), Vite playground HTML entry
 
 ### Community 3 - "Compound Component and Types"
-Cohesion: 0.08
-Nodes (20): isBrowser(), warned, elementCallbacks, handleViewResize(), HeightCallback, heightOf(), notify(), observeHeight() (+12 more)
+Cohesion: 0.07
+Nodes (21): isBrowser(), warned, warnOnce(), elementCallbacks, handleViewResize(), HeightCallback, heightOf(), notify() (+13 more)
 
 ### Community 4 - "Context, Overlay and Drag Events"
 Cohesion: 0.67
@@ -128,8 +128,8 @@ Cohesion: 0.10
 Nodes (20): 1. Dynamic Height Handling, 1. `<Sheet>` (Root Component), 2. Scroll Management, 2. `<Sheet.Container>`, 3. Drag Behavior Control, 3. `<Sheet.DynamicHeight>\*\*, 4. Custom Positioning, Basic Usage 🚀 (+12 more)
 
 ### Community 6 - "Library Declarations Config"
-Cohesion: 0.21
-Nodes (17): warnOnce(), byY(), closest(), decideRelease(), isConfig(), isContentMode(), MeasureContext, normalize() (+9 more)
+Cohesion: 0.22
+Nodes (16): byY(), closest(), decideRelease(), isConfig(), isContentMode(), MeasureContext, normalize(), NormalizedSnap (+8 more)
 
 ### Community 7 - "Node and Vite TS Config"
 Cohesion: 0.10
@@ -236,7 +236,7 @@ Nodes (3): Content mode (no real snap points), Sheet.DynamicHeight must be the f
 _Questions this graph is uniquely positioned to answer:_
 
 - **Why does `react` connect `Semantic Extraction Spec` to `Package Manifest and Publishing`, `Compound Component and Types`, `Task 00 — monorepo scaffold (nBridge tooling)`?**
-  _High betweenness centrality (0.096) - this node is a cross-community bridge._
+  _High betweenness centrality (0.097) - this node is a cross-community bridge._
 - **Why does `keywords` connect `Package Manifest and Publishing` to `Semantic Extraction Spec`?**
   _High betweenness centrality (0.069) - this node is a cross-community bridge._
 - **Why does `devDependencies` connect `Public API and Snap State Hook` to `Package Manifest and Publishing`?**
@@ -248,4 +248,4 @@ _Questions this graph is uniquely positioned to answer:_
 - **Should `Package Manifest and Publishing` be split into smaller, more focused modules?**
   _Cohesion score 0.047619047619047616 - nodes in this community are weakly interconnected._
 - **Should `Compound Component and Types` be split into smaller, more focused modules?**
-  _Cohesion score 0.07823613086770982 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07435897435897436 - nodes in this community are weakly interconnected._
