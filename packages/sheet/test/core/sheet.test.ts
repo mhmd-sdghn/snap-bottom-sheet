@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { isBodyScrollLocked } from "../../src/core/scroll-lock.ts";
 import {
   createSheet,
   type SheetController,
@@ -694,6 +695,144 @@ describe("createSheet", () => {
     // the veto must not have leaked a second body-scroll lock
     controller.destroy();
     expect(document.body.style.overflow).toBe("");
+  });
+
+  it("3a. finalises an open whose animation is superseded mid-flight", async () => {
+    const el = fixture();
+    const onAnimationEnd = vi.fn();
+    const controller = make(el, {
+      snapPoints: ["content", 0.9],
+      onAnimationEnd,
+    });
+
+    resizeTo(el.inner, 300);
+    const opened = controller.open();
+    // land a measurement while the open animation is still running
+    await vi.advanceTimersByTimeAsync(100);
+    expect(controller.getState().animating).toBe(true);
+    resizeTo(el.inner, 200);
+
+    await settle();
+    await opened;
+
+    expect(yOf(el.content)).toBe(800);
+    expect(onAnimationEnd.mock.calls).toEqual([[true]]);
+    expect(controller.getState().open).toBe(true);
+  });
+
+  it("3b. finalises a close whose animation is superseded mid-flight", async () => {
+    const el = fixture();
+    const onAnimationEnd = vi.fn();
+    const controller = make(el, { snapPoints: [0.5], onAnimationEnd });
+
+    const opened = controller.open();
+    await settle();
+    await opened;
+    expect(isBodyScrollLocked()).toBe(true);
+
+    const closed = controller.close();
+    await vi.advanceTimersByTimeAsync(100);
+    expect(controller.getState().animating).toBe(true);
+    // a viewport resize mid-close supersedes the closing spring.set
+    Object.defineProperty(window, "innerHeight", {
+      value: 800,
+      configurable: true,
+    });
+    window.dispatchEvent(new Event("resize"));
+
+    await settle();
+    await closed;
+
+    expect(el.content.getAttribute("data-state")).toBe("closed");
+    expect(yOf(el.content)).toBe(800);
+    expect(isBodyScrollLocked()).toBe(false);
+    expect(isInert(el.sibling)).toBe(false);
+    expect(onAnimationEnd.mock.calls.filter(([o]) => o === false)).toHaveLength(
+      1,
+    );
+  });
+
+  it("2. a vetoed dismissal leaves no lock or inert behind", async () => {
+    const el = fixture();
+    let controller: SheetController | undefined;
+    controller = make(el, {
+      snapPoints: [0.3, 0.9],
+      defaultSnapIndex: 0,
+      onOpenChange: (open) => {
+        if (!open) void controller?.open();
+      },
+    });
+
+    const opened = controller.open();
+    await settle();
+    await opened;
+
+    // drag past the lowest snap: dismissal fires, the callback re-opens
+    drag(el.content, 0, 90);
+    await settle();
+    expect(el.content.getAttribute("data-state")).toBe("open");
+    expect(controller.getState().open).toBe(true);
+
+    const closed = controller.close();
+    await settle();
+    await closed;
+
+    expect(isBodyScrollLocked()).toBe(false);
+    expect(isInert(el.sibling)).toBe(false);
+    // a non-idempotent captureFocus would have remembered a node inside the
+    // sheet during the veto, and restored focus back into it here
+    expect(el.content.contains(document.activeElement)).toBe(false);
+  });
+
+  it("7. drops aria refs it wrote, keeps the consumer's own", async () => {
+    const el = fixture();
+    el.content.setAttribute("aria-describedby", "mine");
+    const controller = make(el, { snapPoints: [0.5], labelledBy: "title" });
+
+    expect(el.content.getAttribute("aria-labelledby")).toBe("title");
+
+    controller.update({ labelledBy: undefined });
+    expect(el.content.getAttribute("aria-labelledby")).toBeNull();
+    // never written by us, so never removed by us
+    expect(el.content.getAttribute("aria-describedby")).toBe("mine");
+  });
+
+  it("7b. update({ dismissible: true }) re-arms Escape", async () => {
+    const el = fixture();
+    const controller = make(el, { snapPoints: [0.5], dismissible: false });
+    const opened = controller.open();
+    await settle();
+    await opened;
+
+    const pressEscape = () =>
+      document.dispatchEvent(
+        new KeyboardEvent("keydown", { key: "Escape", bubbles: true }),
+      );
+
+    pressEscape();
+    await settle();
+    expect(controller.getState().open).toBe(true);
+
+    controller.update({ dismissible: true });
+    pressEscape();
+    await settle();
+    expect(controller.getState().open).toBe(false);
+  });
+
+  it("8. open() stays closed when nothing resolves", async () => {
+    const el = fixture();
+    setHeight(el.wrapper, 0);
+    const controller = make(
+      { ...el, container: el.wrapper },
+      { snapPoints: [0.5] },
+    );
+
+    await controller.open();
+    await settle();
+
+    expect(controller.getState().open).toBe(false);
+    expect(el.content.getAttribute("data-state")).toBe("closed");
+    expect(isBodyScrollLocked()).toBe(false);
   });
 
   it("destroy() is idempotent", () => {

@@ -1,7 +1,7 @@
 {
   "name": "snap-bottom-sheet",
   "version": "0.0.10",
-  "description": "Draggable, snappable bottom sheet for React.",
+  "description": "Framework-agnostic bottom sheet engine with React bindings: snap points, live-measured header/content snaps, scroll-aware dragging",
   "type": "module",
   "license": "MIT",
   "author": "Mo Sadeghian <mo.sdghn@gmail.com>",
@@ -24,7 +24,10 @@
     "react",
     "modal",
     "overlay",
-    "draggableview"
+    "draggableview",
+    "vanilla",
+    "headless",
+    "typescript"
   ],
   "sideEffects": false,
   "files": [
@@ -49,10 +52,6 @@
     "typecheck": "tsc --noEmit",
     "verify:pkg": "publint && attw --pack . --profile esm-only --exclude-entrypoints ./package.json"
   },
-  "dependencies": {
-    "@snap-bottom-sheet/spring": "workspace:*",
-    "@snap-bottom-sheet/gesture": "workspace:*"
-  },
   "peerDependencies": {
     "react": "^18.0.0 || ^19.0.0",
     "react-dom": "^18.0.0 || ^19.0.0"
@@ -67,6 +66,8 @@
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "^0.18.0",
+    "@snap-bottom-sheet/gesture": "workspace:*",
+    "@snap-bottom-sheet/spring": "workspace:*",
     "@testing-library/react": "^16.3.0",
     "@types/node": "^24.0.0",
     "@types/react": "^19.2.0",

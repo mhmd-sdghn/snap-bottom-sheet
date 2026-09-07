@@ -14,13 +14,7 @@ import { warnOnce } from "./env.ts";
 import { attachHandleKeys } from "./keyboard.ts";
 import { observeHeight, observeViewHeight } from "./measure.ts";
 import { createModalGuard } from "./modal.ts";
-import {
-  cycleFrom,
-  pickIndex,
-  progressOf,
-  stepFrom,
-  topmostY,
-} from "./position.ts";
+import { cycleFrom, pickIndex, progressOf, stepFrom } from "./position.ts";
 import {
   isContentMode,
   type ResolvedSnap,
@@ -62,6 +56,15 @@ export function createSheet(
   let destroyed = false;
   let isOpen = false;
   let dragging = false;
+
+  /**
+   * Which transition is waiting to be finalised. Completion is a function of
+   * "the spring finally rested while this was pending", never of which
+   * `spring.set()` call happened to resolve — a measurement or resize landing
+   * mid-animation supersedes that call, and the transition still has to finish.
+   */
+  let pending: "open" | "close" | null = null;
+  let pendingResolvers: (() => void)[] = [];
 
   let viewHeight = 0;
   let headerHeight = 0;
@@ -173,16 +176,57 @@ export function createSheet(
     content.setAttribute("data-snap-index", String(snap.index));
   };
 
+  // Only attributes we wrote get removed again — a consumer who put
+  // aria-labelledby in their own markup keeps it.
+  const ariaWritten = new Set<string>();
+  const applyAriaRef = (attr: string, value: string | undefined) => {
+    if (value) {
+      content.setAttribute(attr, value);
+      ariaWritten.add(attr);
+    } else if (ariaWritten.delete(attr)) {
+      content.removeAttribute(attr);
+    }
+  };
+
   const applyAria = () => {
     if (modal()) content.setAttribute("aria-modal", "true");
     else content.removeAttribute("aria-modal");
-    if (opts.labelledBy)
-      content.setAttribute("aria-labelledby", opts.labelledBy);
-    if (opts.describedBy) {
-      content.setAttribute("aria-describedby", opts.describedBy);
-    }
+    applyAriaRef("aria-labelledby", opts.labelledBy);
+    applyAriaRef("aria-describedby", opts.describedBy);
     if (contentMode()) content.setAttribute("data-content-mode", "");
     else content.removeAttribute("data-content-mode");
+  };
+
+  // -------------------------------------------------------- transition end
+
+  const settlePending = () => {
+    const resolvers = pendingResolvers;
+    pendingResolvers = [];
+    for (const resolve of resolvers) resolve();
+  };
+
+  /**
+   * Run the tail of an open/close once the spring is at rest. Called after
+   * every rest, from whichever code path got there.
+   */
+  const maybeFinalize = () => {
+    if (!pending || destroyed || dragging || spring.animating) return;
+    const which = pending;
+    pending = null;
+    if (which === "open") {
+      const snap = activeSnap();
+      if (snap) applyRest(snap);
+      notify();
+      settlePending();
+      opts.onAnimationEnd?.(true);
+      return;
+    }
+    setDataState(false);
+    guard.disengage();
+    guard.restoreFocus();
+    notify();
+    settlePending();
+    opts.onAnimationEnd?.(false);
   };
 
   // ---------------------------------------------------------------- position
@@ -212,9 +256,12 @@ export function createSheet(
       immediate,
       velocity: o.velocity,
     });
-    if (!rested || destroyed) return;
-    applyRest(target);
-    notify();
+    if (destroyed) return;
+    if (rested) {
+      applyRest(target);
+      notify();
+    }
+    maybeFinalize();
   };
 
   // ------------------------------------------------------------ open / close
@@ -226,47 +273,50 @@ export function createSheet(
     onEscape: () => dismiss(),
   });
 
-  const open = async (): Promise<void> => {
-    if (destroyed || isOpen) return;
+  const open = (): Promise<void> => {
+    if (destroyed || isOpen) return Promise.resolve();
+    const snap = activeSnap();
+    if (!snap) {
+      // Nothing resolved (an unmeasurable container, or every point invalid):
+      // animating to y=0 would slam the panel fully open.
+      warnOnce(
+        "open:no-snaps",
+        "open() ignored — no usable snap point. Is the container measurable?",
+      );
+      return Promise.resolve();
+    }
     isOpen = true;
+    pending = "open";
     if (modal()) guard.engage(dismissible());
     guard.captureFocus();
     setDataState(true);
     notify();
 
-    const snap = activeSnap();
+    const done = new Promise<void>((resolve) => pendingResolvers.push(resolve));
     const immediate =
       opts.skipInitialAnimation === true || immediateByPreference();
-    const rested = await spring.set(snap ? snap.y : topmostY(resolved), {
-      immediate,
-    });
-    if (!rested || destroyed || !isOpen) return;
-    if (snap) applyRest(snap);
-    notify();
-    opts.onAnimationEnd?.(true);
+    void spring.set(snap.y, { immediate });
+    maybeFinalize();
+    return done;
   };
 
-  const closeWith = async (dismissed: boolean): Promise<void> => {
-    if (destroyed || !isOpen) return;
+  const closeWith = (dismissed: boolean): Promise<void> => {
+    if (destroyed || !isOpen) return Promise.resolve();
     isOpen = false;
+    pending = "close";
     guard.releaseEscape();
     notify();
     // Reported as soon as the close is under way: a controlled parent needs it
     // to mirror state, and unmounting waits for onAnimationEnd(false) anyway.
     if (dismissed) opts.onOpenChange?.(false);
     // A controlled parent vetoes a dismissal by calling open() from inside that
-    // callback; its animation must not be clobbered by the close we started.
-    if (isOpen || destroyed) return;
+    // callback; that call owns `pending` now, so leave its animation alone.
+    if (isOpen || destroyed) return Promise.resolve();
 
-    const rested = await spring.set(viewHeight, {
-      immediate: immediateByPreference(),
-    });
-    if (destroyed || !rested || isOpen) return;
-    setDataState(false);
-    guard.disengage();
-    guard.restoreFocus();
-    notify();
-    opts.onAnimationEnd?.(false);
+    const done = new Promise<void>((resolve) => pendingResolvers.push(resolve));
+    void spring.set(viewHeight, { immediate: immediateByPreference() });
+    maybeFinalize();
+    return done;
   };
 
   const close = () => closeWith(false);
@@ -408,6 +458,7 @@ export function createSheet(
   const unsubscribeSpring = spring.subscribe((y) => {
     writeFrame(content, parts.overlay, y, progressOf(y, viewHeight, resolved));
     notify();
+    maybeFinalize();
   });
 
   const unobserveView = observeViewHeight(container ?? null, (height) => {
@@ -445,7 +496,10 @@ export function createSheet(
       if (modal()) guard.engage(dismissible());
       else guard.disengage();
     }
-    if (isOpen && modal() && !dismissible()) guard.releaseEscape();
+    if (isOpen && modal()) {
+      if (dismissible()) guard.ensureEscape();
+      else guard.releaseEscape();
+    }
     const target = pickIndex(resolved, snapIndex);
     if (!target) {
       notify();
@@ -490,6 +544,8 @@ export function createSheet(
       content.removeAttribute(attr);
     }
     parts.overlay?.removeAttribute("data-state");
+    pending = null;
+    settlePending();
     listeners.clear();
   };
 
