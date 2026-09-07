@@ -10,15 +10,7 @@
     {
       "name": "docs",
       "runtimeExecutable": "pnpm",
-      "runtimeArgs": [
-        "--filter",
-        "snap-bottom-sheet-docs",
-        "docs:dev",
-        "--",
-        "--port",
-        "5175",
-        "--strictPort"
-      ],
+      "runtimeArgs": ["--filter", "snap-bottom-sheet-docs", "docs:dev"],
       "port": 5175
     },
     {
