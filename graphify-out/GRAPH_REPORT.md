@@ -1,16 +1,16 @@
-# Graph Report - bottom-sheet-audit-f63d97  (2026-09-07)
+# Graph Report - new-session-f1b40c  (2026-09-07)
 
 ## Corpus Check
-- 72 files · ~33,402 words
+- 71 files · ~32,889 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 648 nodes · 784 edges · 64 communities (43 shown, 21 thin omitted)
-- Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 19 edges (avg confidence: 0.83)
+- 569 nodes · 748 edges · 57 communities (35 shown, 22 thin omitted)
+- Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 20 edges (avg confidence: 0.82)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `21dc1bd1`
+- Built from commit: `3b444f4a`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -61,41 +61,37 @@
 - graphify reference: transcribe video and audio
 - pull_request_template.md
 - context.tsx
+- bugs
+- dependencies
 - files
 - repository
 - @biomejs/biome
 - @changesets/cli
 - graphify
-- extraction-spec.md
-- eslint
-- Contracts
-- Task 07 — React bindings (`snap-bottom-sheet/react`)
-- Task 05 — documentation site (VitePress)
-- Task 06 — repository meta: README, CONTRIBUTING, CLAUDE.md, changeset
 
 ## God Nodes (most connected - your core abstractions)
-1. `react` - 21 edges
+1. `react` - 23 edges
 2. `SheetContainer()` - 18 edges
 3. `compilerOptions` - 16 edges
-4. `compilerOptions` - 16 edges
-5. `compilerOptions` - 15 edges
-6. `keywords` - 13 edges
-7. `compilerOptions` - 13 edges
-8. `scripts` - 12 edges
-9. `Snap Bottom Sheet 🎯` - 11 edges
-10. `useWatchHeight()` - 10 edges
+4. `keywords` - 13 edges
+5. `compilerOptions` - 13 edges
+6. `scripts` - 12 edges
+7. `useWatchHeight()` - 11 edges
+8. `Snap Bottom Sheet 🎯` - 11 edges
+9. `isSnapPointConfigObj()` - 10 edges
+10. `--update Incremental Re-Extraction` - 10 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `Snap points: pixels, percentages, dynamic` --semantically_similar_to--> `Pixel y-offset-from-top internal model`  [INFERRED] [semantically similar]
   README.md → CLAUDE.md
 - `Dynamic height handling usage` --semantically_similar_to--> `Content mode (no real snap points)`  [INFERRED] [semantically similar]
   README.md → CLAUDE.md
+- `useWatchHeight()` --indirect_call--> `element()`  [INFERRED]
+  packages/sheet/src/hooks/useWatchHeight.ts → packages/sheet/test/core/measure.test.ts
 - `Vite playground HTML entry` --conceptually_related_to--> `snap-bottom-sheet (library overview)`  [INFERRED]
   index.html → CLAUDE.md
 - `Dynamic height handling usage` --conceptually_related_to--> `Sheet.DynamicHeight must be the first child`  [INFERRED]
   README.md → CLAUDE.md
-- `graphify merge-graphs` --semantically_similar_to--> `build_merge Replace-on-Re-Extract`  [INFERRED] [semantically similar]
-  .claude/skills/graphify/references/github-and-merge.md → .claude/skills/graphify/references/update.md
 
 ## Import Cycles
 - None detected.
@@ -105,7 +101,7 @@
 - **Optional Graph Export Targets** — _claude_skills_graphify_references_exports_neo4j_export, _claude_skills_graphify_references_exports_falkordb_export, _claude_skills_graphify_references_exports_svg_export, _claude_skills_graphify_references_exports_graphml_export, _claude_skills_graphify_references_exports_wiki_export, _claude_skills_graphify_references_exports_mcp_server [EXTRACTED 1.00]
 - **Query Expansion, Traversal and Self-Improving Feedback Loop** — _claude_skills_graphify_references_query_constrained_query_expansion, _claude_skills_graphify_references_query_graph_vocabulary, _claude_skills_graphify_references_query_bfs_traversal, _claude_skills_graphify_references_query_save_result, _claude_skills_graphify_references_query_work_memory_lessons [EXTRACTED 1.00]
 
-## Communities (64 total, 21 thin omitted)
+## Communities (57 total, 22 thin omitted)
 
 ### Community 0 - "Lint and Tooling Dev Deps"
 Cohesion: 0.07
@@ -121,19 +117,19 @@ Nodes (4): graphify skill trigger (/graphify), graphify query-first workflow for
 
 ### Community 3 - "Compound Component and Types"
 Cohesion: 0.07
-Nodes (27): jsdom, @types/node, typescript, vitest, author, description, devDependencies, jsdom (+19 more)
+Nodes (21): isBrowser(), warned, warnOnce(), elementCallbacks, handleViewResize(), HeightCallback, heightOf(), notify() (+13 more)
 
 ### Community 4 - "Context, Overlay and Drag Events"
 Cohesion: 0.67
 Nodes (3): Pixel y-offset-from-top internal model, Consumer best practices, Snap points: pixels, percentages, dynamic
 
 ### Community 5 - "App TypeScript Config"
-Cohesion: 0.08
-Nodes (23): DOM, DOM.Iterable, ES2022, node, src, test, vitest.config.ts, compilerOptions (+15 more)
+Cohesion: 0.10
+Nodes (20): 1. Dynamic Height Handling, 1. `<Sheet>` (Root Component), 2. Scroll Management, 2. `<Sheet.Container>`, 3. Drag Behavior Control, 3. `<Sheet.DynamicHeight>\*\*, 4. Custom Positioning, Basic Usage 🚀 (+12 more)
 
 ### Community 6 - "Library Declarations Config"
-Cohesion: 0.12
-Nodes (12): attachDrag(), DragHandlers, DragOptions, DragState, Phase, Sample, ends, FakePointerEvent (+4 more)
+Cohesion: 0.22
+Nodes (16): byY(), closest(), decideRelease(), isConfig(), isContentMode(), MeasureContext, normalize(), NormalizedSnap (+8 more)
 
 ### Community 7 - "Node and Vite TS Config"
 Cohesion: 0.10
@@ -149,27 +145,27 @@ Nodes (59): Sheet(), SheetContainer(), SheetDynamicHeightContent(), SheetOverlay
 
 ### Community 10 - "Public API and Snap State Hook"
 Cohesion: 0.07
-Nodes (28): @arethetypeswrong/cli, jsdom, react, react-dom, @types/node, @types/react, @types/react-dom, typescript (+20 more)
+Nodes (28): @arethetypeswrong/cli, jsdom, react, react-dom, @types/react, @types/react-dom, typescript, publint (+20 more)
 
 ### Community 11 - "Graph Query and Traversal"
-Cohesion: 0.10
-Nodes (20): 1. Dynamic Height Handling, 1. `<Sheet>` (Root Component), 2. Scroll Management, 2. `<Sheet.Container>`, 3. Drag Behavior Control, 3. `<Sheet.DynamicHeight>\*\*, 4. Custom Positioning, Basic Usage 🚀 (+12 more)
+Cohesion: 0.11
+Nodes (18): 1. Correctness bugs, 2. Footguns and latent bugs, 3. Performance, 4. API and DX gaps, 5. Repo / tooling gaps (vs nbridge), 6. Proposed target, 7. Found during design (addendum), P0-1 — `snapPoints` index ≠ `snapValues` index (+10 more)
 
 ### Community 12 - "Build, Audit Trail and Guards"
 Cohesion: 0.22
 Nodes (10): calls Edge Direction and Same-Language Constraint, Discrete Confidence Score Rubric, DEEP_MODE Aggressive Inference, Hyperedges, Node ID Format Rule, semantically_similar_to Edge, Extraction Subagent Prompt, EXTRACTED/INFERRED/AMBIGUOUS Audit Trail (+2 more)
 
 ### Community 14 - "React Peer Dependencies"
-Cohesion: 0.11
-Nodes (18): 1. Correctness bugs, 2. Footguns and latent bugs, 3. Performance, 4. API and DX gaps, 5. Repo / tooling gaps (vs nbridge), 6. Proposed target, 7. Found during design (addendum), P0-1 — `snapPoints` index ≠ `snapValues` index (+10 more)
-
-### Community 15 - "Package Scripts"
 Cohesion: 0.27
 Nodes (10): MCP stdio Server (graphify.serve), BFS Traversal, Constrained Query Expansion, DFS Traversal, Graph Label Vocabulary (.vocab.txt), /graphify explain Node Explanation, /graphify path Shortest Path, Inline NetworkX Traversal Fallback (+2 more)
 
+### Community 15 - "Package Scripts"
+Cohesion: 0.22
+Nodes (8): API (exact), Behaviour, Done when, Goal, Report, Scope, Task 01 — `@snap-bottom-sheet/spring`, Tests (`test/spring.test.ts`, vitest fake timers)
+
 ### Community 16 - "Watch and Auto-Rebuild Hooks"
 Cohesion: 0.08
-Nodes (25): DOM, DOM.Iterable, ES2022, node, src, test, vitest.config.ts, tsdown.config.ts (+17 more)
+Nodes (25): DOM, DOM.Iterable, ES2022, src, node, test, tsdown.config.ts, vitest.config.ts (+17 more)
 
 ### Community 18 - "Visualization and Wiki Exports"
 Cohesion: 0.09
@@ -177,27 +173,27 @@ Nodes (21): 0. Decisions (final — do not re-open), 1. Target repository layout
 
 ### Community 19 - "Repo Clone and Graph Merge"
 Cohesion: 0.22
-Nodes (8): API (exact), Behaviour, Done when, Goal, Report, Scope, Task 01 — `@snap-bottom-sheet/spring`, Tests (`test/spring.test.ts`, vitest fake timers)
-
-### Community 20 - "Root TS Project References"
-Cohesion: 0.22
 Nodes (8): API (exact), Behaviour, Done when, Goal, Report, Scope, Task 02 — `@snap-bottom-sheet/gesture`, Tests (`test/drag.test.ts`, jsdom)
 
-### Community 25 - "ESLint Config File"
+### Community 20 - "Root TS Project References"
 Cohesion: 0.32
 Nodes (8): Watch Debounce Window, needs_update Flag, --watch Folder Watcher, Post-Commit Auto-Rebuild Hook, Work Memory and LESSONS.md Reflection, Code-Only Change Fast Path, No API Key Requirement, Part A Structural AST Extraction
 
-### Community 26 - "Vite Env Types"
+### Community 25 - "ESLint Config File"
 Cohesion: 0.25
 Nodes (7): Contract, Done when, Goal, Report, Scope, Task 04 — core controller (`createSheet`), Tests (jsdom; stub `ResizeObserver`, `requestAnimationFrame` as in task 01, `matchMedia`)
 
-### Community 27 - "Playground Vite Config"
-Cohesion: 0.08
-Nodes (24): DOM, DOM.Iterable, ES2022, node, src, test, vitest.config.ts, compilerOptions (+16 more)
+### Community 26 - "Vite Env Types"
+Cohesion: 0.29
+Nodes (6): Done when, Goal, Reference, Report, Scope, Task 05 — documentation site (VitePress)
 
-### Community 28 - "Library Vite Config"
+### Community 27 - "Playground Vite Config"
 Cohesion: 0.29
 Nodes (6): Done when, Goal, Reference material (read first), Report, Steps, Task 00 — monorepo scaffold (nBridge tooling)
+
+### Community 28 - "Library Vite Config"
+Cohesion: 0.33
+Nodes (6): GraphML Export, SVG Export, Wiki Export, --cluster-only Reclustering, Step 5 Community Labeling, Step 6 HTML and Obsidian Export
 
 ### Community 29 - "package.json"
 Cohesion: 0.06
@@ -209,67 +205,47 @@ Nodes (15): @changesets/changelog-github, playground-next, playground-react, sna
 
 ### Community 31 - "package.json"
 Cohesion: 0.33
-Nodes (6): GraphML Export, SVG Export, Wiki Export, --cluster-only Reclustering, Step 5 Community Labeling, Step 6 HTML and Obsidian Export
-
-### Community 32 - "Contracts"
-Cohesion: 0.11
-Nodes (17): @types/node, typescript, vitest, devDependencies, @types/node, typescript, vitest, exports (+9 more)
-
-### Community 33 - "devDependencies"
-Cohesion: 0.33
 Nodes (6): source_file Verbatim Rule, build_merge Replace-on-Re-Extract, prune_sources Deletion Pruning, Step 4 Build, Cluster and Analyze, Step 4.5 Graph Health Check, graph.json Shrink Guard
 
-### Community 34 - "graphify reference: extra exports and benchmark"
-Cohesion: 0.33
-Nodes (6): graphify clone, graphify merge-graphs, Monorepo Per-Subfolder Extract, repo Node Attribute, Native CLAUDE.md Integration, Fast Path for Existing Graph
-
-### Community 35 - "Task 01 — `@snap-bottom-sheet/spring`"
-Cohesion: 0.18
-Nodes (6): createSpring(), hasRaf(), now(), SetOptions, Spring, SpringConfig
-
-### Community 36 - "Task 02 — `@snap-bottom-sheet/gesture`"
-Cohesion: 0.40
-Nodes (5): Token Reduction Benchmark, Image Vision Extraction Rules, Token Budget Truncation, Self-Composed Whisper Domain Hint, Step 2 Detect Files
-
-### Community 37 - "Task 00 — monorepo scaffold (nBridge tooling)"
-Cohesion: 0.67
-Nodes (3): Content mode (no real snap points), Sheet.DynamicHeight must be the first child, Dynamic height handling usage
-
-### Community 55 - "Contracts"
+### Community 32 - "Contracts"
 Cohesion: 0.14
 Nodes (13): Contracts, Done when, Goal, Report, Scope, `src/core/env.ts`, `src/core/measure.ts`, `src/core/scroll-lock.ts` (fixes P0-6) (+5 more)
 
-### Community 56 - "Task 07 — React bindings (`snap-bottom-sheet/react`)"
-Cohesion: 0.25
-Nodes (7): Behaviour, Done when, Goal, Report, Scope, Task 07 — React bindings (`snap-bottom-sheet/react`), Tests (mock `createSheet` with `vi.mock("../../src/core/sheet.ts")` returning a fake controller whose methods are `vi.fn()` and whose `subscribe` lets tests push states)
+### Community 33 - "devDependencies"
+Cohesion: 0.33
+Nodes (6): graphify clone, graphify merge-graphs, Monorepo Per-Subfolder Extract, repo Node Attribute, Native CLAUDE.md Integration, Fast Path for Existing Graph
 
-### Community 57 - "Task 05 — documentation site (VitePress)"
-Cohesion: 0.29
-Nodes (6): Done when, Goal, Reference, Report, Scope, Task 05 — documentation site (VitePress)
-
-### Community 58 - "Task 06 — repository meta: README, CONTRIBUTING, CLAUDE.md, changeset"
+### Community 34 - "graphify reference: extra exports and benchmark"
 Cohesion: 0.33
 Nodes (5): Done when, Goal, Report, Scope, Task 06 — repository meta: README, CONTRIBUTING, CLAUDE.md, changeset
 
+### Community 35 - "Task 01 — `@snap-bottom-sheet/spring`"
+Cohesion: 0.40
+Nodes (5): Token Reduction Benchmark, Image Vision Extraction Rules, Token Budget Truncation, Self-Composed Whisper Domain Hint, Step 2 Detect Files
+
+### Community 36 - "Task 02 — `@snap-bottom-sheet/gesture`"
+Cohesion: 0.67
+Nodes (3): Content mode (no real snap points), Sheet.DynamicHeight must be the first child, Dynamic height handling usage
+
 ## Knowledge Gaps
-- **342 isolated node(s):** `$schema`, `@changesets/changelog-github`, `commit`, `fixed`, `linked` (+337 more)
+- **266 isolated node(s):** `$schema`, `@changesets/changelog-github`, `commit`, `fixed`, `linked` (+261 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **21 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **22 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
+- **Why does `react` connect `Semantic Extraction Spec` to `Package Manifest and Publishing`, `Compound Component and Types`, `Task 00 — monorepo scaffold (nBridge tooling)`?**
+  _High betweenness centrality (0.097) - this node is a cross-community bridge._
 - **Why does `keywords` connect `Package Manifest and Publishing` to `Semantic Extraction Spec`?**
-  _High betweenness centrality (0.033) - this node is a cross-community bridge._
-- **Why does `react` connect `Semantic Extraction Spec` to `Package Manifest and Publishing`?**
-  _High betweenness centrality (0.033) - this node is a cross-community bridge._
+  _High betweenness centrality (0.069) - this node is a cross-community bridge._
 - **Why does `devDependencies` connect `Public API and Snap State Hook` to `Package Manifest and Publishing`?**
-  _High betweenness centrality (0.016) - this node is a cross-community bridge._
+  _High betweenness centrality (0.030) - this node is a cross-community bridge._
 - **What connects `$schema`, `@changesets/changelog-github`, `commit` to the rest of the system?**
-  _342 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _266 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Lint and Tooling Dev Deps` be split into smaller, more focused modules?**
   _Cohesion score 0.06896551724137931 - nodes in this community are weakly interconnected._
 - **Should `Package Manifest and Publishing` be split into smaller, more focused modules?**
   _Cohesion score 0.047619047619047616 - nodes in this community are weakly interconnected._
 - **Should `Compound Component and Types` be split into smaller, more focused modules?**
-  _Cohesion score 0.07142857142857142 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.07435897435897436 - nodes in this community are weakly interconnected._
