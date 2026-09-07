@@ -5,8 +5,8 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1788795739.9608707,
-    "ast_hash": "c790d3411dd61a09d9221ad31917966e",
+    "mtime": 1788798069.8329756,
+    "ast_hash": "61d1f81f89e66765a2a50829775ebf72",
     "semantic_hash": ""
   },
   ".claude/CLAUDE.md": {
@@ -150,8 +150,8 @@
     "semantic_hash": ""
   },
   "docs/internal/PLAN.md": {
-    "mtime": 1788797280.7843122,
-    "ast_hash": "a90c42ba46439b53c646bce150fe5150",
+    "mtime": 1788798130.0761468,
+    "ast_hash": "2c3f03f9ff2307d2dd29a41c2a539257",
     "semantic_hash": ""
   },
   "docs/internal/tasks/00-scaffold.md": {
@@ -335,8 +335,8 @@
     "semantic_hash": ""
   },
   "docs/internal/tasks/08-playgrounds.md": {
-    "mtime": 1788795892.836373,
-    "ast_hash": "0f59f3df442cb350e0e9231ac3a5bb6b",
+    "mtime": 1788797730.6367445,
+    "ast_hash": "3a627f4bde4b8b99fe653cf317a11106",
     "semantic_hash": ""
   },
   "docs/internal/tasks/09-docs-demos.md": {
@@ -345,8 +345,8 @@
     "semantic_hash": ""
   },
   "docs/internal/tasks/10-integration-tests.md": {
-    "mtime": 1788795925.894882,
-    "ast_hash": "591821c7bc2d8f385ac9c0ee1b177136",
+    "mtime": 1788797730.6372216,
+    "ast_hash": "9b75f9c0845d6d8ba6d45de43cc8256f",
     "semantic_hash": ""
   },
   "packages/sheet/src/core/dom.ts": {
@@ -492,6 +492,136 @@
   "packages/sheet/vitest.setup.ts": {
     "mtime": 1788797667.5459797,
     "ast_hash": "33c262f237eca3836d64ec733042b05d",
+    "semantic_hash": ""
+  },
+  "docs/.vitepress/config.ts": {
+    "mtime": 1788798069.8260732,
+    "ast_hash": "487eae2a63fd2775c3110a2928c977fb",
+    "semantic_hash": ""
+  },
+  "docs/.vitepress/theme/ReactDemo.vue": {
+    "mtime": 1788798069.8263268,
+    "ast_hash": "f67d4de9689fe8d639fae6d2b2628cfb",
+    "semantic_hash": ""
+  },
+  "docs/.vitepress/theme/index.ts": {
+    "mtime": 1788798069.8269591,
+    "ast_hash": "86e94677b04a9b926289a4050a785ac8",
+    "semantic_hash": ""
+  },
+  "docs/package.json": {
+    "mtime": 1788798069.8314433,
+    "ast_hash": "83ffbc7b9294d89331916974d1a74d58",
+    "semantic_hash": ""
+  },
+  ".github/workflows/docs.yml": {
+    "mtime": 1788798069.8259103,
+    "ast_hash": "b4efff971e3e84fe3235e5d8492cf136",
+    "semantic_hash": ""
+  },
+  "docs/demos/index.md": {
+    "mtime": 1788798069.8272336,
+    "ast_hash": "7cc7b78a097a4f4ff98db56d0ad5d9e8",
+    "semantic_hash": ""
+  },
+  "docs/guide/accessibility.md": {
+    "mtime": 1788798069.8274872,
+    "ast_hash": "85e57cb17aec079a59f6d55ace23a42f",
+    "semantic_hash": ""
+  },
+  "docs/guide/controlled-state.md": {
+    "mtime": 1788798069.8276744,
+    "ast_hash": "261a2c21577d3e92ce46ebcaa1be3f06",
+    "semantic_hash": ""
+  },
+  "docs/guide/core-concepts.md": {
+    "mtime": 1788798069.8280425,
+    "ast_hash": "d30d93ebc2cf181a0e29bb1dafa3acc4",
+    "semantic_hash": ""
+  },
+  "docs/guide/dynamic-height.md": {
+    "mtime": 1788798069.8283064,
+    "ast_hash": "810bb6aeeba780d3f7fabec79d3fc52e",
+    "semantic_hash": ""
+  },
+  "docs/guide/gestures.md": {
+    "mtime": 1788798069.8285053,
+    "ast_hash": "1eea709f13fcbdb9523f3ff0ef5da38c",
+    "semantic_hash": ""
+  },
+  "docs/guide/getting-started.md": {
+    "mtime": 1788798069.8286507,
+    "ast_hash": "e6cb7a8a8c726d59978f62e20ddf6cb9",
+    "semantic_hash": ""
+  },
+  "docs/guide/migration.md": {
+    "mtime": 1788798069.8289838,
+    "ast_hash": "af6a1edc084f2ff0fa1f99b8d754b7f3",
+    "semantic_hash": ""
+  },
+  "docs/guide/nested-sheets.md": {
+    "mtime": 1788798069.8291914,
+    "ast_hash": "4d9e5c9eda5a5adc371056ade3c0f155",
+    "semantic_hash": ""
+  },
+  "docs/guide/scrolling.md": {
+    "mtime": 1788798069.829386,
+    "ast_hash": "04eb1b818e91d2483d26b759553d7fff",
+    "semantic_hash": ""
+  },
+  "docs/guide/snap-points.md": {
+    "mtime": 1788798069.829816,
+    "ast_hash": "e5ba501b0d5dd3c1f057a7affe2d86ba",
+    "semantic_hash": ""
+  },
+  "docs/guide/ssr-nextjs.md": {
+    "mtime": 1788798069.8300042,
+    "ast_hash": "cdb6c8a59aa00cdeb743cf4b604b0ed6",
+    "semantic_hash": ""
+  },
+  "docs/guide/styling.md": {
+    "mtime": 1788798069.8301992,
+    "ast_hash": "6fe43a09ffc0eeea78852e2932eeac92",
+    "semantic_hash": ""
+  },
+  "docs/guide/vanilla.md": {
+    "mtime": 1788798069.8304064,
+    "ast_hash": "a3bb17257b0124e6b3e04494cb13d1b9",
+    "semantic_hash": ""
+  },
+  "docs/index.md": {
+    "mtime": 1788798069.8312728,
+    "ast_hash": "5655c163654a58a40ebe5f4cc0b0bc74",
+    "semantic_hash": ""
+  },
+  "docs/internal/tasks/11-core-followups.md": {
+    "mtime": 1788798081.8102608,
+    "ast_hash": "b40fca4286a1be18cf59798dbc3c29e7",
+    "semantic_hash": ""
+  },
+  "docs/reference/core.md": {
+    "mtime": 1788798069.8320735,
+    "ast_hash": "d5e56fe33c41df9a5f920db0a3e1c9a0",
+    "semantic_hash": ""
+  },
+  "docs/reference/react.md": {
+    "mtime": 1788798069.8323362,
+    "ast_hash": "0509d6672f753b844131bf6edadd335d",
+    "semantic_hash": ""
+  },
+  "docs/reference/snap-points.md": {
+    "mtime": 1788798069.8325193,
+    "ast_hash": "5509f608a134ad722710b20529d60363",
+    "semantic_hash": ""
+  },
+  "docs/reference/styling-hooks.md": {
+    "mtime": 1788798069.832702,
+    "ast_hash": "c03ab9d7107f97b0e1afe9e51258db90",
+    "semantic_hash": ""
+  },
+  "docs/public/logo.svg": {
+    "mtime": 1788798069.8316312,
+    "ast_hash": "074e48bac53c25f099fbaebfdde71408",
     "semantic_hash": ""
   }
 }

@@ -105,7 +105,7 @@ export interface SheetOptions {
   onOpenChange?(open: boolean): void;
   onSnapIndexChange?(index: number, point: SnapPoint): void;
   onDragStart?(): void;
-  onDragEnd?(targetIndex: number | -1): void;
+  onDragEnd?(targetIndex: number): void;   // -1 = closing
   onAnimationEnd?(open: boolean): void;
 }
 
@@ -141,6 +141,7 @@ Semantics:
 - The controller writes base layout styles inline on `content` **once** at attach (position fixed/absolute, inset, height, flex column, box-sizing, `touch-action: none`, `overscroll-behavior: none`), so consumers who set inline styles afterwards win. Dynamic writes each frame: `transform`, `--snap-sheet-y`, `--snap-sheet-progress` (on `content` and on `container`'s wrapper so the overlay can read it); at rest: `padding-bottom` / `--snap-sheet-offset`, `data-*`.
 - `getState()` returns the **same object reference until the next state change** (replace the object on change, never mutate it) — `useSyncExternalStore` depends on this.
 - Callbacks (`onOpenChange`, `onSnapIndexChange`, …) fire **after** the controller's own state is updated, and re-entrant calls from inside a callback are supported — e.g. the React layer calls `open()` from within `onOpenChange(false)` to bounce a controlled veto.
+- Guarantees the docs may state: `createSheet` throws `TypeError` without `content`; `setElements({ content | container })` throws `TypeError`; `snapTo(i)` while closed only records the index (applied by the next `open()`); `skipInitialAnimation` affects the first `open()` of a controller instance only; `--snap-sheet-progress` is 1 at the topmost *declared* snap; `data-dragging` / `data-content-mode` are presence attributes; `SheetState.open` flips to false when closing starts (`data-state="closed"` lands at rest); handle Enter/Space cycles and wraps to the lowest snap, arrows step and clamp; `"header"` uses `offsetHeight` (margins excluded); the last `"content"` measurement is retained at `scroll: true` snaps; on a drag dismissal `onDragEnd(-1)` fires before `onOpenChange(false)`; the controller never writes `z-index`; the overlay receives restorable base styles `position: fixed|absolute; inset: 0` (colour, pointer-events, z-index are consumer CSS).
 - Vanilla usage: consumer renders markup, calls `createSheet`, calls `open()`. No CSS file required; look-and-feel (background, radius, shadow) is the consumer's CSS.
 
 ### 2.3 React API — `snap-bottom-sheet/react`
@@ -164,13 +165,14 @@ interface SheetProps {
   reducedMotion?: boolean | "system"; // default "system" (prefers-reduced-motion → immediate)
 
   onDragStart?: () => void;
-  onDragEnd?: (targetIndex: number | -1) => void;   // -1 = closing
+  onDragEnd?: (targetIndex: number) => void;        // -1 = closing
   onAnimationEnd?: (open: boolean) => void;          // spring at rest after open/close
 
   children?: React.ReactNode;
 }
 
 interface SheetHandle {
+  open(): Promise<void>;              // sets controllable open=true; resolves at onAnimationEnd(true)
   snapTo(index: number, opts?: { immediate?: boolean }): Promise<void>;
   close(): Promise<void>;
   readonly activeSnapIndex: number;
@@ -304,7 +306,8 @@ Three worker sessions: **W1**, **W2**, **W3**. Orchestrator reviews each task's 
 | 2a | `tasks/04-core-controller.md` (+04b) | W1 | 1a, 1b, 1c | `feat(core)!: framework-agnostic sheet controller (createSheet)` ✅ cce05f1 |
 | 2b | `tasks/07-react.md` (+07b follow-up: setElements wiring, export trim, setup file) | W2 | 1c (built against the §2.2 contract with a mocked controller; integrated after 2a) | `feat(react)!: React bindings on the core controller`, `test(react): …` ✅ b828a41 |
 | 2c | `tasks/06-meta.md` | W3 | 0 | `docs: README, CONTRIBUTING, CLAUDE.md, 1.0 changeset` |
-| 2d | `tasks/05-docs.md` | W2 (after 07b) | 1c | `docs: VitePress site with guides and reference` |
+| 2d | `tasks/05-docs.md` (+05b answers) | W2 | 1c | `docs: VitePress site with guides and reference` ✅ 421b4f1 |
+| 2e | `tasks/11-core-followups.md` | W1 (after 08) | 2a, 2b, 2d | `fix(core): snapTo while closed, first-open-only skipInitialAnimation, overlay base styles`, `feat(react): SheetHandle.open()` |
 | 3a | `tasks/08-playgrounds.md` | W1 | 2a, 2b | `chore: vanilla, react and next playgrounds` |
 | 3b | `tasks/09-docs-demos.md` | W2 or W3 (whoever is free) | 2a, 2b, 2d | `docs: live React demos` |
 | 3c | `tasks/10-integration-tests.md` | W3 | 2a, 2b | `test(sheet): end-to-end controller + react integration, audit regressions, size budget` |
