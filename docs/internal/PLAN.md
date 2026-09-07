@@ -306,7 +306,7 @@ Phase 1 tasks run in parallel (disjoint directories). Phase 2 runs in parallel t
 1. `git fetch` is unnecessary (same repo). Start: `git checkout -b <worker>/<task-slug> v1` in your own worktree.
 2. Read the task file, this plan's referenced sections, and every file you will touch.
 3. Implement. Verify with the task's **Done when** commands. Commit (conventional commits, `Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>` trailer).
-4. Run `graphify update .` if `graphify-out/graph.json` exists; commit the graph changes with the task.
+4. Do **not** run `graphify update .` or commit anything under `graphify-out/` — the orchestrator regenerates the graph once per merge (generated files conflict on every parallel branch otherwise). `git checkout -- graphify-out` if it shows as modified.
 5. Report to the orchestrator via `mcp__ccd_session_mgmt__send_message` (session `local_39e24a00-657f-4cc2-9ee3-cc3043741433`) using the report format in the task file. Include branch name and HEAD sha.
 6. Do not merge. Do not touch `v1` or `main`. Wait for the next task.
 7. Use subagents freely for independent sub-parts (source vs tests, disjoint file groups, research) — the owner wants speed. The worker itself integrates the pieces and runs every "Done when" command before committing.
