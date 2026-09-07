@@ -43,8 +43,10 @@ export interface SheetProps {
   reducedMotion?: boolean | "system";
 
   onDragStart?: () => void;
-  /** -1 = closing */
-  onDragEnd?: (targetIndex: number | -1) => void;
+  /**
+   * Snap index the release settled on. `-1` = the sheet is closing.
+   */
+  onDragEnd?: (targetIndex: number) => void;
   /** spring at rest after open/close */
   onAnimationEnd?: (open: boolean) => void;
 
@@ -52,8 +54,11 @@ export interface SheetProps {
 }
 
 export interface SheetHandle {
-  snapTo(index: number, opts?: { immediate?: boolean }): Promise<void>;
+  /** Resolves when the open animation ends; immediately if already open. */
+  open(): Promise<void>;
+  /** Resolves when the close animation ends; immediately if already closed. */
   close(): Promise<void>;
+  snapTo(index: number, opts?: { immediate?: boolean }): Promise<void>;
   readonly activeSnapIndex: number;
   /** current px offset from the top (0 = fully open) */
   readonly y: number;
@@ -87,6 +92,13 @@ export const Sheet = forwardRef<SheetHandle, SheetProps>(
     });
 
     const [closing, setClosing] = useState(false);
+
+    // Resolvers for handle.open()/close() calls still waiting on their
+    // animation, keyed by the state they are waiting for.
+    const pendingRef = useRef<{ open: (() => void)[]; close: (() => void)[] }>({
+      open: [],
+      close: [],
+    });
 
     const controllerRef = useRef<SheetController | null>(null);
     const [controllerVersion, setControllerVersion] = useState(0);
@@ -153,14 +165,21 @@ export const Sheet = forwardRef<SheetHandle, SheetProps>(
     // from controller callbacks — never a stale closure.
     const latest = useRef(props);
     latest.current = props;
+    // Same trick for the snap index: read through a ref so buildOptions can use
+    // the live value without taking it as a dependency (which would make the
+    // create effect recreate the controller on every snap change).
+    const snapIndexRef = useRef(snapIndex);
+    snapIndexRef.current = snapIndex;
 
     const buildOptions = useCallback((): SheetOptions => {
       const current = latest.current;
       const parts = partsRef.current;
       return {
         snapPoints: current.snapPoints ?? [],
-        defaultSnapIndex:
-          current.activeSnapIndex ?? current.defaultSnapIndex ?? 0,
+        // The live index, not the prop: snapTo() on a closed sheet moves state
+        // only, and the controller should attach there rather than at the
+        // default and then snap again on the next effect.
+        defaultSnapIndex: snapIndexRef.current,
         modal: current.modal ?? true,
         dismissible: current.dismissible ?? true,
         reducedMotion: current.reducedMotion ?? "system",
@@ -184,6 +203,10 @@ export const Sheet = forwardRef<SheetHandle, SheetProps>(
         onDragEnd: (targetIndex) => latest.current.onDragEnd?.(targetIndex),
         onAnimationEnd: (isOpen) => {
           if (!isOpen) setClosing(false);
+          for (const resolve of pendingRef.current[
+            isOpen ? "open" : "close"
+          ].splice(0))
+            resolve();
           latest.current.onAnimationEnd?.(isOpen);
         },
       };
@@ -254,21 +277,63 @@ export const Sheet = forwardRef<SheetHandle, SheetProps>(
       });
     }, [optionsKey]);
 
-    useImperativeHandle(
-      forwardedRef,
-      () => ({
-        snapTo: (index, opts) =>
-          controllerRef.current?.snapTo(index, opts) ?? Promise.resolve(),
-        close: () => controllerRef.current?.close() ?? Promise.resolve(),
+    // A request the parent refused never produces an animation, so
+    // onAnimationEnd will never drain it: a controlled parent that ignores
+    // onOpenChange would leave `await handle.close()` hanging forever. Once the
+    // sheet has settled in the opposite state with no animation running, the
+    // request is moot — resolve it.
+    useEffect(() => {
+      if (closing) return;
+      const pending = pendingRef.current;
+      const moot = open ? pending.close : pending.open;
+      for (const resolve of moot.splice(0)) resolve();
+    }, [open, closing]);
+
+    // A caller awaiting open()/close() on a sheet that unmounts would otherwise
+    // wait forever.
+    useEffect(() => {
+      const pending = pendingRef.current;
+      return () => {
+        for (const resolve of pending.open.splice(0)) resolve();
+        for (const resolve of pending.close.splice(0)) resolve();
+      };
+    }, []);
+
+    useImperativeHandle(forwardedRef, () => {
+      // Never the controller directly: a closed sheet has none, and a direct
+      // controller.close() on a controlled sheet trips the veto bounce in
+      // buildOptions().onOpenChange. State is the single entry point; the
+      // open/controllerVersion effect is what reaches the controller.
+      const request = (next: boolean) => {
+        if (open === next) return Promise.resolve();
+        setOpen(next);
+        // Controlled: the parent owns `open`, and it may ignore the request
+        // entirely — there is no animation to await and nothing would ever
+        // resolve a deferred. The call is advisory, so resolve it now.
+        if (latest.current.open !== undefined) return Promise.resolve();
+        return new Promise<void>((resolve) => {
+          pendingRef.current[next ? "open" : "close"].push(resolve);
+        });
+      };
+
+      return {
+        open: () => request(true),
+        close: () => request(false),
+        snapTo: (index, opts) => {
+          const controller = controllerRef.current;
+          if (controller) return controller.snapTo(index, opts);
+          // No controller (closed sheet): pick the snap the next open() uses.
+          setSnapIndex(index);
+          return Promise.resolve();
+        },
         get activeSnapIndex() {
           return controllerRef.current?.getState().snapIndex ?? snapIndex;
         },
         get y() {
           return controllerRef.current?.getState().y ?? 0;
         },
-      }),
-      [snapIndex],
-    );
+      };
+    }, [open, snapIndex, setOpen, setSnapIndex]);
 
     const context: SheetContextValue = {
       register,
