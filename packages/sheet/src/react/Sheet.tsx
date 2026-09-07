@@ -54,9 +54,17 @@ export interface SheetProps {
 }
 
 export interface SheetHandle {
-  /** Resolves when the open animation ends; immediately if already open. */
+  /**
+   * Resolves when the open animation ends; immediately if already open.
+   * On a controlled sheet the call is advisory and resolves immediately — the
+   * parent owns `open`.
+   */
   open(): Promise<void>;
-  /** Resolves when the close animation ends; immediately if already closed. */
+  /**
+   * Resolves when the close animation ends; immediately if already closed.
+   * On a controlled sheet the call is advisory and resolves immediately — the
+   * parent owns `open`.
+   */
   close(): Promise<void>;
   snapTo(index: number, opts?: { immediate?: boolean }): Promise<void>;
   readonly activeSnapIndex: number;

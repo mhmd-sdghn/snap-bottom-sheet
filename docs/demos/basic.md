@@ -13,9 +13,10 @@ import mount from "../.vitepress/theme/demos/basic.tsx";
 
 <<< @/.vitepress/theme/demos/basic.tsx#demo{tsx}
 
-::: info Why `modal={false}`
-Inside the docs these demos run with `modal={false}` so they never lock the
-page you are reading. In your app the default `modal` is what you want: it adds
-the body scroll lock, `inert` on everything behind the sheet, and Escape to
-close. See [Accessibility](/guide/accessibility).
+::: info This demo is modal
+It runs with the default `modal`, and the page you are reading still scrolls.
+When `Sheet.Portal` has a `container`, the scroll lock is scoped to that
+container rather than the document, so an embedded sheet is modal within its
+own box: `inert` covers the frame's children, Escape still closes, and the host
+page is left alone. See [Accessibility](/guide/accessibility).
 :::

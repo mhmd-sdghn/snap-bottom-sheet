@@ -56,11 +56,15 @@ The overlay is `aria-hidden` — it is a backdrop, not content.
 
 1. Sets `inert` on every child of the portal container except the sheet's own wrapper, so nothing behind the sheet is reachable by keyboard, pointer or screen reader — and removes it on close.
 2. Moves focus to the first focusable element inside Content; if there is none, to Content itself with `tabIndex={-1}`.
-3. Locks page scroll (reference-counted, see [Nested Sheets](/guide/nested-sheets)).
+3. Locks scrolling (reference-counted, see [Nested Sheets](/guide/nested-sheets)) — the page by default, or the `container` when `Sheet.Portal` has one.
 4. Returns focus to the element that was focused before the sheet opened, on close.
 
-::: warning `inert` reaches only inside the Portal container
-Step 1 is scoped to the *children of the Portal container* — `document.body`'s children by default, which is the whole page. Give `Sheet.Portal` a `container` and only that container's children go inert: everything outside it stays interactive and reachable by a screen reader, however modal the sheet is. If you need a custom container, make it the ancestor of everything the sheet should block, or accept that the rest of the page is still live.
+::: warning A `container` scopes what "modal" means
+Steps 1 and 3 are both scoped to the Portal container — `document.body` by default, which is the whole page. Give `Sheet.Portal` a `container` and a modal sheet becomes modal *within that box*: only the container's children go inert, and the scroll lock applies to the container's own `overflow` rather than the document's, so the surrounding page keeps scrolling and stays interactive. That is what makes an embedded sheet — a docs demo, a split pane, a phone-frame preview — usable without freezing its host.
+
+Escape is deliberately **not** scoped: it stays a single shared `document` listener, so an embedded modal sheet still closes on Escape.
+
+If a custom container should block the whole page, make it the ancestor of everything the sheet needs to block.
 :::
 
 With `modal={false}` you get none of the above: the page stays interactive and focus stays wherever it was. That is the right choice for a persistent, non-blocking sheet, but then it is on you to make sure the sheet is reachable.

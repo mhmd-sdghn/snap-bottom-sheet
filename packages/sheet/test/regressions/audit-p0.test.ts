@@ -413,8 +413,34 @@ describe("audit P0 regressions", () => {
    * `modal() && dismissible()`, rather than only via the guarded `engage()`
    * (src/core/sheet.ts `open()` / src/core/modal.ts `engage()`).
    *
-   * Task 10 may not touch src/**, so this stays `.todo` for the fix task.
-   * Verified failing at the core level with no React involved.
+   * Fixed in task 12: `open()` calls `guard.ensureEscape()` whenever the sheet
+   * is modal and dismissible, independently of the idempotent `engage()`.
    */
-  it.todo("BUG-escape-veto — Escape still works after a vetoed dismissal");
+  it("BUG-escape-veto — Escape still works after a vetoed dismissal", async () => {
+    const el = fixture();
+    let controller: SheetController;
+    const onOpenChange = vi.fn((open: boolean) => {
+      if (!open) void controller.open();
+    });
+    controller = attach(el, { snapPoints: [0.5], onOpenChange });
+
+    await opened(controller);
+
+    const pressEscape = () =>
+      document.dispatchEvent(
+        new KeyboardEvent("keydown", { key: "Escape", bubbles: true }),
+      );
+
+    // dismissed, then vetoed by the consumer re-opening
+    pressEscape();
+    await settle();
+    expect(controller.getState().open).toBe(true);
+    expect(onOpenChange).toHaveBeenCalledTimes(1);
+
+    // the sheet must still be on the Escape stack
+    pressEscape();
+    await settle();
+    expect(onOpenChange).toHaveBeenCalledTimes(2);
+    expect(controller.getState().open).toBe(true);
+  });
 });
