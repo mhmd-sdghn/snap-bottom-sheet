@@ -77,7 +77,7 @@ Rules:
 - **Indices refer to the consumer's array order.** Internally each point is resolved to `{ index, y, config }` and a y-sorted view is used for neighbour/closest search. This fixes AUDIT P0-1 and P0-2.
 - `"header"` and `"content"` are live-measured with a shared `ResizeObserver`; when the value of the *active* snap changes, the sheet re-animates to it (spring, not jump). Both are capped at view height.
 - `0` is not a valid snap (it means closed); warn once in dev, drop it.
-- No snap points, or only `"content"` → **content mode**: sheet hugs content, drag up is pinned, drag down past threshold closes.
+- No snap points, or only `"content"` → **content mode**: the controller treats `[]` as `["content"]` (one synthesized snap from the measured content height), so the sheet hugs content, drag up is pinned, and drag down past the threshold closes — or clamps back when `dismissible: false`.
 
 ### 2.2 Core (vanilla) API — `snap-bottom-sheet`
 
@@ -203,7 +203,8 @@ Styling hooks (no CSS shipped except position/transform essentials):
 - CSS custom properties on Content, written directly to the DOM each frame (no React render):
   `--snap-sheet-y` (px offset from top), `--snap-sheet-progress` (0 closed → 1 at topmost snap),
   `--snap-sheet-offset` (px of panel below the viewport at rest; see §3.3).
-  Overlay default style: `opacity: var(--snap-sheet-progress)`; the var is written on the Portal wrapper so Overlay can read it.
+  `--snap-sheet-progress` is also written on the Overlay element itself (the controller never touches ancestors or the
+  document root); Overlay default style: `opacity: var(--snap-sheet-progress)`.
 - `data-snap-sheet-no-drag` attribute on any descendant opts that region out of dragging.
 
 ### 2.4 Removed from 0.x
@@ -282,9 +283,11 @@ Module-level reference counter. First `lock()` saves `overflow`, `overscroll-beh
 
 `role="dialog"`, `aria-modal={modal}`, `aria-labelledby` ← `Sheet.Title` id, `aria-describedby` ← `Sheet.Description` id (ids via `useId`). When `modal`: on open, set `inert` on every child of the portal container except the sheet wrapper; restore on close; move focus to the first focusable element inside Content (or Content itself with `tabIndex={-1}`); on close return focus to the previously focused element. Overlay is `aria-hidden`. `prefers-reduced-motion: reduce` → `immediate` springs. Handle is a real `<button>`.
 
+Escape routing: a module-level stack of open `modal && dismissible` controllers (push on `open()`, remove on `close()`/`destroy()`) and one shared `document` keydown listener installed while the stack is non-empty; Escape closes only `stack.at(-1)`. (`stopPropagation` cannot scope same-node listeners, and registration order would favour the *outer* sheet.)
+
 ### 3.7 Nested sheets
 
-Each sheet has its own Portal wrapper and overlay element (no shared ids — fixes P0-5). Drag events do not bubble past a sheet's Content (`stopPropagation` in `onStart`). Scroll lock is reference-counted so an inner sheet closing does not unlock the page.
+Each sheet has its own Portal wrapper and overlay element (no shared ids — fixes P0-5). Drag events do not bubble past a sheet's Content (`stopPropagation` in `onStart`). Scroll lock is reference-counted so an inner sheet closing does not unlock the page. Escape goes to the innermost open sheet via the controller stack (§3.6).
 
 ## 4. Phases, ownership, commits
 
