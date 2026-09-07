@@ -59,7 +59,7 @@ await controller.open();
 | `body` | `HTMLElement \| null` | no | The scroll region: `overflow` is toggled per active snap, and scroll-vs-drag arbitration reads its `scrollTop`. |
 | `overlay` | `HTMLElement \| null` | no | Positioned at attach (`position: fixed`, or `absolute` with a `container`, plus `inset: 0`). Gets `data-state`, `aria-hidden="true"`, `--snap-sheet-progress`, and a click listener that closes when `dismissible`. Colour, `pointer-events` and `z-index` stay yours. |
 | `handle` | `HTMLElement \| null` | no | Gets `aria-label="Resize sheet"` when it has none, plus the keyboard handlers (<kbd>ArrowUp</kbd>/<kbd>ArrowDown</kbd> step and clamp, <kbd>Enter</kbd>/<kbd>Space</kbd> cycle and wrap). |
-| `container` | `HTMLElement \| null` | no | View-height source and `inert` scope; defaults to the window / `document.body`. With a container the panel is `position: absolute; height: 100%` and view height is the container's `offsetHeight`. Only the container's own children are made inert, so anything outside it stays interactive. **Fixed for the controller's lifetime.** |
+| `container` | `HTMLElement \| null` | no | View-height source and modal scope; defaults to the window / `document.body`. With a container the panel is `position: absolute; height: 100%` and view height is the container's `offsetHeight`. Only the container's own children are made inert, and `modal` locks the **container's** `overflow`/`overscroll-behavior` (saved and restored, reference-counted per container) instead of the document's — so an embedded sheet leaves the host page scrolling. Escape stays global. **Fixed for the controller's lifetime.** |
 
 Every optional element may arrive later through
 [`setElements`](#setelements-elements). `content` and `container` may not —
@@ -74,7 +74,7 @@ All optional.
 | --- | --- | --- | --- |
 | `snapPoints` | `SnapPoint[]` | `[]` | Snap positions in your array order. `[]` (or all-`"content"`) is content mode. See [Snap Points](/reference/snap-points). |
 | `defaultSnapIndex` | `number` | `0` | Index the sheet opens at. Clamped, with a dev warning, when out of range. |
-| `modal` | `boolean` | `true` | Lock page scroll, apply `inert` to siblings, enable Escape, and drive the overlay's state. |
+| `modal` | `boolean` | `true` | Lock scrolling, apply `inert` to siblings, enable Escape, and drive the overlay's state. The lock and `inert` are scoped to `elements.container` when there is one, so an embedded sheet does not freeze the host page. |
 | `dismissible` | `boolean` | `true` | Allow drag-below, overlay click and Escape to close. `false` clamps back to the lowest snap instead. |
 | `reducedMotion` | `boolean \| "system"` | `"system"` | `true` → every animation immediate; `"system"` → follows `prefers-reduced-motion: reduce`. |
 | `skipInitialAnimation` | `boolean` | `false` | The **first `open()` of this controller instance** jumps to the active snap instead of animating from closed. Every later `open()` animates; a fresh controller gets a fresh first `open()`. |

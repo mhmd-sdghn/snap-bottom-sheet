@@ -14,9 +14,10 @@ itself — the snippet is extracted from the file that is running.
 | [Controlled](/demos/controlled) | External buttons and the `SheetHandle` ref |
 | [Vanilla](/demos/vanilla) | `createSheet` against hand-written markup, no React |
 
-::: info These demos are not modal
-They run with `modal={false}` so they never lock the page you are reading, and
-they portal into their own frame rather than `document.body`. In an app the
-default `modal` is what you want — body scroll lock, `inert` behind the sheet,
-and Escape to close. See [Accessibility](/guide/accessibility).
+::: info These demos live in a frame
+They portal into their own frame rather than `document.body`, which is what
+makes them safe to embed: with a `container`, a modal sheet locks *that*
+container instead of the document, so the page you are reading keeps scrolling.
+[Basic](/demos/basic) runs modal to show it. The rest stay non-modal to keep
+several demos usable on one page. See [Accessibility](/guide/accessibility).
 :::
