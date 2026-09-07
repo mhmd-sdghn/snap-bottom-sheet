@@ -1,6 +1,14 @@
+<script setup>
+import dynamicheightDemo from "../.vitepress/theme/demos/dynamic-height.tsx";
+</script>
+
 # Dynamic Height
 
 Two snap values are measured from the DOM instead of computed from the view: `"header"` and `"content"`.
+
+<ClientOnly>
+  <ReactDemo :mount="dynamicheightDemo" />
+</ClientOnly>
 
 ## The two values
 

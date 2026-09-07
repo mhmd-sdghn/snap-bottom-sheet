@@ -1,6 +1,14 @@
+<script setup>
+import basicDemo from "../.vitepress/theme/demos/basic.tsx";
+</script>
+
 # Getting Started
 
 Install the package, render the parts, and hand them to the engine — in React or in plain JavaScript.
+
+<ClientOnly>
+  <ReactDemo :mount="basicDemo" />
+</ClientOnly>
 
 ## Two entry points
 

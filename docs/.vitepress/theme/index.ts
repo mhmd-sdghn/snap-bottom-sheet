@@ -1,6 +1,7 @@
 import type { Theme } from "vitepress";
 import DefaultTheme from "vitepress/theme";
 import ReactDemo from "./ReactDemo.vue";
+import "./demos/demo.css";
 import "./custom.css";
 
 export default {
