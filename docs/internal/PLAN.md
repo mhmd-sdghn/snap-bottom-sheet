@@ -287,19 +287,19 @@ Three worker sessions: **W1**, **W2**, **W3**. Orchestrator reviews each task's 
 
 | Phase | Task file | Worker | Depends on | Commit(s) |
 |---|---|---|---|---|
-| 0 | `tasks/00-scaffold.md` | W1 | — | `chore!: restructure into pnpm monorepo with tsdown, biome, vitest, changesets` |
+| 0 | `tasks/00-scaffold.md` | W1 | — | `chore!: restructure into pnpm monorepo with tsdown, biome, vitest, changesets` ✅ merged 8d2acc0 |
 | 1a | `tasks/01-spring.md` | W1 | 0 | `feat(spring): scalar spring primitive` |
 | 1b | `tasks/02-gesture.md` | W2 | 0 | `feat(gesture): pointer drag primitive` |
 | 1c | `tasks/03-core-pure.md` | W3 | 0 | `feat(core): snap resolution, scroll lock, measurement modules` |
 | 2a | `tasks/04-core-controller.md` | W1 | 1a, 1b, 1c | `feat(core)!: framework-agnostic sheet controller (createSheet)` |
-| 2b | `tasks/05-docs.md` | W2 | 1c (API is fixed by this plan) | `docs: VitePress site with guides and reference` (demos wired in 3c) |
-| 2c | `tasks/06-meta.md` | W3 | 0 | `docs: README, CONTRIBUTING, CLAUDE.md, 1.0 changeset` |
-| 3a | `tasks/07-react.md` | W1 | 2a | `feat(react)!: React bindings on the core controller`, `test(react): components, a11y, SSR` |
-| 3b | `tasks/08-playgrounds.md` | W3 | 2a, 3a | `chore: vanilla, react and next playgrounds` |
-| 3c | `tasks/09-docs-demos.md` | W2 | 3a | `docs: live React demos` |
+| 2b | `tasks/07-react.md` | W2 | 1c (built against the §2.2 contract with a mocked controller; integrated after 2a) | `feat(react)!: React bindings on the core controller`, `test(react): …` |
+| 2c | `tasks/06-meta.md` then `tasks/05-docs.md` | W3 | 0 / 1c | `docs: README, CONTRIBUTING, CLAUDE.md, 1.0 changeset`, `docs: VitePress site with guides and reference` |
+| 3a | `tasks/08-playgrounds.md` | W1 | 2a, 2b | `chore: vanilla, react and next playgrounds` |
+| 3b | `tasks/09-docs-demos.md` | W2 | 2a, 2b, 2c | `docs: live React demos` |
+| 3c | integration tests core+react, bundle-size check | W3 | 2a, 2b | `test(sheet): end-to-end controller + react integration` |
 | 4 | review loop | orchestrator + any idle worker | 3 | `fix: address code review findings` |
 
-Phase 1 tasks run in parallel (disjoint directories). Phase 2 tasks run in parallel (`packages/sheet/src/core`, `docs/`, root files). Phase 3: 3b and 3c wait for 3a. Task files for phases 2–4 are written by the orchestrator once the previous phase has merged, so they reflect the real code.
+Phase 1 tasks run in parallel (disjoint directories). Phase 2 runs in parallel too: core controller (`src/core`), React bindings (`src/react`, mocked controller), meta+docs (root files, `docs/`). Phase 3 waits for 2a+2b. Task files for later phases are drafted early and finalised by the orchestrator when their dependencies have merged, so they reflect the real code.
 
 ### 4.1 Worker protocol
 
