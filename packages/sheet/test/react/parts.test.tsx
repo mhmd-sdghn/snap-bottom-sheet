@@ -1,6 +1,6 @@
-import { act, cleanup, render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import { createRef } from "react";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createSheet } from "../../src/core/sheet.ts";
 import { Sheet, useSheetState } from "../../src/react/index.ts";
 import { type FakeController, makeFakeController } from "./fake-controller.ts";
@@ -9,10 +9,6 @@ vi.mock("../../src/core/sheet.ts", () => ({ createSheet: vi.fn() }));
 const createSheetMock = vi.mocked(createSheet);
 
 let fake: FakeController;
-
-// `globals` is off in this project, so React Testing Library cannot register
-// its own afterEach — portalled nodes would leak into the next test.
-afterEach(cleanup);
 
 beforeEach(() => {
   fake = makeFakeController();

@@ -1,6 +1,6 @@
-import { act, cleanup, render, screen } from "@testing-library/react";
+import { act, render, screen } from "@testing-library/react";
 import { createRef } from "react";
-import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createSheet } from "../../src/core/sheet.ts";
 import type { SheetHandle } from "../../src/react/index.ts";
 import { Sheet, useSheetState } from "../../src/react/index.ts";
@@ -10,10 +10,6 @@ vi.mock("../../src/core/sheet.ts", () => ({ createSheet: vi.fn() }));
 const createSheetMock = vi.mocked(createSheet);
 
 let fake: FakeController;
-
-// `globals` is off in this project, so React Testing Library cannot register
-// its own afterEach — portalled nodes would leak into the next test.
-afterEach(cleanup);
 
 beforeEach(() => {
   fake = makeFakeController();
@@ -130,16 +126,20 @@ describe("controller lifecycle", () => {
     expect(fake.setElements).not.toHaveBeenCalled();
 
     rerender(<Tree withHeader />);
+    // exactly one: a callback ref that changed identity every render would
+    // detach and reattach the part on every commit
+    expect(fake.setElements).toHaveBeenCalledTimes(1);
     expect(fake.setElements).toHaveBeenCalledWith({
       header: screen.getByTestId("header"),
     });
 
     rerender(<Tree withHeader={false} />);
+    expect(fake.setElements).toHaveBeenCalledTimes(2);
     expect(fake.setElements).toHaveBeenLastCalledWith({ header: null });
     expect(createSheetMock).toHaveBeenCalledTimes(1);
   });
 
-  it("does not send Title or Description to setElements", () => {
+  it("routes a late Title through update(), not setElements()", () => {
     function Tree({ withTitle }: { withTitle: boolean }) {
       return (
         <Sheet open>
@@ -155,12 +155,47 @@ describe("controller lifecycle", () => {
     }
 
     const { rerender } = render(<Tree withTitle={false} />);
+    expect(fake.options?.labelledBy).toBeUndefined();
+
     rerender(<Tree withTitle />);
-    // they are not SheetElements — the ids are read once, at attach
+    // an aria id is not a SheetElement
     expect(fake.setElements).not.toHaveBeenCalled();
+    expect(fake.update).toHaveBeenCalledTimes(1);
+    expect(fake.update).toHaveBeenCalledWith({
+      labelledBy: screen.getByTestId("title").id,
+    });
+
+    rerender(<Tree withTitle={false} />);
+    expect(fake.update).toHaveBeenCalledTimes(2);
+    expect(fake.update).toHaveBeenLastCalledWith({ labelledBy: undefined });
     expect(createSheetMock).toHaveBeenCalledTimes(1);
   });
 
+  it("routes a late Description through update()", () => {
+    function Tree({ withDescription }: { withDescription: boolean }) {
+      return (
+        <Sheet open>
+          <Sheet.Portal>
+            <Sheet.Content data-testid="content">
+              {withDescription ? (
+                <Sheet.Description data-testid="description">
+                  D
+                </Sheet.Description>
+              ) : null}
+            </Sheet.Content>
+          </Sheet.Portal>
+        </Sheet>
+      );
+    }
+
+    const { rerender } = render(<Tree withDescription={false} />);
+    rerender(<Tree withDescription />);
+    expect(fake.setElements).not.toHaveBeenCalled();
+    expect(fake.update).toHaveBeenCalledTimes(1);
+    expect(fake.update).toHaveBeenCalledWith({
+      describedBy: screen.getByTestId("description").id,
+    });
+  });
   it("destroys the controller exactly once on unmount", () => {
     const { unmount } = render(
       <Sheet open>
@@ -270,6 +305,23 @@ describe("snap index", () => {
 });
 
 describe("options sync", () => {
+  it("stays quiet across the commits that create the controller", () => {
+    // The controller is created two commits after mount (Portal, then Content),
+    // so a sync effect that is not keyed on content could fire redundantly.
+    const { rerender } = render(
+      <Sheet open={false} snapPoints={[0.5, 1]}>
+        <Panel />
+      </Sheet>,
+    );
+    rerender(
+      <Sheet open snapPoints={[0.5, 1]}>
+        <Panel />
+      </Sheet>,
+    );
+    expect(createSheetMock).toHaveBeenCalledTimes(1);
+    expect(fake.update).not.toHaveBeenCalled();
+  });
+
   it("ignores a new array with equal content and updates on a real change", () => {
     const { rerender } = render(
       <Sheet open snapPoints={[0.5, 1]}>

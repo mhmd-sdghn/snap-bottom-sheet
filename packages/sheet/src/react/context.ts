@@ -1,5 +1,5 @@
 import type { Ref, RefObject } from "react";
-import { createContext, useContext } from "react";
+import { createContext, useCallback, useContext, useRef } from "react";
 import type { SheetController } from "../core/sheet.ts";
 
 /**
@@ -41,15 +41,29 @@ export function useSheetContext(part: string): SheetContextValue {
   return context;
 }
 
-/** Callback ref that keeps `register` and a consumer's own ref both fed. */
+/**
+ * Callback ref that keeps `register` and a consumer's own ref both fed. Its
+ * identity has to be stable: React detaches and reattaches a callback ref
+ * whenever the callback changes, so a fresh closure per render would
+ * re-register every part on every render — and the controller would see a
+ * detach/attach pair each time. The consumer's ref is read through a box so
+ * that an inline `ref={...}` cannot destabilise us either.
+ */
 export function usePartRef<T extends HTMLElement>(
   part: PartName,
   forwarded?: Ref<T>,
 ) {
   const { register } = useSheetContext(part);
-  return (el: T | null) => {
-    register(part, el);
-    if (typeof forwarded === "function") forwarded(el);
-    else if (forwarded) (forwarded as { current: T | null }).current = el;
-  };
+  const forwardedBox = useRef(forwarded);
+  forwardedBox.current = forwarded;
+
+  return useCallback(
+    (el: T | null) => {
+      register(part, el);
+      const consumerRef = forwardedBox.current;
+      if (typeof consumerRef === "function") consumerRef(el);
+      else if (consumerRef) (consumerRef as { current: T | null }).current = el;
+    },
+    [part, register],
+  );
 }

@@ -93,11 +93,12 @@ export const Sheet = forwardRef<SheetHandle, SheetProps>(
     const partsRef = useRef<Parts>({});
     // The one registration that gates controller creation, so a part arriving in
     // a later commit (the Portal's own mount, above all) still triggers it.
+    // The two elements the controller cannot swap in place, so their identity
+    // keys the create effect. Both are safe to hold as state: layout effects
+    // run child-first, so the Portal has registered its container before the
+    // Root's create effect ever gets a `content` to attach to.
     const [contentEl, setContentEl] = useState<HTMLElement | null>(null);
-    // `container` cannot be re-registered on a live controller, so a change
-    // has to tear it down; bumped only when one already exists, which is never
-    // the case on mount (the Portal's layout effect runs before the Root's).
-    const [recreateToken, setRecreateToken] = useState(0);
+    const [containerEl, setContainerEl] = useState<HTMLElement | null>(null);
 
     // Children stay mounted while the closing animation runs. Adjusted during
     // render, not in an effect: an effect would run after the pass that already
@@ -113,31 +114,40 @@ export const Sheet = forwardRef<SheetHandle, SheetProps>(
     const titleId = `${generatedId}title`;
     const descriptionId = `${generatedId}description`;
 
-    const register = useCallback((part: PartName, el: HTMLElement | null) => {
-      if (el) partsRef.current[part] = el;
-      else delete partsRef.current[part];
+    const register = useCallback(
+      (part: PartName, el: HTMLElement | null) => {
+        if (el) partsRef.current[part] = el;
+        else delete partsRef.current[part];
 
-      // `content` gates creation, so its identity drives the create effect.
-      if (part === "content") {
-        setContentEl(el);
-        return;
-      }
-      if (!controllerRef.current) return;
-      if (part === "container") {
-        setRecreateToken((token) => token + 1);
-        return;
-      }
-      // Whitelist, so a part added later cannot leak into SheetElements:
-      // `title`/`description` only feed the aria ids read at attach time.
-      if (
-        part === "header" ||
-        part === "body" ||
-        part === "overlay" ||
-        part === "handle"
-      ) {
-        controllerRef.current.setElements({ [part]: el });
-      }
-    }, []);
+        // Fixed for a controller's lifetime: a change destroys and recreates.
+        if (part === "content") {
+          setContentEl(el);
+          return;
+        }
+        if (part === "container") {
+          setContainerEl(el);
+          return;
+        }
+
+        const controller = controllerRef.current;
+        if (!controller) return;
+        // Whitelisted, so a part added to PartName later cannot leak into
+        // SheetElements by accident.
+        if (
+          part === "header" ||
+          part === "body" ||
+          part === "overlay" ||
+          part === "handle"
+        ) {
+          controller.setElements({ [part]: el });
+        } else if (part === "title") {
+          controller.update({ labelledBy: el ? titleId : undefined });
+        } else if (part === "description") {
+          controller.update({ describedBy: el ? descriptionId : undefined });
+        }
+      },
+      [descriptionId, titleId],
+    );
 
     // Latest props/callbacks for the controller options, read at attach time and
     // from controller callbacks — never a stale closure.
@@ -189,7 +199,7 @@ export const Sheet = forwardRef<SheetHandle, SheetProps>(
         body: parts.body ?? null,
         overlay: parts.overlay ?? null,
         handle: parts.handle ?? null,
-        container: parts.container ?? null,
+        container: containerEl,
       };
 
       const controller = createSheet(elements, buildOptions());
@@ -200,7 +210,7 @@ export const Sheet = forwardRef<SheetHandle, SheetProps>(
         controllerRef.current = null;
         controller.destroy();
       };
-    }, [present, contentEl, recreateToken, buildOptions]);
+    }, [present, contentEl, containerEl, buildOptions]);
 
     // `open` → open()/close(). Also the first open after creation, so the
     // create effect never double-calls open().
@@ -222,7 +232,9 @@ export const Sheet = forwardRef<SheetHandle, SheetProps>(
 
     // One options key as the only dependency, so an unrelated prop can never
     // trigger a re-resolve and a fresh literal array with equal content never
-    // does either. It is also why no controller exists on the first run.
+    // does either. The key is also what keeps mount quiet: it does not change
+    // across the commits that create the controller, so this never re-runs
+    // there — the controller gets these values from buildOptions instead.
     const optionsKey = JSON.stringify([
       snapPoints ?? [],
       modal,
