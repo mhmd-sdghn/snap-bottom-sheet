@@ -1,5 +1,6 @@
 import { attachDrag } from "@snap-bottom-sheet/gesture";
 import type { Spring } from "@snap-bottom-sheet/spring";
+import { suspendBodyScroll } from "./dom.ts";
 import { clamp, isBrowser } from "./env.ts";
 import { topmostY } from "./position.ts";
 import { decideRelease, type ResolvedSnap } from "./snap.ts";
@@ -82,6 +83,8 @@ export function attachSheetDrag(deps: DragDeps): () => void {
   const { content, spring } = deps;
   let startY = 0;
   let dragging = false;
+  /** Set while the sheet has taken a gesture away from a scrolling Body. */
+  let releaseBody: (() => void) | null = null;
 
   return attachDrag(
     content,
@@ -99,6 +102,11 @@ export function attachSheetDrag(deps: DragDeps): () => void {
           return;
         }
         blurInside(content);
+        // The sheet owns this gesture now: freeze the body's own scrolling for
+        // its duration, or a reversal mid-drag scrolls the list while the sheet
+        // is still moving (and can pointercancel out from under us).
+        const body = deps.body();
+        if (body) releaseBody = suspendBodyScroll(body);
         dragging = true;
         startY = spring.get();
         content.setAttribute("data-dragging", "");
@@ -121,6 +129,8 @@ export function attachSheetDrag(deps: DragDeps): () => void {
       onEnd(state) {
         if (!dragging) return;
         dragging = false;
+        releaseBody?.();
+        releaseBody = null;
         content.removeAttribute("data-dragging");
         deps.setDragging(false);
         if (state.cancelled) {

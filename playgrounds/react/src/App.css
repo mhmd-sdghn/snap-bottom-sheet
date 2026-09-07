@@ -120,14 +120,6 @@ code {
  * it measures for "content"/"header". It must NOT be stretched to the panel
  * height, or the measurement always reports the full view height.
  */
-/* The library writes this wrapper's flex and max-height itself; all it needs
-   from us is to be a column so Header/Body/Close stack. */
-.panel > [data-snap-sheet-inner] {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-
 .handle {
   flex: none;
   display: block;
