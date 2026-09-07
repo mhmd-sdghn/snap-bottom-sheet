@@ -310,7 +310,7 @@ Three worker sessions: **W1**, **W2**, **W3**. Orchestrator reviews each task's 
 | 2e | `tasks/11-core-followups.md` | W1 | 2a, 2b, 2d | core + react follow-ups ✅ merged |
 | 3a | `tasks/08-playgrounds.md` | W1 | 2a, 2b | `chore: vanilla, react and next playgrounds` ✅ e2e751f |
 | 3b | `tasks/09-docs-demos.md` | W2 | 2a, 2b, 2d | `docs: live React demos` ✅ merged |
-| 3d | `tasks/12-container-scoped-lock.md` | W1 (after 10) | 2e, 3b | `feat(core): scope the modal scroll lock to a custom container` |
+| 3d | `tasks/12-container-scoped-lock.md` ✅ merged | W1 | 2e, 3b | Escape re-arm fix, container-scoped lock, docs launch port |
 | 3c | `tasks/10-integration-tests.md` ✅ merged | W1 (W3 stalled) | 2a, 2b, 2e | `test(sheet): end-to-end controller + react integration, audit regressions, size budget` |
 | 4 | review loop | orchestrator + any idle worker | 3 | `fix: address code review findings` |
 
