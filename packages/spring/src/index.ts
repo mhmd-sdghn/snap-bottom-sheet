@@ -43,6 +43,14 @@ export function createSpring(
   let target = initial;
   let velocity = 0; // px/s internally; the public API is px/ms
   let handle: number | null = null;
+  /**
+   * Whether a run is in progress. Distinct from `handle`, which is only the
+   * cancel token: `tick()` clears the token before notifying and takes a new
+   * one afterwards, so `handle` reads null inside every frame callback. A
+   * subscriber asking "is this still animating?" must not be told "no" for the
+   * whole flight.
+   */
+  let running = false;
   let lastTime = 0;
   let resolveActive: ((rested: boolean) => void) | null = null;
   const listeners = new Set<(value: number) => void>();
@@ -57,6 +65,7 @@ export function createSpring(
     resolve?.(rested);
   };
   const cancelFrame = () => {
+    running = false;
     if (handle === null) return;
     if (hasRaf()) cancelAnimationFrame(handle);
     else clearTimeout(handle);
@@ -94,6 +103,10 @@ export function createSpring(
     lastTime = frameTime;
     integrate(elapsed);
     if (atRest()) {
+      // Cleared before notifying, not after: this is the notification a
+      // subscriber uses to run the tail of a transition, and it has to see the
+      // spring as stopped. Clearing it afterwards would strand every one.
+      running = false;
       settleAtTarget();
       resolveWith(true);
       return;
@@ -113,6 +126,7 @@ export function createSpring(
     const promise = new Promise<boolean>((resolve) => {
       resolveActive = resolve;
     });
+    running = true;
     // Already looping: keep the current velocity and the current frame clock.
     if (handle === null) {
       lastTime = now();
@@ -139,7 +153,7 @@ export function createSpring(
       };
     },
     get animating() {
-      return handle !== null;
+      return running;
     },
     get target() {
       return target;

@@ -17,7 +17,7 @@ import {
   screen,
 } from "@testing-library/react";
 import type { ReactNode } from "react";
-import { createRef } from "react";
+import { createRef, useState } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { SheetHandle } from "../../src/react/index.ts";
 import { Sheet, useSheetState } from "../../src/react/index.ts";
@@ -104,6 +104,42 @@ afterEach(() => {
   cleanup();
   vi.unstubAllGlobals();
   vi.useRealTimers();
+});
+
+describe("presence gate", () => {
+  it("keeps the closing sheet mounted for the whole animation", async () => {
+    function Controlled() {
+      const [open, setOpen] = useState(true);
+      return (
+        <>
+          <button type="button" onClick={() => setOpen(false)}>
+            close
+          </button>
+          <Sheet open={open} onOpenChange={setOpen} snapPoints={[0.5]}>
+            <Panel />
+          </Sheet>
+        </>
+      );
+    }
+    render(<Controlled />);
+    await flush();
+    expect(content().getAttribute("data-state")).toBe("open");
+
+    await act(async () => {
+      screen.getByText("close").click();
+    });
+    // one frame into the close: React unmounts on onAnimationEnd(false), so if
+    // the transition finalises early the close animation is never seen at all
+    await act(async () => {
+      await vi.advanceTimersByTimeAsync(16);
+    });
+
+    expect(screen.queryByTestId("content")).not.toBeNull();
+    expect(yOf(content())).toBeLessThan(ViewHeight);
+
+    await flush();
+    expect(screen.queryByTestId("content")).toBeNull();
+  });
 });
 
 describe("open", () => {

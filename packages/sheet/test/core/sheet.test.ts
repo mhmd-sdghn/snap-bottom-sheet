@@ -1109,6 +1109,32 @@ describe("createSheet", () => {
     expect(controller.getState().open).toBe(false);
   });
 
+  it("13a. does not finalise a transition on the first frame", async () => {
+    const el = fixture();
+    const onAnimationEnd = vi.fn();
+    const controller = make(el, { snapPoints: [0.5], onAnimationEnd });
+
+    const opened = controller.open();
+    await vi.advanceTimersByTimeAsync(16);
+
+    // one frame in, the panel has barely moved: nothing about this transition
+    // has finished, so none of its tail may have run yet
+    expect(controller.getState().animating).toBe(true);
+    expect(onAnimationEnd).not.toHaveBeenCalled();
+    expect(yOf(el.content)).toBeGreaterThan(900);
+    expect(el.content.style.paddingBottom).toBe("");
+    expect(el.content.getAttribute("data-snap-index")).toBeNull();
+
+    await settle();
+    await opened;
+
+    expect(controller.getState().animating).toBe(false);
+    expect(onAnimationEnd).toHaveBeenCalledExactlyOnceWith(true);
+    expect(yOf(el.content)).toBe(500);
+    expect(el.content.style.paddingBottom).toBe("500px");
+    expect(el.content.getAttribute("data-snap-index")).toBe("0");
+  });
+
   it("destroy() is idempotent", () => {
     const el = fixture();
     const controller = make(el, { snapPoints: [0.5] });
