@@ -1,6 +1,14 @@
+<script setup>
+import scrollableDemo from "../.vitepress/theme/demos/scrollable.tsx";
+</script>
+
 # Scrolling
 
 A sheet scrolls its content only at the snap points you mark `scroll: true`, and only inside `Sheet.Body`.
+
+<ClientOnly>
+  <ReactDemo :mount="scrollableDemo" />
+</ClientOnly>
 
 ## `Sheet.Body` is the scroll region
 

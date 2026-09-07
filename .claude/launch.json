@@ -8,6 +8,20 @@
       "port": 5173
     },
     {
+      "name": "docs",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "snap-bottom-sheet-docs",
+        "docs:dev",
+        "--",
+        "--port",
+        "5175",
+        "--strictPort"
+      ],
+      "port": 5175
+    },
+    {
       "name": "playground-vanilla",
       "runtimeExecutable": "pnpm",
       "runtimeArgs": [

@@ -1,6 +1,14 @@
+<script setup>
+import controlledDemo from "../.vitepress/theme/demos/controlled.tsx";
+</script>
+
 # Controlled State
 
 Two things about a sheet can be driven from outside — whether it is open, and which snap it rests at — and each one is controlled or uncontrolled on its own.
+
+<ClientOnly>
+  <ReactDemo :mount="controlledDemo" />
+</ClientOnly>
 
 ## The two pairs of props
 

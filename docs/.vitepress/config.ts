@@ -82,6 +82,21 @@ export default defineConfig({
           ],
         },
       ],
+      "/demos/": [
+        {
+          text: "Demos",
+          items: [
+            { text: "Overview", link: "/demos/" },
+            { text: "Basic", link: "/demos/basic" },
+            { text: "Snap Points", link: "/demos/snap-points" },
+            { text: "Dynamic Height", link: "/demos/dynamic-height" },
+            { text: "Scrollable", link: "/demos/scrollable" },
+            { text: "Nested", link: "/demos/nested" },
+            { text: "Controlled", link: "/demos/controlled" },
+            { text: "Vanilla", link: "/demos/vanilla" },
+          ],
+        },
+      ],
       "/reference/": [
         {
           text: "Reference",

@@ -1,6 +1,14 @@
+<script setup>
+import snappointsDemo from "../.vitepress/theme/demos/snap-points.tsx";
+</script>
+
 # Snap Points
 
 A snap point is a height the sheet rests at. You pass an array of them; the sheet lands on the nearest one when you let go.
+
+<ClientOnly>
+  <ReactDemo :mount="snappointsDemo" />
+</ClientOnly>
 
 ## Value forms
 
