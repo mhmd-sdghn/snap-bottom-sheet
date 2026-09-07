@@ -10,10 +10,10 @@
   "scripts": {
     "build": "pnpm --filter snap-bottom-sheet build",
     "dev": "pnpm --filter snap-bottom-sheet dev",
-    "test": "pnpm --filter snap-bottom-sheet test",
+    "test": "pnpm -r --filter \"./packages/*\" test",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
-    "typecheck": "pnpm --filter snap-bottom-sheet typecheck",
+    "typecheck": "pnpm -r --filter \"./packages/*\" typecheck",
     "docs:dev": "pnpm --filter snap-bottom-sheet-docs docs:dev",
     "docs:build": "pnpm --filter snap-bottom-sheet-docs docs:build",
     "verify:pkg": "pnpm --filter snap-bottom-sheet verify:pkg",

@@ -67,6 +67,18 @@ importers:
         specifier: ^3.2.0
         version: 3.2.7(@types/node@24.13.3)(jsdom@26.1.0)(tsx@4.19.3)(yaml@2.7.1)
 
+  packages/spring:
+    devDependencies:
+      '@types/node':
+        specifier: ^24.0.0
+        version: 24.13.3
+      typescript:
+        specifier: ^5.9.0
+        version: 5.9.3
+      vitest:
+        specifier: ^3.2.0
+        version: 3.2.7(@types/node@24.13.3)(jsdom@26.1.0)(tsx@4.19.3)(yaml@2.7.1)
+
   playgrounds/react:
     dependencies:
       '@react-spring/web':
