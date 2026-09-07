@@ -73,7 +73,8 @@ export function toHeight(value: SnapValue, ctx: MeasureContext): number;
  * Resolve in consumer order. Entries whose height is NaN, <= 0, or (for "header"/"content") still unmeasured (0)
  * are dropped with warnOnce — EXCEPT that an unmeasured "header"/"content" resolves to height = viewHeight * 0.5 as a
  * placeholder so the sheet has a position on first paint (the real value replaces it on the next measurement).
- * Duplicate heights are kept (indices must stay stable).
+ * Duplicate heights are kept. `index` is always the position in the input array, so the result may be shorter than
+ * `points` and non-contiguous in `index` — intended: public indices never shift because a neighbour was invalid.
  */
 export function resolveSnapPoints(points: SnapPoint[], ctx: MeasureContext): ResolvedSnap[];
 
@@ -92,6 +93,7 @@ export function isContentMode(points: SnapPoint[]): boolean;
 /**
  * Release decision. lowest = byY(resolved)[0]. Returns { close: true } when dismissible and projectedY exceeds
  * lowest.y by more than min(80, lowest.height * 0.25); otherwise { close: false, snap: closest(...) }.
+ * resolved.length === 0 (e.g. viewHeight <= 0) → { close: true } regardless of dismissible; never throws.
  */
 export function decideRelease(args: {
   y: number; vy: number; resolved: ResolvedSnap[]; dismissible: boolean; projectionMs?: number;
@@ -146,7 +148,7 @@ Controlled when `prop !== undefined`: setter only calls `onChange` (no internal 
 - Unmeasured `"content"` (0) → placeholder height 400, no throw; `"header"` same.
 - `normalize`: `0.5` → `{ value: 0.5, scroll: false, drag: { up: true, down: true } }`; `{ value: 0.5, drag: false }` → both false; `{ drag: { down: false } }` → `{ up: true, down: false }`.
 - `steps(3)` → `[1/3, 2/3, 1]` (toBeCloseTo); `steps(0)` → `[]`; `steps(2, { from: 0.5 })` → `[0.5, 1]`.
-- `decideRelease`: lowest at y 560 (height 240): `y 600, vy 0` → close false (delta 40 < 60); `y 650, vy 0` → close true (90 > 60); `y 580, vy 0.5` → projected 680 → close true; `dismissible: false` → never closes, snaps to lowest; upward fling from the lowest snap (`vy -1`) lands on the upper snap.
+- `decideRelease`: lowest at y 560 (height 240): `y 600, vy 0` → close false (delta 40 < 60); `y 650, vy 0` → close true (90 > 60); `y 580, vy 0.5` → projected 680 → close true; `dismissible: false` → never closes, snaps to lowest; upward fling from the lowest snap (`vy -1.5`, upper snap at y 80) projects to 260 and lands on the upper snap; `vy -1` (projects to 360) stays on the lowest — asserts the 0.2 s projection is not over-eager; `resolved: []` → `{ close: true }`.
 - `isContentMode([])`, `(["content"])`, `([{ value: "content" }])` → true; `(["content", 0.5])` → false.
 
 `scroll-lock.test.ts`: two locks then one release keeps `overflow: hidden`; second release restores the *pre-existing* inline `overflow: scroll` and `padding-right` values; double release is a no-op; `isBodyScrollLocked()` tracks.
