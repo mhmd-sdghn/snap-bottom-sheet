@@ -22,7 +22,11 @@ Worker: W1 (after task 10). Branch: `w1/12-container-lock` off `v1`. Plan sectio
 pnpm typecheck && pnpm test && pnpm lint && pnpm build && pnpm verify:pkg && pnpm docs:build
 ```
 
-Commit: `feat(core): scope the modal scroll lock to a custom container`, `docs: container-scoped modal demos`.
+Commits: `fix(core): re-arm Escape after a vetoed dismissal`, `feat(core): scope the modal scroll lock to a custom container`, `docs: container-scoped modal demos`, `chore: docs launch port`.
+
+## Escape lost after a vetoed dismissal (task 10 finding — real bug, fix here)
+
+`closeWith(true)` pops the Escape stack (`guard.releaseEscape()`) before firing `onOpenChange(false)`; the consumer's re-entrant `open()` calls `guard.engage()`, which is now idempotent and early-returns while the close animation has not yet `disengage()`d — so `ensureEscape()` never runs and the open, modal, dismissible sheet is off the Escape stack for good. Fix: in `open()` call `guard.ensureEscape()` whenever `modal() && dismissible()` regardless of the engaged state (or make `engage()` re-arm Escape even when already engaged). Then un-`.todo` `test/regressions/audit-p0.test.ts :: BUG-escape-veto` and `test/integration/react-real-controller.test.tsx :: still answers a second Escape after the first was refused`.
 
 ## Also (tiny)
 

@@ -311,7 +311,7 @@ Three worker sessions: **W1**, **W2**, **W3**. Orchestrator reviews each task's 
 | 3a | `tasks/08-playgrounds.md` | W1 | 2a, 2b | `chore: vanilla, react and next playgrounds` ✅ e2e751f |
 | 3b | `tasks/09-docs-demos.md` | W2 | 2a, 2b, 2d | `docs: live React demos` ✅ merged |
 | 3d | `tasks/12-container-scoped-lock.md` | W1 (after 10) | 2e, 3b | `feat(core): scope the modal scroll lock to a custom container` |
-| 3c | `tasks/10-integration-tests.md` | W1 (W3 stalled) | 2a, 2b, 2e | `test(sheet): end-to-end controller + react integration, audit regressions, size budget` |
+| 3c | `tasks/10-integration-tests.md` ✅ merged | W1 (W3 stalled) | 2a, 2b, 2e | `test(sheet): end-to-end controller + react integration, audit regressions, size budget` |
 | 4 | review loop | orchestrator + any idle worker | 3 | `fix: address code review findings` |
 
 Phase 1 tasks run in parallel (disjoint directories). Phase 2 runs in parallel too: core controller (`src/core`), React bindings (`src/react`, mocked controller), meta+docs (root files, `docs/`). Phase 3 waits for 2a+2b. Task files for later phases are drafted early and finalised by the orchestrator when their dependencies have merged, so they reflect the real code.

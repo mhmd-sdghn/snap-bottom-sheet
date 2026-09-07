@@ -75,8 +75,8 @@
     "semantic_hash": ""
   },
   "packages/sheet/package.json": {
-    "mtime": 1788797667.2239788,
-    "ast_hash": "d7734edb693c2ba8976b1ad87eca518f",
+    "mtime": 1788800777.748465,
+    "ast_hash": "53bf745e67ca944d90e7ccaddd2fba82",
     "semantic_hash": ""
   },
   "packages/sheet/src/index.ts": {
@@ -135,8 +135,8 @@
     "semantic_hash": ""
   },
   ".github/workflows/ci.yml": {
-    "mtime": 1788799170.394774,
-    "ast_hash": "bbc293ca4d44a86cecc050b4b2f9e737",
+    "mtime": 1788800777.748179,
+    "ast_hash": "a78ce606373c5f7d273b1e26683b4c56",
     "semantic_hash": ""
   },
   ".github/workflows/release.yml": {
@@ -150,8 +150,8 @@
     "semantic_hash": ""
   },
   "docs/internal/PLAN.md": {
-    "mtime": 1788800394.3665118,
-    "ast_hash": "6225542e141034abadcc7963a10e9bae",
+    "mtime": 1788800787.8942997,
+    "ast_hash": "209e2827771d6c9d3d1f18cd1b271a13",
     "semantic_hash": ""
   },
   "docs/internal/tasks/00-scaffold.md": {
@@ -775,8 +775,33 @@
     "semantic_hash": ""
   },
   "docs/internal/tasks/12-container-scoped-lock.md": {
-    "mtime": 1788800394.3481236,
-    "ast_hash": "fdce32da5f7a63fbf2033a233d3e4416",
+    "mtime": 1788800787.8939965,
+    "ast_hash": "5a219fc29dd51bb242370e4b434a3cf8",
+    "semantic_hash": ""
+  },
+  "packages/sheet/scripts/size.mjs": {
+    "mtime": 1788800777.7487197,
+    "ast_hash": "bf684aba05f890ef083fe1c3d1847a13",
+    "semantic_hash": ""
+  },
+  "packages/sheet/test/helpers/env.ts": {
+    "mtime": 1788800777.748888,
+    "ast_hash": "e453df47f63123339aeb3311cb778743",
+    "semantic_hash": ""
+  },
+  "packages/sheet/test/integration/react-real-controller.test.tsx": {
+    "mtime": 1788800777.7492523,
+    "ast_hash": "e2e925ebc0ee005649966820bb7211b9",
+    "semantic_hash": ""
+  },
+  "packages/sheet/test/integration/vanilla.test.ts": {
+    "mtime": 1788800777.7494984,
+    "ast_hash": "1a3ef3f7965ed1e6c75bfa0bdecde9b7",
+    "semantic_hash": ""
+  },
+  "packages/sheet/test/regressions/audit-p0.test.ts": {
+    "mtime": 1788800777.749832,
+    "ast_hash": "2ac28528463eb2593788ef56cb060306",
     "semantic_hash": ""
   }
 }
