@@ -126,22 +126,12 @@ select,
   box-shadow: 0 -10px 40px rgb(0 0 0 / 0.7);
 }
 
-/*
- * The node the controller measures for a "content" snap.
- *
- * `flex-shrink: 0` is load-bearing. The panel is always full view height and
- * carries `padding-bottom: <y>` at rest, so its content box is only the visible
- * strip; as an ordinary flex item this wrapper would be shrunk to that strip and
- * the measurement would depend on its own result — a "content" snap could then
- * never grow past the height it already has. Cap against the viewport instead
- * of the parent (100dvh, not 100%) for the same reason.
- */
+/* The node the controller measures for a "content" snap. It writes the flex
+   and max-height that keep the measurement honest; we only make it a column. */
 .sheet-inner {
   display: flex;
   flex-direction: column;
   min-height: 0;
-  flex-shrink: 0;
-  max-height: 100dvh;
 }
 
 .sheet-handle {

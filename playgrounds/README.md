@@ -59,13 +59,7 @@ It gives you: `data-state="open" | "closed"` (panel and overlay),
 `data-snap-index`, `data-dragging`, `data-content-mode`, and the custom
 properties `--snap-sheet-y`, `--snap-sheet-progress`, `--snap-sheet-offset`.
 
-Two things are genuinely yours:
-
-- **The overlay gets no styles at all** — only `aria-hidden`, `data-state` and
-  the click handler. `position: fixed; inset: 0` and a background are on you.
-  `opacity: var(--snap-sheet-progress)` is the idiomatic fade.
-- **`flex-shrink: 0` on the measured inner wrapper.** The panel is always full
-  view height with `padding-bottom` equal to the resting `y`, so its content box
-  is just the visible strip. Without `flex-shrink: 0` flexbox shrinks the
-  wrapper to that strip, and a `"content"` snap can then never measure taller
-  than it already is — the height freezes. See `playgrounds/react/src/App.css`.
+The overlay gets `position` and `inset: 0` from the library, and the measured
+inner wrapper gets the `flex`/`max-height` that keep a `"content"` snap honest.
+Background, colour, `z-index` and `pointer-events` are yours —
+`opacity: var(--snap-sheet-progress)` is the idiomatic overlay fade.

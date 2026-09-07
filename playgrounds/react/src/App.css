@@ -120,18 +120,12 @@ code {
  * it measures for "content"/"header". It must NOT be stretched to the panel
  * height, or the measurement always reports the full view height.
  */
+/* The library writes this wrapper's flex and max-height itself; all it needs
+   from us is to be a column so Header/Body/Close stack. */
 .panel > [data-snap-sheet-inner] {
   display: flex;
   flex-direction: column;
-  /*
-   * flex-shrink: 0 is load-bearing. The panel is always full view height and
-   * gets padding-bottom = y at rest, so its content box is exactly the visible
-   * strip; without this the wrapper is shrunk to that strip and a "content"
-   * snap can never measure larger than it already is (it freezes). See the
-   * task 08 report — the library should own this.
-   */
-  flex-shrink: 0;
-  max-height: 100dvh;
+  min-height: 0;
 }
 
 .handle {

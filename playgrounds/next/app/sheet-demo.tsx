@@ -22,10 +22,9 @@ export default function SheetDemo() {
    * test cares about — the sheet is open on mount, so hydration has to survive
    * a Portal that renders null on the server and real content one tick later.
    *
-   * Reopening remounts with a new key rather than flipping a prop, because
-   * `SheetHandle` exposes `close()` but no `open()` (see the task 08 report),
-   * and adding an `open` prop later would silently convert the sheet to
-   * controlled.
+   * Reopening remounts with a new key so the uncontrolled path is what gets
+   * exercised on every reopen; `SheetHandle.open()` exists now (task 11) if you
+   * would rather drive it imperatively.
    */
   const [instance, setInstance] = useState(0);
 

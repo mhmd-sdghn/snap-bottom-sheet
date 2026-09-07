@@ -1,4 +1,5 @@
-"use client";
+// No "use client" here: the tsdown banner adds it to the react chunk, and a
+// source directive on top of that emits it twice (task 11, item 9).
 
 import { Body } from "./Body.tsx";
 import { Close } from "./Close.tsx";

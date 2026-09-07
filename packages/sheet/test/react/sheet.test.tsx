@@ -373,4 +373,150 @@ describe("imperative handle", () => {
     expect(handle.current?.activeSnapIndex).toBe(1);
     expect(handle.current?.y).toBe(0);
   });
+
+  it("open() mounts the subtree and opens the controller once", async () => {
+    const handle = createRef<SheetHandle>();
+    render(
+      <Sheet ref={handle}>
+        <Panel />
+      </Sheet>,
+    );
+    expect(screen.queryByTestId("content")).toBeNull();
+
+    await act(async () => {
+      handle.current?.open();
+    });
+
+    expect(screen.getByTestId("content")).toBeTruthy();
+    expect(fake.open).toHaveBeenCalledTimes(1);
+  });
+
+  it("keeps open() pending until the open animation ends", async () => {
+    const handle = createRef<SheetHandle>();
+    render(
+      <Sheet ref={handle}>
+        <Panel />
+      </Sheet>,
+    );
+
+    let done = false;
+    await act(async () => {
+      handle.current?.open().then(() => {
+        done = true;
+      });
+    });
+    expect(done).toBe(false);
+
+    await act(async () => {
+      fake.options?.onAnimationEnd?.(true);
+    });
+    expect(done).toBe(true);
+  });
+
+  it("open() while already open resolves without re-opening", async () => {
+    const handle = createRef<SheetHandle>();
+    render(
+      <Sheet ref={handle} open>
+        <Panel />
+      </Sheet>,
+    );
+    expect(fake.open).toHaveBeenCalledTimes(1);
+
+    await act(async () => {
+      await expect(handle.current?.open()).resolves.toBeUndefined();
+    });
+    expect(fake.open).toHaveBeenCalledTimes(1);
+  });
+
+  it("close() on a controlled sheet only asks the parent", async () => {
+    const onOpenChange = vi.fn();
+    const handle = createRef<SheetHandle>();
+    render(
+      <Sheet ref={handle} open onOpenChange={onOpenChange}>
+        <Panel />
+      </Sheet>,
+    );
+    expect(fake.open).toHaveBeenCalledTimes(1);
+
+    await act(async () => {
+      handle.current?.close();
+    });
+
+    expect(onOpenChange).toHaveBeenCalledWith(false);
+    // never the controller directly, so there is no veto bounce to undo
+    expect(fake.close).not.toHaveBeenCalled();
+    expect(fake.open).toHaveBeenCalledTimes(1);
+    expect(screen.getByTestId("content")).toBeTruthy();
+  });
+
+  it("resolves a request the parent refuses instead of hanging", async () => {
+    const handle = createRef<SheetHandle>();
+    // controlled and pinned open: onOpenChange is ignored, so no close ever runs
+    render(
+      <Sheet ref={handle} open onOpenChange={() => {}}>
+        <Panel />
+      </Sheet>,
+    );
+
+    let settled = false;
+    await act(async () => {
+      handle.current?.close().then(() => {
+        settled = true;
+      });
+    });
+
+    // controlled: the parent owns `open` and ignored the request, so there is
+    // no animation to await — the call is advisory and resolves at once
+    expect(settled).toBe(true);
+    expect(fake.close).not.toHaveBeenCalled();
+    expect(screen.getByTestId("content")).toBeTruthy();
+  });
+
+  it("resolves a pending open() that a close() supersedes", async () => {
+    const handle = createRef<SheetHandle>();
+    render(
+      <Sheet ref={handle}>
+        <Panel />
+      </Sheet>,
+    );
+
+    let openSettled = false;
+    await act(async () => {
+      handle.current?.open().then(() => {
+        openSettled = true;
+      });
+    });
+    expect(openSettled).toBe(false);
+
+    // close before the open animation ever reports back
+    await act(async () => {
+      handle.current?.close();
+    });
+    await act(async () => {
+      fake.options?.onAnimationEnd?.(false);
+    });
+    await act(async () => {});
+
+    expect(openSettled).toBe(true);
+  });
+
+  it("snapTo() while closed picks the snap the next open() uses", async () => {
+    const handle = createRef<SheetHandle>();
+    render(
+      <Sheet ref={handle} snapPoints={[0.3, 0.6, 1]}>
+        <Panel />
+      </Sheet>,
+    );
+
+    await act(async () => {
+      await handle.current?.snapTo(2);
+    });
+    expect(fake.snapTo).not.toHaveBeenCalled();
+
+    await act(async () => {
+      handle.current?.open();
+    });
+    expect(fake.snapTo).toHaveBeenCalledWith(2);
+    expect(handle.current?.activeSnapIndex).toBe(2);
+  });
 });

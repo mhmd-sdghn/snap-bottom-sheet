@@ -87,6 +87,31 @@ export function contentBaseStyles(positioned: boolean): Styles {
   };
 }
 
+/**
+ * Base styles for the scrim. Only geometry — colour, `z-index` and
+ * `pointer-events` stay the consumer's.
+ */
+export function overlayBaseStyles(positioned: boolean): Styles {
+  return {
+    position: positioned ? "absolute" : "fixed",
+    inset: "0",
+  };
+}
+
+/**
+ * Base styles for the measured wrapper. `flex: 0 0 auto` is load-bearing: the
+ * panel's content box is only the visible strip (its `padding-bottom` is the
+ * resting `y`), so as an ordinary flex item this element would be shrunk to
+ * that strip and a `"content"` snap could never measure taller than it already
+ * is — the height would freeze.
+ */
+export function innerBaseStyles(positioned: boolean): Styles {
+  return {
+    flex: "0 0 auto",
+    maxHeight: positioned ? "100%" : "100dvh",
+  };
+}
+
 /** Base styles for the scroll region, written once at attach. */
 export function bodyBaseStyles(): Styles {
   return { minHeight: "0", overscrollBehavior: "contain" };
