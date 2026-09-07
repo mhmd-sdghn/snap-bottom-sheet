@@ -2,7 +2,7 @@
 
 Worker: W1. Branch: `w1/04-core-controller` off `v1` (after tasks 01, 02, 03 are merged). Plan sections: §2.1, §2.2, §3.1–3.7. Audit items fixed here: P0-3, P0-5, P0-8, P1-3, P1-5, P1-11, P1-22, P1-23 and the a11y / velocity / controlled-state gaps in AUDIT §4.
 
-> DRAFT — the orchestrator finalises this file after Phase 1 merges (exact module paths/exports of spring, gesture and core pure modules get pasted in). Do not start before "TASK 04 — go".
+> FINAL. Inputs merged on `v1`: `@snap-bottom-sheet/spring` (`createSpring`, PLAN §3.1 — `stop()` sets `target = value`; `set()` on an at-rest spring resolves `true` synchronously), `@snap-bottom-sheet/gesture` (`attachDrag`, PLAN §3.2 — no DOM writes, `filter(target, event)`), and `src/core/{env,snap,scroll-lock,measure}.ts` from task 03 with these facts: `normalize()` returns the exported `NormalizedSnap`; `toHeight()` returns **0** (not NaN) for an unmeasured `"header"`/`"content"` — test `> 0`; `resolveSnapPoints` substitutes a `viewHeight * 0.5` placeholder for unmeasured header/content; `closest` ties → larger y; `decideRelease([])` → `{ close: true }`; `observeViewHeight(null, cb)` does **not** call `cb` outside the browser; `lockBodyScroll()` is refcounted module state. Do not start before "TASK 04 — go".
 
 ## Goal
 
@@ -11,7 +11,8 @@ The framework-agnostic engine. Given DOM elements the consumer rendered, `create
 ## Scope
 
 ```
-packages/sheet/src/core/sheet.ts          createSheet + controller (may split helpers into sibling files if > ~350 LOC)
+packages/sheet/src/core/sheet.ts          createSheet + controller (split helpers into sibling files when a file passes ~200 LOC; comments are not budgeted)
+packages/sheet/test/helpers/pointer.ts     FakePointerEvent (extends MouseEvent, adds pointerId/isPrimary, settable timeStamp) + fire() helper, hoisted from packages/gesture/test/drag.test.ts
 packages/sheet/src/core/dom.ts            style/attr writers (base styles once, per-frame vars, data-*), inert + focus helpers
 packages/sheet/src/core/keyboard.ts       Escape / handle keys
 packages/sheet/src/index.ts               REWRITE: core entry — export createSheet, steps, and public types only

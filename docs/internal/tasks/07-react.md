@@ -2,7 +2,7 @@
 
 Worker: W2. Branch: `w2/07-react` off `v1` (after task 03 is merged; runs **in parallel with task 04** — build against the `SheetController` contract in PLAN §2.2, not against the real implementation). Plan sections: §2.1, §2.2, §2.3, §3.6, §0 (SSR row).
 
-> DRAFT — finalised by the orchestrator when Phase 1 has merged.
+> FINAL. Hooks from task 03 are on `v1`: `useControllableState({ prop, defaultProp, onChange })` (stable setter, skips unchanged values, controlled mode never mutates internal state) and `useIsomorphicLayoutEffect`. Do not start before "TASK 07 — go".
 
 ## Goal
 
