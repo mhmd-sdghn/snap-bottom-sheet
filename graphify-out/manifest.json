@@ -5,8 +5,8 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1788794696.5126388,
-    "ast_hash": "9374ad3f1c654b3c4679936c8f38f4f0",
+    "mtime": 1788795386.0718749,
+    "ast_hash": "c790d3411dd61a09d9221ad31917966e",
     "semantic_hash": ""
   },
   ".claude/CLAUDE.md": {
@@ -260,8 +260,8 @@
     "semantic_hash": ""
   },
   "docs/internal/PLAN.md": {
-    "mtime": 1788794261.065306,
-    "ast_hash": "b1e1e2247ae37920a906d2d3f31794ba",
+    "mtime": 1788795206.6154003,
+    "ast_hash": "359146fd8080c3c00674742494dbf597",
     "semantic_hash": ""
   },
   "docs/internal/tasks/00-scaffold.md": {
@@ -280,8 +280,8 @@
     "semantic_hash": ""
   },
   "docs/internal/tasks/03-core-pure.md": {
-    "mtime": 1788794261.0656302,
-    "ast_hash": "cbc78c608339d07ee1334a7eab6233f0",
+    "mtime": 1788795206.6156888,
+    "ast_hash": "5a801ff3cd247cd0771ce96a015ff368",
     "semantic_hash": ""
   },
   "lefthook.yml": {
@@ -312,6 +312,46 @@
   "playgrounds/react/src/assets/react.svg": {
     "mtime": 1788793493.8960068,
     "ast_hash": "f0402b67b6ce880f65666bb49e841696",
+    "semantic_hash": ""
+  },
+  "packages/spring/package.json": {
+    "mtime": 1788795278.6861584,
+    "ast_hash": "4bb1ac0fd4e7ca2809eded729a06872a",
+    "semantic_hash": ""
+  },
+  "packages/spring/src/index.ts": {
+    "mtime": 1788795376.064643,
+    "ast_hash": "d5ab6bf47edf66fccd293ef5c5eef40a",
+    "semantic_hash": ""
+  },
+  "packages/spring/test/spring.test.ts": {
+    "mtime": 1788795345.2540174,
+    "ast_hash": "44e88bfbf4e7a3182eacba9b6a82d253",
+    "semantic_hash": ""
+  },
+  "packages/spring/tsconfig.json": {
+    "mtime": 1788795278.7121236,
+    "ast_hash": "b65d3f2fcdfe974c16a34370e73adcfd",
+    "semantic_hash": ""
+  },
+  "packages/spring/vitest.config.ts": {
+    "mtime": 1788795278.7164369,
+    "ast_hash": "54763b15e44963a7aee6fd32bc927eb1",
+    "semantic_hash": ""
+  },
+  "docs/internal/tasks/04-core-controller.md": {
+    "mtime": 1788795206.6158428,
+    "ast_hash": "67d8eae3d7d2725495c586c6c51e6bd3",
+    "semantic_hash": ""
+  },
+  "docs/internal/tasks/05-docs.md": {
+    "mtime": 1788795206.6159909,
+    "ast_hash": "a9f235ff49e1bd3f21e374fde80e233b",
+    "semantic_hash": ""
+  },
+  "docs/internal/tasks/06-meta.md": {
+    "mtime": 1788795206.61613,
+    "ast_hash": "6dd92d1df689b2d1f552a87fb2a50657",
     "semantic_hash": ""
   }
 }
