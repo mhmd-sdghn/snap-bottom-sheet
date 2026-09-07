@@ -80,6 +80,24 @@ Verified-by-probe items are marked ✔; others are PLAUSIBLE from source reading
 
 **B.19 Docs/process:** `onSnapIndexChange` silent when a release lands on the same snap is intentional — say so in `reference/core.md` (`onDragEnd` fires every time). Fix `docs/internal/tasks/00-scaffold.md` step 8 to match the later graphify policy (historical accuracy).
 
+## C. Sweep (fresh reviewer, gaps only) — W1
+
+**C.1 ✔ `steps()` float error turns the last snap into 1 px.** `snap.ts:71`: `steps(6)` ends in `1.0000000000000002`; `toHeight` (`:109`) takes the `> 1` branch → a 1 px snap becomes the lowest, `topmostY` becomes the 0.8333 snap, drag-down parks a 1 px sliver instead of closing. Fix both ends: `steps()` returns `to` exactly for the last entry (and `from` for the first); `toHeight` rounds the numeric value to 6 decimals before the `<= 1` test. Tests: `steps(6)` / `steps(24)` last === 1 exactly; `toHeight(1.0000000000000002)` === viewHeight.
+
+**C.2 Container mode inner cap feedback loop.** `dom.ts:111` `max-height: 100%` resolves against the panel's content box (already `viewHeight − y`), so once at rest the inner cannot grow → `"content"` never re-measures upward in embedded sheets. Covered by B.3 (drop the cap) — make sure the container branch is tested too.
+
+**C.3 `focusFirst` can pick a non-focusable match.** `dom.ts:201`: `input:not([disabled])` matches `<input type="hidden">` (or a `display: none` button); `.focus()` is a no-op and the `content` fallback never runs → modal opens with focus on `<body>`. Fix: after `.focus()`, if `document.activeElement !== target`, fall back to `content`; exclude `[type="hidden"]` and `[tabindex="-1"]` from the selector. Test with a leading hidden input.
+
+**C.4 `destroy()` leaves `aria-modal` / `aria-labelledby` / `aria-describedby`.** `sheet.ts:580`: `applyAria` writes them outside the `restores` bookkeeping. Fold into B.18's "applyAria through setAttrs" so destroy restores them; test after destroy.
+
+**C.5 Handle click-to-cycle is promised but unimplemented.** `sheet.ts:433` wires keydown only; PLAN §2.3 and `reference/react.md` say click cycles snaps. Fix: `click` → `cycle()` in the handle wirer (ignore clicks that were part of a drag — the gesture threshold already separates taps). Test.
+
+**C.6 `viewHeight === 0` burns valid-point warnings.** `snap.ts:148`: with an unmeasured view every point is "invalid" and `warnOnce` burns the key for the session, hiding a later real warning. Fix: skip warnings entirely when `viewHeight <= 0` (transient state the deferred-open path treats as legitimate).
+
+**C.7 `warnOnce` has no test reset seam.** `env.ts:7`: module-global `warned` set makes every warning assertion order-dependent. Fix: export `resetWarnings()` marked `@internal`, call it from `packages/sheet/vitest.setup.ts` `afterEach`; then the A.10 / A.14(d) warning tests are deterministic.
+
+**C.8** = B.10 (overlay wirer seeds no progress value) — already listed.
+
 ## Done when
 
 ```
