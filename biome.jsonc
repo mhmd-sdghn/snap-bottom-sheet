@@ -1,0 +1,49 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.5.12/schema.json",
+  "vcs": { "enabled": true, "clientKind": "git", "useIgnoreFile": true },
+  "files": {
+    "includes": [
+      "**",
+      "!**/dist",
+      "!**/.vitepress/cache",
+      "!**/.vitepress/dist",
+      "!**/graphify-out"
+    ]
+  },
+  "overrides": [
+    {
+      // Legacy 0.x code: rules it trips are downgraded to warnings instead of
+      // rewriting it. Task 04 replaces this code — delete this override then.
+      "includes": ["packages/sheet/src/**"],
+      "linter": {
+        "rules": {
+          "a11y": {
+            "noStaticElementInteractions": "warn",
+            "useKeyWithClickEvents": "warn"
+          },
+          "suspicious": { "useIterableCallbackReturn": "warn" }
+        }
+      }
+    }
+  ],
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "indentWidth": 2,
+    "lineWidth": 80,
+    "lineEnding": "lf"
+  },
+  "javascript": {
+    "formatter": {
+      "semicolons": "always",
+      "trailingCommas": "all",
+      "quoteStyle": "double"
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "preset": "recommended"
+    }
+  }
+}

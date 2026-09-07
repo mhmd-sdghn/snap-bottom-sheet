@@ -11,6 +11,15 @@ node_modules
 dist
 dist-ssr
 *.local
+*.tsbuildinfo
+.next/
+next-env.d.ts
+coverage/
+**/.vitepress/cache/
+**/.vitepress/dist/
+
+# graphify keeps dated backups of the previous curated graph
+graphify-out/20*/
 
 # Editor directories and files
 .vscode/*

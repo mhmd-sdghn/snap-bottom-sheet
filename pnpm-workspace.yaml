@@ -1,0 +1,12 @@
+packages:
+  - packages/*
+  - playgrounds/*
+  - docs
+
+# pnpm 10 spelling of build-script approval (pnpm 11 renamed it to `allowBuilds`).
+# esbuild: Vite. lefthook: postinstall installs the git hooks.
+# @parcel/watcher: VitePress's optional watcher (docs land in task 05).
+onlyBuiltDependencies:
+  - "@parcel/watcher"
+  - esbuild
+  - lefthook

@@ -2,30 +2,38 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+> The **Architecture** section below describes the legacy 0.x engine, which still
+> lives in `packages/sheet/src/`. See [docs/internal/PLAN.md](./docs/internal/PLAN.md)
+> for the 1.0 design that replaces it. Full rewrite of this file is task 07.
+
 ## What this is
 
-`snap-bottom-sheet` — a published React bottom-sheet library (npm registry: `https://npm-repo.rajman.org`). `lib/` is the shipped library; `src/` is a Vite playground app used only for manual testing. There is no test suite — verification is by running `pnpm dev` and dragging the sheet.
+`snap-bottom-sheet` — a published React bottom-sheet library. pnpm monorepo: `packages/sheet/` is the shipped package (source in `packages/sheet/src/`, tests in `packages/sheet/test/`), `playgrounds/react/` is a Vite app for manual testing, `docs/` holds the plan/audit. Automated coverage is a vitest smoke test only — real verification is dragging the sheet in the playground.
 
 ## Commands
 
 ```bash
-pnpm dev                       # Vite dev server, runs src/App.tsx playground
-pnpm build                     # library build -> dist/ (vite.config.lib.ts)
-pnpm lint                      # eslint .
-pnpm prettier                  # prettier . --write
+pnpm build                     # packages/sheet -> dist/ via tsdown (ESM only)
+pnpm dev                       # tsdown --watch
+pnpm --filter playground-react dev    # Vite dev server (build the library first)
+pnpm test                      # vitest run
+pnpm typecheck                 # tsc --noEmit in packages/sheet
+pnpm lint                      # biome check .
+pnpm lint:fix                  # biome check --write .
+pnpm verify:pkg                # publint + attw on the packed tarball
 ```
 
-`prepublishOnly` runs prettier + lint + build. Husky pre-commit runs lint-staged (eslint --fix + prettier on staged files).
+Playgrounds resolve `snap-bottom-sheet` through `exports` to `dist/`, not `src/` — build (or `pnpm dev`) before running one. lefthook pre-commit runs `biome check --write` on staged files.
 
 Peer deps (`react`, `react-dom`, `@react-spring/web`, `@use-gesture/react`) are external in the build — never import them in a way that bundles them.
 
-## Import alias
+## Imports
 
-Library code imports itself via `@lib/*` (→ `lib/`); the playground also has `@/*` (→ `src/`). Aliases are declared in three places that must stay in sync: `vite.config.ts`, `vite.config.lib.ts`, `tsconfig.app.json` + `tsconfig.lib.declarations.json`. `.ts`/`.tsx` extensions are included in import specifiers (`allowImportingTsExtensions`).
+No path aliases. Library code uses relative imports with explicit `.ts`/`.tsx` extensions (`allowImportingTsExtensions`, `moduleResolution: "bundler"`).
 
 ## Architecture
 
-Compound component: `Sheet` = `Sheet` + `.Container` + `.DynamicHeight`, assembled in `lib/index.ts`.
+Compound component: `Sheet` = `Sheet` + `.Container` + `.DynamicHeight`, assembled in `packages/sheet/src/index.ts`.
 
 Responsibility split:
 
@@ -46,7 +54,7 @@ Everything internal works in **pixel y-offset from the top** (0 = fully open, `v
 ### Animation and gestures
 
 - `useAnim` wraps a single `useSpring` on `y` and exposes `animate(y, cb?, { jump })`. Every position change goes through it — don't set transforms directly (`y.set()` is used only for hard clamps in the drag-end handler).
-- `@use-gesture/react` bindings in `SheetContainer` delegate to `lib/events/onDrag{Start,,End}EventHandler.ts`. Handlers are wrapped in `useEffectEvent` so the gesture binding stays stable while reading fresh state.
+- `@use-gesture/react` bindings in `SheetContainer` delegate to `packages/sheet/src/events/onDrag{Start,,End}EventHandler.ts`. Handlers are wrapped in `useEffectEvent` so the gesture binding stays stable while reading fresh state.
 - `onDragEventHandler` — live drag: applies per-snap `drag.up`/`drag.down` locks, and when `scroll: true` only takes over dragging if the content is already scrolled to top.
 - `onDragEndEventHandler` — decides the target snap via `getClosestIndex`, closes the sheet if dragged past `DragOffsetThreshold` (80px) at index 0, and re-applies scroll lock. It calls `onSnap(-1, null)` before `onClose()` when closing by drag.
 - `onDragStartEventHandler` — blurs a focused input inside the sheet (mobile ghost-caret workaround).
@@ -72,9 +80,9 @@ Exported convenience hook: prepends the dynamic snap point (optionally with `scr
 ## Conventions
 
 - Default exports for components and hooks; hook files named `useX.ts`, one hook per file.
-- All shared types live in `lib/types.ts`; magic values in `lib/constants.ts`.
+- All shared types live in `packages/sheet/src/types.ts`; magic values in `packages/sheet/src/constants.ts`.
 - `useIsomorphicLayoutEffect` from `@react-spring/web` rather than `useLayoutEffect` in library code that can run during SSR.
-- New public exports must be added to `lib/index.ts` — `dist` types are rolled up from it by `vite-plugin-dts`.
+- New public exports must be added to `packages/sheet/src/index.ts` — it is the single tsdown entry, and `dist/index.d.ts` is generated from it.
 
 ## graphify
 
