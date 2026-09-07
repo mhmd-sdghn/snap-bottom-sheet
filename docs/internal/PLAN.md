@@ -139,6 +139,8 @@ Semantics:
 - Dismiss by drag / overlay / Escape: the controller closes itself, then calls `onOpenChange(false)`. A controlled React parent that refuses will re-open on the next render (one-frame bounce) — the documented way to veto is `dismissible: false`.
 - `update({ snapPoints })` keeps `snapIndex` if still valid, else clamps; if the active snap's y changed (new points, measurement, resize) it animates there (spring), except on view-height change during a drag → immediate.
 - The controller writes base layout styles inline on `content` **once** at attach (position fixed/absolute, inset, height, flex column, box-sizing, `touch-action: none`, `overscroll-behavior: none`), so consumers who set inline styles afterwards win. Dynamic writes each frame: `transform`, `--snap-sheet-y`, `--snap-sheet-progress` (on `content` and on `container`'s wrapper so the overlay can read it); at rest: `padding-bottom` / `--snap-sheet-offset`, `data-*`.
+- `getState()` returns the **same object reference until the next state change** (replace the object on change, never mutate it) — `useSyncExternalStore` depends on this.
+- Callbacks (`onOpenChange`, `onSnapIndexChange`, …) fire **after** the controller's own state is updated, and re-entrant calls from inside a callback are supported — e.g. the React layer calls `open()` from within `onOpenChange(false)` to bounce a controlled veto.
 - Vanilla usage: consumer renders markup, calls `createSheet`, calls `open()`. No CSS file required; look-and-feel (background, radius, shadow) is the consumer's CSS.
 
 ### 2.3 React API — `snap-bottom-sheet/react`
