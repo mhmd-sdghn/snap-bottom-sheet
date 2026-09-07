@@ -27,13 +27,15 @@ Delete the legacy engine: `src/components/**`, `src/hooks/**`, `src/events/**`, 
 
 ## Contract
 
-Implement PLAN §2.2 exactly (`SheetElements`, `SheetOptions`, `SheetState`, `SheetController`, `createSheet`). Additional required behaviour:
+Implement PLAN §2.2 exactly (`SheetElements`, `SheetOptions`, `SheetState`, `SheetController` **including `setElements`**, `createSheet`). Additional required behaviour:
 
 **Attach (`createSheet`)**
 - Throws `TypeError` if `elements.content` is missing. Everything else optional.
 - Writes base styles on `content` once: `position: fixed|absolute` (absolute when `container` is given), `top/left/right: 0`, `height: 100dvh` (container → `100%`), `display: flex`, `flex-direction: column`, `box-sizing: border-box`, `touch-action: none`, `overscroll-behavior: none`, `transform: translate3d(0, <viewHeight>px, 0)`, `data-state="closed"`, `role="dialog"`, `aria-modal` (when modal), `aria-labelledby/-describedby` from options, `tabindex="-1"` if `content` has none.
 - `overlay`: `data-state`, `aria-hidden="true"`, click → `close()` when `dismissible`. `body`: base `min-height: 0`, `overscroll-behavior: contain`; per active snap `overflow-y: auto; flex: 1 1 auto` when `scroll`, else `overflow: hidden; flex: 0 0 auto`. `handle`: `aria-label="Resize sheet"` if none, keyboard handlers.
-- Observers: `observeHeight(header)`, `observeHeight(content-inner)` for `"content"` — content-inner = the first element child of `content` if it has exactly one, else `content` itself (document this; React wraps children in one div), `observeViewHeight(container)`. Resolve snap points on every change; if the active snap's y changed → `snapTo(current, { immediate: dragging || viewHeightChanged })`.
+- Observers: `observeHeight(header)`, `observeHeight(inner)` for `"content"` where `inner = content.querySelector(":scope > [data-snap-sheet-inner]") ?? (content.children.length === 1 ? content.firstElementChild : content)` (PLAN §2.2 contract), `observeViewHeight(container)`.
+- `setElements(partial)`: for each key present, detach whatever was wired to the old element (observer, listeners, styles/attrs we set), wire the new one (or nothing for `null`), re-resolve snap points; `content` and `container` changes throw `TypeError` (recreate instead). Spring position is untouched.
+- Post-`destroy()` calls: every method is a no-op; `open/close/snapTo` resolve immediately; `destroy()` itself idempotent. Resolve snap points on every change; if the active snap's y changed → `snapTo(current, { immediate: dragging || viewHeightChanged })`.
 - Gesture: `attachDrag(content, …, { filter })` with the filter rejecting targets inside `[data-snap-sheet-no-drag]`, `<select>`, and while `document.getSelection()?.type === "Range"`. Implement PLAN §3.4 rules 1–4 using `project`/`decideRelease`/`closest` from `core/snap.ts`. Blur a focused input/textarea inside `content` on drag start. Live drag: `spring.set(y, { immediate: true })`.
 - Release: `decideRelease` → `close()` or `snapTo(snap.index)` with `velocity: vy` passed to the spring. `onDragEnd(targetIndex | -1)` fires before the animation starts.
 - `snapTo(i)`: clamps to valid indices (warnOnce when out of range), updates `snapIndex`, fires `onSnapIndexChange` **only if the index changed**, animates, applies body overflow + padding-bottom + `data-snap-index` at rest, then resolves.
@@ -60,6 +62,7 @@ Implement PLAN §2.2 exactly (`SheetElements`, `SheetOptions`, `SheetState`, `Sh
 9. Reduced motion (`matchMedia` matches) → `open()` resolves synchronously-ish (no rAF frames needed).
 10. `import "../src/index.ts"` in a `// @vitest-environment node` test does not throw (SSR safety).
 11. `padding-bottom` equals the active y at rest, and Body has `overflow-y: auto` only at `scroll: true` snaps (P0-8).
+12. `setElements({ header: el })` after attach starts measuring it (a later `"header"` snap resolves to its height); `setElements({ header: null })` stops; `setElements({ content: other })` throws. After `destroy()`, `open()` resolves and changes nothing; second `destroy()` is a no-op.
 
 ## Done when
 

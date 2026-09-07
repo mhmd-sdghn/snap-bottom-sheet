@@ -30,7 +30,7 @@ Until task 04 lands, `import { createSheet } from "../core/sheet.ts"` will not r
 **Root `<Sheet>`** (props: PLAN §2.3 "Root")
 - `open`/`defaultOpen`/`onOpenChange` and `activeSnapIndex`/`defaultSnapIndex`/`onSnapIndexChange` via `useControllableState`.
 - `present = open || closingAnimationRunning`. Children render only while `present` (so the close animation plays). `onAnimationEnd(false)` from the controller → `present = false`.
-- Parts register DOM nodes via context: `register("content", el)` etc. from callback refs.
+- Parts register DOM nodes via context: `register("content", el)` etc. from callback refs. When a part registers/unregisters **after** the controller exists (conditional Header, Overlay toggled by `modal`, Body swapped) → `controller.setElements({ [part]: el })`; a `content` or `container` identity change → destroy + recreate (documented, rare).
 - `useIsomorphicLayoutEffect` keyed on `present`: when `present` becomes true and `content` is registered → `createSheet(elements, options)`; store in a ref; `open` true → `controller.open()`. On `present` false or unmount → `controller.destroy()`.
 - Options passed to the controller: `snapPoints, defaultSnapIndex: activeSnapIndex ?? defaultSnapIndex, modal, dismissible, reducedMotion, skipInitialAnimation, labelledBy: titleId, describedBy: descriptionId`, and callbacks that route into the controllable setters: `onOpenChange: (o) => setOpen(o)`, `onSnapIndexChange: (i, p) => setSnapIndex(i)` + user's `onSnapIndexChange(i, p)`, `onDragStart/onDragEnd/onAnimationEnd` pass-through (latest via refs — no stale closures).
 - Prop → controller sync effects (skip when equal to `controller.getState()`): `open` → `open()/close()`; `activeSnapIndex` → `snapTo()`; `snapPoints`/`modal`/`dismissible`/`reducedMotion` → `update({...})`. `snapPoints` compared by shallow JSON-equality to avoid re-resolving on every render when the consumer passes a literal array.
@@ -56,7 +56,8 @@ Until task 04 lands, `import { createSheet } from "../core/sheet.ts"` will not r
 7. `ref.snapTo(1)` delegates; before mount it resolves without throwing.
 8. Parts merge `className`/`style` and forward refs; Handle/Close are `<button type="button">`; Close click → `onOpenChange(false)`.
 9. Portal `container` prop → children portalled into it and passed as `elements.container`.
-10. Unmount → `destroy()` once.
+10. Unmount → `destroy()` once (strict-mode double effects tolerated: core treats post-destroy calls as no-ops).
+12. A `Sheet.Header` that mounts after the controller exists → `setElements({ header: node })`; unmounting it → `setElements({ header: null })`.
 11. SSR: `renderToString(<Sheet open><Sheet.Portal><Sheet.Content>x</Sheet.Content></Sheet.Portal></Sheet>)` in node env → does not throw, output contains no `data-state` (portal returned null).
 
 ## Done when

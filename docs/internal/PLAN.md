@@ -119,9 +119,13 @@ export interface SheetController {
   close(): Promise<void>;
   snapTo(index: number, opts?: { immediate?: boolean }): Promise<void>;
   update(options: Partial<SheetOptions>): void;   // re-resolves snap points; re-snaps if the active value changed
+  setElements(elements: Partial<SheetElements>): void; // (re)register optional parts after attach (null removes); rewires
+                                                  // observers/listeners for the changed parts only; position is kept
   getState(): SheetState;
   subscribe(fn: (state: SheetState) => void): () => void;
-  destroy(): void;                                // detach gesture + observers, restore scroll lock / inert / focus / styles
+  destroy(): void;                                // detach gesture + observers, restore scroll lock / inert / focus / styles.
+                                                  // Idempotent. After destroy every method is a no-op; promise-returning
+                                                  // methods resolve immediately (React strict mode double-invokes effects).
 }
 
 export function createSheet(elements: SheetElements, options?: SheetOptions): SheetController;
@@ -130,7 +134,8 @@ export type { SnapPoint, SnapPointConfig, SnapValue } from "./core/snap";
 ```
 
 Semantics:
-- `createSheet` starts **closed** (content translated to `viewHeight`, `data-state="closed"`). `open()` animates to the active snap.
+- `createSheet` starts **closed** (content translated to `viewHeight`, `data-state="closed"`). `open()` animates to the active snap. `elements.content` is required and fixed for the controller's lifetime; every other element may arrive later via `setElements`.
+- **Content-inner measurement contract:** `"content"` measures `content.querySelector(":scope > [data-snap-sheet-inner]")`, falling back to `content.firstElementChild` when `content` has exactly one element child, else `content` itself. React's `Sheet.Content` always renders the attributed inner div; vanilla consumers add the attribute or keep a single wrapper child.
 - Dismiss by drag / overlay / Escape: the controller closes itself, then calls `onOpenChange(false)`. A controlled React parent that refuses will re-open on the next render (one-frame bounce) — the documented way to veto is `dismissible: false`.
 - `update({ snapPoints })` keeps `snapIndex` if still valid, else clamps; if the active snap's y changed (new points, measurement, resize) it animates there (spring), except on view-height change during a drag → immediate.
 - The controller writes base layout styles inline on `content` **once** at attach (position fixed/absolute, inset, height, flex column, box-sizing, `touch-action: none`, `overscroll-behavior: none`), so consumers who set inline styles afterwards win. Dynamic writes each frame: `transform`, `--snap-sheet-y`, `--snap-sheet-progress` (on `content` and on `container`'s wrapper so the overlay can read it); at rest: `padding-bottom` / `--snap-sheet-offset`, `data-*`.
