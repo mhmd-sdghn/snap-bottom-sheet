@@ -553,7 +553,7 @@
       "source_file": "packages/gesture/package.json",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "packages_gesture_package",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_json",
       "community": 3,
       "community_name": "Compound Component and Types",
       "norm_label": "package.json"
@@ -564,7 +564,7 @@
       "source_file": "packages/gesture/package.json",
       "source_location": "L2",
       "_origin": "ast",
-      "id": "packages_gesture_package_name",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_name",
       "community": 3,
       "community_name": "Compound Component and Types",
       "norm_label": "name"
@@ -575,7 +575,7 @@
       "source_file": "packages/gesture/package.json",
       "source_location": "L3",
       "_origin": "ast",
-      "id": "packages_gesture_package_version",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_version",
       "community": 3,
       "community_name": "Compound Component and Types",
       "norm_label": "version"
@@ -586,7 +586,7 @@
       "source_file": "packages/gesture/package.json",
       "source_location": "L4",
       "_origin": "ast",
-      "id": "packages_gesture_package_private",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_private",
       "community": 3,
       "community_name": "Compound Component and Types",
       "norm_label": "private"
@@ -597,7 +597,7 @@
       "source_file": "packages/gesture/package.json",
       "source_location": "L5",
       "_origin": "ast",
-      "id": "packages_gesture_package_description",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_description",
       "community": 3,
       "community_name": "Compound Component and Types",
       "norm_label": "description"
@@ -608,7 +608,7 @@
       "source_file": "packages/gesture/package.json",
       "source_location": "L6",
       "_origin": "ast",
-      "id": "packages_gesture_package_type",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_type",
       "community": 3,
       "community_name": "Compound Component and Types",
       "norm_label": "type"
@@ -619,7 +619,7 @@
       "source_file": "packages/gesture/package.json",
       "source_location": "L7",
       "_origin": "ast",
-      "id": "packages_gesture_package_license",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_license",
       "community": 3,
       "community_name": "Compound Component and Types",
       "norm_label": "license"
@@ -630,7 +630,7 @@
       "source_file": "packages/gesture/package.json",
       "source_location": "L8",
       "_origin": "ast",
-      "id": "packages_gesture_package_author",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_author",
       "community": 3,
       "community_name": "Compound Component and Types",
       "norm_label": "author"
@@ -641,7 +641,7 @@
       "source_file": "packages/gesture/package.json",
       "source_location": "L9",
       "_origin": "ast",
-      "id": "packages_gesture_package_repository",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_repository",
       "community": 3,
       "community_name": "Compound Component and Types",
       "norm_label": "repository"
@@ -652,7 +652,7 @@
       "source_file": "packages/gesture/package.json",
       "source_location": "L10",
       "_origin": "ast",
-      "id": "packages_gesture_package_repository_type",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_repository_type",
       "community": 3,
       "community_name": "Compound Component and Types",
       "norm_label": "type"
@@ -663,7 +663,7 @@
       "source_file": "packages/gesture/package.json",
       "source_location": "L11",
       "_origin": "ast",
-      "id": "packages_gesture_package_repository_url",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_repository_url",
       "community": 3,
       "community_name": "Compound Component and Types",
       "norm_label": "url"
@@ -674,7 +674,7 @@
       "source_file": "packages/gesture/package.json",
       "source_location": "L12",
       "_origin": "ast",
-      "id": "packages_gesture_package_repository_directory",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_repository_directory",
       "community": 3,
       "community_name": "Compound Component and Types",
       "norm_label": "directory"
@@ -685,7 +685,7 @@
       "source_file": "packages/gesture/package.json",
       "source_location": "L14",
       "_origin": "ast",
-      "id": "packages_gesture_package_sideeffects",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_sideeffects",
       "community": 3,
       "community_name": "Compound Component and Types",
       "norm_label": "sideeffects"
@@ -696,7 +696,7 @@
       "source_file": "packages/gesture/package.json",
       "source_location": "L15",
       "_origin": "ast",
-      "id": "packages_gesture_package_exports",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_exports",
       "community": 3,
       "community_name": "Compound Component and Types",
       "norm_label": "exports"
@@ -707,7 +707,7 @@
       "source_file": "packages/gesture/package.json",
       "source_location": "L17",
       "_origin": "ast",
-      "id": "packages_gesture_package_exports_package_json",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_exports_package_json",
       "community": 3,
       "community_name": "Compound Component and Types",
       "norm_label": "./package.json"
@@ -718,7 +718,7 @@
       "source_file": "packages/gesture/package.json",
       "source_location": "L19",
       "_origin": "ast",
-      "id": "packages_gesture_package_scripts",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_scripts",
       "community": 3,
       "community_name": "Compound Component and Types",
       "norm_label": "scripts"
@@ -729,7 +729,7 @@
       "source_file": "packages/gesture/package.json",
       "source_location": "L20",
       "_origin": "ast",
-      "id": "packages_gesture_package_scripts_test",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_scripts_test",
       "community": 3,
       "community_name": "Compound Component and Types",
       "norm_label": "test"
@@ -740,7 +740,7 @@
       "source_file": "packages/gesture/package.json",
       "source_location": "L21",
       "_origin": "ast",
-      "id": "packages_gesture_package_scripts_test_watch",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_scripts_test_watch",
       "community": 3,
       "community_name": "Compound Component and Types",
       "norm_label": "test:watch"
@@ -751,7 +751,7 @@
       "source_file": "packages/gesture/package.json",
       "source_location": "L22",
       "_origin": "ast",
-      "id": "packages_gesture_package_scripts_typecheck",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_scripts_typecheck",
       "community": 3,
       "community_name": "Compound Component and Types",
       "norm_label": "typecheck"
@@ -762,7 +762,7 @@
       "source_file": "packages/gesture/package.json",
       "source_location": "L24",
       "_origin": "ast",
-      "id": "packages_gesture_package_devdependencies",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_devdependencies",
       "community": 3,
       "community_name": "Compound Component and Types",
       "norm_label": "devdependencies"
@@ -773,7 +773,7 @@
       "source_file": "packages/gesture/package.json",
       "source_location": "L25",
       "_origin": "ast",
-      "id": "packages_gesture_package_devdependencies_types_node",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_devdependencies_types_node",
       "community": 3,
       "community_name": "Compound Component and Types",
       "norm_label": "@types/node"
@@ -795,7 +795,7 @@
       "source_file": "packages/gesture/package.json",
       "source_location": "L26",
       "_origin": "ast",
-      "id": "packages_gesture_package_devdependencies_jsdom",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_devdependencies_jsdom",
       "community": 3,
       "community_name": "Compound Component and Types",
       "norm_label": "jsdom"
@@ -817,7 +817,7 @@
       "source_file": "packages/gesture/package.json",
       "source_location": "L27",
       "_origin": "ast",
-      "id": "packages_gesture_package_devdependencies_typescript",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_devdependencies_typescript",
       "community": 3,
       "community_name": "Compound Component and Types",
       "norm_label": "typescript"
@@ -839,7 +839,7 @@
       "source_file": "packages/gesture/package.json",
       "source_location": "L28",
       "_origin": "ast",
-      "id": "packages_gesture_package_devdependencies_vitest",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_devdependencies_vitest",
       "community": 3,
       "community_name": "Compound Component and Types",
       "norm_label": "vitest"
@@ -1103,7 +1103,7 @@
       "source_file": "packages/gesture/tsconfig.json",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "packages_gesture_tsconfig",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_json",
       "community": 5,
       "community_name": "App TypeScript Config",
       "norm_label": "tsconfig.json"
@@ -1114,7 +1114,7 @@
       "source_file": "packages/gesture/tsconfig.json",
       "source_location": "L2",
       "_origin": "ast",
-      "id": "packages_gesture_tsconfig_compileroptions",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions",
       "community": 5,
       "community_name": "App TypeScript Config",
       "norm_label": "compileroptions"
@@ -1125,7 +1125,7 @@
       "source_file": "packages/gesture/tsconfig.json",
       "source_location": "L3",
       "_origin": "ast",
-      "id": "packages_gesture_tsconfig_compileroptions_target",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_target",
       "community": 5,
       "community_name": "App TypeScript Config",
       "norm_label": "target"
@@ -1136,7 +1136,7 @@
       "source_file": "packages/gesture/tsconfig.json",
       "source_location": "L4",
       "_origin": "ast",
-      "id": "packages_gesture_tsconfig_compileroptions_lib",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_lib",
       "community": 5,
       "community_name": "App TypeScript Config",
       "norm_label": "lib"
@@ -1180,7 +1180,7 @@
       "source_file": "packages/gesture/tsconfig.json",
       "source_location": "L5",
       "_origin": "ast",
-      "id": "packages_gesture_tsconfig_compileroptions_module",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_module",
       "community": 5,
       "community_name": "App TypeScript Config",
       "norm_label": "module"
@@ -1191,7 +1191,7 @@
       "source_file": "packages/gesture/tsconfig.json",
       "source_location": "L6",
       "_origin": "ast",
-      "id": "packages_gesture_tsconfig_compileroptions_moduleresolution",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_moduleresolution",
       "community": 5,
       "community_name": "App TypeScript Config",
       "norm_label": "moduleresolution"
@@ -1202,7 +1202,7 @@
       "source_file": "packages/gesture/tsconfig.json",
       "source_location": "L7",
       "_origin": "ast",
-      "id": "packages_gesture_tsconfig_compileroptions_strict",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_strict",
       "community": 5,
       "community_name": "App TypeScript Config",
       "norm_label": "strict"
@@ -1213,7 +1213,7 @@
       "source_file": "packages/gesture/tsconfig.json",
       "source_location": "L8",
       "_origin": "ast",
-      "id": "packages_gesture_tsconfig_compileroptions_nouncheckedindexedaccess",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_nouncheckedindexedaccess",
       "community": 5,
       "community_name": "App TypeScript Config",
       "norm_label": "nouncheckedindexedaccess"
@@ -1224,7 +1224,7 @@
       "source_file": "packages/gesture/tsconfig.json",
       "source_location": "L9",
       "_origin": "ast",
-      "id": "packages_gesture_tsconfig_compileroptions_verbatimmodulesyntax",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_verbatimmodulesyntax",
       "community": 5,
       "community_name": "App TypeScript Config",
       "norm_label": "verbatimmodulesyntax"
@@ -1235,7 +1235,7 @@
       "source_file": "packages/gesture/tsconfig.json",
       "source_location": "L10",
       "_origin": "ast",
-      "id": "packages_gesture_tsconfig_compileroptions_isolatedmodules",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_isolatedmodules",
       "community": 5,
       "community_name": "App TypeScript Config",
       "norm_label": "isolatedmodules"
@@ -1246,7 +1246,7 @@
       "source_file": "packages/gesture/tsconfig.json",
       "source_location": "L11",
       "_origin": "ast",
-      "id": "packages_gesture_tsconfig_compileroptions_skiplibcheck",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_skiplibcheck",
       "community": 5,
       "community_name": "App TypeScript Config",
       "norm_label": "skiplibcheck"
@@ -1257,7 +1257,7 @@
       "source_file": "packages/gesture/tsconfig.json",
       "source_location": "L12",
       "_origin": "ast",
-      "id": "packages_gesture_tsconfig_compileroptions_esmoduleinterop",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_esmoduleinterop",
       "community": 5,
       "community_name": "App TypeScript Config",
       "norm_label": "esmoduleinterop"
@@ -1268,7 +1268,7 @@
       "source_file": "packages/gesture/tsconfig.json",
       "source_location": "L13",
       "_origin": "ast",
-      "id": "packages_gesture_tsconfig_compileroptions_forceconsistentcasinginfilenames",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_forceconsistentcasinginfilenames",
       "community": 5,
       "community_name": "App TypeScript Config",
       "norm_label": "forceconsistentcasinginfilenames"
@@ -1279,7 +1279,7 @@
       "source_file": "packages/gesture/tsconfig.json",
       "source_location": "L14",
       "_origin": "ast",
-      "id": "packages_gesture_tsconfig_compileroptions_allowimportingtsextensions",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_allowimportingtsextensions",
       "community": 5,
       "community_name": "App TypeScript Config",
       "norm_label": "allowimportingtsextensions"
@@ -1290,7 +1290,7 @@
       "source_file": "packages/gesture/tsconfig.json",
       "source_location": "L15",
       "_origin": "ast",
-      "id": "packages_gesture_tsconfig_compileroptions_noemit",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_noemit",
       "community": 5,
       "community_name": "App TypeScript Config",
       "norm_label": "noemit"
@@ -1301,7 +1301,7 @@
       "source_file": "packages/gesture/tsconfig.json",
       "source_location": "L16",
       "_origin": "ast",
-      "id": "packages_gesture_tsconfig_compileroptions_types",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_types",
       "community": 5,
       "community_name": "App TypeScript Config",
       "norm_label": "types"
@@ -1323,7 +1323,7 @@
       "source_file": "packages/gesture/tsconfig.json",
       "source_location": "L18",
       "_origin": "ast",
-      "id": "packages_gesture_tsconfig_include",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_include",
       "community": 5,
       "community_name": "App TypeScript Config",
       "norm_label": "include"
@@ -3410,6 +3410,644 @@
     {
       "label": "package.json",
       "file_type": "code",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_json",
+      "community": 32,
+      "community_name": "Contracts",
+      "norm_label": "package.json"
+    },
+    {
+      "label": "name",
+      "file_type": "code",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L2",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_name",
+      "community": 32,
+      "community_name": "Contracts",
+      "norm_label": "name"
+    },
+    {
+      "label": "version",
+      "file_type": "code",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_version",
+      "community": 32,
+      "community_name": "Contracts",
+      "norm_label": "version"
+    },
+    {
+      "label": "private",
+      "file_type": "code",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_private",
+      "community": 32,
+      "community_name": "Contracts",
+      "norm_label": "private"
+    },
+    {
+      "label": "type",
+      "file_type": "code",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_type",
+      "community": 32,
+      "community_name": "Contracts",
+      "norm_label": "type"
+    },
+    {
+      "label": "license",
+      "file_type": "code",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_license",
+      "community": 32,
+      "community_name": "Contracts",
+      "norm_label": "license"
+    },
+    {
+      "label": "exports",
+      "file_type": "code",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_exports",
+      "community": 32,
+      "community_name": "Contracts",
+      "norm_label": "exports"
+    },
+    {
+      "label": "scripts",
+      "file_type": "code",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_scripts",
+      "community": 32,
+      "community_name": "Contracts",
+      "norm_label": "scripts"
+    },
+    {
+      "label": "test",
+      "file_type": "code",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_scripts_test",
+      "community": 32,
+      "community_name": "Contracts",
+      "norm_label": "test"
+    },
+    {
+      "label": "test:watch",
+      "file_type": "code",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_scripts_test_watch",
+      "community": 32,
+      "community_name": "Contracts",
+      "norm_label": "test:watch"
+    },
+    {
+      "label": "typecheck",
+      "file_type": "code",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_scripts_typecheck",
+      "community": 32,
+      "community_name": "Contracts",
+      "norm_label": "typecheck"
+    },
+    {
+      "label": "devDependencies",
+      "file_type": "code",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_devdependencies",
+      "community": 32,
+      "community_name": "Contracts",
+      "norm_label": "devdependencies"
+    },
+    {
+      "label": "@types/node",
+      "file_type": "code",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_devdependencies_types_node",
+      "community": 32,
+      "community_name": "Contracts",
+      "norm_label": "@types/node"
+    },
+    {
+      "label": "@types/node",
+      "file_type": "concept",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "packages_spring_package_json_types_node",
+      "community": 32,
+      "community_name": "Contracts",
+      "norm_label": "@types/node"
+    },
+    {
+      "label": "typescript",
+      "file_type": "code",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_devdependencies_typescript",
+      "community": 32,
+      "community_name": "Contracts",
+      "norm_label": "typescript"
+    },
+    {
+      "label": "typescript",
+      "file_type": "concept",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "packages_spring_package_json_typescript",
+      "community": 32,
+      "community_name": "Contracts",
+      "norm_label": "typescript"
+    },
+    {
+      "label": "vitest",
+      "file_type": "code",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L21",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_devdependencies_vitest",
+      "community": 32,
+      "community_name": "Contracts",
+      "norm_label": "vitest"
+    },
+    {
+      "label": "vitest",
+      "file_type": "concept",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L21",
+      "_origin": "ast",
+      "id": "packages_spring_package_json_vitest",
+      "community": 32,
+      "community_name": "Contracts",
+      "norm_label": "vitest"
+    },
+    {
+      "label": "index.ts",
+      "file_type": "code",
+      "source_file": "packages/spring/src/index.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "packages_spring_src_index",
+      "community": 35,
+      "community_name": "Task 01 \u2014 `@snap-bottom-sheet/spring`",
+      "norm_label": "index.ts"
+    },
+    {
+      "label": "SpringConfig",
+      "file_type": "code",
+      "source_file": "packages/spring/src/index.ts",
+      "source_location": "L2",
+      "_origin": "ast",
+      "id": "packages_spring_src_index_springconfig",
+      "community": 35,
+      "community_name": "Task 01 \u2014 `@snap-bottom-sheet/spring`",
+      "norm_label": "springconfig"
+    },
+    {
+      "label": "SetOptions",
+      "file_type": "code",
+      "source_file": "packages/spring/src/index.ts",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "packages_spring_src_index_setoptions",
+      "community": 35,
+      "community_name": "Task 01 \u2014 `@snap-bottom-sheet/spring`",
+      "norm_label": "setoptions"
+    },
+    {
+      "label": "Spring",
+      "file_type": "code",
+      "source_file": "packages/spring/src/index.ts",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "packages_spring_src_index_spring",
+      "community": 35,
+      "community_name": "Task 01 \u2014 `@snap-bottom-sheet/spring`",
+      "norm_label": "spring"
+    },
+    {
+      "label": ".get()",
+      "file_type": "code",
+      "source_file": "packages/spring/src/index.ts",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "packages_spring_src_index_spring_get",
+      "community": 35,
+      "community_name": "Task 01 \u2014 `@snap-bottom-sheet/spring`",
+      "norm_label": ".get()"
+    },
+    {
+      "label": ".getVelocity()",
+      "file_type": "code",
+      "source_file": "packages/spring/src/index.ts",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "packages_spring_src_index_spring_getvelocity",
+      "community": 35,
+      "community_name": "Task 01 \u2014 `@snap-bottom-sheet/spring`",
+      "norm_label": ".getvelocity()"
+    },
+    {
+      "label": ".set()",
+      "file_type": "code",
+      "source_file": "packages/spring/src/index.ts",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "packages_spring_src_index_spring_set",
+      "community": 35,
+      "community_name": "Task 01 \u2014 `@snap-bottom-sheet/spring`",
+      "norm_label": ".set()"
+    },
+    {
+      "label": ".stop()",
+      "file_type": "code",
+      "source_file": "packages/spring/src/index.ts",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "packages_spring_src_index_spring_stop",
+      "community": 35,
+      "community_name": "Task 01 \u2014 `@snap-bottom-sheet/spring`",
+      "norm_label": ".stop()"
+    },
+    {
+      "label": ".subscribe()",
+      "file_type": "code",
+      "source_file": "packages/spring/src/index.ts",
+      "source_location": "L21",
+      "_origin": "ast",
+      "id": "packages_spring_src_index_spring_subscribe",
+      "community": 35,
+      "community_name": "Task 01 \u2014 `@snap-bottom-sheet/spring`",
+      "norm_label": ".subscribe()"
+    },
+    {
+      "label": "now()",
+      "file_type": "code",
+      "source_file": "packages/spring/src/index.ts",
+      "source_location": "L32",
+      "_origin": "ast",
+      "id": "packages_spring_src_index_now",
+      "community": 35,
+      "community_name": "Task 01 \u2014 `@snap-bottom-sheet/spring`",
+      "norm_label": "now()"
+    },
+    {
+      "label": "hasRaf()",
+      "file_type": "code",
+      "source_file": "packages/spring/src/index.ts",
+      "source_location": "L34",
+      "_origin": "ast",
+      "id": "packages_spring_src_index_hasraf",
+      "community": 35,
+      "community_name": "Task 01 \u2014 `@snap-bottom-sheet/spring`",
+      "norm_label": "hasraf()"
+    },
+    {
+      "label": "createSpring()",
+      "file_type": "code",
+      "source_file": "packages/spring/src/index.ts",
+      "source_location": "L36",
+      "_origin": "ast",
+      "id": "packages_spring_src_index_createspring",
+      "community": 35,
+      "community_name": "Task 01 \u2014 `@snap-bottom-sheet/spring`",
+      "norm_label": "createspring()"
+    },
+    {
+      "label": "spring.test.ts",
+      "file_type": "code",
+      "source_file": "packages/spring/test/spring.test.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "packages_spring_test_spring_test",
+      "community": 35,
+      "community_name": "Task 01 \u2014 `@snap-bottom-sheet/spring`",
+      "norm_label": "spring.test.ts"
+    },
+    {
+      "label": "record()",
+      "file_type": "code",
+      "source_file": "packages/spring/test/spring.test.ts",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "packages_spring_test_spring_test_record",
+      "community": 35,
+      "community_name": "Task 01 \u2014 `@snap-bottom-sheet/spring`",
+      "norm_label": "record()"
+    },
+    {
+      "label": "tsconfig.json",
+      "file_type": "code",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_json",
+      "community": 27,
+      "community_name": "Playground Vite Config",
+      "norm_label": "tsconfig.json"
+    },
+    {
+      "label": "compilerOptions",
+      "file_type": "code",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L2",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions",
+      "community": 27,
+      "community_name": "Playground Vite Config",
+      "norm_label": "compileroptions"
+    },
+    {
+      "label": "target",
+      "file_type": "code",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L3",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_target",
+      "community": 27,
+      "community_name": "Playground Vite Config",
+      "norm_label": "target"
+    },
+    {
+      "label": "lib",
+      "file_type": "code",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_lib",
+      "community": 27,
+      "community_name": "Playground Vite Config",
+      "norm_label": "lib"
+    },
+    {
+      "label": "ES2022",
+      "file_type": "concept",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "packages_spring_tsconfig_json_ref_es2022",
+      "community": 27,
+      "community_name": "Playground Vite Config",
+      "norm_label": "es2022"
+    },
+    {
+      "label": "DOM",
+      "file_type": "concept",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "packages_spring_tsconfig_json_ref_dom",
+      "community": 27,
+      "community_name": "Playground Vite Config",
+      "norm_label": "dom"
+    },
+    {
+      "label": "DOM.Iterable",
+      "file_type": "concept",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L4",
+      "_origin": "ast",
+      "id": "packages_spring_tsconfig_json_ref_dom_iterable",
+      "community": 27,
+      "community_name": "Playground Vite Config",
+      "norm_label": "dom.iterable"
+    },
+    {
+      "label": "module",
+      "file_type": "code",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L5",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_module",
+      "community": 27,
+      "community_name": "Playground Vite Config",
+      "norm_label": "module"
+    },
+    {
+      "label": "moduleResolution",
+      "file_type": "code",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_moduleresolution",
+      "community": 27,
+      "community_name": "Playground Vite Config",
+      "norm_label": "moduleresolution"
+    },
+    {
+      "label": "strict",
+      "file_type": "code",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_strict",
+      "community": 27,
+      "community_name": "Playground Vite Config",
+      "norm_label": "strict"
+    },
+    {
+      "label": "noUncheckedIndexedAccess",
+      "file_type": "code",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_nouncheckedindexedaccess",
+      "community": 27,
+      "community_name": "Playground Vite Config",
+      "norm_label": "nouncheckedindexedaccess"
+    },
+    {
+      "label": "verbatimModuleSyntax",
+      "file_type": "code",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L9",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_verbatimmodulesyntax",
+      "community": 27,
+      "community_name": "Playground Vite Config",
+      "norm_label": "verbatimmodulesyntax"
+    },
+    {
+      "label": "isolatedModules",
+      "file_type": "code",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L10",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_isolatedmodules",
+      "community": 27,
+      "community_name": "Playground Vite Config",
+      "norm_label": "isolatedmodules"
+    },
+    {
+      "label": "skipLibCheck",
+      "file_type": "code",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_skiplibcheck",
+      "community": 27,
+      "community_name": "Playground Vite Config",
+      "norm_label": "skiplibcheck"
+    },
+    {
+      "label": "esModuleInterop",
+      "file_type": "code",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_esmoduleinterop",
+      "community": 27,
+      "community_name": "Playground Vite Config",
+      "norm_label": "esmoduleinterop"
+    },
+    {
+      "label": "forceConsistentCasingInFileNames",
+      "file_type": "code",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_forceconsistentcasinginfilenames",
+      "community": 27,
+      "community_name": "Playground Vite Config",
+      "norm_label": "forceconsistentcasinginfilenames"
+    },
+    {
+      "label": "allowImportingTsExtensions",
+      "file_type": "code",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L14",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_allowimportingtsextensions",
+      "community": 27,
+      "community_name": "Playground Vite Config",
+      "norm_label": "allowimportingtsextensions"
+    },
+    {
+      "label": "jsx",
+      "file_type": "code",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L15",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_jsx",
+      "community": 27,
+      "community_name": "Playground Vite Config",
+      "norm_label": "jsx"
+    },
+    {
+      "label": "noEmit",
+      "file_type": "code",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L16",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_noemit",
+      "community": 27,
+      "community_name": "Playground Vite Config",
+      "norm_label": "noemit"
+    },
+    {
+      "label": "types",
+      "file_type": "code",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_types",
+      "community": 27,
+      "community_name": "Playground Vite Config",
+      "norm_label": "types"
+    },
+    {
+      "label": "node",
+      "file_type": "concept",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L17",
+      "_origin": "ast",
+      "id": "packages_spring_tsconfig_json_ref_node",
+      "community": 27,
+      "community_name": "Playground Vite Config",
+      "norm_label": "node"
+    },
+    {
+      "label": "include",
+      "file_type": "code",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_include",
+      "community": 27,
+      "community_name": "Playground Vite Config",
+      "norm_label": "include"
+    },
+    {
+      "label": "src",
+      "file_type": "concept",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "packages_spring_tsconfig_json_ref_src",
+      "community": 27,
+      "community_name": "Playground Vite Config",
+      "norm_label": "src"
+    },
+    {
+      "label": "test",
+      "file_type": "concept",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "packages_spring_tsconfig_json_ref_test",
+      "community": 27,
+      "community_name": "Playground Vite Config",
+      "norm_label": "test"
+    },
+    {
+      "label": "vitest.config.ts",
+      "file_type": "concept",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L19",
+      "_origin": "ast",
+      "id": "packages_spring_tsconfig_json_ref_vitest_config_ts",
+      "community": 27,
+      "community_name": "Playground Vite Config",
+      "norm_label": "vitest.config.ts"
+    },
+    {
+      "label": "vitest.config.ts",
+      "file_type": "code",
+      "source_file": "packages/spring/vitest.config.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "packages_spring_vitest_config",
+      "community": 59,
+      "community_name": "vitest.config.ts",
+      "norm_label": "vitest.config.ts"
+    },
+    {
+      "label": "package.json",
+      "file_type": "code",
       "source_file": "playgrounds/react/package.json",
       "source_location": "L1",
       "_origin": "ast",
@@ -4788,8 +5426,8 @@
       "source_file": "docs/internal/tasks/03-core-pure.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "docs_internal_tasks_03_core_pure",
-      "community": 32,
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_md",
+      "community": 55,
       "community_name": "Contracts",
       "norm_label": "03-core-pure.md"
     },
@@ -4799,8 +5437,8 @@
       "source_file": "docs/internal/tasks/03-core-pure.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "docs_internal_tasks_03_core_pure_task_03_core_pure_modules_snap_math_scroll_lock_measurement_react_state_hooks",
-      "community": 32,
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_task_03_core_pure_modules_snap_math_scroll_lock_measurement_react_state_hooks",
+      "community": 55,
       "community_name": "Contracts",
       "norm_label": "task 03 \u2014 core pure modules (snap math, scroll lock, measurement) + react state hooks"
     },
@@ -4810,8 +5448,8 @@
       "source_file": "docs/internal/tasks/03-core-pure.md",
       "source_location": "L5",
       "_origin": "ast",
-      "id": "docs_internal_tasks_03_core_pure_goal",
-      "community": 32,
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_goal",
+      "community": 55,
       "community_name": "Contracts",
       "norm_label": "goal"
     },
@@ -4821,8 +5459,8 @@
       "source_file": "docs/internal/tasks/03-core-pure.md",
       "source_location": "L9",
       "_origin": "ast",
-      "id": "docs_internal_tasks_03_core_pure_scope",
-      "community": 32,
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_scope",
+      "community": 55,
       "community_name": "Contracts",
       "norm_label": "scope"
     },
@@ -4832,8 +5470,8 @@
       "source_file": "docs/internal/tasks/03-core-pure.md",
       "source_location": "L28",
       "_origin": "ast",
-      "id": "docs_internal_tasks_03_core_pure_contracts",
-      "community": 32,
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_contracts",
+      "community": 55,
       "community_name": "Contracts",
       "norm_label": "contracts"
     },
@@ -4843,8 +5481,8 @@
       "source_file": "docs/internal/tasks/03-core-pure.md",
       "source_location": "L30",
       "_origin": "ast",
-      "id": "docs_internal_tasks_03_core_pure_src_core_env_ts",
-      "community": 32,
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_src_core_env_ts",
+      "community": 55,
       "community_name": "Contracts",
       "norm_label": "`src/core/env.ts`"
     },
@@ -4854,8 +5492,8 @@
       "source_file": "docs/internal/tasks/03-core-pure.md",
       "source_location": "L38",
       "_origin": "ast",
-      "id": "docs_internal_tasks_03_core_pure_src_core_snap_ts_no_dom_no_react",
-      "community": 32,
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_src_core_snap_ts_no_dom_no_react",
+      "community": 55,
       "community_name": "Contracts",
       "norm_label": "`src/core/snap.ts` (no dom, no react)"
     },
@@ -4865,8 +5503,8 @@
       "source_file": "docs/internal/tasks/03-core-pure.md",
       "source_location": "L105",
       "_origin": "ast",
-      "id": "docs_internal_tasks_03_core_pure_src_core_scroll_lock_ts_fixes_p0_6",
-      "community": 32,
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_src_core_scroll_lock_ts_fixes_p0_6",
+      "community": 55,
       "community_name": "Contracts",
       "norm_label": "`src/core/scroll-lock.ts` (fixes p0-6)"
     },
@@ -4876,8 +5514,8 @@
       "source_file": "docs/internal/tasks/03-core-pure.md",
       "source_location": "L115",
       "_origin": "ast",
-      "id": "docs_internal_tasks_03_core_pure_src_core_measure_ts",
-      "community": 32,
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_src_core_measure_ts",
+      "community": 55,
       "community_name": "Contracts",
       "norm_label": "`src/core/measure.ts`"
     },
@@ -4887,8 +5525,8 @@
       "source_file": "docs/internal/tasks/03-core-pure.md",
       "source_location": "L126",
       "_origin": "ast",
-      "id": "docs_internal_tasks_03_core_pure_src_react_use_controllable_state_ts_radix_pattern",
-      "community": 32,
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_src_react_use_controllable_state_ts_radix_pattern",
+      "community": 55,
       "community_name": "Contracts",
       "norm_label": "`src/react/use-controllable-state.ts` (radix pattern)"
     },
@@ -4898,8 +5536,8 @@
       "source_file": "docs/internal/tasks/03-core-pure.md",
       "source_location": "L138",
       "_origin": "ast",
-      "id": "docs_internal_tasks_03_core_pure_src_react_use_isomorphic_layout_effect_ts",
-      "community": 32,
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_src_react_use_isomorphic_layout_effect_ts",
+      "community": 55,
       "community_name": "Contracts",
       "norm_label": "`src/react/use-isomorphic-layout-effect.ts`"
     },
@@ -4909,8 +5547,8 @@
       "source_file": "docs/internal/tasks/03-core-pure.md",
       "source_location": "L142",
       "_origin": "ast",
-      "id": "docs_internal_tasks_03_core_pure_tests_table_driven_where_possible",
-      "community": 32,
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_tests_table_driven_where_possible",
+      "community": 55,
       "community_name": "Contracts",
       "norm_label": "tests (table-driven where possible)"
     },
@@ -4920,8 +5558,8 @@
       "source_file": "docs/internal/tasks/03-core-pure.md",
       "source_location": "L160",
       "_origin": "ast",
-      "id": "docs_internal_tasks_03_core_pure_done_when",
-      "community": 32,
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_done_when",
+      "community": 55,
       "community_name": "Contracts",
       "norm_label": "done when"
     },
@@ -4931,8 +5569,8 @@
       "source_file": "docs/internal/tasks/03-core-pure.md",
       "source_location": "L170",
       "_origin": "ast",
-      "id": "docs_internal_tasks_03_core_pure_report",
-      "community": 32,
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_report",
+      "community": 55,
       "community_name": "Contracts",
       "norm_label": "report"
     },
@@ -4984,7 +5622,7 @@
       "label": "Contract",
       "file_type": "document",
       "source_file": "docs/internal/tasks/04-core-controller.md",
-      "source_location": "L27",
+      "source_location": "L28",
       "_origin": "ast",
       "id": "docs_internal_tasks_04_core_controller_contract",
       "community": 26,
@@ -4995,7 +5633,7 @@
       "label": "Tests (jsdom; stub `ResizeObserver`, `requestAnimationFrame` as in task 01, `matchMedia`)",
       "file_type": "document",
       "source_file": "docs/internal/tasks/04-core-controller.md",
-      "source_location": "L49",
+      "source_location": "L50",
       "_origin": "ast",
       "id": "docs_internal_tasks_04_core_controller_tests_jsdom_stub_resizeobserver_requestanimationframe_as_in_task_01_matchmedia",
       "community": 26,
@@ -5006,7 +5644,7 @@
       "label": "Done when",
       "file_type": "document",
       "source_file": "docs/internal/tasks/04-core-controller.md",
-      "source_location": "L63",
+      "source_location": "L64",
       "_origin": "ast",
       "id": "docs_internal_tasks_04_core_controller_done_when",
       "community": 26,
@@ -5017,7 +5655,7 @@
       "label": "Report",
       "file_type": "document",
       "source_file": "docs/internal/tasks/04-core-controller.md",
-      "source_location": "L77",
+      "source_location": "L78",
       "_origin": "ast",
       "id": "docs_internal_tasks_04_core_controller_report",
       "community": 26,
@@ -5030,9 +5668,9 @@
       "source_file": "docs/internal/tasks/05-docs.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "docs_internal_tasks_05_docs",
-      "community": 27,
-      "community_name": "Playground Vite Config",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_05_docs_md",
+      "community": 57,
+      "community_name": "Task 05 \u2014 documentation site (VitePress)",
       "norm_label": "05-docs.md"
     },
     {
@@ -5041,9 +5679,9 @@
       "source_file": "docs/internal/tasks/05-docs.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "docs_internal_tasks_05_docs_task_05_documentation_site_vitepress",
-      "community": 27,
-      "community_name": "Playground Vite Config",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_05_docs_task_05_documentation_site_vitepress",
+      "community": 57,
+      "community_name": "Task 05 \u2014 documentation site (VitePress)",
       "norm_label": "task 05 \u2014 documentation site (vitepress)"
     },
     {
@@ -5052,9 +5690,9 @@
       "source_file": "docs/internal/tasks/05-docs.md",
       "source_location": "L7",
       "_origin": "ast",
-      "id": "docs_internal_tasks_05_docs_goal",
-      "community": 27,
-      "community_name": "Playground Vite Config",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_05_docs_goal",
+      "community": 57,
+      "community_name": "Task 05 \u2014 documentation site (VitePress)",
       "norm_label": "goal"
     },
     {
@@ -5063,9 +5701,9 @@
       "source_file": "docs/internal/tasks/05-docs.md",
       "source_location": "L11",
       "_origin": "ast",
-      "id": "docs_internal_tasks_05_docs_reference",
-      "community": 27,
-      "community_name": "Playground Vite Config",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_05_docs_reference",
+      "community": 57,
+      "community_name": "Task 05 \u2014 documentation site (VitePress)",
       "norm_label": "reference"
     },
     {
@@ -5074,9 +5712,9 @@
       "source_file": "docs/internal/tasks/05-docs.md",
       "source_location": "L16",
       "_origin": "ast",
-      "id": "docs_internal_tasks_05_docs_scope",
-      "community": 27,
-      "community_name": "Playground Vite Config",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_05_docs_scope",
+      "community": 57,
+      "community_name": "Task 05 \u2014 documentation site (VitePress)",
       "norm_label": "scope"
     },
     {
@@ -5085,9 +5723,9 @@
       "source_file": "docs/internal/tasks/05-docs.md",
       "source_location": "L56",
       "_origin": "ast",
-      "id": "docs_internal_tasks_05_docs_done_when",
-      "community": 27,
-      "community_name": "Playground Vite Config",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_05_docs_done_when",
+      "community": 57,
+      "community_name": "Task 05 \u2014 documentation site (VitePress)",
       "norm_label": "done when"
     },
     {
@@ -5096,9 +5734,9 @@
       "source_file": "docs/internal/tasks/05-docs.md",
       "source_location": "L69",
       "_origin": "ast",
-      "id": "docs_internal_tasks_05_docs_report",
-      "community": 27,
-      "community_name": "Playground Vite Config",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_05_docs_report",
+      "community": 57,
+      "community_name": "Task 05 \u2014 documentation site (VitePress)",
       "norm_label": "report"
     },
     {
@@ -5107,9 +5745,9 @@
       "source_file": "docs/internal/tasks/06-meta.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "docs_internal_tasks_06_meta",
-      "community": 35,
-      "community_name": "Task 01 \u2014 `@snap-bottom-sheet/spring`",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_06_meta_md",
+      "community": 58,
+      "community_name": "Task 06 \u2014 repository meta: README, CONTRIBUTING, CLAUDE.md, changeset",
       "norm_label": "06-meta.md"
     },
     {
@@ -5118,9 +5756,9 @@
       "source_file": "docs/internal/tasks/06-meta.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "docs_internal_tasks_06_meta_task_06_repository_meta_readme_contributing_claude_md_changeset",
-      "community": 35,
-      "community_name": "Task 01 \u2014 `@snap-bottom-sheet/spring`",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_06_meta_task_06_repository_meta_readme_contributing_claude_md_changeset",
+      "community": 58,
+      "community_name": "Task 06 \u2014 repository meta: README, CONTRIBUTING, CLAUDE.md, changeset",
       "norm_label": "task 06 \u2014 repository meta: readme, contributing, claude.md, changeset"
     },
     {
@@ -5129,9 +5767,9 @@
       "source_file": "docs/internal/tasks/06-meta.md",
       "source_location": "L7",
       "_origin": "ast",
-      "id": "docs_internal_tasks_06_meta_goal",
-      "community": 35,
-      "community_name": "Task 01 \u2014 `@snap-bottom-sheet/spring`",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_06_meta_goal",
+      "community": 58,
+      "community_name": "Task 06 \u2014 repository meta: README, CONTRIBUTING, CLAUDE.md, changeset",
       "norm_label": "goal"
     },
     {
@@ -5140,9 +5778,9 @@
       "source_file": "docs/internal/tasks/06-meta.md",
       "source_location": "L11",
       "_origin": "ast",
-      "id": "docs_internal_tasks_06_meta_scope",
-      "community": 35,
-      "community_name": "Task 01 \u2014 `@snap-bottom-sheet/spring`",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_06_meta_scope",
+      "community": 58,
+      "community_name": "Task 06 \u2014 repository meta: README, CONTRIBUTING, CLAUDE.md, changeset",
       "norm_label": "scope"
     },
     {
@@ -5151,9 +5789,9 @@
       "source_file": "docs/internal/tasks/06-meta.md",
       "source_location": "L36",
       "_origin": "ast",
-      "id": "docs_internal_tasks_06_meta_done_when",
-      "community": 35,
-      "community_name": "Task 01 \u2014 `@snap-bottom-sheet/spring`",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_06_meta_done_when",
+      "community": 58,
+      "community_name": "Task 06 \u2014 repository meta: README, CONTRIBUTING, CLAUDE.md, changeset",
       "norm_label": "done when"
     },
     {
@@ -5162,9 +5800,97 @@
       "source_file": "docs/internal/tasks/06-meta.md",
       "source_location": "L46",
       "_origin": "ast",
-      "id": "docs_internal_tasks_06_meta_report",
-      "community": 35,
-      "community_name": "Task 01 \u2014 `@snap-bottom-sheet/spring`",
+      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_06_meta_report",
+      "community": 58,
+      "community_name": "Task 06 \u2014 repository meta: README, CONTRIBUTING, CLAUDE.md, changeset",
+      "norm_label": "report"
+    },
+    {
+      "label": "07-react.md",
+      "file_type": "document",
+      "source_file": "docs/internal/tasks/07-react.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_internal_tasks_07_react",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
+      "norm_label": "07-react.md"
+    },
+    {
+      "label": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
+      "file_type": "document",
+      "source_file": "docs/internal/tasks/07-react.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_internal_tasks_07_react_task_07_react_bindings_snap_bottom_sheet_react",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
+      "norm_label": "task 07 \u2014 react bindings (`snap-bottom-sheet/react`)"
+    },
+    {
+      "label": "Goal",
+      "file_type": "document",
+      "source_file": "docs/internal/tasks/07-react.md",
+      "source_location": "L7",
+      "_origin": "ast",
+      "id": "docs_internal_tasks_07_react_goal",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
+      "norm_label": "goal"
+    },
+    {
+      "label": "Scope",
+      "file_type": "document",
+      "source_file": "docs/internal/tasks/07-react.md",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "docs_internal_tasks_07_react_scope",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
+      "norm_label": "scope"
+    },
+    {
+      "label": "Behaviour",
+      "file_type": "document",
+      "source_file": "docs/internal/tasks/07-react.md",
+      "source_location": "L28",
+      "_origin": "ast",
+      "id": "docs_internal_tasks_07_react_behaviour",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
+      "norm_label": "behaviour"
+    },
+    {
+      "label": "Tests (mock `createSheet` with `vi.mock(\"../../src/core/sheet.ts\")` returning a fake controller whose methods are `vi.fn()` and whose `subscribe` lets tests push states)",
+      "file_type": "document",
+      "source_file": "docs/internal/tasks/07-react.md",
+      "source_location": "L48",
+      "_origin": "ast",
+      "id": "docs_internal_tasks_07_react_tests_mock_createsheet_with_vi_mock_src_core_sheet_ts_returning_a_fake_controller_whose_methods_are_vi_fn_and_whose_subscribe_lets_tests_push_states",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
+      "norm_label": "tests (mock `createsheet` with `vi.mock(\"../../src/core/sheet.ts\")` returning a fake controller whose methods are `vi.fn()` and whose `subscribe` lets tests push states)"
+    },
+    {
+      "label": "Done when",
+      "file_type": "document",
+      "source_file": "docs/internal/tasks/07-react.md",
+      "source_location": "L62",
+      "_origin": "ast",
+      "id": "docs_internal_tasks_07_react_done_when",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
+      "norm_label": "done when"
+    },
+    {
+      "label": "Report",
+      "file_type": "document",
+      "source_file": "docs/internal/tasks/07-react.md",
+      "source_location": "L73",
+      "_origin": "ast",
+      "id": "docs_internal_tasks_07_react_report",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "report"
     },
     {
@@ -7255,8 +7981,8 @@
       "source_location": "L8",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_package",
-      "target": "packages_gesture_package_author",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_json",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_author",
       "confidence_score": 1.0
     },
     {
@@ -7266,8 +7992,8 @@
       "source_location": "L5",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_package",
-      "target": "packages_gesture_package_description",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_json",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_description",
       "confidence_score": 1.0
     },
     {
@@ -7277,8 +8003,8 @@
       "source_location": "L24",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_package",
-      "target": "packages_gesture_package_devdependencies",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_json",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_devdependencies",
       "confidence_score": 1.0
     },
     {
@@ -7288,8 +8014,8 @@
       "source_location": "L15",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_package",
-      "target": "packages_gesture_package_exports",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_json",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_exports",
       "confidence_score": 1.0
     },
     {
@@ -7299,8 +8025,8 @@
       "source_location": "L7",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_package",
-      "target": "packages_gesture_package_license",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_json",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_license",
       "confidence_score": 1.0
     },
     {
@@ -7310,8 +8036,8 @@
       "source_location": "L2",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_package",
-      "target": "packages_gesture_package_name",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_json",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_name",
       "confidence_score": 1.0
     },
     {
@@ -7321,8 +8047,8 @@
       "source_location": "L4",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_package",
-      "target": "packages_gesture_package_private",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_json",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_private",
       "confidence_score": 1.0
     },
     {
@@ -7332,8 +8058,8 @@
       "source_location": "L9",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_package",
-      "target": "packages_gesture_package_repository",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_json",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_repository",
       "confidence_score": 1.0
     },
     {
@@ -7343,8 +8069,8 @@
       "source_location": "L19",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_package",
-      "target": "packages_gesture_package_scripts",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_json",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_scripts",
       "confidence_score": 1.0
     },
     {
@@ -7354,8 +8080,8 @@
       "source_location": "L14",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_package",
-      "target": "packages_gesture_package_sideeffects",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_json",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_sideeffects",
       "confidence_score": 1.0
     },
     {
@@ -7365,8 +8091,8 @@
       "source_location": "L6",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_package",
-      "target": "packages_gesture_package_type",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_json",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_type",
       "confidence_score": 1.0
     },
     {
@@ -7376,8 +8102,8 @@
       "source_location": "L3",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_package",
-      "target": "packages_gesture_package_version",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_json",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_version",
       "confidence_score": 1.0
     },
     {
@@ -7387,8 +8113,8 @@
       "source_location": "L12",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_package_repository",
-      "target": "packages_gesture_package_repository_directory",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_repository",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_repository_directory",
       "confidence_score": 1.0
     },
     {
@@ -7398,8 +8124,8 @@
       "source_location": "L10",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_package_repository",
-      "target": "packages_gesture_package_repository_type",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_repository",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_repository_type",
       "confidence_score": 1.0
     },
     {
@@ -7409,8 +8135,8 @@
       "source_location": "L11",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_package_repository",
-      "target": "packages_gesture_package_repository_url",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_repository",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_repository_url",
       "confidence_score": 1.0
     },
     {
@@ -7420,8 +8146,8 @@
       "source_location": "L17",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_package_exports",
-      "target": "packages_gesture_package_exports_package_json",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_exports",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_exports_package_json",
       "confidence_score": 1.0
     },
     {
@@ -7431,8 +8157,8 @@
       "source_location": "L20",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_package_scripts",
-      "target": "packages_gesture_package_scripts_test",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_scripts",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_scripts_test",
       "confidence_score": 1.0
     },
     {
@@ -7442,8 +8168,8 @@
       "source_location": "L21",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_package_scripts",
-      "target": "packages_gesture_package_scripts_test_watch",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_scripts",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_scripts_test_watch",
       "confidence_score": 1.0
     },
     {
@@ -7453,8 +8179,8 @@
       "source_location": "L22",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_package_scripts",
-      "target": "packages_gesture_package_scripts_typecheck",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_scripts",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_scripts_typecheck",
       "confidence_score": 1.0
     },
     {
@@ -7464,8 +8190,8 @@
       "source_location": "L26",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_package_devdependencies",
-      "target": "packages_gesture_package_devdependencies_jsdom",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_devdependencies",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_devdependencies_jsdom",
       "confidence_score": 1.0
     },
     {
@@ -7475,8 +8201,8 @@
       "source_location": "L25",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_package_devdependencies",
-      "target": "packages_gesture_package_devdependencies_types_node",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_devdependencies",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_devdependencies_types_node",
       "confidence_score": 1.0
     },
     {
@@ -7486,8 +8212,8 @@
       "source_location": "L27",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_package_devdependencies",
-      "target": "packages_gesture_package_devdependencies_typescript",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_devdependencies",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_devdependencies_typescript",
       "confidence_score": 1.0
     },
     {
@@ -7497,8 +8223,8 @@
       "source_location": "L28",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_package_devdependencies",
-      "target": "packages_gesture_package_devdependencies_vitest",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_devdependencies",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_devdependencies_vitest",
       "confidence_score": 1.0
     },
     {
@@ -7509,7 +8235,7 @@
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
-      "source": "packages_gesture_package_devdependencies_types_node",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_devdependencies_types_node",
       "target": "packages_gesture_package_json_types_node",
       "confidence_score": 1.0
     },
@@ -7521,7 +8247,7 @@
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
-      "source": "packages_gesture_package_devdependencies_jsdom",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_devdependencies_jsdom",
       "target": "packages_gesture_package_json_jsdom",
       "confidence_score": 1.0
     },
@@ -7533,7 +8259,7 @@
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
-      "source": "packages_gesture_package_devdependencies_typescript",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_devdependencies_typescript",
       "target": "packages_gesture_package_json_typescript",
       "confidence_score": 1.0
     },
@@ -7545,7 +8271,7 @@
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
-      "source": "packages_gesture_package_devdependencies_vitest",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_package_devdependencies_vitest",
       "target": "packages_gesture_package_json_vitest",
       "confidence_score": 1.0
     },
@@ -7731,6 +8457,18 @@
       "confidence_score": 1.0
     },
     {
+      "relation": "indirect_call",
+      "context": "collection",
+      "confidence": "INFERRED",
+      "confidence_score": 0.8,
+      "source_file": "packages/gesture/src/index.ts",
+      "source_location": "L86",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "packages_gesture_src_index_attachdrag",
+      "target": "packages_spring_src_index_now"
+    },
+    {
       "relation": "imports",
       "context": "import",
       "confidence": "EXTRACTED",
@@ -7837,8 +8575,8 @@
       "source_location": "L2",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_tsconfig",
-      "target": "packages_gesture_tsconfig_compileroptions",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_json",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions",
       "confidence_score": 1.0
     },
     {
@@ -7848,8 +8586,8 @@
       "source_location": "L18",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_tsconfig",
-      "target": "packages_gesture_tsconfig_include",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_json",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_include",
       "confidence_score": 1.0
     },
     {
@@ -7859,8 +8597,8 @@
       "source_location": "L14",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_tsconfig_compileroptions",
-      "target": "packages_gesture_tsconfig_compileroptions_allowimportingtsextensions",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_allowimportingtsextensions",
       "confidence_score": 1.0
     },
     {
@@ -7870,8 +8608,8 @@
       "source_location": "L12",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_tsconfig_compileroptions",
-      "target": "packages_gesture_tsconfig_compileroptions_esmoduleinterop",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_esmoduleinterop",
       "confidence_score": 1.0
     },
     {
@@ -7881,8 +8619,8 @@
       "source_location": "L13",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_tsconfig_compileroptions",
-      "target": "packages_gesture_tsconfig_compileroptions_forceconsistentcasinginfilenames",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_forceconsistentcasinginfilenames",
       "confidence_score": 1.0
     },
     {
@@ -7892,8 +8630,8 @@
       "source_location": "L10",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_tsconfig_compileroptions",
-      "target": "packages_gesture_tsconfig_compileroptions_isolatedmodules",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_isolatedmodules",
       "confidence_score": 1.0
     },
     {
@@ -7903,8 +8641,8 @@
       "source_location": "L4",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_tsconfig_compileroptions",
-      "target": "packages_gesture_tsconfig_compileroptions_lib",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_lib",
       "confidence_score": 1.0
     },
     {
@@ -7914,8 +8652,8 @@
       "source_location": "L5",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_tsconfig_compileroptions",
-      "target": "packages_gesture_tsconfig_compileroptions_module",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_module",
       "confidence_score": 1.0
     },
     {
@@ -7925,8 +8663,8 @@
       "source_location": "L6",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_tsconfig_compileroptions",
-      "target": "packages_gesture_tsconfig_compileroptions_moduleresolution",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_moduleresolution",
       "confidence_score": 1.0
     },
     {
@@ -7936,8 +8674,8 @@
       "source_location": "L15",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_tsconfig_compileroptions",
-      "target": "packages_gesture_tsconfig_compileroptions_noemit",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_noemit",
       "confidence_score": 1.0
     },
     {
@@ -7947,8 +8685,8 @@
       "source_location": "L8",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_tsconfig_compileroptions",
-      "target": "packages_gesture_tsconfig_compileroptions_nouncheckedindexedaccess",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_nouncheckedindexedaccess",
       "confidence_score": 1.0
     },
     {
@@ -7958,8 +8696,8 @@
       "source_location": "L11",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_tsconfig_compileroptions",
-      "target": "packages_gesture_tsconfig_compileroptions_skiplibcheck",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_skiplibcheck",
       "confidence_score": 1.0
     },
     {
@@ -7969,8 +8707,8 @@
       "source_location": "L7",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_tsconfig_compileroptions",
-      "target": "packages_gesture_tsconfig_compileroptions_strict",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_strict",
       "confidence_score": 1.0
     },
     {
@@ -7980,8 +8718,8 @@
       "source_location": "L3",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_tsconfig_compileroptions",
-      "target": "packages_gesture_tsconfig_compileroptions_target",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_target",
       "confidence_score": 1.0
     },
     {
@@ -7991,8 +8729,8 @@
       "source_location": "L16",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_tsconfig_compileroptions",
-      "target": "packages_gesture_tsconfig_compileroptions_types",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_types",
       "confidence_score": 1.0
     },
     {
@@ -8002,8 +8740,8 @@
       "source_location": "L9",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "packages_gesture_tsconfig_compileroptions",
-      "target": "packages_gesture_tsconfig_compileroptions_verbatimmodulesyntax",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_verbatimmodulesyntax",
       "confidence_score": 1.0
     },
     {
@@ -8014,7 +8752,7 @@
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
-      "source": "packages_gesture_tsconfig_compileroptions_lib",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_lib",
       "target": "packages_gesture_tsconfig_json_ref_dom",
       "confidence_score": 1.0
     },
@@ -8026,7 +8764,7 @@
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
-      "source": "packages_gesture_tsconfig_compileroptions_lib",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_lib",
       "target": "packages_gesture_tsconfig_json_ref_dom_iterable",
       "confidence_score": 1.0
     },
@@ -8038,7 +8776,7 @@
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
-      "source": "packages_gesture_tsconfig_compileroptions_lib",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_lib",
       "target": "packages_gesture_tsconfig_json_ref_es2022",
       "confidence_score": 1.0
     },
@@ -8050,7 +8788,7 @@
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
-      "source": "packages_gesture_tsconfig_compileroptions_types",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_compileroptions_types",
       "target": "packages_gesture_tsconfig_json_ref_node",
       "confidence_score": 1.0
     },
@@ -8062,7 +8800,7 @@
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
-      "source": "packages_gesture_tsconfig_include",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_include",
       "target": "packages_gesture_tsconfig_json_ref_src",
       "confidence_score": 1.0
     },
@@ -8074,7 +8812,7 @@
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
-      "source": "packages_gesture_tsconfig_include",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_include",
       "target": "packages_gesture_tsconfig_json_ref_test",
       "confidence_score": 1.0
     },
@@ -8086,7 +8824,7 @@
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
-      "source": "packages_gesture_tsconfig_include",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_packages_gesture_tsconfig_include",
       "target": "packages_gesture_tsconfig_json_ref_vitest_config_ts",
       "confidence_score": 1.0
     },
@@ -12002,6 +12740,647 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_json",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_devdependencies",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_json",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_exports",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_json",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_license",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_json",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_name",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_json",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_private",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_json",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_scripts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_json",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_type",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_json",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_version",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_scripts",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_scripts_test",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_scripts",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_scripts_test_watch",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_scripts",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_scripts_typecheck",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_devdependencies",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_devdependencies_types_node",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_devdependencies",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_devdependencies_typescript",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_devdependencies",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_devdependencies_vitest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L19",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_devdependencies_types_node",
+      "target": "packages_spring_package_json_types_node",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L20",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_devdependencies_typescript",
+      "target": "packages_spring_package_json_typescript",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/package.json",
+      "source_location": "L21",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_package_devdependencies_vitest",
+      "target": "packages_spring_package_json_vitest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/src/index.ts",
+      "source_location": "L36",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "packages_spring_src_index",
+      "target": "packages_spring_src_index_createspring",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/src/index.ts",
+      "source_location": "L34",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "packages_spring_src_index",
+      "target": "packages_spring_src_index_hasraf",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/src/index.ts",
+      "source_location": "L32",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "packages_spring_src_index",
+      "target": "packages_spring_src_index_now",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/src/index.ts",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "packages_spring_src_index",
+      "target": "packages_spring_src_index_setoptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/src/index.ts",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "packages_spring_src_index",
+      "target": "packages_spring_src_index_spring",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/src/index.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "packages_spring_src_index",
+      "target": "packages_spring_src_index_springconfig",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports_from",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/test/spring.test.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "packages_spring_test_spring_test",
+      "target": "packages_spring_src_index",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/src/index.ts",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "packages_spring_src_index_spring",
+      "target": "packages_spring_src_index_spring_get",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/src/index.ts",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "packages_spring_src_index_spring",
+      "target": "packages_spring_src_index_spring_getvelocity",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/src/index.ts",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "packages_spring_src_index_spring",
+      "target": "packages_spring_src_index_spring_set",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/src/index.ts",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "packages_spring_src_index_spring",
+      "target": "packages_spring_src_index_spring_stop",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "method",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/src/index.ts",
+      "source_location": "L21",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "packages_spring_src_index_spring",
+      "target": "packages_spring_src_index_spring_subscribe",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/src/index.ts",
+      "source_location": "L68",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "packages_spring_src_index_createspring",
+      "target": "packages_spring_src_index_now",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/src/index.ts",
+      "source_location": "L61",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "packages_spring_src_index_createspring",
+      "target": "packages_spring_src_index_hasraf",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "imports",
+      "context": "import",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/test/spring.test.ts",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "packages_spring_test_spring_test",
+      "target": "packages_spring_src_index_createspring",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/test/spring.test.ts",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "packages_spring_test_spring_test",
+      "target": "packages_spring_test_spring_test_record",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L2",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_json",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L19",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_json",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_include",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L14",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_allowimportingtsextensions",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_esmoduleinterop",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_forceconsistentcasinginfilenames",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L10",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_isolatedmodules",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L15",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_jsx",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_lib",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L5",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_module",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_moduleresolution",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L16",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_noemit",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_nouncheckedindexedaccess",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_skiplibcheck",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_strict",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L3",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_target",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_types",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L9",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_verbatimmodulesyntax",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_lib",
+      "target": "packages_spring_tsconfig_json_ref_dom",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_lib",
+      "target": "packages_spring_tsconfig_json_ref_dom_iterable",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L4",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_lib",
+      "target": "packages_spring_tsconfig_json_ref_es2022",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L17",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_compileroptions_types",
+      "target": "packages_spring_tsconfig_json_ref_node",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L19",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_include",
+      "target": "packages_spring_tsconfig_json_ref_src",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L19",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_include",
+      "target": "packages_spring_tsconfig_json_ref_test",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "extends",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/spring/tsconfig.json",
+      "source_location": "L19",
+      "weight": 1.0,
+      "context": "import",
+      "_origin": "ast",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_spring_tsconfig_include",
+      "target": "packages_spring_tsconfig_json_ref_vitest_config_ts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "playgrounds/react/package.json",
       "source_location": "L11",
       "weight": 1.0,
@@ -13276,8 +14655,8 @@
       "source_location": "L1",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "docs_internal_tasks_03_core_pure",
-      "target": "docs_internal_tasks_03_core_pure_task_03_core_pure_modules_snap_math_scroll_lock_measurement_react_state_hooks",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_md",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_task_03_core_pure_modules_snap_math_scroll_lock_measurement_react_state_hooks",
       "confidence_score": 1.0
     },
     {
@@ -13287,8 +14666,8 @@
       "source_location": "L28",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "docs_internal_tasks_03_core_pure_task_03_core_pure_modules_snap_math_scroll_lock_measurement_react_state_hooks",
-      "target": "docs_internal_tasks_03_core_pure_contracts",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_task_03_core_pure_modules_snap_math_scroll_lock_measurement_react_state_hooks",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_contracts",
       "confidence_score": 1.0
     },
     {
@@ -13298,8 +14677,8 @@
       "source_location": "L160",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "docs_internal_tasks_03_core_pure_task_03_core_pure_modules_snap_math_scroll_lock_measurement_react_state_hooks",
-      "target": "docs_internal_tasks_03_core_pure_done_when",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_task_03_core_pure_modules_snap_math_scroll_lock_measurement_react_state_hooks",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_done_when",
       "confidence_score": 1.0
     },
     {
@@ -13309,8 +14688,8 @@
       "source_location": "L5",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "docs_internal_tasks_03_core_pure_task_03_core_pure_modules_snap_math_scroll_lock_measurement_react_state_hooks",
-      "target": "docs_internal_tasks_03_core_pure_goal",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_task_03_core_pure_modules_snap_math_scroll_lock_measurement_react_state_hooks",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_goal",
       "confidence_score": 1.0
     },
     {
@@ -13320,8 +14699,8 @@
       "source_location": "L170",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "docs_internal_tasks_03_core_pure_task_03_core_pure_modules_snap_math_scroll_lock_measurement_react_state_hooks",
-      "target": "docs_internal_tasks_03_core_pure_report",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_task_03_core_pure_modules_snap_math_scroll_lock_measurement_react_state_hooks",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_report",
       "confidence_score": 1.0
     },
     {
@@ -13331,8 +14710,8 @@
       "source_location": "L9",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "docs_internal_tasks_03_core_pure_task_03_core_pure_modules_snap_math_scroll_lock_measurement_react_state_hooks",
-      "target": "docs_internal_tasks_03_core_pure_scope",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_task_03_core_pure_modules_snap_math_scroll_lock_measurement_react_state_hooks",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_scope",
       "confidence_score": 1.0
     },
     {
@@ -13342,8 +14721,8 @@
       "source_location": "L142",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "docs_internal_tasks_03_core_pure_task_03_core_pure_modules_snap_math_scroll_lock_measurement_react_state_hooks",
-      "target": "docs_internal_tasks_03_core_pure_tests_table_driven_where_possible",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_task_03_core_pure_modules_snap_math_scroll_lock_measurement_react_state_hooks",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_tests_table_driven_where_possible",
       "confidence_score": 1.0
     },
     {
@@ -13353,8 +14732,8 @@
       "source_location": "L30",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "docs_internal_tasks_03_core_pure_contracts",
-      "target": "docs_internal_tasks_03_core_pure_src_core_env_ts",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_contracts",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_src_core_env_ts",
       "confidence_score": 1.0
     },
     {
@@ -13364,8 +14743,8 @@
       "source_location": "L115",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "docs_internal_tasks_03_core_pure_contracts",
-      "target": "docs_internal_tasks_03_core_pure_src_core_measure_ts",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_contracts",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_src_core_measure_ts",
       "confidence_score": 1.0
     },
     {
@@ -13375,8 +14754,8 @@
       "source_location": "L105",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "docs_internal_tasks_03_core_pure_contracts",
-      "target": "docs_internal_tasks_03_core_pure_src_core_scroll_lock_ts_fixes_p0_6",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_contracts",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_src_core_scroll_lock_ts_fixes_p0_6",
       "confidence_score": 1.0
     },
     {
@@ -13386,8 +14765,8 @@
       "source_location": "L38",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "docs_internal_tasks_03_core_pure_contracts",
-      "target": "docs_internal_tasks_03_core_pure_src_core_snap_ts_no_dom_no_react",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_contracts",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_src_core_snap_ts_no_dom_no_react",
       "confidence_score": 1.0
     },
     {
@@ -13397,8 +14776,8 @@
       "source_location": "L126",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "docs_internal_tasks_03_core_pure_contracts",
-      "target": "docs_internal_tasks_03_core_pure_src_react_use_controllable_state_ts_radix_pattern",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_contracts",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_src_react_use_controllable_state_ts_radix_pattern",
       "confidence_score": 1.0
     },
     {
@@ -13408,8 +14787,8 @@
       "source_location": "L138",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "docs_internal_tasks_03_core_pure_contracts",
-      "target": "docs_internal_tasks_03_core_pure_src_react_use_isomorphic_layout_effect_ts",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_contracts",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_03_core_pure_src_react_use_isomorphic_layout_effect_ts",
       "confidence_score": 1.0
     },
     {
@@ -13427,7 +14806,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/internal/tasks/04-core-controller.md",
-      "source_location": "L27",
+      "source_location": "L28",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_internal_tasks_04_core_controller_task_04_core_controller_createsheet",
@@ -13438,7 +14817,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/internal/tasks/04-core-controller.md",
-      "source_location": "L63",
+      "source_location": "L64",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_internal_tasks_04_core_controller_task_04_core_controller_createsheet",
@@ -13460,7 +14839,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/internal/tasks/04-core-controller.md",
-      "source_location": "L77",
+      "source_location": "L78",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_internal_tasks_04_core_controller_task_04_core_controller_createsheet",
@@ -13482,7 +14861,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "docs/internal/tasks/04-core-controller.md",
-      "source_location": "L49",
+      "source_location": "L50",
       "weight": 1.0,
       "_origin": "ast",
       "source": "docs_internal_tasks_04_core_controller_task_04_core_controller_createsheet",
@@ -13496,8 +14875,8 @@
       "source_location": "L1",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "docs_internal_tasks_05_docs",
-      "target": "docs_internal_tasks_05_docs_task_05_documentation_site_vitepress",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_05_docs_md",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_05_docs_task_05_documentation_site_vitepress",
       "confidence_score": 1.0
     },
     {
@@ -13507,8 +14886,8 @@
       "source_location": "L56",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "docs_internal_tasks_05_docs_task_05_documentation_site_vitepress",
-      "target": "docs_internal_tasks_05_docs_done_when",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_05_docs_task_05_documentation_site_vitepress",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_05_docs_done_when",
       "confidence_score": 1.0
     },
     {
@@ -13518,8 +14897,8 @@
       "source_location": "L7",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "docs_internal_tasks_05_docs_task_05_documentation_site_vitepress",
-      "target": "docs_internal_tasks_05_docs_goal",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_05_docs_task_05_documentation_site_vitepress",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_05_docs_goal",
       "confidence_score": 1.0
     },
     {
@@ -13529,8 +14908,8 @@
       "source_location": "L11",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "docs_internal_tasks_05_docs_task_05_documentation_site_vitepress",
-      "target": "docs_internal_tasks_05_docs_reference",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_05_docs_task_05_documentation_site_vitepress",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_05_docs_reference",
       "confidence_score": 1.0
     },
     {
@@ -13540,8 +14919,8 @@
       "source_location": "L69",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "docs_internal_tasks_05_docs_task_05_documentation_site_vitepress",
-      "target": "docs_internal_tasks_05_docs_report",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_05_docs_task_05_documentation_site_vitepress",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_05_docs_report",
       "confidence_score": 1.0
     },
     {
@@ -13551,8 +14930,8 @@
       "source_location": "L16",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "docs_internal_tasks_05_docs_task_05_documentation_site_vitepress",
-      "target": "docs_internal_tasks_05_docs_scope",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_05_docs_task_05_documentation_site_vitepress",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_05_docs_scope",
       "confidence_score": 1.0
     },
     {
@@ -13562,8 +14941,8 @@
       "source_location": "L1",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "docs_internal_tasks_06_meta",
-      "target": "docs_internal_tasks_06_meta_task_06_repository_meta_readme_contributing_claude_md_changeset",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_06_meta_md",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_06_meta_task_06_repository_meta_readme_contributing_claude_md_changeset",
       "confidence_score": 1.0
     },
     {
@@ -13573,8 +14952,8 @@
       "source_location": "L36",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "docs_internal_tasks_06_meta_task_06_repository_meta_readme_contributing_claude_md_changeset",
-      "target": "docs_internal_tasks_06_meta_done_when",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_06_meta_task_06_repository_meta_readme_contributing_claude_md_changeset",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_06_meta_done_when",
       "confidence_score": 1.0
     },
     {
@@ -13584,8 +14963,8 @@
       "source_location": "L7",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "docs_internal_tasks_06_meta_task_06_repository_meta_readme_contributing_claude_md_changeset",
-      "target": "docs_internal_tasks_06_meta_goal",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_06_meta_task_06_repository_meta_readme_contributing_claude_md_changeset",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_06_meta_goal",
       "confidence_score": 1.0
     },
     {
@@ -13595,8 +14974,8 @@
       "source_location": "L46",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "docs_internal_tasks_06_meta_task_06_repository_meta_readme_contributing_claude_md_changeset",
-      "target": "docs_internal_tasks_06_meta_report",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_06_meta_task_06_repository_meta_readme_contributing_claude_md_changeset",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_06_meta_report",
       "confidence_score": 1.0
     },
     {
@@ -13606,8 +14985,85 @@
       "source_location": "L11",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "docs_internal_tasks_06_meta_task_06_repository_meta_readme_contributing_claude_md_changeset",
-      "target": "docs_internal_tasks_06_meta_scope",
+      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_06_meta_task_06_repository_meta_readme_contributing_claude_md_changeset",
+      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_new_session_6fbcab_docs_internal_tasks_06_meta_scope",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/internal/tasks/07-react.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_internal_tasks_07_react",
+      "target": "docs_internal_tasks_07_react_task_07_react_bindings_snap_bottom_sheet_react",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/internal/tasks/07-react.md",
+      "source_location": "L28",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_internal_tasks_07_react_task_07_react_bindings_snap_bottom_sheet_react",
+      "target": "docs_internal_tasks_07_react_behaviour",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/internal/tasks/07-react.md",
+      "source_location": "L62",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_internal_tasks_07_react_task_07_react_bindings_snap_bottom_sheet_react",
+      "target": "docs_internal_tasks_07_react_done_when",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/internal/tasks/07-react.md",
+      "source_location": "L7",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_internal_tasks_07_react_task_07_react_bindings_snap_bottom_sheet_react",
+      "target": "docs_internal_tasks_07_react_goal",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/internal/tasks/07-react.md",
+      "source_location": "L73",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_internal_tasks_07_react_task_07_react_bindings_snap_bottom_sheet_react",
+      "target": "docs_internal_tasks_07_react_report",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/internal/tasks/07-react.md",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_internal_tasks_07_react_task_07_react_bindings_snap_bottom_sheet_react",
+      "target": "docs_internal_tasks_07_react_scope",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "docs/internal/tasks/07-react.md",
+      "source_location": "L48",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_internal_tasks_07_react_task_07_react_bindings_snap_bottom_sheet_react",
+      "target": "docs_internal_tasks_07_react_tests_mock_createsheet_with_vi_mock_src_core_sheet_ts_returning_a_fake_controller_whose_methods_are_vi_fn_and_whose_subscribe_lets_tests_push_states",
       "confidence_score": 1.0
     },
     {
@@ -14880,5 +16336,5 @@
       "source_file": ".claude/skills/graphify/references/query.md"
     }
   ],
-  "built_at_commit": "8d2acc003e7037d0b75e6c6d5ec5104dbae7f8f1"
+  "built_at_commit": "21dc1bd1935889b1dd882f17e6b28015c9bb9e13"
 }
