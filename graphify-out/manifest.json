@@ -150,8 +150,8 @@
     "semantic_hash": ""
   },
   "docs/internal/PLAN.md": {
-    "mtime": 1788798666.013137,
-    "ast_hash": "f71b0b059a0f56c4c0c55062a561bd21",
+    "mtime": 1788800168.597241,
+    "ast_hash": "e00396f22fcb37d20d06bd56fa0b3ceb",
     "semantic_hash": ""
   },
   "docs/internal/tasks/00-scaffold.md": {
@@ -185,8 +185,8 @@
     "semantic_hash": ""
   },
   "playgrounds/README.md": {
-    "mtime": 1788799170.3950646,
-    "ast_hash": "4828c0c6c45002578137fc0c681e7629",
+    "mtime": 1788800141.1717303,
+    "ast_hash": "bcc289a782b99049b22e99e6b8234ae3",
     "semantic_hash": ""
   },
   "playgrounds/react/index.html": {
@@ -350,13 +350,13 @@
     "semantic_hash": ""
   },
   "packages/sheet/src/core/dom.ts": {
-    "mtime": 1788797667.2242465,
-    "ast_hash": "190efd75a9bf19943755d3d0c672a24e",
+    "mtime": 1788800141.1692097,
+    "ast_hash": "b87e52d5fd27a632413f49da2aae647a",
     "semantic_hash": ""
   },
   "packages/sheet/src/core/drag.ts": {
-    "mtime": 1788797667.224448,
-    "ast_hash": "523abbff4a170fb69ad34407dc027269",
+    "mtime": 1788800141.169423,
+    "ast_hash": "ef973017a3c5a4f54484c2f6e62faa75",
     "semantic_hash": ""
   },
   "packages/sheet/src/core/keyboard.ts": {
@@ -375,13 +375,13 @@
     "semantic_hash": ""
   },
   "packages/sheet/src/core/sheet.ts": {
-    "mtime": 1788797685.2532647,
-    "ast_hash": "1c47cd889b7f8d15d87d69aec511ba4a",
+    "mtime": 1788800141.1697836,
+    "ast_hash": "017be03320b6d7ef1c4d0de95e19b5aa",
     "semantic_hash": ""
   },
   "packages/sheet/src/core/types.ts": {
-    "mtime": 1788797667.22564,
-    "ast_hash": "0018e60dfbaad55b4308e7184ff8fa1e",
+    "mtime": 1788800141.170201,
+    "ast_hash": "3db55f947ee59de34f9801ec60b0b7e2",
     "semantic_hash": ""
   },
   "packages/sheet/src/react/Body.tsx": {
@@ -425,8 +425,8 @@
     "semantic_hash": ""
   },
   "packages/sheet/src/react/Sheet.tsx": {
-    "mtime": 1788797667.543733,
-    "ast_hash": "e9e5b382c0c90bf55ff79314624ed4b8",
+    "mtime": 1788800141.1705513,
+    "ast_hash": "a230ef0fbf86480184de483486304520",
     "semantic_hash": ""
   },
   "packages/sheet/src/react/Title.tsx": {
@@ -440,8 +440,8 @@
     "semantic_hash": ""
   },
   "packages/sheet/src/react/index.ts": {
-    "mtime": 1788797685.2815335,
-    "ast_hash": "9b46b911f03ec26da49e52dfa24e36f8",
+    "mtime": 1788800141.1707785,
+    "ast_hash": "ee5d2c23562a6d397557475b00c34d86",
     "semantic_hash": ""
   },
   "packages/sheet/src/react/use-sheet-state.ts": {
@@ -455,8 +455,8 @@
     "semantic_hash": ""
   },
   "packages/sheet/test/core/sheet.test.ts": {
-    "mtime": 1788797667.226655,
-    "ast_hash": "49face2b717053459d85adb2d10f809a",
+    "mtime": 1788800141.1712072,
+    "ast_hash": "fbc2d20837aedb807d079c0eaf41b2d9",
     "semantic_hash": ""
   },
   "packages/sheet/test/core/ssr.test.ts": {
@@ -480,8 +480,8 @@
     "semantic_hash": ""
   },
   "packages/sheet/test/react/sheet.test.tsx": {
-    "mtime": 1788797667.545148,
-    "ast_hash": "8658d565d91b595b8b5d9755619673df",
+    "mtime": 1788800141.1714401,
+    "ast_hash": "682a39ac50f42362190474eb7465c438",
     "semantic_hash": ""
   },
   "packages/sheet/test/react/ssr.test.tsx": {
@@ -640,8 +640,8 @@
     "semantic_hash": ""
   },
   "playgrounds/next/app/sheet-demo.tsx": {
-    "mtime": 1788799170.3956528,
-    "ast_hash": "9d65fa7935547d0959e7169d123a4daa",
+    "mtime": 1788800141.1720672,
+    "ast_hash": "48b4e1ab29cdbf0e9c5ba23b414a9837",
     "semantic_hash": ""
   },
   "playgrounds/next/next.config.mjs": {
@@ -682,6 +682,11 @@
   "playgrounds/vanilla/index.html": {
     "mtime": 1788799170.3973088,
     "ast_hash": "ef4b8f5eca988d647ea9de3931ec098c",
+    "semantic_hash": ""
+  },
+  "packages/sheet/test/core/guarantees.test.ts": {
+    "mtime": 1788800141.1709604,
+    "ast_hash": "1947ff90319af463b5cb629c48d069e8",
     "semantic_hash": ""
   }
 }

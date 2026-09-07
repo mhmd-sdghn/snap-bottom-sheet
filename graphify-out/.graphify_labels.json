@@ -108,5 +108,8 @@
   "106": "sheet-demo.tsx",
   "107": "snap-bottom-sheet playgrounds",
   "108": "next.config.mjs",
-  "109": "vite.config.ts"
+  "109": "vite.config.ts",
+  "110": "pointer.ts",
+  "111": "FakeResizeObserver",
+  "112": "SheetElements"
 }
