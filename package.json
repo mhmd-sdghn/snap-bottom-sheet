@@ -16,6 +16,7 @@
     "typecheck": "pnpm -r --filter \"./packages/*\" typecheck",
     "docs:dev": "pnpm --filter snap-bottom-sheet-docs docs:dev",
     "docs:build": "pnpm --filter snap-bottom-sheet-docs docs:build",
+    "docs:preview": "pnpm --filter snap-bottom-sheet-docs docs:preview",
     "verify:pkg": "pnpm --filter snap-bottom-sheet verify:pkg",
     "changeset": "changeset",
     "release": "pnpm typecheck && pnpm test && pnpm build && pnpm verify:pkg && changeset publish"
