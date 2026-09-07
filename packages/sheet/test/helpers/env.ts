@@ -73,21 +73,52 @@ export function resizeView(height: number): void {
   window.dispatchEvent(new Event("resize"));
 }
 
+/** Anything that can say whether it is still moving. */
+interface Animatable {
+  getState(): { animating: boolean };
+}
+
 /**
- * Advance virtual time in frames until `done()` reports the spring is at rest,
- * capped at 5 s so a stuck animation fails the test instead of hanging it.
- * With no argument it simply burns 3 s of frames, which outlasts any spring.
+ * Advance virtual time in frames until the animation is at rest, then stop.
+ *
+ * Always predicated, never a blind burn: pass a controller (or a predicate) and
+ * it returns on the first frame that reports rest, and **throws** if 5 s of
+ * virtual time pass without one. A blind burn cannot tell "finished correctly"
+ * from "finished on frame 1 and then sat still", which is exactly how the
+ * frame-1 finalisation bug (A.1) hid from the whole suite.
+ *
+ * With no argument it waits for every pending timer to drain instead, which is
+ * the honest equivalent for a caller that has no controller in hand.
  */
-export async function settle(done?: () => boolean): Promise<void> {
+export async function settle(
+  until?: Animatable | (() => boolean),
+): Promise<void> {
   const StepMs = 16;
   const CapMs = 5000;
-  for (let elapsed = 0; elapsed < CapMs; elapsed += StepMs) {
-    if (done?.()) return;
+  const done =
+    typeof until === "function"
+      ? until
+      : until
+        ? () => !until.getState().animating
+        : undefined;
+
+  // Nothing to predicate on: drain the timer queue and return.
+  if (!done) {
+    for (let elapsed = 0; elapsed < CapMs; elapsed += StepMs) {
+      if (vi.getTimerCount() === 0) return;
+      await vi.advanceTimersByTimeAsync(StepMs);
+    }
+    throw new Error("settle(): timers still pending after 5s of virtual time");
+  }
+
+  // One frame first: a transition that has only just started still reports
+  // "not animating" on the frame it was requested.
+  await vi.advanceTimersByTimeAsync(StepMs);
+  for (let elapsed = StepMs; elapsed < CapMs; elapsed += StepMs) {
+    if (done()) return;
     await vi.advanceTimersByTimeAsync(StepMs);
   }
-  if (done && !done()) {
-    throw new Error("settle(): still animating after 5s of virtual time");
-  }
+  throw new Error("settle(): still animating after 5s of virtual time");
 }
 
 /** The y the panel is translated to, parsed back out of its transform. */

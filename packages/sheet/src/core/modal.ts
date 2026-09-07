@@ -5,6 +5,8 @@ import { lockBodyScroll, lockContainerScroll } from "./scroll-lock.ts";
 
 export interface ModalGuardParts {
   content: HTMLElement;
+  /** Read live: `update({ dismissible })` must change what Escape does. */
+  dismissible(): boolean;
   /** Read lazily: `setElements` can swap the overlay after attach. */
   overlay(): HTMLElement | null | undefined;
   container?: HTMLElement | null;
@@ -14,11 +16,11 @@ export interface ModalGuardParts {
 
 export interface ModalGuard {
   /**
-   * Body scroll lock + `inert` on the surrounding content + Escape routing.
+   * Scroll lock + `inert` on the surrounding content + Escape routing.
    * Idempotent: a re-entrant `open()` from inside `onOpenChange` must not
    * take a second reference on the refcounted scroll lock.
    */
-  engage(dismissible: boolean): void;
+  engage(): void;
   /** Undo everything `engage` did. Safe to call when nothing is engaged. */
   disengage(): void;
   /**
@@ -48,7 +50,7 @@ function rootOf(el: HTMLElement, scope: HTMLElement): HTMLElement {
  * mid-flight `update({ modal })` can wind them back in one call each.
  */
 export function createModalGuard(parts: ModalGuardParts): ModalGuard {
-  const { content, overlay, container, onEscape } = parts;
+  const { content, overlay, container, onEscape, dismissible } = parts;
 
   let releaseLock: (() => void) | null = null;
   let restoreInert: (() => void) | null = null;
@@ -58,7 +60,9 @@ export function createModalGuard(parts: ModalGuardParts): ModalGuard {
   let focusCaptured = false;
 
   const ensureEscape = () => {
-    if (!escapeRelease) escapeRelease = pushEscapeTarget(onEscape);
+    if (!escapeRelease) {
+      escapeRelease = pushEscapeTarget(onEscape, dismissible);
+    }
   };
 
   const releaseEscape = () => {
@@ -67,7 +71,7 @@ export function createModalGuard(parts: ModalGuardParts): ModalGuard {
   };
 
   return {
-    engage(dismissible) {
+    engage() {
       if (engaged) return;
       engaged = true;
       // An embedded sheet is modal within its own box: locking the document
@@ -79,7 +83,7 @@ export function createModalGuard(parts: ModalGuardParts): ModalGuard {
       if (scope) {
         restoreInert = applyInert(scope, [rootOf(content, scope), overlay()]);
       }
-      if (dismissible) ensureEscape();
+      ensureEscape();
     },
     disengage() {
       engaged = false;

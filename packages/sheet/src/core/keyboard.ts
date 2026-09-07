@@ -2,6 +2,8 @@ import { isBrowser } from "./env.ts";
 
 interface EscapeEntry {
   onEscape: () => void;
+  /** A non-dismissible modal still owns Escape — it just does nothing with it. */
+  dismissible: () => boolean;
 }
 
 const noop = () => {};
@@ -10,12 +12,17 @@ const stack: EscapeEntry[] = [];
 
 function onDocumentKeyDown(event: KeyboardEvent): void {
   if (event.key !== "Escape") return;
+  // Someone inside the sheet already handled this key.
+  if (event.defaultPrevented) return;
 
   const top = stack[stack.length - 1];
   if (!top) return;
 
+  // A modal sheet swallows Escape whether or not it is dismissible: falling
+  // through would close the sheet *behind* the one the user is looking at.
+  if (!top.dismissible()) return;
+
   top.onEscape();
-  event.stopPropagation();
 }
 
 /**
@@ -31,10 +38,13 @@ function onDocumentKeyDown(event: KeyboardEvent): void {
  * order — outermost first, i.e. backwards. Routing to the top of the stack is
  * the only correct ordering.
  */
-export function pushEscapeTarget(onEscape: () => void): () => void {
+export function pushEscapeTarget(
+  onEscape: () => void,
+  dismissible: () => boolean = () => true,
+): () => void {
   if (!isBrowser()) return noop;
 
-  const entry: EscapeEntry = { onEscape };
+  const entry: EscapeEntry = { onEscape, dismissible };
   stack.push(entry);
   if (stack.length === 1) {
     document.addEventListener("keydown", onDocumentKeyDown);

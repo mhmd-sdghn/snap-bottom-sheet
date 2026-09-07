@@ -72,6 +72,7 @@ export function lockBodyScroll(): () => void {
   };
 }
 
+/** @internal test seam — no `src` callers. */
 export function isBodyScrollLocked(): boolean {
   return count > 0;
 }

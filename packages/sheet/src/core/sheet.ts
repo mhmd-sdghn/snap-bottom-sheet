@@ -6,6 +6,7 @@ import {
   findContentInner,
   innerBaseStyles,
   overlayBaseStyles,
+  rememberBodyScroll,
   setAttrs,
   setStyles,
   writeFrame,
@@ -66,7 +67,15 @@ export function createSheet(
    * mid-animation supersedes that call, and the transition still has to finish.
    */
   let pending: "open" | "close" | null = null;
-  let pendingResolvers: (() => void)[] = [];
+  /**
+   * Kept per direction: one shared list let a `close()` promise resolve on a
+   * later `open()` completing. A superseded direction is settled when the new
+   * transition takes over, so nothing hangs either.
+   */
+  const resolvers: Record<"open" | "close", (() => void)[]> = {
+    open: [],
+    close: [],
+  };
   /** `skipInitialAnimation` is spent by the first open of this instance. */
   let hasOpened = false;
   /** An open() that arrived before anything was measurable (item 10). */
@@ -205,10 +214,26 @@ export function createSheet(
 
   // -------------------------------------------------------- transition end
 
-  const settlePending = () => {
-    const resolvers = pendingResolvers;
-    pendingResolvers = [];
-    for (const resolve of resolvers) resolve();
+  const settlePending = (which: "open" | "close") => {
+    const waiting = resolvers[which];
+    resolvers[which] = [];
+    for (const resolve of waiting) resolve();
+  };
+
+  /** Everyone waiting on either direction: teardown and cancellation paths. */
+  const settleAll = () => {
+    settlePending("open");
+    settlePending("close");
+  };
+
+  /**
+   * Start a transition. A direction that was pending and is now replaced can
+   * never complete, so its waiters are released here rather than left hanging.
+   */
+  const beginTransition = (which: "open" | "close"): Promise<void> => {
+    if (pending && pending !== which) settlePending(pending);
+    pending = which;
+    return new Promise<void>((resolve) => resolvers[which].push(resolve));
   };
 
   /**
@@ -223,15 +248,15 @@ export function createSheet(
       const snap = activeSnap();
       if (snap) applyRest(snap);
       notify();
-      settlePending();
+      settlePending("open");
       opts.onAnimationEnd?.(true);
       return;
     }
     setDataState(false);
     guard.disengage();
-    guard.restoreFocus();
+    if (modal()) guard.restoreFocus();
     notify();
-    settlePending();
+    settlePending("close");
     opts.onAnimationEnd?.(false);
   };
 
@@ -279,6 +304,7 @@ export function createSheet(
     content,
     overlay: () => parts.overlay,
     container,
+    dismissible,
     onEscape: () => dismiss(),
   });
 
@@ -290,12 +316,15 @@ export function createSheet(
       // container that has not been laid out. Hold the request and run it on
       // the first refresh() that produces a snap, rather than dropping it.
       if (viewHeight <= 0) {
-        return new Promise<void>((resolve) => {
-          deferredOpen = () => {
-            deferredOpen = null;
-            open().then(resolve);
-          };
-        });
+        // The waiter goes on the open list, not into the closure alone: a
+        // close() or destroy() that cancels the deferral has to settle it, or
+        // the caller (and React's handle.open() deferred) waits forever.
+        const held = beginTransition("open");
+        deferredOpen = () => {
+          deferredOpen = null;
+          void open();
+        };
+        return held;
       }
       warnOnce(
         "open:no-snaps",
@@ -304,18 +333,19 @@ export function createSheet(
       return Promise.resolve();
     }
     isOpen = true;
-    pending = "open";
-    if (modal()) guard.engage(dismissible());
+    if (modal()) guard.engage();
     // Re-arm separately from engage(): a dismissal that the consumer vetoes by
     // re-opening from inside onOpenChange gets here while the close animation
     // has not disengaged yet, so the idempotent engage() early-returns — but
     // closeWith() has already popped this sheet off the Escape stack.
-    if (modal() && dismissible()) guard.ensureEscape();
-    guard.captureFocus();
+    if (modal()) guard.ensureEscape();
+    // PLAN §3.6 scopes focus management to modal: a non-modal sheet is a
+    // persistent panel and must not steal focus from whatever the user is on.
+    if (modal()) guard.captureFocus();
     setDataState(true);
     notify();
 
-    const done = new Promise<void>((resolve) => pendingResolvers.push(resolve));
+    const done = beginTransition("open");
     // skipInitialAnimation is about mounting at position, so it applies to the
     // first open of this controller only; later opens animate.
     const immediate =
@@ -328,10 +358,18 @@ export function createSheet(
   };
 
   const closeWith = (dismissed: boolean): Promise<void> => {
-    deferredOpen = null;
-    if (destroyed || !isOpen) return Promise.resolve();
+    if (destroyed || !isOpen) {
+      // Nothing open, but a deferral may still be queued: cancel and settle it.
+      if (deferredOpen) {
+        deferredOpen = null;
+        settlePending("open");
+      }
+      return Promise.resolve();
+    }
     isOpen = false;
-    pending = "close";
+    // Cancels a still-deferred open, whose waiter beginTransition settles.
+    deferredOpen = null;
+    const done = beginTransition("close");
     guard.releaseEscape();
     notify();
     // Reported as soon as the close is under way: a controlled parent needs it
@@ -341,7 +379,6 @@ export function createSheet(
     // callback; that call owns `pending` now, so leave its animation alone.
     if (isOpen || destroyed) return Promise.resolve();
 
-    const done = new Promise<void>((resolve) => pendingResolvers.push(resolve));
     void spring.set(viewHeight, { immediate: immediateByPreference() });
     maybeFinalize();
     return done;
@@ -380,6 +417,7 @@ export function createSheet(
     body: () => parts.body,
     spring,
     activeSnap,
+    isOpen: () => isOpen,
     resolved: () => resolved,
     viewHeight: () => viewHeight,
     snapIndex: () => snapIndex,
@@ -408,10 +446,16 @@ export function createSheet(
         refresh(false);
       }),
     body: (el) => {
-      const restore = setStyles(el, bodyBaseStyles());
+      const restoreBase = setStyles(el, bodyBaseStyles());
+      // applyBodyScroll writes overflow/overflowY/flex outside setStyles's
+      // bookkeeping, so they need their own snapshot or destroy() leaves them.
+      const restoreScroll = rememberBodyScroll(el);
       const snap = activeSnap();
       if (snap) applyBodyScroll(el, snap.scroll);
-      return restore;
+      return () => {
+        restoreScroll();
+        restoreBase();
+      };
     },
     overlay: (el) => {
       const restoreStyles = setStyles(
@@ -533,14 +577,19 @@ export function createSheet(
     opts = { ...opts, ...next };
     applyAria();
     resolve();
+    // A.11: the two directions must be symmetric, focus included.
     if (isOpen && wasModal !== modal()) {
-      if (modal()) guard.engage(dismissible());
-      else guard.disengage();
+      if (modal()) {
+        guard.engage();
+        guard.captureFocus();
+      } else {
+        guard.disengage();
+        guard.restoreFocus();
+      }
     }
-    if (isOpen && modal()) {
-      if (dismissible()) guard.ensureEscape();
-      else guard.releaseEscape();
-    }
+    // Dismissibility is read live by the Escape handler, so membership of the
+    // stack follows `modal` alone — a non-dismissible modal still swallows it.
+    if (isOpen && modal()) guard.ensureEscape();
     const target = pickIndex(resolved, snapIndex);
     if (!target) {
       notify();
@@ -586,7 +635,10 @@ export function createSheet(
     }
     parts.overlay?.removeAttribute("data-state");
     pending = null;
-    settlePending();
+    deferredOpen = null;
+    // Teardown, not a transition: promises settle so nothing awaits a
+    // destroyed controller, but no consumer callback fires from destroy().
+    settleAll();
     listeners.clear();
   };
 

@@ -6,6 +6,7 @@ import {
   type SheetElements,
   type SheetOptions,
 } from "../../src/core/sheet.ts";
+import { settle } from "../helpers/env.ts";
 import { fire } from "../helpers/pointer.ts";
 
 const ViewHeight = 1000;
@@ -81,11 +82,6 @@ const make = (elements: SheetElements, options: SheetOptions = {}) => {
   const controller = createSheet(elements, options);
   controllers.push(controller);
   return controller;
-};
-
-/** Drives the rAF loop until the spring rests. */
-const settle = async () => {
-  await vi.advanceTimersByTimeAsync(3000);
 };
 
 /** jsdom 26 has no `inert` property, so dom.ts falls back to the attribute. */
@@ -1133,6 +1129,216 @@ describe("createSheet", () => {
     expect(yOf(el.content)).toBe(500);
     expect(el.content.style.paddingBottom).toBe("500px");
     expect(el.content.getAttribute("data-snap-index")).toBe("0");
+  });
+
+  it("A.2 a deferred open settles when close() cancels it", async () => {
+    const el = fixture();
+    setHeight(el.wrapper, 0);
+    const controller = make(
+      { ...el, container: el.wrapper },
+      { snapPoints: [0.5] },
+    );
+
+    let settled = false;
+    void controller.open().then(() => {
+      settled = true;
+    });
+    await controller.close();
+    await settle(controller);
+
+    expect(settled).toBe(true);
+    expect(controller.getState().open).toBe(false);
+  });
+
+  it("A.2 a deferred open settles when destroy() cancels it", async () => {
+    const el = fixture();
+    setHeight(el.wrapper, 0);
+    const controller = make(
+      { ...el, container: el.wrapper },
+      { snapPoints: [0.5] },
+    );
+
+    let settled = false;
+    void controller.open().then(() => {
+      settled = true;
+    });
+    controller.destroy();
+    await settle();
+
+    expect(settled).toBe(true);
+  });
+
+  it("A.3 a non-modal sheet does not touch focus", async () => {
+    const el = fixture();
+    const outside = document.createElement("button");
+    document.body.append(outside);
+    outside.focus();
+    expect(document.activeElement).toBe(outside);
+
+    const controller = make(el, { snapPoints: [0.5], modal: false });
+    const opened = controller.open();
+    await settle(controller);
+    await opened;
+
+    expect(document.activeElement).toBe(outside);
+
+    const closed = controller.close();
+    await settle(controller);
+    await closed;
+    expect(document.activeElement).toBe(outside);
+  });
+
+  it("A.4 close() does not resolve on a later open()", async () => {
+    const el = fixture();
+    const controller = make(el, { snapPoints: [0.5] });
+    const opened = controller.open();
+    await settle(controller);
+    await opened;
+
+    let closeSettled = false;
+    void controller.close().then(() => {
+      closeSettled = true;
+    });
+    await vi.advanceTimersByTimeAsync(16);
+    // reopen before the close finishes: the close can never complete now
+    const reopened = controller.open();
+    await settle(controller);
+    await reopened;
+
+    // it must have been settled as superseded, not left hanging...
+    expect(closeSettled).toBe(true);
+    // ...and the sheet is open, which is what the old shared list confused it with
+    expect(controller.getState().open).toBe(true);
+  });
+
+  it("A.5 destroy() gives the body's inline styles back", async () => {
+    const el = fixture();
+    el.body.style.overflow = "scroll";
+    el.body.style.flex = "2 2 auto";
+    const before = el.body.getAttribute("style");
+
+    const controller = make(el, {
+      snapPoints: [{ value: 0.5, scroll: true }],
+    });
+    const opened = controller.open();
+    await settle(controller);
+    await opened;
+    // the library has written its own overflow/flex by now
+    expect(el.body.style.overflowY).toBe("auto");
+
+    controller.destroy();
+
+    expect(el.body.getAttribute("style")).toBe(before);
+  });
+
+  it("A.6 a non-dismissible modal swallows Escape", async () => {
+    const outerEl = fixture();
+    const outer = make(outerEl, { snapPoints: [0.5] });
+    const outerOpen = outer.open();
+    await settle(outer);
+    await outerOpen;
+
+    const innerEl = fixture();
+    const inner = make(innerEl, { snapPoints: [0.5], dismissible: false });
+    const innerOpen = inner.open();
+    await settle(inner);
+    await innerOpen;
+
+    document.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Escape", bubbles: true }),
+    );
+    await settle(outer);
+
+    // neither closes: the inner one owns Escape and refuses it, and Escape
+    // must not fall through to the sheet behind it
+    expect(inner.getState().open).toBe(true);
+    expect(outer.getState().open).toBe(true);
+  });
+
+  it("A.8 Escape is ignored once a child has handled it", async () => {
+    const el = fixture();
+    const controller = make(el, { snapPoints: [0.5] });
+    const opened = controller.open();
+    await settle(controller);
+    await opened;
+
+    const field = document.createElement("input");
+    el.body.append(field);
+    field.addEventListener("keydown", (event) => event.preventDefault());
+
+    // cancelable matters: preventDefault() is a no-op without it, so the
+    // event would reach the document with defaultPrevented still false
+    field.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key: "Escape",
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
+    await settle(controller);
+
+    expect(controller.getState().open).toBe(true);
+  });
+
+  it("A.7 a cancelled drag still reports onDragEnd", async () => {
+    const el = fixture();
+    const onDragStart = vi.fn();
+    const onDragEnd = vi.fn();
+    const controller = make(el, {
+      snapPoints: [0.5, 0.9],
+      onDragStart,
+      onDragEnd,
+    });
+    const opened = controller.open();
+    await settle(controller);
+    await opened;
+
+    fire(el.content, "pointerdown", { clientY: 0, timeStamp: 0 });
+    fire(el.content, "pointermove", { clientY: 8, timeStamp: 10 });
+    expect(onDragStart).toHaveBeenCalledTimes(1);
+
+    fire(el.content, "pointercancel", { clientY: 8, timeStamp: 20 });
+    await settle(controller);
+
+    // every drag that starts must end, or a consumer's "dragging" flag sticks
+    expect(onDragEnd).toHaveBeenCalledTimes(1);
+    expect(controller.getState().dragging).toBe(false);
+  });
+
+  it("A.12 a closed panel does not drag", async () => {
+    const el = fixture();
+    const onDragStart = vi.fn();
+    const controller = make(el, { snapPoints: [0.5], onDragStart });
+    const closedY = yOf(el.content);
+
+    fire(el.content, "pointerdown", { clientY: 0, timeStamp: 0 });
+    fire(el.content, "pointermove", { clientY: 8, timeStamp: 10 });
+    fire(el.content, "pointermove", { clientY: 200, timeStamp: 100 });
+    fire(el.content, "pointerup", { clientY: 200, timeStamp: 110 });
+    await settle();
+
+    expect(onDragStart).not.toHaveBeenCalled();
+    expect(controller.getState().dragging).toBe(false);
+    expect(yOf(el.content)).toBe(closedY);
+  });
+
+  it("A.11 update({ modal }) pairs focus with the lock", async () => {
+    const el = fixture();
+    const outside = document.createElement("button");
+    document.body.append(outside);
+    outside.focus();
+
+    const controller = make(el, { snapPoints: [0.5], modal: false });
+    const opened = controller.open();
+    await settle(controller);
+    await opened;
+    expect(document.activeElement).toBe(outside);
+
+    controller.update({ modal: true });
+    expect(el.content.contains(document.activeElement)).toBe(true);
+
+    controller.update({ modal: false });
+    expect(document.activeElement).toBe(outside);
   });
 
   it("destroy() is idempotent", () => {

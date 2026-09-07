@@ -5,6 +5,7 @@ import {
   type SheetElements,
   type SheetOptions,
 } from "../../src/core/sheet.ts";
+import { settle } from "../helpers/env.ts";
 import { fire } from "../helpers/pointer.ts";
 
 const ViewHeight = 1000;
@@ -80,11 +81,6 @@ const make = (elements: SheetElements, options: SheetOptions = {}) => {
   const controller = createSheet(elements, options);
   controllers.push(controller);
   return controller;
-};
-
-/** Drives the rAF loop until the spring rests. */
-const settle = async () => {
-  await vi.advanceTimersByTimeAsync(3000);
 };
 
 const yOf = (content: HTMLElement) =>
