@@ -40,6 +40,9 @@ jobs:
       - name: Validate package (publint + arethetypeswrong)
         run: pnpm verify:pkg
 
+      - name: Bundle size budget
+        run: pnpm --filter snap-bottom-sheet size
+
       - name: Build playgrounds (consume dist through workspace:*)
         run: |
           pnpm --filter playground-vanilla build
