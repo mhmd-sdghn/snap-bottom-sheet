@@ -425,8 +425,8 @@
     "semantic_hash": ""
   },
   "packages/sheet/src/react/Sheet.tsx": {
-    "mtime": 1788801393.9476156,
-    "ast_hash": "a0d980c5c37b41aa5f17a25691352fb7",
+    "mtime": 1788803068.6033297,
+    "ast_hash": "0dc8b2e9c29f9f056cced3ff765c058c",
     "semantic_hash": ""
   },
   "packages/sheet/src/react/Title.tsx": {
@@ -445,8 +445,8 @@
     "semantic_hash": ""
   },
   "packages/sheet/src/react/use-sheet-state.ts": {
-    "mtime": 1788797667.544518,
-    "ast_hash": "b86fa235483ab57f7fa4552af14959b8",
+    "mtime": 1788803068.6036592,
+    "ast_hash": "ca7dbcb7ad193ede9c7e43c307ecc701",
     "semantic_hash": ""
   },
   "packages/sheet/test/core/dom.test.ts": {
@@ -480,8 +480,8 @@
     "semantic_hash": ""
   },
   "packages/sheet/test/react/sheet.test.tsx": {
-    "mtime": 1788800141.1714401,
-    "ast_hash": "682a39ac50f42362190474eb7465c438",
+    "mtime": 1788803068.604004,
+    "ast_hash": "ecd41aec62c3a98a837693310dae5f32",
     "semantic_hash": ""
   },
   "packages/sheet/test/react/ssr.test.tsx": {
@@ -605,8 +605,8 @@
     "semantic_hash": ""
   },
   "docs/reference/react.md": {
-    "mtime": 1788800386.68905,
-    "ast_hash": "1666bae0318ed1b38ad837fc82865336",
+    "mtime": 1788803068.6029062,
+    "ast_hash": "d6aeb44dfe561cdf3b5b64f18dc3fe8d",
     "semantic_hash": ""
   },
   "docs/reference/snap-points.md": {
@@ -817,6 +817,16 @@
   "docs/internal/tasks/README.md": {
     "mtime": 1788800868.543508,
     "ast_hash": "6c76e7bbf65f5c535ffab01bb8435758",
+    "semantic_hash": ""
+  },
+  "docs/internal/tasks/13-review-fixes.md": {
+    "mtime": 1788802564.1457071,
+    "ast_hash": "40de3fbabef6c0c5f699b9433d8666a4",
+    "semantic_hash": ""
+  },
+  "docs/internal/tasks/14-review-fixes-react.md": {
+    "mtime": 1788802564.1460128,
+    "ast_hash": "b80598ad482e3e19b1d567aff275de60",
     "semantic_hash": ""
   }
 }
