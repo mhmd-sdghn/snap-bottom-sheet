@@ -302,7 +302,7 @@ Calling the handle before the controller exists (sheet closed, first render) is
 safe: `open()` opens the sheet, `close()` and `snapTo()` resolve without moving
 anything, and the getters read the last known state.
 
-## `useSheetState()`
+## `useSheetState(selector?)`
 
 Subscribes to controller state via `useSyncExternalStore`. Must be called inside
 `<Sheet>`.
@@ -334,8 +334,27 @@ function Indicator() {
   anything you would otherwise animate per frame, prefer the CSS custom
   properties in [Styling Hooks](/reference/styling-hooks) — they never touch
   React.
-- Server snapshot (and pre-attach): `{ open: false, snapIndex: 0, y: 0,
-  progress: 0, dragging: false, animating: false, contentMode: false }`.
+- Server snapshot (and pre-attach, or after the sheet's portal has unmounted):
+  `{ open: false, snapIndex: 0, y: 0, progress: 0, dragging: false,
+  animating: false, contentMode: false }`.
+
+### Selecting one field
+
+The sheet notifies on every animation frame, so a component that reads the
+whole state re-renders twenty or thirty times per transition even if it only
+displays `open`. Pass a selector to narrow that:
+
+```tsx
+function CloseButton() {
+  const open = useSheetState((state) => state.open);
+  return <button type="button" disabled={!open}>Close</button>;
+}
+```
+
+The selected value is compared with `Object.is`, so the component above renders
+once per open and once per close rather than once per frame. Returning a fresh
+object or array is safe but re-renders every frame, since no two are equal —
+select the fields separately, or memoise downstream.
 
 ## Peer dependencies
 

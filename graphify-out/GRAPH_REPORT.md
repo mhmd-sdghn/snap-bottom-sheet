@@ -1,16 +1,16 @@
 # Graph Report - bottom-sheet-audit-f63d97  (2026-09-07)
 
 ## Corpus Check
-- 155 files · ~85,545 words
+- 157 files · ~89,710 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1314 nodes · 1631 edges · 129 communities (92 shown, 37 thin omitted)
+- 1328 nodes · 1647 edges · 142 communities (103 shown, 39 thin omitted)
 - Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 34 edges (avg confidence: 0.72)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `55c17322`
+- Built from commit: `bab61175`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -129,9 +129,22 @@
 - env.d.ts
 - vanilla.test.ts
 - audit-p0.test.ts
+- scroll-lock.ts
+- sheet.test.tsx
+- snap.ts
+- package.json
 - snap-bottom-sheet
 - spotty-pandas-rewrite.md
 - README.md
+- vanilla.test.ts
+- scripts
+- peerDependencies
+- Task 13 — review-loop fixes
+- exports
+- peerDependenciesMeta
+- repository
+- use-controllable-state.ts
+- Task 14 — review-loop fixes, React layer
 
 ## God Nodes (most connected - your core abstractions)
 1. `createSheet()` - 38 edges
@@ -165,31 +178,31 @@
 - **Optional Graph Export Targets** — _claude_skills_graphify_references_exports_neo4j_export, _claude_skills_graphify_references_exports_falkordb_export, _claude_skills_graphify_references_exports_svg_export, _claude_skills_graphify_references_exports_graphml_export, _claude_skills_graphify_references_exports_wiki_export, _claude_skills_graphify_references_exports_mcp_server [EXTRACTED 1.00]
 - **Query Expansion, Traversal and Self-Improving Feedback Loop** — _claude_skills_graphify_references_query_constrained_query_expansion, _claude_skills_graphify_references_query_graph_vocabulary, _claude_skills_graphify_references_query_bfs_traversal, _claude_skills_graphify_references_query_save_result, _claude_skills_graphify_references_query_work_memory_lessons [EXTRACTED 1.00]
 
-## Communities (129 total, 37 thin omitted)
+## Communities (142 total, 39 thin omitted)
 
 ### Community 0 - "Lint and Tooling Dev Deps"
 Cohesion: 0.07
 Nodes (29): @biomejs/biome, @changesets/changelog-github, @changesets/cli, lefthook, devDependencies, @biomejs/biome, @changesets/changelog-github, @changesets/cli (+21 more)
 
 ### Community 1 - "Package Manifest and Publishing"
-Cohesion: 0.04
-Nodes (48): author, bugs, description, exports, ./package.json, ./react, files, homepage (+40 more)
+Cohesion: 0.13
+Nodes (15): keywords, bottom-drawer, bottom-sheet, bottomsheet, dialog, draggableview, drawer, headless (+7 more)
 
 ### Community 2 - "Snap Point Model and Utils"
 Cohesion: 0.50
 Nodes (4): graphify skill trigger (/graphify), graphify query-first workflow for this repo, snap-bottom-sheet (library overview), Vite playground HTML entry
 
 ### Community 3 - "Compound Component and Types"
-Cohesion: 0.18
-Nodes (9): elementCallbacks, handleViewResize(), HeightCallback, heightOf(), notify(), observeHeight(), observeViewHeight(), viewCallbacks (+1 more)
+Cohesion: 0.31
+Nodes (8): elementCallbacks, handleViewResize(), HeightCallback, heightOf(), notify(), observeHeight(), observeViewHeight(), viewCallbacks
 
 ### Community 4 - "Context, Overlay and Drag Events"
 Cohesion: 0.67
 Nodes (3): Pixel y-offset-from-top internal model, Consumer best practices, Snap points: pixels, percentages, dynamic
 
 ### Community 5 - "App TypeScript Config"
-Cohesion: 0.06
-Nodes (32): mountDemo(), Body, BodyProps, Close, CloseProps, Content, ContentProps, PartName (+24 more)
+Cohesion: 0.14
+Nodes (15): PartName, SheetContext, SheetContextValue, usePartRef(), useSheetContext(), Description, DescriptionProps, Portal() (+7 more)
 
 ### Community 6 - "Library Declarations Config"
 Cohesion: 0.15
@@ -204,12 +217,12 @@ Cohesion: 0.21
 Nodes (12): /graphify add URL Ingest, graphify.ingest.ingest, URL Type Auto-Detection, Transcripts Treated as Doc Files, GRAPHIFY_WHISPER_MODEL Setting, Whisper Transcription (transcribe_all), detect_incremental, graph_diff Update Summary (+4 more)
 
 ### Community 9 - "Semantic Extraction Spec"
-Cohesion: 0.22
-Nodes (3): settle(), flush(), opened()
+Cohesion: 0.16
+Nodes (13): Body, BodyProps, Close, CloseProps, Content, ContentProps, Handle, HandleProps (+5 more)
 
 ### Community 10 - "Public API and Snap State Hook"
-Cohesion: 0.06
-Nodes (32): @arethetypeswrong/cli, devDependencies, @arethetypeswrong/cli, jsdom, publint, react, react-dom, @snap-bottom-sheet/gesture (+24 more)
+Cohesion: 0.08
+Nodes (25): @arethetypeswrong/cli, devDependencies, @arethetypeswrong/cli, jsdom, publint, @snap-bottom-sheet/gesture, @snap-bottom-sheet/spring, @testing-library/react (+17 more)
 
 ### Community 11 - "Graph Query and Traversal"
 Cohesion: 0.11
@@ -336,8 +349,8 @@ Cohesion: 0.17
 Nodes (22): applyBodyScroll(), applyInert(), bodyBaseStyles(), contentBaseStyles(), findContentInner(), FOCUSABLE, focusFirst(), hasInertProp() (+14 more)
 
 ### Community 65 - "sheet.test.ts"
-Cohesion: 0.08
-Nodes (16): apply(), ContainerLock, containerLocks, isBodyScrollLocked(), isContainerScrollLocked(), lockBodyScroll(), lockContainerScroll(), restore() (+8 more)
+Cohesion: 0.11
+Nodes (7): SheetElements, Fixture, controllers, Fixture, make(), observerCallbacks, ResizeEntryLike
 
 ### Community 69 - "devDependencies"
 Cohesion: 0.09
@@ -353,7 +366,7 @@ Nodes (4): controllers, make(), observerCallbacks, ResizeEntryLike
 
 ### Community 76 - "Parts"
 Cohesion: 0.12
-Nodes (15): Parts, Peer dependencies, React API, `<Sheet>`, `Sheet.Body`, `Sheet.Close`, `Sheet.Content`, `Sheet.Description` (+7 more)
+Nodes (16): Parts, Peer dependencies, React API, Selecting one field, `<Sheet>`, `Sheet.Body`, `Sheet.Close`, `Sheet.Content` (+8 more)
 
 ### Community 77 - "modal.ts"
 Cohesion: 0.08
@@ -460,24 +473,40 @@ Cohesion: 0.40
 Nodes (4): Manual QA checklist, Running, snap-bottom-sheet playgrounds, The styling contract
 
 ### Community 110 - "pointer.ts"
-Cohesion: 0.33
-Nodes (6): drag(), drag(), fire(), drag(), drag(), drag()
+Cohesion: 0.20
+Nodes (8): drag(), drag(), FakePointerEvent, fire(), FireInit, drag(), drag(), drag()
 
 ### Community 112 - "SheetElements"
-Cohesion: 0.08
-Nodes (29): closest(), decideRelease(), isConfig(), isContentMode(), MeasureContext, normalize(), NormalizedSnap, project() (+21 more)
-
-### Community 113 - "SheetController"
-Cohesion: 0.18
-Nodes (3): SheetController, opened(), rest()
+Cohesion: 0.16
+Nodes (8): SnapPoint, SheetOptions, SheetState, FakeController, INITIAL, makeFakeController(), createSheetMock, Outside()
 
 ### Community 114 - "Task 12 — container-scoped modal behaviour + handle JSDoc"
 Cohesion: 0.29
 Nodes (6): Also (tiny), Changes, Done when, Escape lost after a vetoed dismissal (task 10 finding — real bug, fix here), Task 12 — container-scoped modal behaviour + handle JSDoc, Tests
 
 ### Community 124 - "vanilla.test.ts"
+Cohesion: 0.12
+Nodes (15): installTestEnv(), isInert(), observerCallbacks, ResizeCallback, ResizeEntryLike, resizeTo(), setHeight(), settle() (+7 more)
+
+### Community 125 - "audit-p0.test.ts"
 Cohesion: 0.18
-Nodes (14): installTestEnv(), isInert(), observerCallbacks, ResizeCallback, ResizeEntryLike, resizeTo(), setHeight(), yOf() (+6 more)
+Nodes (3): mountDemo(), metadata, react
+
+### Community 126 - "scroll-lock.ts"
+Cohesion: 0.18
+Nodes (12): apply(), ContainerLock, containerLocks, isBodyScrollLocked(), isContainerScrollLocked(), lockBodyScroll(), lockContainerScroll(), restore() (+4 more)
+
+### Community 127 - "sheet.test.tsx"
+Cohesion: 0.18
+Nodes (8): SheetHandle, useSheetState(), All(), createSheetMock, OpenOnly(), Pair(), Probe(), Readout()
+
+### Community 128 - "snap.ts"
+Cohesion: 0.31
+Nodes (11): closest(), decideRelease(), isConfig(), isContentMode(), MeasureContext, normalize(), NormalizedSnap, project() (+3 more)
+
+### Community 129 - "package.json"
+Cohesion: 0.17
+Nodes (11): author, bugs, description, files, homepage, license, name, sideEffects (+3 more)
 
 ### Community 130 - "snap-bottom-sheet"
 Cohesion: 0.25
@@ -487,25 +516,53 @@ Nodes (7): Going deeper, License, React, snap-bottom-sheet, Snap points, Vanilla
 Cohesion: 0.40
 Nodes (4): Also, Fixed, Removed, Two entry points
 
+### Community 133 - "vanilla.test.ts"
+Cohesion: 0.24
+Nodes (7): SnapPointConfig, steps(), controllers, Fixture, make(), opened(), rest()
+
+### Community 134 - "scripts"
+Cohesion: 0.25
+Nodes (8): scripts, build, dev, size, test, test:watch, typecheck, verify:pkg
+
+### Community 135 - "peerDependencies"
+Cohesion: 0.29
+Nodes (7): react, react-dom, react, react-dom, peerDependencies, react, react-dom
+
+### Community 136 - "Task 13 — review-loop fixes"
+Cohesion: 0.40
+Nodes (4): A. Independent core review (W2), B. Automated review — core, spring, gesture, build (W1), Done when, Task 13 — review-loop fixes
+
+### Community 137 - "exports"
+Cohesion: 0.40
+Nodes (5): exports, ./package.json, ./react, default, types
+
+### Community 138 - "peerDependenciesMeta"
+Cohesion: 0.40
+Nodes (5): peerDependenciesMeta, react, react-dom, optional, optional
+
+### Community 139 - "repository"
+Cohesion: 0.50
+Nodes (4): repository, directory, type, url
+
 ## Knowledge Gaps
-- **665 isolated node(s):** `$schema`, `@changesets/changelog-github`, `commit`, `fixed`, `linked` (+660 more)
+- **669 isolated node(s):** `$schema`, `@changesets/changelog-github`, `commit`, `fixed`, `linked` (+664 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **37 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **39 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `react` connect `App TypeScript Config` to `Package Manifest and Publishing`, `sheet.test.tsx`, `Semantic Extraction Spec`, `sheet-demo.tsx`, `Sheet.tsx`, `SheetElements`?**
-  _High betweenness centrality (0.061) - this node is a cross-community bridge._
-- **Why does `keywords` connect `Package Manifest and Publishing` to `App TypeScript Config`?**
-  _High betweenness centrality (0.039) - this node is a cross-community bridge._
-- **Why does `createSheet()` connect `sheet.ts` to `sheet.test.ts`, `Compound Component and Types`, `main.ts`, `sheet.test.tsx`, `App.tsx`, `SheetController`, `App TypeScript Config`, `drag.ts`, `DragDeps`, `SheetElements`, `vanilla.test.ts`?**
-  _High betweenness centrality (0.022) - this node is a cross-community bridge._
+- **Why does `react` connect `audit-p0.test.ts` to `Package Manifest and Publishing`, `App TypeScript Config`, `sheet.test.tsx`, `Semantic Extraction Spec`, `sheet-demo.tsx`, `Sheet.tsx`, `use-controllable-state.ts`, `SheetElements`, `vanilla.test.ts`, `sheet.test.tsx`?**
+  _High betweenness centrality (0.055) - this node is a cross-community bridge._
+- **Why does `keywords` connect `Package Manifest and Publishing` to `package.json`, `audit-p0.test.ts`?**
+  _High betweenness centrality (0.037) - this node is a cross-community bridge._
+- **Why does `createSheet()` connect `sheet.ts` to `snap.ts`, `sheet.test.ts`, `Compound Component and Types`, `main.ts`, `sheet.test.tsx`, `App.tsx`, `SheetController`, `vanilla.test.ts`, `App TypeScript Config`, `drag.ts`, `DragDeps`, `SheetElements`, `vanilla.test.ts`, `sheet.test.tsx`?**
+  _High betweenness centrality (0.021) - this node is a cross-community bridge._
 - **What connects `$schema`, `@changesets/changelog-github`, `commit` to the rest of the system?**
-  _665 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _669 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Lint and Tooling Dev Deps` be split into smaller, more focused modules?**
   _Cohesion score 0.06666666666666667 - nodes in this community are weakly interconnected._
 - **Should `Package Manifest and Publishing` be split into smaller, more focused modules?**
-  _Cohesion score 0.04081632653061224 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.13333333333333333 - nodes in this community are weakly interconnected._
 - **Should `App TypeScript Config` be split into smaller, more focused modules?**
-  _Cohesion score 0.06277436347673397 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.1383399209486166 - nodes in this community are weakly interconnected._

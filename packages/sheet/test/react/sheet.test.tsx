@@ -1,5 +1,5 @@
 import { act, render, screen } from "@testing-library/react";
-import { createRef } from "react";
+import { createRef, useState } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createSheet } from "../../src/core/sheet.ts";
 import type { SheetHandle } from "../../src/react/index.ts";
@@ -242,6 +242,28 @@ describe("open state", () => {
     expect(screen.queryByTestId("content")).toBeNull();
   });
 
+  it("does not bounce when a controlled parent agrees to close", () => {
+    function Controlled() {
+      const [open, setOpen] = useState(true);
+      return (
+        <Sheet open={open} onOpenChange={setOpen}>
+          <Panel />
+        </Sheet>
+      );
+    }
+    render(<Controlled />);
+    expect(fake.open).toHaveBeenCalledTimes(1);
+
+    act(() => fake.selfClose());
+    // The veto check runs after the parent's render, so an agreeing parent is
+    // never misread as a veto: no second open(), no data-state flap.
+    expect(fake.open).toHaveBeenCalledTimes(1);
+    expect(fake.close).not.toHaveBeenCalled();
+
+    act(() => fake.options?.onAnimationEnd?.(false));
+    expect(screen.queryByTestId("content")).toBeNull();
+  });
+
   it("bounces back open when a controlled parent refuses the close", () => {
     const onOpenChange = vi.fn();
     render(
@@ -260,26 +282,61 @@ describe("open state", () => {
 });
 
 describe("snap index", () => {
-  it("snaps on a prop change and stays quiet when the controller led", () => {
-    const onSnapIndexChange = vi.fn();
+  it("snaps on a prop change", () => {
     const { rerender } = render(
-      <Sheet open activeSnapIndex={0} onSnapIndexChange={onSnapIndexChange}>
+      <Sheet open activeSnapIndex={0}>
         <Panel />
       </Sheet>,
     );
     expect(fake.snapTo).not.toHaveBeenCalled();
 
     rerender(
-      <Sheet open activeSnapIndex={1} onSnapIndexChange={onSnapIndexChange}>
+      <Sheet open activeSnapIndex={1}>
         <Panel />
       </Sheet>,
     );
     expect(fake.snapTo).toHaveBeenCalledWith(1);
+  });
 
-    // controller-led: it already holds the new index, so no snapTo goes back
+  it("re-asserts the prop when a controlled parent ignores a drag", () => {
+    const onSnapIndexChange = vi.fn();
+    render(
+      <Sheet open activeSnapIndex={0} onSnapIndexChange={onSnapIndexChange}>
+        <Panel />
+      </Sheet>,
+    );
+
+    // The user drags to index 2; the parent keeps activeSnapIndex at 0.
     act(() => fake.selfSnap(2, 0.5));
     expect(onSnapIndexChange).toHaveBeenCalledWith(2, 0.5);
-    expect(fake.snapTo).toHaveBeenCalledTimes(1);
+    // Without the post-commit re-assert the controller would sit at 2 and the
+    // prop at 0 for the rest of the sheet's life.
+    expect(fake.snapTo).toHaveBeenCalledWith(0);
+  });
+
+  it("stays quiet when a controlled parent adopts the drag", () => {
+    function Controlled() {
+      const [index, setIndex] = useState(0);
+      return (
+        <Sheet open activeSnapIndex={index} onSnapIndexChange={setIndex}>
+          <Panel />
+        </Sheet>
+      );
+    }
+    render(<Controlled />);
+
+    act(() => fake.selfSnap(2, 0.5));
+    expect(fake.snapTo).not.toHaveBeenCalled();
+  });
+
+  it("stays quiet when an uncontrolled sheet leads its own snap", () => {
+    render(
+      <Sheet open defaultSnapIndex={0}>
+        <Panel />
+      </Sheet>,
+    );
+    act(() => fake.selfSnap(2, 0.5));
+    expect(fake.snapTo).not.toHaveBeenCalled();
   });
 
   it("exposes controller state through useSheetState", () => {
@@ -301,6 +358,171 @@ describe("snap index", () => {
     expect(screen.getByTestId("readout").textContent).toBe("0");
     act(() => fake.selfSnap(2, 0.5));
     expect(screen.getByTestId("readout").textContent).toBe("2");
+  });
+});
+
+describe("state after teardown", () => {
+  it("reports closed once the controller is gone", () => {
+    function Probe() {
+      const state = useSheetState();
+      return (
+        <span data-testid="probe">
+          {String(state.open)}/{Math.round(state.y)}
+        </span>
+      );
+    }
+    function Tree({ show }: { show: boolean }) {
+      return (
+        <Sheet open>
+          <Probe />
+          {show ? (
+            <Sheet.Portal>
+              <Sheet.Content data-testid="content">x</Sheet.Content>
+            </Sheet.Portal>
+          ) : null}
+        </Sheet>
+      );
+    }
+
+    const { rerender } = render(<Tree show />);
+    act(() => fake.push({ open: true, y: 500 }));
+    expect(screen.getByTestId("probe").textContent).toBe("true/500");
+
+    // The portal unmounts, so the controller is destroyed while the probe
+    // stays mounted. The cached snapshot must not outlive it.
+    rerender(<Tree show={false} />);
+    expect(fake.destroy).toHaveBeenCalledTimes(1);
+    expect(screen.getByTestId("probe").textContent).toBe("false/0");
+  });
+});
+
+describe("aria ids", () => {
+  it("registers a consumer id rather than the generated one", () => {
+    render(
+      <Sheet open>
+        <Sheet.Portal>
+          <Sheet.Content data-testid="content">
+            <Sheet.Title id="my-title" data-testid="title">
+              T
+            </Sheet.Title>
+            <Sheet.Description id="my-desc" data-testid="desc">
+              D
+            </Sheet.Description>
+          </Sheet.Content>
+        </Sheet.Portal>
+      </Sheet>,
+    );
+
+    expect(screen.getByTestId("title").id).toBe("my-title");
+    expect(fake.options?.labelledBy).toBe("my-title");
+    expect(fake.options?.describedBy).toBe("my-desc");
+  });
+
+  it("falls back to the generated id", () => {
+    render(
+      <Sheet open>
+        <Sheet.Portal>
+          <Sheet.Content data-testid="content">
+            <Sheet.Title data-testid="title">T</Sheet.Title>
+          </Sheet.Content>
+        </Sheet.Portal>
+      </Sheet>,
+    );
+    const generated = screen.getByTestId("title").id;
+    expect(generated).not.toBe("");
+    expect(fake.options?.labelledBy).toBe(generated);
+  });
+
+  it("tracks a consumer id that arrives after the controller", () => {
+    function Tree({ id }: { id?: string }) {
+      return (
+        <Sheet open>
+          <Sheet.Portal>
+            <Sheet.Content data-testid="content">
+              {id ? <Sheet.Title id={id}>T</Sheet.Title> : null}
+            </Sheet.Content>
+          </Sheet.Portal>
+        </Sheet>
+      );
+    }
+    const { rerender } = render(<Tree />);
+    rerender(<Tree id="late" />);
+    expect(fake.update).toHaveBeenCalledWith({ labelledBy: "late" });
+  });
+});
+
+describe("useSheetState selector", () => {
+  it("re-renders only when the selected value changes", () => {
+    let renders = 0;
+    function OpenOnly() {
+      renders += 1;
+      const open = useSheetState((state) => state.open);
+      return <span data-testid="open">{String(open)}</span>;
+    }
+
+    render(
+      <Sheet open>
+        <Sheet.Portal>
+          <Sheet.Content data-testid="content">
+            <OpenOnly />
+          </Sheet.Content>
+        </Sheet.Portal>
+      </Sheet>,
+    );
+    const before = renders;
+
+    // Twenty animation frames' worth of y changes, no change to `open`.
+    act(() => {
+      for (let i = 1; i <= 20; i += 1) fake.push({ y: 500 - i * 10 });
+    });
+    expect(renders).toBe(before);
+    expect(screen.getByTestId("open").textContent).toBe("true");
+
+    act(() => fake.push({ open: false }));
+    expect(renders).toBe(before + 1);
+    expect(screen.getByTestId("open").textContent).toBe("false");
+  });
+
+  it("survives a selector that returns a fresh object", () => {
+    // React calls getSnapshot repeatedly and demands a stable result; an
+    // unmemoised object selector trips its "should be cached" loop.
+    function Pair() {
+      const { open, dragging } = useSheetState((state) => ({
+        open: state.open,
+        dragging: state.dragging,
+      }));
+      return <span data-testid="pair">{`${open}/${dragging}`}</span>;
+    }
+    render(
+      <Sheet open>
+        <Sheet.Portal>
+          <Sheet.Content data-testid="content">
+            <Pair />
+          </Sheet.Content>
+        </Sheet.Portal>
+      </Sheet>,
+    );
+    expect(screen.getByTestId("pair").textContent).toBe("true/false");
+    act(() => fake.push({ dragging: true }));
+    expect(screen.getByTestId("pair").textContent).toBe("true/true");
+  });
+
+  it("still returns the whole state with no selector", () => {
+    function All() {
+      const state = useSheetState();
+      return <span data-testid="all">{Math.round(state.y)}</span>;
+    }
+    render(
+      <Sheet open>
+        <Sheet.Portal>
+          <Sheet.Content data-testid="content">
+            <All />
+          </Sheet.Content>
+        </Sheet.Portal>
+      </Sheet>,
+    );
+    act(() => fake.push({ y: 321 }));
+    expect(screen.getByTestId("all").textContent).toBe("321");
   });
 });
 
