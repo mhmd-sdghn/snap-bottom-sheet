@@ -54,9 +54,11 @@ Bugs in 0.x that the rewrite removes, each with a regression test:
   now owns its elements, the scroll lock is reference-counted, and Escape goes
   to the innermost open sheet.
 - **The scroll lock restores your page.** 0.x set `overflow: hidden` on
-  `documentElement` and `body` without saving what was there, and never put it
-  back. It now saves and restores, compensates for the scrollbar gap, and is
-  reference-counted.
+  `documentElement` and `body` without saving what was there, then reset both to
+  the empty string on cleanup — which destroys whatever inline value your page
+  had set. It now saves the previous values and puts them back, compensates for
+  the scrollbar gap, and is reference-counted, so an inner sheet closing does
+  not unlock the page.
 - **The advertised types exist.** `SnapPoint`, `SnapPointConfig`, `SnapValue`,
   `SheetController`, `SheetElements`, `SheetOptions`, `SheetState` and
   `SheetHandle` are all exported.
@@ -77,8 +79,10 @@ Bugs in 0.x that the rewrite removes, each with a regression test:
   gone, replaced by a scalar spring and a Pointer Events recogniser written for
   this library. About 13 kB gzipped for the core, 17 kB with the React bindings.
 - SSR is a requirement, not a hope: nothing touches `window` or `document` at
-  module scope or during render, the portal renders `null` until mounted, and
-  Next.js App Router, Pages Router and `renderToString` are covered by tests.
+  module scope or during render, and the portal renders `null` until mounted.
+  Verified in CI by a `next build` of an App Router playground and by a
+  `renderToString` test in a `node` environment. The Pages Router is expected to
+  work by the same mechanism but is not exercised by a test.
 - Dialog semantics: `role="dialog"`, `aria-labelledby` from `Sheet.Title`,
   focus moved in and restored, siblings `inert` while modal, Escape to close,
   `prefers-reduced-motion` honoured.

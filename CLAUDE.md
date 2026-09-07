@@ -50,8 +50,8 @@ docs/                  VitePress site; docs/internal/ is orchestration notes, ex
 playgrounds/{react,vanilla,next}
 ```
 
-Both private packages are listed in tsdown's `noExternal`, so the published
-bundle is self-contained. They are in the changesets `ignore` list and never
+Both private packages are listed in tsdown's `deps.alwaysBundle`, so the
+published bundle is self-contained. They are in the changesets `ignore` list and never
 get their own version.
 
 ## Architecture
@@ -62,13 +62,13 @@ get their own version.
 | --- | --- |
 | `sheet.ts` | `createSheet` — the controller; wires everything below together |
 | `snap.ts` | snap types, `steps`, resolution, closest/projection, release decision |
-| `position.ts` | y math, progress, the frame writes |
+| `position.ts` | y math, progress, and the index/step/cycle helpers |
 | `measure.ts` | shared `ResizeObserver` for `"header"` / `"content"` / view height |
 | `drag.ts` | gesture bindings and the drag/scroll arbitration |
 | `keyboard.ts` | handle keys, the Escape stack |
 | `modal.ts` | scroll lock + `inert` + focus capture/restore, as one guard |
 | `scroll-lock.ts` | refcounted document scroll lock that restores what it saved |
-| `dom.ts` | attribute/style helpers, base style tables, `inert` application |
+| `dom.ts` | the frame and rest writes, attribute/style helpers, base style tables, `inert`, focus, content-inner lookup |
 | `env.ts` | `isBrowser`, `clamp`, `warnOnce` |
 | `types.ts` | the public core types |
 
