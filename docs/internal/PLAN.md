@@ -301,8 +301,8 @@ Three worker sessions: **W1**, **W2**, **W3**. Orchestrator reviews each task's 
 | 1a | `tasks/01-spring.md` | W1 | 0 | `feat(spring): scalar spring primitive` ✅ f7f7668 |
 | 1b | `tasks/02-gesture.md` | W2 | 0 | `feat(gesture): pointer drag primitive` ✅ 21dc1bd |
 | 1c | `tasks/03-core-pure.md` | W3 | 0 | `feat(core): snap resolution, scroll lock, measurement modules` ✅ b0ef8e2 |
-| 2a | `tasks/04-core-controller.md` | W1 | 1a, 1b, 1c | `feat(core)!: framework-agnostic sheet controller (createSheet)` |
-| 2b | `tasks/07-react.md` (+07b follow-up: setElements wiring, export trim, setup file) | W2 | 1c (built against the §2.2 contract with a mocked controller; integrated after 2a) | `feat(react)!: React bindings on the core controller`, `test(react): …` — done on `w2/07-react`, merges after 2a |
+| 2a | `tasks/04-core-controller.md` (+04b) | W1 | 1a, 1b, 1c | `feat(core)!: framework-agnostic sheet controller (createSheet)` ✅ cce05f1 |
+| 2b | `tasks/07-react.md` (+07b follow-up: setElements wiring, export trim, setup file) | W2 | 1c (built against the §2.2 contract with a mocked controller; integrated after 2a) | `feat(react)!: React bindings on the core controller`, `test(react): …` ✅ b828a41 |
 | 2c | `tasks/06-meta.md` | W3 | 0 | `docs: README, CONTRIBUTING, CLAUDE.md, 1.0 changeset` |
 | 2d | `tasks/05-docs.md` | W2 (after 07b) | 1c | `docs: VitePress site with guides and reference` |
 | 3a | `tasks/08-playgrounds.md` | W1 | 2a, 2b | `chore: vanilla, react and next playgrounds` |

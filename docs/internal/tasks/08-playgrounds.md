@@ -2,7 +2,7 @@
 
 Worker: W1. Branch: `w1/08-playgrounds` off `v1` (after tasks 04 and 07 are merged). Plan sections: §1, §2.2, §2.3, §0 (SSR row).
 
-> DRAFT — finalised when 04 + 07 have merged.
+> FINAL. Base: v1 @ b828a41 (core controller + React bindings merged; 163 tests). Public API = PLAN §2 as implemented in packages/sheet/src/{index.ts,react/index.ts}. `dist/` now has a shared chunk between the two entries (rolldown code-splitting) — playgrounds must import only the two public entry points.
 
 ## Goal
 

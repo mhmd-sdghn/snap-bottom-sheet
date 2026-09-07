@@ -2,7 +2,7 @@
 
 Worker: W3. Branch: `w3/10-integration` off `v1` (after tasks 04 and 07 are merged). Plan sections: §2, §3, §4.2; AUDIT §1 (every P0 must have a regression test that fails on the 0.x behaviour).
 
-> DRAFT — finalised when 04 + 07 have merged.
+> FINAL. Base: v1 @ b828a41 (core controller + React bindings merged; 163 tests). Public API = PLAN §2 as implemented in packages/sheet/src/{index.ts,react/index.ts}. `dist/` now has a shared chunk between the two entries (rolldown code-splitting) — playgrounds must import only the two public entry points.
 
 ## Goal
 
