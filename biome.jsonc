@@ -10,22 +10,6 @@
       "!**/graphify-out"
     ]
   },
-  "overrides": [
-    {
-      // Legacy 0.x code: rules it trips are downgraded to warnings instead of
-      // rewriting it. Task 04 replaces this code — delete this override then.
-      "includes": ["packages/sheet/src/**"],
-      "linter": {
-        "rules": {
-          "a11y": {
-            "noStaticElementInteractions": "warn",
-            "useKeyWithClickEvents": "warn"
-          },
-          "suspicious": { "useIterableCallbackReturn": "warn" }
-        }
-      }
-    }
-  ],
   "formatter": {
     "enabled": true,
     "indentStyle": "space",
