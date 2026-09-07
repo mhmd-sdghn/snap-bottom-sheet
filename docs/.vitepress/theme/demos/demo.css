@@ -1,10 +1,6 @@
 /**
  * Shared styling for the live demos. Demos carry no inline styles — every
  * class here is a plain hook, so the demo source stays about the sheet.
- *
- * TODO: drop `position` / `inset` from `.demo-overlay` once the controller
- * writes them at attach (they are the only lines here that will become
- * redundant; colour and opacity stay ours).
  */
 
 .demo-host {
@@ -47,10 +43,8 @@
   font-size: 13px;
 }
 
-/* The scrim. */
+/* The scrim. Position and inset belong to the controller. */
 .demo-overlay {
-  position: absolute;
-  inset: 0;
   background: rgb(0 0 0 / 0.4);
   opacity: var(--snap-sheet-progress, 0);
 }

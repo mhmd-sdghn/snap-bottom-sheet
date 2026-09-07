@@ -263,11 +263,20 @@ interface SheetHandle {
 
 | Member | Type | Description |
 | --- | --- | --- |
-| `open` | `() => Promise<void>` | Show a closed sheet, animating to the active snap. Resolves when the spring rests. |
-| `close` | `() => Promise<void>` | Close the sheet regardless of `dismissible`. Resolves after the close animation. |
+| `open` | `() => Promise<void>` | Show a closed sheet, animating to the active snap. Resolves when the spring rests — or immediately on a controlled sheet, see below. |
+| `close` | `() => Promise<void>` | Close the sheet regardless of `dismissible`. Resolves after the close animation — or immediately on a controlled sheet, see below. |
 | `snapTo` | `(index: number, opts?: { immediate?: boolean }) => Promise<void>` | Animate to a snap by **your** array index. `immediate: true` jumps. Resolves when the spring rests. |
 | `activeSnapIndex` | `number` | Current index, read live from controller state. |
 | `y` | `number` | Current px offset of the panel top from the top of the view (`0` = fully open). |
+
+::: warning `open()` and `close()` are advisory on a controlled sheet
+Both go through the sheet's open state rather than straight to the controller.
+On an **uncontrolled** sheet that state is the sheet's own, so the returned
+promise resolves when the animation ends. On a **controlled** sheet the parent
+owns `open` and is free to ignore the request — there is no animation to await,
+so the promise resolves immediately and the call is only a request. Either way
+it resolves immediately when the sheet is already in the state you asked for.
+:::
 
 `open()` and `snapTo()` are not interchangeable: on a **closed** sheet
 `snapTo(i)` only changes which snap it will open at — it does not open the
