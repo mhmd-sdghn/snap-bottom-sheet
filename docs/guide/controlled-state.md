@@ -67,9 +67,10 @@ No `open` prop, no `onOpenChange`, no state in the parent: the sheet opens
 itself on mount, the handle moves it between snaps, and `Sheet.Close` closes it.
 
 ::: tip
-`defaultOpen` covers "open on mount". To open an uncontrolled sheet later in
-response to a click, control `open` with `useState` as in the next section —
-that is one line more and it makes the trigger's state explicit.
+`defaultOpen` covers "open on mount". To open an uncontrolled sheet later, call
+`ref.current.open()` from your trigger — a click-to-open button does not require
+controlling `open`. Reach for the controlled version in the next section when the
+parent needs to *render* off the open state, not merely to set it.
 :::
 
 ## Controlled
@@ -124,14 +125,19 @@ animation, no loop.
 
 ```ts
 interface SheetHandle {
-  snapTo(index: number, opts?: { immediate?: boolean }): Promise<void>;
+  open(): Promise<void>;
   close(): Promise<void>;
+  snapTo(index: number, opts?: { immediate?: boolean }): Promise<void>;
   readonly activeSnapIndex: number;
   readonly y: number; // px offset from top; 0 = fully open
 }
 ```
 
-Both methods return a promise that resolves when the spring rests (or
+`open()` on a closed sheet shows it, whether or not you control the `open` prop —
+that is the whole click-to-open trigger. `snapTo(i)` on a **closed** sheet only
+changes which snap it will open at; it does not open the sheet.
+
+All three methods return a promise that resolves when the spring rests (or
 immediately, with `{ immediate: true }`), so you can sequence work after a
 transition:
 
@@ -153,13 +159,16 @@ import { useSheetState } from "snap-bottom-sheet/react";
 
 function Dimmer() {
   const { progress, dragging } = useSheetState();
-  return <div style={{ opacity: progress * 0.6 }} data-dragging={dragging} />;
+  // `|| undefined` keeps it a presence attribute, as the controller writes it.
+  return (
+    <div style={{ opacity: progress * 0.6 }} data-dragging={dragging || undefined} />
+  );
 }
 ```
 
 | Field | Type | Meaning |
 |---|---|---|
-| `open` | `boolean` | The engine's open state |
+| `open` | `boolean` | The engine's open state. Flips to `false` when closing *starts* |
 | `snapIndex` | `number` | Active index in your array |
 | `y` | `number` | Current px offset from the top |
 | `progress` | `number` | `0` closed → `1` at the topmost snap |
@@ -205,9 +214,16 @@ anywhere.
 Two things follow. Component state inside the sheet survives a close-and-reopen
 only until that final unmount, so reset it in `onAnimationEnd` (as the
 controlled example does with `step`) rather than on the click that closes.
-And a sheet in its closing animation is still in the DOM, with `animating`
-`true` in `useSheetState()` and `data-state="closed"` already on the panel — so
-CSS can transition on it.
+And a sheet in its closing animation is still in the DOM, with `animating` `true`
+in `useSheetState()`.
+
+The two open signals move at different times, which matters if you read both:
+`SheetState.open` (and so `useSheetState().open`) flips to `false` the moment
+closing **starts**, while `data-state="closed"` is written at the **end**, once
+the spring rests. So during the closing window the panel still reads
+`data-state="open"` in CSS even though `open` is already `false` in JavaScript —
+use `data-state` for the exit transition and `open` for logic that must react
+immediately.
 
 ## Where next
 

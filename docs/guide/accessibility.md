@@ -26,7 +26,7 @@ In React the ids come from `useId`, so `Sheet.Title` and `Sheet.Description` nee
 </Sheet.Content>
 ```
 
-The vanilla core has no `useId` and no parts, so you point at your own ids with the `labelledBy` and `describedBy` options:
+There are no `labelledBy` / `describedBy` props on `<Sheet>` — rendering the two parts *is* the React API. Those options exist only on the core's `SheetOptions`, because the vanilla core has no `useId` and no parts, so there you point at your own ids:
 
 ::: code-group
 
@@ -59,6 +59,10 @@ The overlay is `aria-hidden` — it is a backdrop, not content.
 3. Locks page scroll (reference-counted, see [Nested Sheets](/guide/nested-sheets)).
 4. Returns focus to the element that was focused before the sheet opened, on close.
 
+::: warning `inert` reaches only inside the Portal container
+Step 1 is scoped to the *children of the Portal container* — `document.body`'s children by default, which is the whole page. Give `Sheet.Portal` a `container` and only that container's children go inert: everything outside it stays interactive and reachable by a screen reader, however modal the sheet is. If you need a custom container, make it the ancestor of everything the sheet should block, or accept that the rest of the page is still live.
+:::
+
 With `modal={false}` you get none of the above: the page stays interactive and focus stays wherever it was. That is the right choice for a persistent, non-blocking sheet, but then it is on you to make sure the sheet is reachable.
 
 ## Escape
@@ -85,8 +89,8 @@ If you want Escape (and overlay clicks, and drag-to-dismiss) to do nothing, set 
 
 `Sheet.Handle` renders a real `<button>`, so it is tabbable and operable without a pointer:
 
-- <kbd>ArrowUp</kbd> / <kbd>ArrowDown</kbd> move one snap point.
-- <kbd>Enter</kbd> / <kbd>Space</kbd> cycle through the snap points.
+- <kbd>ArrowUp</kbd> / <kbd>ArrowDown</kbd> step one snap point and **clamp** at the ends: ArrowUp at the topmost snap and ArrowDown at the lowest do nothing.
+- <kbd>Enter</kbd> / <kbd>Space</kbd> cycle to the next snap and **wrap** — from the topmost snap they return to the lowest.
 
 It carries a default `aria-label` of `"Resize sheet"`. Pass your own to override it, or to localise it:
 
@@ -105,7 +109,7 @@ The library cannot do these for you:
 - **Check the focus order.** Focus lands on the first focusable element inside Content — which is `Sheet.Handle` if you render one. If that is a poor landing spot, put a more useful control first, or drop the handle and let people drag the panel.
 - **Keep a visible focus ring.** Never `outline: none` on the handle, `Sheet.Close`, or anything inside `Sheet.Body`.
 - **Give `Sheet.Close` an accessible name.** An icon-only close button needs `aria-label`.
-- **Make the drag optional.** Every state the sheet can reach by dragging should also be reachable by a control — the handle keys, a `Sheet.Close`, or your own button calling `snapTo`.
+- **Make the drag optional.** Every state the sheet can reach by dragging should also be reachable by a control — the handle keys, a `Sheet.Close`, or your own button calling `open()` or `snapTo()` on the ref. Note that `snapTo()` on a closed sheet only chooses the snap it will open at; use `open()` to show it.
 - **Test with the keyboard only**, then with a screen reader, at each snap point — including a `scroll: true` snap, where `Sheet.Body` becomes the scroller.
 
 ## Next

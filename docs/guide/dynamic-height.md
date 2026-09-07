@@ -24,8 +24,14 @@ A single `ResizeObserver`, shared across every sheet on the page, does all the
 measuring. There is no polling and no per-frame layout read.
 
 **`"header"`** observes the `Sheet.Header` element directly. Its `offsetHeight`
-is the snap height, so padding and borders on the header count, and margins do
-not.
+is the snap height, so padding and borders on the header count.
+
+::: warning Margins on `Sheet.Header` are excluded
+`offsetHeight` does not include margins, so a margin on `Sheet.Header` is
+invisible to the `"header"` snap and the peek state lands that many pixels
+short. Use padding on the header instead of margins when you want the space to
+count.
+:::
 
 **`"content"`** observes an inner element inside `Sheet.Content` rather than the
 panel itself — the panel is deliberately full-height, so measuring it would
@@ -40,7 +46,10 @@ at that moment — so whenever the active snap has `scroll !== true`, Body is la
 out as `overflow: hidden; flex: none`, and the inner wrapper's height is exactly
 the content height. At a `scroll: true` snap, Body becomes
 `flex: 1; min-height: 0; overflow-y: auto` and `"content"` measurement is paused,
-because the value cannot mean anything there.
+because the value cannot mean anything there. The **last measured value is
+retained** while it is paused, so a `"content"` snap elsewhere in the array keeps
+the height it had before the sheet reached the scrolling snap, and measurement
+resumes — with a fresh value — as soon as the sheet leaves it.
 
 ::: info
 Both values are capped at the view height. Content taller than the screen

@@ -23,8 +23,13 @@ opposite directions:
 | `--snap-sheet-y` | `--snap-sheet-progress` | State |
 | --- | --- | --- |
 | `viewHeight` | `0` | Closed |
-| half of `viewHeight` | mid-range | Halfway |
-| `0` | `1` | At the topmost snap |
+| mid-range | mid-range | Between snaps |
+| the topmost snap's offset | `1` | At the topmost declared snap |
+
+Note the last row: `--snap-sheet-progress` hits `1` at the **topmost snap you
+declared**, not at `y === 0`. With `snapPoints={[0.3, 0.6]}` progress is `1` at
+`0.6`, and `y` never reaches `0` at all — see [Styling](/guide/styling) for a
+worked example.
 
 Use `--snap-sheet-progress` for overlay opacity or anything that should fade with
 the sheet, and `--snap-sheet-y` when you need the raw position. Both are written
@@ -72,8 +77,10 @@ content height, so the sheet hugs its content.
 
 Drag up is pinned (there is nowhere above content height to go), and drag down
 past the threshold closes the sheet — or clamps back when `dismissible` is
-`false`. `data-content-mode` is set on the panel, and `SheetState.contentMode` is
-`true`, so you can style or branch on it.
+`false`. `data-content-mode` is set on the panel (as a presence attribute, with
+no value), and `SheetState.contentMode` is `true`, so you can style or branch on
+it. The synthesized snap is still an index, so `data-snap-index` is `"0"` and
+`snapTo(0)` is valid.
 
 ## Modal and non-modal
 
@@ -86,6 +93,11 @@ things at once:
 | Page scroll | Locked (reference-counted, restored on close) | Untouched |
 | Siblings in the portal container | `inert` while open | Interactive |
 | Escape key | Closes the innermost open sheet | Ignored |
+
+The `inert` row is scoped to the portal container's own children, which is
+`document.body`'s children by default. A custom `Sheet.Portal container` narrows
+it: everything outside that container stays interactive. See
+[Accessibility](/guide/accessibility#what-modal-turns-on).
 
 Use `modal: false` for a sheet that coexists with the page — a persistent map
 panel, a mini player — where the user must keep scrolling and tapping behind it.

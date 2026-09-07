@@ -42,8 +42,8 @@ Examples assume a 800 px view height.
 | `number`, `n > 1` | `320` | 320 px | Absolute pixels. Capped at view height. |
 | `` `${number}%` `` | `"60%"` | 480 px | Fraction of view height. Decimals allowed (`"12.5%"`). |
 | `` `${number}px` `` | `"320px"` | 320 px | Same as the numeric px form, spelled out. |
-| `"header"` | `"header"` | measured `offsetHeight` of `Sheet.Header` | Live-measured. Before the first measurement it stands in at 50 % of view height. |
-| `"content"` | `"content"` | measured natural height of the panel's content | Live-measured, capped at view height. Same 50 % placeholder before measurement. |
+| `"header"` | `"header"` | measured `offsetHeight` of `Sheet.Header` | Live-measured. `offsetHeight` **excludes margins** — see the warning below. Before the first measurement it stands in at 50 % of view height. |
+| `"content"` | `"content"` | measured natural height of the panel's content | Live-measured, capped at view height. Same 50 % placeholder before measurement. Paused at a `scroll: true` snap. |
 | `0`, negative, `NaN`, unparseable string | `0` | nothing — dropped | Dev warning, then removed from the resolved set. `0` means closed. |
 
 Resolved heights are rounded to whole pixels and capped at the view height, so
@@ -60,7 +60,7 @@ Wrap a value in an object to attach per-snap behaviour.
 | Field | Type | Default | Description |
 | --- | --- | --- | --- |
 | `value` | `SnapValue` | — | Required. Any of the forms above. |
-| `scroll` | `boolean` | `false` | `Sheet.Body` scrolls at this snap (`overflow-y: auto; flex: 1 1 auto`). At `false` the Body is `overflow: hidden; flex: 0 0 auto`, so its natural height is what `"content"` measures. |
+| `scroll` | `boolean` | `false` | `Sheet.Body` scrolls at this snap (`overflow-y: auto; flex: 1 1 auto`), and `"content"` measurement pauses on the last measured value. At `false` the Body is `overflow: hidden; flex: 0 0 auto`, so its natural height is what `"content"` measures. |
 | `drag` | `boolean \| { up?: boolean; down?: boolean }` | `true` | Whether a drag may leave this snap. `false` pins it in both directions; the object form locks one direction — `{ down: false }` means the user can drag up but not down. Each sub-field defaults to `true`. |
 
 ```tsx
@@ -96,13 +96,17 @@ handle's keyboard controls move the sheet regardless.
    *active* snap changes — content loads, a row expands, the window resizes — the
    sheet springs to the new position rather than jumping. Until the first
    measurement arrives they resolve to 50 % of view height so the sheet has a
-   position on the first paint.
+   position on the first paint. `"content"` measurement pauses while the active
+   snap has `scroll: true` — the Body is then a scroll box with no natural
+   height to read, so the **last measured value is retained** until a
+   non-scrolling snap becomes active again.
 5. **No snap points, or only `"content"`, means content mode.** `[]` is treated
    as `["content"]`: the controller synthesizes one snap from the measured
    content height. Drag up is pinned, drag down past the dismiss threshold
    closes the sheet (or clamps back when `dismissible: false`),
    `data-content-mode` is set on the panel, `SheetState.contentMode` is `true`,
-   `snapIndex` stays `0`, and `onSnapIndexChange` never fires.
+   `snapIndex` and `data-snap-index` stay `0` / `"0"`, and `onSnapIndexChange`
+   never fires.
 
 ::: warning Measured values need something to measure
 `"header"` without a `Sheet.Header` — or a header that is `display: none` —
@@ -111,6 +115,13 @@ measured yet": the snap keeps the 50 % placeholder instead of being dropped, so
 the sheet sits at half height. If a `"header"` snap looks stuck at half the
 view, the header element is what to check. `"content"` measures the panel's inner
 wrapper — see the [measurement contract](/reference/core#semantics).
+:::
+
+::: warning `"header"` is `offsetHeight`, so margins do not count
+`offsetHeight` covers content, padding and border — not margin. A
+`Sheet.Header` with `margin: 16px` resolves 32 px shorter than it looks, and the
+sheet lands with its header partly cut off. Use **padding** on the header (or a
+margin on a child inside it) rather than a margin on `Sheet.Header` itself.
 :::
 
 ## `steps(count, opts?)`

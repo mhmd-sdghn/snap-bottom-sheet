@@ -80,7 +80,7 @@ Nesting in the React tree is a convenience, not a requirement. Two sibling `<She
 
 Be honest with yourself about these before shipping a stack of sheets.
 
-**Stacking order is your CSS.** Both portals append to `document.body` in mount order, so the inner sheet usually lands on top — but "usually" is not a guarantee, and it will not survive an inner sheet that mounts first. Give each level an explicit `z-index`:
+**Stacking order is your CSS.** The library never writes a `z-index` — not on the panel, not on the overlay, not on the portal wrapper, on no element ever — so stacking is decided entirely by your stylesheet and by DOM order. Both portals append to `document.body` in mount order, so the inner sheet usually lands on top, but "usually" is not a guarantee and it will not survive an inner sheet that mounts first. Give each level an explicit `z-index`; nothing in the library will compete with it:
 
 ```css
 .sheet--outer,

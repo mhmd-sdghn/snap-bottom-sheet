@@ -28,7 +28,7 @@ controller when its children have mounted, and mirrors prop changes into
 | `skipInitialAnimation` | `boolean` | `false` | Mount at the active snap instead of animating up from closed. |
 | `reducedMotion` | `boolean \| "system"` | `"system"` | `true` makes every transition immediate; `"system"` follows `prefers-reduced-motion: reduce`. |
 | `onDragStart` | `() => void` | — | The drag passed the 3 px threshold. |
-| `onDragEnd` | `(targetIndex: number) => void` | — | The release target has been decided, before the spring starts. `-1` means the sheet is closing. |
+| `onDragEnd` | `(targetIndex: number) => void` | — | The release target has been decided, before the spring starts. `-1` means the sheet is closing; on a drag dismissal `onDragEnd(-1)` fires **before** `onOpenChange(false)`. |
 | `onAnimationEnd` | `(open: boolean) => void` | — | The open or close spring reached rest. The close one is what unmounts the portal subtree. |
 | `children` | `React.ReactNode` | — | Rendered only while the sheet is present (open, or still playing its close animation). |
 | `ref` | `Ref<SheetHandle>` | — | Imperative handle, see [`SheetHandle`](#sheethandle). |
@@ -38,6 +38,14 @@ On a dismissal the controller closes itself first and calls `onOpenChange(false)
 afterwards. A controlled parent that keeps `open` at `true` makes the sheet
 re-open on the next render — a visible one-frame bounce. Use
 `dismissible={false}`.
+:::
+
+::: info No `labelledBy` / `describedBy` props
+`<Sheet>` takes neither. In React the parts *are* the API: render
+`Sheet.Title` / `Sheet.Description` and the controller wires their generated ids
+as `aria-labelledby` / `aria-describedby`. The `labelledBy` and `describedBy`
+options exist only on the core [`SheetOptions`](/reference/core#sheetoptions),
+for consumers who have no React tree to render parts into.
 :::
 
 ::: info Identity of `snapPoints`
@@ -101,6 +109,10 @@ Renders its children into a portal. Nothing else.
 - These are the only props it takes: no `ref`, no `className`, no styling. When
   `container` is not `document.body` the panel is positioned `absolute` inside
   it instead of `fixed`, and view height is the container's `offsetHeight`.
+- `inert` reaches only the container's own children. With the default
+  `document.body` that is the whole page, but with a custom `container`
+  everything outside it stays interactive even when `modal` — see
+  [Accessibility](/guide/accessibility).
 
 ### `Sheet.Overlay`
 
@@ -112,8 +124,11 @@ Renders its children into a portal. Nothing else.
 | CSS properties | `--snap-sheet-progress` |
 | Behaviour | Click closes the sheet when `dismissible`; `aria-hidden="true"` is set at attach. |
 
-Render it only in a modal sheet. `--snap-sheet-progress` is written on the
-overlay element itself, so the fade is one line of CSS:
+Render it only in a modal sheet. The controller positions the overlay for you —
+at attach it writes `position: fixed` (or `absolute` when `Sheet.Portal` has a
+`container`) and `inset: 0` on the element, so your CSS only has to supply
+colour. `--snap-sheet-progress` is written on the overlay element itself, so the
+fade is one line:
 
 ```tsx
 <Sheet.Overlay className="overlay" />
@@ -121,8 +136,6 @@ overlay element itself, so the fade is one line of CSS:
 
 ```css
 .overlay {
-  position: absolute;
-  inset: 0;
   background: rgb(0 0 0 / 0.4);
   opacity: var(--snap-sheet-progress);
 }
@@ -157,7 +170,13 @@ The panel. Everything else lives inside it.
 | Renders | `<button type="button">` |
 | Own props | none beyond native `button` props |
 | Attributes | `aria-label="Resize sheet"` unless you pass your own `aria-label` |
-| Behaviour | Click cycles to the next snap; <kbd>ArrowUp</kbd> / <kbd>ArrowDown</kbd> move one snap; <kbd>Enter</kbd> / <kbd>Space</kbd> cycle. |
+| Behaviour | Click cycles to the next snap; <kbd>Enter</kbd> / <kbd>Space</kbd> cycle and **wrap**; <kbd>ArrowUp</kbd> / <kbd>ArrowDown</kbd> step one snap and **clamp**. |
+
+The two keyboard behaviours differ at the ends of the array. <kbd>Enter</kbd> and
+<kbd>Space</kbd> cycle: from the topmost snap they wrap back to the lowest.
+<kbd>ArrowUp</kbd> and <kbd>ArrowDown</kbd> step by one and clamp, so pressing
+<kbd>ArrowUp</kbd> at the topmost snap (or <kbd>ArrowDown</kbd> at the lowest)
+does nothing.
 
 The visible grabber is your own markup or `::before` — the button ships no
 styling. Dragging works on the whole panel, so the handle is an affordance and a
@@ -234,8 +253,9 @@ controller.
 
 ```ts
 interface SheetHandle {
-  snapTo(index: number, opts?: { immediate?: boolean }): Promise<void>;
+  open(): Promise<void>;
   close(): Promise<void>;
+  snapTo(index: number, opts?: { immediate?: boolean }): Promise<void>;
   readonly activeSnapIndex: number;
   readonly y: number;
 }
@@ -243,19 +263,35 @@ interface SheetHandle {
 
 | Member | Type | Description |
 | --- | --- | --- |
-| `snapTo` | `(index: number, opts?: { immediate?: boolean }) => Promise<void>` | Animate to a snap by **your** array index. `immediate: true` jumps. Resolves when the spring rests. |
+| `open` | `() => Promise<void>` | Show a closed sheet, animating to the active snap. Resolves when the spring rests. |
 | `close` | `() => Promise<void>` | Close the sheet regardless of `dismissible`. Resolves after the close animation. |
+| `snapTo` | `(index: number, opts?: { immediate?: boolean }) => Promise<void>` | Animate to a snap by **your** array index. `immediate: true` jumps. Resolves when the spring rests. |
 | `activeSnapIndex` | `number` | Current index, read live from controller state. |
 | `y` | `number` | Current px offset of the panel top from the top of the view (`0` = fully open). |
 
-Before the controller exists (sheet closed, first render) the methods are no-ops
-that resolve, and the getters read the last known state — calling them early is
-safe.
+`open()` and `snapTo()` are not interchangeable: on a **closed** sheet
+`snapTo(i)` only changes which snap it will open at — it does not open the
+sheet. `open()` is what shows it. Because `open()` is on the handle, a
+click-to-open trigger needs no controlled `open` prop:
 
 ```tsx
-const sheet = useRef<SheetHandle>(null);
-await sheet.current?.snapTo(1);
+function Screen() {
+  const sheet = useRef<SheetHandle>(null);
+
+  return (
+    <>
+      <button onClick={() => sheet.current?.open()}>Open</button>
+      <Sheet ref={sheet} snapPoints={[0.4, 0.9]}>
+        …
+      </Sheet>
+    </>
+  );
+}
 ```
+
+Calling the handle before the controller exists (sheet closed, first render) is
+safe: `open()` opens the sheet, `close()` and `snapTo()` resolve without moving
+anything, and the getters read the last known state.
 
 ## `useSheetState()`
 
@@ -271,16 +307,20 @@ function Indicator() {
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `open` | `boolean` | `true` from the moment `open()` starts until the close animation is done. |
+| `open` | `boolean` | `true` from the moment `open()` starts. Flips to `false` when closing **starts**, not when it finishes. |
 | `snapIndex` | `number` | Active snap in your array order; `0` in content mode. |
 | `y` | `number` | Panel top offset in px (`0` = fully open, view height = closed). |
-| `progress` | `number` | `0` closed → `1` at the topmost snap. |
+| `progress` | `number` | `0` closed → `1` at the topmost **declared** snap. |
 | `dragging` | `boolean` | A pointer drag is in progress. |
 | `animating` | `boolean` | The spring is running. |
 | `contentMode` | `boolean` | No real snap points — the sheet hugs its content. |
 
 - The state object is reference-stable until something changes, so a component
   reading it only re-renders on real changes.
+- `open` and `data-state` are not in step during a close. `open` goes `false` as
+  soon as the close begins; `data-state="closed"` is written at the other end,
+  once the spring rests — the same moment `onAnimationEnd(false)` fires. Drive
+  exit CSS from `data-state`, and mount/unmount decisions from `open`.
 - `y` and `progress` are throttled to one notification per animation frame. For
   anything you would otherwise animate per frame, prefer the CSS custom
   properties in [Styling Hooks](/reference/styling-hooks) — they never touch
