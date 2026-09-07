@@ -305,7 +305,7 @@ Three worker sessions: **W1**, **W2**, **W3**. Orchestrator reviews each task's 
 | 1c | `tasks/03-core-pure.md` | W3 | 0 | `feat(core): snap resolution, scroll lock, measurement modules` ✅ b0ef8e2 |
 | 2a | `tasks/04-core-controller.md` (+04b) | W1 | 1a, 1b, 1c | `feat(core)!: framework-agnostic sheet controller (createSheet)` ✅ cce05f1 |
 | 2b | `tasks/07-react.md` (+07b follow-up: setElements wiring, export trim, setup file) | W2 | 1c (built against the §2.2 contract with a mocked controller; integrated after 2a) | `feat(react)!: React bindings on the core controller`, `test(react): …` ✅ b828a41 |
-| 2c | `tasks/06-meta.md` | W3 → reassigned to whoever frees first (W3 stalled on a UI prompt) | 0 | `docs: README, CONTRIBUTING, CLAUDE.md, 1.0 changeset` |
+| 2c | `tasks/06-meta.md` ✅ merged (W2; W3 stalled) | W2 | 0 | `docs: README, CONTRIBUTING, CLAUDE.md, 1.0 changeset` |
 | 2d | `tasks/05-docs.md` (+05b answers) | W2 | 1c | `docs: VitePress site with guides and reference` ✅ 421b4f1 |
 | 2e | `tasks/11-core-followups.md` | W1 | 2a, 2b, 2d | core + react follow-ups ✅ merged |
 | 3a | `tasks/08-playgrounds.md` | W1 | 2a, 2b | `chore: vanilla, react and next playgrounds` ✅ e2e751f |

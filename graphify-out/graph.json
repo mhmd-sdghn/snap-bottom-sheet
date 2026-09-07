@@ -3678,8 +3678,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_core_env",
-      "community": 102,
-      "community_name": "sheet.test.tsx",
+      "community": 103,
+      "community_name": "App.tsx",
       "norm_label": "env.ts"
     },
     {
@@ -3689,8 +3689,8 @@
       "source_location": "L2",
       "_origin": "ast",
       "id": "packages_sheet_src_core_env_isbrowser",
-      "community": 102,
-      "community_name": "sheet.test.tsx",
+      "community": 103,
+      "community_name": "App.tsx",
       "norm_label": "isbrowser()"
     },
     {
@@ -3711,8 +3711,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "packages_sheet_src_core_env_warned",
-      "community": 102,
-      "community_name": "sheet.test.tsx",
+      "community": 103,
+      "community_name": "App.tsx",
       "norm_label": "warned"
     },
     {
@@ -3722,8 +3722,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "packages_sheet_src_core_env_warnonce",
-      "community": 102,
-      "community_name": "sheet.test.tsx",
+      "community": 103,
+      "community_name": "App.tsx",
       "norm_label": "warnonce()"
     },
     {
@@ -4162,8 +4162,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_core_scroll_lock",
-      "community": 65,
-      "community_name": "sheet.test.ts",
+      "community": 129,
+      "community_name": "scroll-lock.ts",
       "norm_label": "scroll-lock.ts"
     },
     {
@@ -4173,8 +4173,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "packages_sheet_src_core_scroll_lock_savedstyles",
-      "community": 65,
-      "community_name": "sheet.test.ts",
+      "community": 129,
+      "community_name": "scroll-lock.ts",
       "norm_label": "savedstyles"
     },
     {
@@ -4184,8 +4184,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "packages_sheet_src_core_scroll_lock_noop",
-      "community": 65,
-      "community_name": "sheet.test.ts",
+      "community": 129,
+      "community_name": "scroll-lock.ts",
       "norm_label": "noop()"
     },
     {
@@ -4195,8 +4195,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "packages_sheet_src_core_scroll_lock_apply",
-      "community": 65,
-      "community_name": "sheet.test.ts",
+      "community": 129,
+      "community_name": "scroll-lock.ts",
       "norm_label": "apply()"
     },
     {
@@ -4206,8 +4206,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "packages_sheet_src_core_scroll_lock_restore",
-      "community": 65,
-      "community_name": "sheet.test.ts",
+      "community": 129,
+      "community_name": "scroll-lock.ts",
       "norm_label": "restore()"
     },
     {
@@ -4217,8 +4217,8 @@
       "source_location": "L60",
       "_origin": "ast",
       "id": "packages_sheet_src_core_scroll_lock_lockbodyscroll",
-      "community": 65,
-      "community_name": "sheet.test.ts",
+      "community": 129,
+      "community_name": "scroll-lock.ts",
       "norm_label": "lockbodyscroll()"
     },
     {
@@ -4228,8 +4228,8 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "packages_sheet_src_core_scroll_lock_isbodyscrolllocked",
-      "community": 65,
-      "community_name": "sheet.test.ts",
+      "community": 129,
+      "community_name": "scroll-lock.ts",
       "norm_label": "isbodyscrolllocked()"
     },
     {
@@ -4283,8 +4283,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap",
-      "community": 112,
-      "community_name": "SheetElements",
+      "community": 126,
+      "community_name": "snap.ts",
       "norm_label": "snap.ts"
     },
     {
@@ -4294,8 +4294,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap_snapvalue",
-      "community": 112,
-      "community_name": "SheetElements",
+      "community": 126,
+      "community_name": "snap.ts",
       "norm_label": "snapvalue"
     },
     {
@@ -4305,8 +4305,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap_snappointconfig",
-      "community": 112,
-      "community_name": "SheetElements",
+      "community": 126,
+      "community_name": "snap.ts",
       "norm_label": "snappointconfig"
     },
     {
@@ -4327,8 +4327,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap_measurecontext",
-      "community": 112,
-      "community_name": "SheetElements",
+      "community": 126,
+      "community_name": "snap.ts",
       "norm_label": "measurecontext"
     },
     {
@@ -4338,8 +4338,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap_resolvedsnap",
-      "community": 78,
-      "community_name": "DragDeps",
+      "community": 102,
+      "community_name": "sheet.test.tsx",
       "norm_label": "resolvedsnap"
     },
     {
@@ -4349,8 +4349,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap_normalizedsnap",
-      "community": 112,
-      "community_name": "SheetElements",
+      "community": 126,
+      "community_name": "snap.ts",
       "norm_label": "normalizedsnap"
     },
     {
@@ -4360,8 +4360,8 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap_isconfig",
-      "community": 112,
-      "community_name": "SheetElements",
+      "community": 126,
+      "community_name": "snap.ts",
       "norm_label": "isconfig()"
     },
     {
@@ -4371,8 +4371,8 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap_steps",
-      "community": 112,
-      "community_name": "SheetElements",
+      "community": 126,
+      "community_name": "snap.ts",
       "norm_label": "steps()"
     },
     {
@@ -4382,8 +4382,8 @@
       "source_location": "L74",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap_normalize",
-      "community": 112,
-      "community_name": "SheetElements",
+      "community": 126,
+      "community_name": "snap.ts",
       "norm_label": "normalize()"
     },
     {
@@ -4393,8 +4393,8 @@
       "source_location": "L93",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap_toheight",
-      "community": 112,
-      "community_name": "SheetElements",
+      "community": 126,
+      "community_name": "snap.ts",
       "norm_label": "toheight()"
     },
     {
@@ -4404,8 +4404,8 @@
       "source_location": "L132",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap_resolvesnappoints",
-      "community": 112,
-      "community_name": "SheetElements",
+      "community": 126,
+      "community_name": "snap.ts",
       "norm_label": "resolvesnappoints()"
     },
     {
@@ -4426,8 +4426,8 @@
       "source_location": "L175",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap_closest",
-      "community": 112,
-      "community_name": "SheetElements",
+      "community": 126,
+      "community_name": "snap.ts",
       "norm_label": "closest()"
     },
     {
@@ -4437,8 +4437,8 @@
       "source_location": "L194",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap_project",
-      "community": 112,
-      "community_name": "SheetElements",
+      "community": 126,
+      "community_name": "snap.ts",
       "norm_label": "project()"
     },
     {
@@ -4448,8 +4448,8 @@
       "source_location": "L203",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap_iscontentmode",
-      "community": 112,
-      "community_name": "SheetElements",
+      "community": 126,
+      "community_name": "snap.ts",
       "norm_label": "iscontentmode()"
     },
     {
@@ -4459,8 +4459,8 @@
       "source_location": "L212",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap_deciderelease",
-      "community": 112,
-      "community_name": "SheetElements",
+      "community": 126,
+      "community_name": "snap.ts",
       "norm_label": "deciderelease()"
     },
     {
@@ -4668,8 +4668,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_index",
-      "community": 112,
-      "community_name": "SheetElements",
+      "community": 126,
+      "community_name": "snap.ts",
       "norm_label": "index.ts"
     },
     {
@@ -4679,8 +4679,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_react_body",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 5,
+      "community_name": "App TypeScript Config",
       "norm_label": "body.tsx"
     },
     {
@@ -4690,8 +4690,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "packages_sheet_src_react_body_bodyprops",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 5,
+      "community_name": "App TypeScript Config",
       "norm_label": "bodyprops"
     },
     {
@@ -4701,8 +4701,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "packages_sheet_src_react_body_body",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 5,
+      "community_name": "App TypeScript Config",
       "norm_label": "body"
     },
     {
@@ -4712,8 +4712,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_react_close",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 5,
+      "community_name": "App TypeScript Config",
       "norm_label": "close.tsx"
     },
     {
@@ -4723,8 +4723,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "packages_sheet_src_react_close_closeprops",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 5,
+      "community_name": "App TypeScript Config",
       "norm_label": "closeprops"
     },
     {
@@ -4734,8 +4734,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "packages_sheet_src_react_close_close",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 5,
+      "community_name": "App TypeScript Config",
       "norm_label": "close"
     },
     {
@@ -4745,8 +4745,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_react_content",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 5,
+      "community_name": "App TypeScript Config",
       "norm_label": "content.tsx"
     },
     {
@@ -4756,8 +4756,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "packages_sheet_src_react_content_contentprops",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 5,
+      "community_name": "App TypeScript Config",
       "norm_label": "contentprops"
     },
     {
@@ -4767,8 +4767,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "packages_sheet_src_react_content_content",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 5,
+      "community_name": "App TypeScript Config",
       "norm_label": "content"
     },
     {
@@ -4778,8 +4778,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_react_description",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 127,
+      "community_name": "usePartRef",
       "norm_label": "description.tsx"
     },
     {
@@ -4789,8 +4789,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "packages_sheet_src_react_description_descriptionprops",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 127,
+      "community_name": "usePartRef",
       "norm_label": "descriptionprops"
     },
     {
@@ -4800,8 +4800,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "packages_sheet_src_react_description_description",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 127,
+      "community_name": "usePartRef",
       "norm_label": "description"
     },
     {
@@ -4811,8 +4811,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_react_handle",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 5,
+      "community_name": "App TypeScript Config",
       "norm_label": "handle.tsx"
     },
     {
@@ -4822,8 +4822,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "packages_sheet_src_react_handle_handleprops",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 5,
+      "community_name": "App TypeScript Config",
       "norm_label": "handleprops"
     },
     {
@@ -4833,8 +4833,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "packages_sheet_src_react_handle_handle",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 5,
+      "community_name": "App TypeScript Config",
       "norm_label": "handle"
     },
     {
@@ -4844,8 +4844,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_react_header",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 5,
+      "community_name": "App TypeScript Config",
       "norm_label": "header.tsx"
     },
     {
@@ -4855,8 +4855,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "packages_sheet_src_react_header_headerprops",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 5,
+      "community_name": "App TypeScript Config",
       "norm_label": "headerprops"
     },
     {
@@ -4866,8 +4866,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "packages_sheet_src_react_header_header",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 5,
+      "community_name": "App TypeScript Config",
       "norm_label": "header"
     },
     {
@@ -4877,8 +4877,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_react_overlay",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 5,
+      "community_name": "App TypeScript Config",
       "norm_label": "overlay.tsx"
     },
     {
@@ -4888,8 +4888,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "packages_sheet_src_react_overlay_overlayprops",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 5,
+      "community_name": "App TypeScript Config",
       "norm_label": "overlayprops"
     },
     {
@@ -4899,8 +4899,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "packages_sheet_src_react_overlay_overlay",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 5,
+      "community_name": "App TypeScript Config",
       "norm_label": "overlay"
     },
     {
@@ -4910,8 +4910,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_react_portal",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 127,
+      "community_name": "usePartRef",
       "norm_label": "portal.tsx"
     },
     {
@@ -4921,8 +4921,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "packages_sheet_src_react_portal_portalprops",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 127,
+      "community_name": "usePartRef",
       "norm_label": "portalprops"
     },
     {
@@ -4932,8 +4932,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "packages_sheet_src_react_portal_portal",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 127,
+      "community_name": "usePartRef",
       "norm_label": "portal()"
     },
     {
@@ -4943,8 +4943,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_react_sheet",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 128,
+      "community_name": "Sheet.tsx",
       "norm_label": "sheet.tsx"
     },
     {
@@ -4954,8 +4954,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "packages_sheet_src_react_sheet_sheetprops",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 128,
+      "community_name": "Sheet.tsx",
       "norm_label": "sheetprops"
     },
     {
@@ -4965,8 +4965,8 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "packages_sheet_src_react_sheet_sheethandle",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 125,
+      "community_name": "audit-p0.test.ts",
       "norm_label": "sheethandle"
     },
     {
@@ -4976,8 +4976,8 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "packages_sheet_src_react_sheet_sheethandle_open",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 125,
+      "community_name": "audit-p0.test.ts",
       "norm_label": ".open()"
     },
     {
@@ -4987,8 +4987,8 @@
       "source_location": "L60",
       "_origin": "ast",
       "id": "packages_sheet_src_react_sheet_sheethandle_close",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 125,
+      "community_name": "audit-p0.test.ts",
       "norm_label": ".close()"
     },
     {
@@ -4998,8 +4998,8 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "packages_sheet_src_react_sheet_sheethandle_snapto",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 125,
+      "community_name": "audit-p0.test.ts",
       "norm_label": ".snapto()"
     },
     {
@@ -5009,8 +5009,8 @@
       "source_location": "L67",
       "_origin": "ast",
       "id": "packages_sheet_src_react_sheet_parts",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 128,
+      "community_name": "Sheet.tsx",
       "norm_label": "parts"
     },
     {
@@ -5020,8 +5020,8 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "packages_sheet_src_react_sheet_sheet",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 128,
+      "community_name": "Sheet.tsx",
       "norm_label": "sheet"
     },
     {
@@ -5031,8 +5031,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_react_title",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 127,
+      "community_name": "usePartRef",
       "norm_label": "title.tsx"
     },
     {
@@ -5042,8 +5042,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "packages_sheet_src_react_title_titleprops",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 127,
+      "community_name": "usePartRef",
       "norm_label": "titleprops"
     },
     {
@@ -5053,8 +5053,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "packages_sheet_src_react_title_title",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 127,
+      "community_name": "usePartRef",
       "norm_label": "title"
     },
     {
@@ -5064,8 +5064,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_react_context",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 128,
+      "community_name": "Sheet.tsx",
       "norm_label": "context.ts"
     },
     {
@@ -5075,8 +5075,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "packages_sheet_src_react_context_partname",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 128,
+      "community_name": "Sheet.tsx",
       "norm_label": "partname"
     },
     {
@@ -5086,8 +5086,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "packages_sheet_src_react_context_sheetcontextvalue",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 128,
+      "community_name": "Sheet.tsx",
       "norm_label": "sheetcontextvalue"
     },
     {
@@ -5097,8 +5097,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "packages_sheet_src_react_context_sheetcontextvalue_register",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 127,
+      "community_name": "usePartRef",
       "norm_label": ".register()"
     },
     {
@@ -5108,8 +5108,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "packages_sheet_src_react_context_sheetcontextvalue_setopen",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 128,
+      "community_name": "Sheet.tsx",
       "norm_label": ".setopen()"
     },
     {
@@ -5119,8 +5119,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "packages_sheet_src_react_context_sheetcontext",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 128,
+      "community_name": "Sheet.tsx",
       "norm_label": "sheetcontext"
     },
     {
@@ -5130,8 +5130,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "packages_sheet_src_react_context_usesheetcontext",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 127,
+      "community_name": "usePartRef",
       "norm_label": "usesheetcontext()"
     },
     {
@@ -5141,8 +5141,8 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "packages_sheet_src_react_context_usepartref",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 127,
+      "community_name": "usePartRef",
       "norm_label": "usepartref()"
     },
     {
@@ -5152,8 +5152,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_react_index",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 5,
+      "community_name": "App TypeScript Config",
       "norm_label": "index.ts"
     },
     {
@@ -5163,8 +5163,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "packages_sheet_src_react_index_sheet",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 125,
+      "community_name": "audit-p0.test.ts",
       "norm_label": "sheet"
     },
     {
@@ -5174,8 +5174,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_react_use_controllable_state",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 128,
+      "community_name": "Sheet.tsx",
       "norm_label": "use-controllable-state.ts"
     },
     {
@@ -5185,8 +5185,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "packages_sheet_src_react_use_controllable_state_usecontrollablestate",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 128,
+      "community_name": "Sheet.tsx",
       "norm_label": "usecontrollablestate()"
     },
     {
@@ -5196,8 +5196,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_react_use_isomorphic_layout_effect",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 127,
+      "community_name": "usePartRef",
       "norm_label": "use-isomorphic-layout-effect.ts"
     },
     {
@@ -5207,8 +5207,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_react_use_sheet_state",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 125,
+      "community_name": "audit-p0.test.ts",
       "norm_label": "use-sheet-state.ts"
     },
     {
@@ -5218,8 +5218,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "packages_sheet_src_react_use_sheet_state_closed_state",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 125,
+      "community_name": "audit-p0.test.ts",
       "norm_label": "closed_state"
     },
     {
@@ -5229,8 +5229,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "packages_sheet_src_react_use_sheet_state_usesheetstate",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 125,
+      "community_name": "audit-p0.test.ts",
       "norm_label": "usesheetstate()"
     },
     {
@@ -5273,8 +5273,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_test_core_env_test",
-      "community": 102,
-      "community_name": "sheet.test.tsx",
+      "community": 103,
+      "community_name": "App.tsx",
       "norm_label": "env.test.ts"
     },
     {
@@ -5504,8 +5504,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_test_core_measure_test",
-      "community": 3,
-      "community_name": "Compound Component and Types",
+      "community": 111,
+      "community_name": "FakeResizeObserver",
       "norm_label": "measure.test.ts"
     },
     {
@@ -5515,8 +5515,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "packages_sheet_test_core_measure_test_entry",
-      "community": 3,
-      "community_name": "Compound Component and Types",
+      "community": 111,
+      "community_name": "FakeResizeObserver",
       "norm_label": "entry"
     },
     {
@@ -5592,8 +5592,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "packages_sheet_test_core_measure_test_ro",
-      "community": 3,
-      "community_name": "Compound Component and Types",
+      "community": 111,
+      "community_name": "FakeResizeObserver",
       "norm_label": "ro()"
     },
     {
@@ -5603,8 +5603,8 @@
       "source_location": "L41",
       "_origin": "ast",
       "id": "packages_sheet_test_core_measure_test_element",
-      "community": 3,
-      "community_name": "Compound Component and Types",
+      "community": 111,
+      "community_name": "FakeResizeObserver",
       "norm_label": "element()"
     },
     {
@@ -5614,8 +5614,8 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "packages_sheet_test_core_measure_test_setheight",
-      "community": 3,
-      "community_name": "Compound Component and Types",
+      "community": 111,
+      "community_name": "FakeResizeObserver",
       "norm_label": "setheight()"
     },
     {
@@ -5625,8 +5625,8 @@
       "source_location": "L60",
       "_origin": "ast",
       "id": "packages_sheet_test_core_measure_test_setinnerheight",
-      "community": 3,
-      "community_name": "Compound Component and Types",
+      "community": 111,
+      "community_name": "FakeResizeObserver",
       "norm_label": "setinnerheight()"
     },
     {
@@ -5636,8 +5636,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_test_core_scroll_lock_test",
-      "community": 65,
-      "community_name": "sheet.test.ts",
+      "community": 129,
+      "community_name": "scroll-lock.ts",
       "norm_label": "scroll-lock.test.ts"
     },
     {
@@ -5647,8 +5647,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "packages_sheet_test_core_scroll_lock_test_html",
-      "community": 65,
-      "community_name": "sheet.test.ts",
+      "community": 129,
+      "community_name": "scroll-lock.ts",
       "norm_label": "html()"
     },
     {
@@ -5658,8 +5658,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "packages_sheet_test_core_scroll_lock_test_body",
-      "community": 65,
-      "community_name": "sheet.test.ts",
+      "community": 129,
+      "community_name": "scroll-lock.ts",
       "norm_label": "body()"
     },
     {
@@ -5669,8 +5669,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "packages_sheet_test_core_scroll_lock_test_setclientwidth",
-      "community": 65,
-      "community_name": "sheet.test.ts",
+      "community": 129,
+      "community_name": "scroll-lock.ts",
       "norm_label": "setclientwidth()"
     },
     {
@@ -5735,8 +5735,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "packages_sheet_test_core_sheet_test_fixture",
-      "community": 112,
-      "community_name": "SheetElements",
+      "community": 65,
+      "community_name": "sheet.test.ts",
       "norm_label": "fixture"
     },
     {
@@ -5801,8 +5801,8 @@
       "source_location": "L102",
       "_origin": "ast",
       "id": "packages_sheet_test_core_sheet_test_drag",
-      "community": 65,
-      "community_name": "sheet.test.ts",
+      "community": 110,
+      "community_name": "pointer.ts",
       "norm_label": "drag()"
     },
     {
@@ -5878,8 +5878,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_test_core_snap_test",
-      "community": 112,
-      "community_name": "SheetElements",
+      "community": 126,
+      "community_name": "snap.ts",
       "norm_label": "snap.test.ts"
     },
     {
@@ -5889,8 +5889,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "packages_sheet_test_core_snap_test_ctx",
-      "community": 112,
-      "community_name": "SheetElements",
+      "community": 126,
+      "community_name": "snap.ts",
       "norm_label": "ctx()"
     },
     {
@@ -5999,8 +5999,8 @@
       "source_location": "L81",
       "_origin": "ast",
       "id": "packages_sheet_test_helpers_env_settle",
-      "community": 125,
-      "community_name": "audit-p0.test.ts",
+      "community": 124,
+      "community_name": "vanilla.test.ts",
       "norm_label": "settle()"
     },
     {
@@ -6021,8 +6021,8 @@
       "source_location": "L102",
       "_origin": "ast",
       "id": "packages_sheet_test_helpers_env_isinert",
-      "community": 125,
-      "community_name": "audit-p0.test.ts",
+      "community": 124,
+      "community_name": "vanilla.test.ts",
       "norm_label": "isinert()"
     },
     {
@@ -6087,8 +6087,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_test_integration_react_real_controller_test",
-      "community": 110,
-      "community_name": "pointer.ts",
+      "community": 124,
+      "community_name": "vanilla.test.ts",
       "norm_label": "react-real-controller.test.tsx"
     },
     {
@@ -6098,8 +6098,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "packages_sheet_test_integration_react_real_controller_test_yfor",
-      "community": 110,
-      "community_name": "pointer.ts",
+      "community": 124,
+      "community_name": "vanilla.test.ts",
       "norm_label": "yfor()"
     },
     {
@@ -6109,8 +6109,8 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "packages_sheet_test_integration_react_real_controller_test_flush",
-      "community": 125,
-      "community_name": "audit-p0.test.ts",
+      "community": 124,
+      "community_name": "vanilla.test.ts",
       "norm_label": "flush()"
     },
     {
@@ -6120,8 +6120,8 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "packages_sheet_test_integration_react_real_controller_test_stateprobe",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 125,
+      "community_name": "audit-p0.test.ts",
       "norm_label": "stateprobe()"
     },
     {
@@ -6131,8 +6131,8 @@
       "source_location": "L58",
       "_origin": "ast",
       "id": "packages_sheet_test_integration_react_real_controller_test_panel",
-      "community": 110,
-      "community_name": "pointer.ts",
+      "community": 124,
+      "community_name": "vanilla.test.ts",
       "norm_label": "panel()"
     },
     {
@@ -6142,8 +6142,8 @@
       "source_location": "L77",
       "_origin": "ast",
       "id": "packages_sheet_test_integration_react_real_controller_test_content",
-      "community": 110,
-      "community_name": "pointer.ts",
+      "community": 124,
+      "community_name": "vanilla.test.ts",
       "norm_label": "content()"
     },
     {
@@ -6153,8 +6153,8 @@
       "source_location": "L78",
       "_origin": "ast",
       "id": "packages_sheet_test_integration_react_real_controller_test_probe",
-      "community": 110,
-      "community_name": "pointer.ts",
+      "community": 124,
+      "community_name": "vanilla.test.ts",
       "norm_label": "probe()"
     },
     {
@@ -6175,8 +6175,8 @@
       "source_location": "L305",
       "_origin": "ast",
       "id": "packages_sheet_test_integration_react_real_controller_test_nested",
-      "community": 110,
-      "community_name": "pointer.ts",
+      "community": 124,
+      "community_name": "vanilla.test.ts",
       "norm_label": "nested()"
     },
     {
@@ -6186,8 +6186,8 @@
       "source_location": "L403",
       "_origin": "ast",
       "id": "packages_sheet_test_integration_react_real_controller_test_stubborn",
-      "community": 110,
-      "community_name": "pointer.ts",
+      "community": 124,
+      "community_name": "vanilla.test.ts",
       "norm_label": "stubborn()"
     },
     {
@@ -6351,8 +6351,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_test_react_parts_test",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 125,
+      "community_name": "audit-p0.test.ts",
       "norm_label": "parts.test.tsx"
     },
     {
@@ -6362,8 +6362,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "packages_sheet_test_react_parts_test_createsheetmock",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 125,
+      "community_name": "audit-p0.test.ts",
       "norm_label": "createsheetmock"
     },
     {
@@ -6373,8 +6373,8 @@
       "source_location": "L106",
       "_origin": "ast",
       "id": "packages_sheet_test_react_parts_test_outside",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 125,
+      "community_name": "audit-p0.test.ts",
       "norm_label": "outside()"
     },
     {
@@ -6384,8 +6384,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_test_react_sheet_test",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 125,
+      "community_name": "audit-p0.test.ts",
       "norm_label": "sheet.test.tsx"
     },
     {
@@ -6395,8 +6395,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "packages_sheet_test_react_sheet_test_createsheetmock",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 125,
+      "community_name": "audit-p0.test.ts",
       "norm_label": "createsheetmock"
     },
     {
@@ -6406,8 +6406,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "packages_sheet_test_react_sheet_test_panel",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 125,
+      "community_name": "audit-p0.test.ts",
       "norm_label": "panel()"
     },
     {
@@ -6417,8 +6417,8 @@
       "source_location": "L112",
       "_origin": "ast",
       "id": "packages_sheet_test_react_sheet_test_tree",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 125,
+      "community_name": "audit-p0.test.ts",
       "norm_label": "tree()"
     },
     {
@@ -6428,8 +6428,8 @@
       "source_location": "L286",
       "_origin": "ast",
       "id": "packages_sheet_test_react_sheet_test_readout",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 125,
+      "community_name": "audit-p0.test.ts",
       "norm_label": "readout()"
     },
     {
@@ -6439,8 +6439,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_test_react_ssr_test",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 125,
+      "community_name": "audit-p0.test.ts",
       "norm_label": "ssr.test.tsx"
     },
     {
@@ -6450,8 +6450,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_test_react_use_controllable_state_test",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 128,
+      "community_name": "Sheet.tsx",
       "norm_label": "use-controllable-state.test.tsx"
     },
     {
@@ -6461,8 +6461,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_test_regressions_audit_p0_test",
-      "community": 125,
-      "community_name": "audit-p0.test.ts",
+      "community": 124,
+      "community_name": "vanilla.test.ts",
       "norm_label": "audit-p0.test.ts"
     },
     {
@@ -6472,8 +6472,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "packages_sheet_test_regressions_audit_p0_test_fixture",
-      "community": 125,
-      "community_name": "audit-p0.test.ts",
+      "community": 124,
+      "community_name": "vanilla.test.ts",
       "norm_label": "fixture"
     },
     {
@@ -6483,8 +6483,8 @@
       "source_location": "L51",
       "_origin": "ast",
       "id": "packages_sheet_test_regressions_audit_p0_test_controllers",
-      "community": 125,
-      "community_name": "audit-p0.test.ts",
+      "community": 124,
+      "community_name": "vanilla.test.ts",
       "norm_label": "controllers"
     },
     {
@@ -6494,8 +6494,8 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "packages_sheet_test_regressions_audit_p0_test_attach",
-      "community": 125,
-      "community_name": "audit-p0.test.ts",
+      "community": 124,
+      "community_name": "vanilla.test.ts",
       "norm_label": "attach()"
     },
     {
@@ -6505,8 +6505,8 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "packages_sheet_test_regressions_audit_p0_test_opened",
-      "community": 125,
-      "community_name": "audit-p0.test.ts",
+      "community": 124,
+      "community_name": "vanilla.test.ts",
       "norm_label": "opened()"
     },
     {
@@ -9469,6 +9469,61 @@
       "norm_label": "vite.config.ts"
     },
     {
+      "label": "spotty-pandas-rewrite.md",
+      "file_type": "document",
+      "source_file": ".changeset/spotty-pandas-rewrite.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "changeset_spotty_pandas_rewrite",
+      "community": 131,
+      "community_name": "spotty-pandas-rewrite.md",
+      "norm_label": "spotty-pandas-rewrite.md"
+    },
+    {
+      "label": "Two entry points",
+      "file_type": "document",
+      "source_file": ".changeset/spotty-pandas-rewrite.md",
+      "source_location": "L13",
+      "_origin": "ast",
+      "id": "changeset_spotty_pandas_rewrite_two_entry_points",
+      "community": 131,
+      "community_name": "spotty-pandas-rewrite.md",
+      "norm_label": "two entry points"
+    },
+    {
+      "label": "Removed",
+      "file_type": "document",
+      "source_file": ".changeset/spotty-pandas-rewrite.md",
+      "source_location": "L20",
+      "_origin": "ast",
+      "id": "changeset_spotty_pandas_rewrite_removed",
+      "community": 131,
+      "community_name": "spotty-pandas-rewrite.md",
+      "norm_label": "removed"
+    },
+    {
+      "label": "Fixed",
+      "file_type": "document",
+      "source_file": ".changeset/spotty-pandas-rewrite.md",
+      "source_location": "L40",
+      "_origin": "ast",
+      "id": "changeset_spotty_pandas_rewrite_fixed",
+      "community": 131,
+      "community_name": "spotty-pandas-rewrite.md",
+      "norm_label": "fixed"
+    },
+    {
+      "label": "Also",
+      "file_type": "document",
+      "source_file": ".changeset/spotty-pandas-rewrite.md",
+      "source_location": "L74",
+      "_origin": "ast",
+      "id": "changeset_spotty_pandas_rewrite_also",
+      "community": 131,
+      "community_name": "spotty-pandas-rewrite.md",
+      "norm_label": "also"
+    },
+    {
       "label": "pull_request_template.md",
       "file_type": "document",
       "source_file": ".github/pull_request_template.md",
@@ -9500,6 +9555,138 @@
       "community": 38,
       "community_name": "graphify reference: query, path, explain",
       "norm_label": "checklist"
+    },
+    {
+      "label": "CONTRIBUTING.md",
+      "file_type": "document",
+      "source_file": "CONTRIBUTING.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "contributing",
+      "community": 18,
+      "community_name": "Visualization and Wiki Exports",
+      "norm_label": "contributing.md"
+    },
+    {
+      "label": "Contributing",
+      "file_type": "document",
+      "source_file": "CONTRIBUTING.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "contributing_contributing",
+      "community": 18,
+      "community_name": "Visualization and Wiki Exports",
+      "norm_label": "contributing"
+    },
+    {
+      "label": "Prerequisites",
+      "file_type": "document",
+      "source_file": "CONTRIBUTING.md",
+      "source_location": "L6",
+      "_origin": "ast",
+      "id": "contributing_prerequisites",
+      "community": 18,
+      "community_name": "Visualization and Wiki Exports",
+      "norm_label": "prerequisites"
+    },
+    {
+      "label": "Setup",
+      "file_type": "document",
+      "source_file": "CONTRIBUTING.md",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "contributing_setup",
+      "community": 18,
+      "community_name": "Visualization and Wiki Exports",
+      "norm_label": "setup"
+    },
+    {
+      "label": "Repository layout",
+      "file_type": "document",
+      "source_file": "CONTRIBUTING.md",
+      "source_location": "L18",
+      "_origin": "ast",
+      "id": "contributing_repository_layout",
+      "community": 18,
+      "community_name": "Visualization and Wiki Exports",
+      "norm_label": "repository layout"
+    },
+    {
+      "label": "Development loop",
+      "file_type": "document",
+      "source_file": "CONTRIBUTING.md",
+      "source_location": "L32",
+      "_origin": "ast",
+      "id": "contributing_development_loop",
+      "community": 18,
+      "community_name": "Visualization and Wiki Exports",
+      "norm_label": "development loop"
+    },
+    {
+      "label": "Quality gates",
+      "file_type": "document",
+      "source_file": "CONTRIBUTING.md",
+      "source_location": "L45",
+      "_origin": "ast",
+      "id": "contributing_quality_gates",
+      "community": 18,
+      "community_name": "Visualization and Wiki Exports",
+      "norm_label": "quality gates"
+    },
+    {
+      "label": "Commits and changesets",
+      "file_type": "document",
+      "source_file": "CONTRIBUTING.md",
+      "source_location": "L72",
+      "_origin": "ast",
+      "id": "contributing_commits_and_changesets",
+      "community": 18,
+      "community_name": "Visualization and Wiki Exports",
+      "norm_label": "commits and changesets"
+    },
+    {
+      "label": "Releasing",
+      "file_type": "document",
+      "source_file": "CONTRIBUTING.md",
+      "source_location": "L87",
+      "_origin": "ast",
+      "id": "contributing_releasing",
+      "community": 18,
+      "community_name": "Visualization and Wiki Exports",
+      "norm_label": "releasing"
+    },
+    {
+      "label": "How the engine works",
+      "file_type": "document",
+      "source_file": "CONTRIBUTING.md",
+      "source_location": "L94",
+      "_origin": "ast",
+      "id": "contributing_how_the_engine_works",
+      "community": 18,
+      "community_name": "Visualization and Wiki Exports",
+      "norm_label": "how the engine works"
+    },
+    {
+      "label": "Deliberate shortcuts",
+      "file_type": "document",
+      "source_file": "CONTRIBUTING.md",
+      "source_location": "L122",
+      "_origin": "ast",
+      "id": "contributing_deliberate_shortcuts",
+      "community": 18,
+      "community_name": "Visualization and Wiki Exports",
+      "norm_label": "deliberate shortcuts"
+    },
+    {
+      "label": "License",
+      "file_type": "document",
+      "source_file": "CONTRIBUTING.md",
+      "source_location": "L128",
+      "_origin": "ast",
+      "id": "contributing_license",
+      "community": 18,
+      "community_name": "Visualization and Wiki Exports",
+      "norm_label": "license"
     },
     {
       "label": "basic.md",
@@ -12505,6 +12692,28 @@
       "norm_label": "also (tiny)"
     },
     {
+      "label": "README.md",
+      "file_type": "document",
+      "source_file": "docs/internal/tasks/README.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_internal_tasks_readme",
+      "community": 132,
+      "community_name": "README.md",
+      "norm_label": "readme.md"
+    },
+    {
+      "label": "Task files",
+      "file_type": "document",
+      "source_file": "docs/internal/tasks/README.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "docs_internal_tasks_readme_task_files",
+      "community": 132,
+      "community_name": "README.md",
+      "norm_label": "task files"
+    },
+    {
       "label": "core.md",
       "file_type": "document",
       "source_file": "docs/reference/core.md",
@@ -13071,230 +13280,87 @@
       "source_file": "packages/sheet/README.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_md",
-      "community": 5,
-      "community_name": "App TypeScript Config",
+      "id": "packages_sheet_readme",
+      "community": 130,
+      "community_name": "snap-bottom-sheet",
       "norm_label": "readme.md"
     },
     {
-      "label": "Snap Bottom Sheet \ud83c\udfaf",
+      "label": "snap-bottom-sheet",
       "file_type": "document",
       "source_file": "packages/sheet/README.md",
       "source_location": "L1",
       "_origin": "ast",
-      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_snap_bottom_sheet",
-      "community": 5,
-      "community_name": "App TypeScript Config",
-      "norm_label": "snap bottom sheet \ud83c\udfaf"
+      "id": "packages_sheet_readme_snap_bottom_sheet",
+      "community": 130,
+      "community_name": "snap-bottom-sheet",
+      "norm_label": "snap-bottom-sheet"
     },
     {
-      "label": "Features \u2728",
+      "label": "React",
       "file_type": "document",
       "source_file": "packages/sheet/README.md",
-      "source_location": "L7",
+      "source_location": "L22",
       "_origin": "ast",
-      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_features",
-      "community": 5,
-      "community_name": "App TypeScript Config",
-      "norm_label": "features \u2728"
+      "id": "packages_sheet_readme_react",
+      "community": 130,
+      "community_name": "snap-bottom-sheet",
+      "norm_label": "react"
     },
     {
-      "label": "Installation \ud83d\udce6",
+      "label": "Vanilla",
       "file_type": "document",
       "source_file": "packages/sheet/README.md",
-      "source_location": "L18",
+      "source_location": "L56",
       "_origin": "ast",
-      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_installation",
-      "community": 5,
-      "community_name": "App TypeScript Config",
-      "norm_label": "installation \ud83d\udce6"
+      "id": "packages_sheet_readme_vanilla",
+      "community": 130,
+      "community_name": "snap-bottom-sheet",
+      "norm_label": "vanilla"
     },
     {
-      "label": "Core Components \ud83e\udde9",
+      "label": "Snap points",
       "file_type": "document",
       "source_file": "packages/sheet/README.md",
-      "source_location": "L26",
+      "source_location": "L83",
       "_origin": "ast",
-      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_core_components",
-      "community": 5,
-      "community_name": "App TypeScript Config",
-      "norm_label": "core components \ud83e\udde9"
+      "id": "packages_sheet_readme_snap_points",
+      "community": 130,
+      "community_name": "snap-bottom-sheet",
+      "norm_label": "snap points"
     },
     {
-      "label": "1. `<Sheet>` (Root Component)",
+      "label": "Why this one",
       "file_type": "document",
       "source_file": "packages/sheet/README.md",
-      "source_location": "L28",
+      "source_location": "L114",
       "_origin": "ast",
-      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_1_sheet_root_component",
-      "community": 5,
-      "community_name": "App TypeScript Config",
-      "norm_label": "1. `<sheet>` (root component)"
+      "id": "packages_sheet_readme_why_this_one",
+      "community": 130,
+      "community_name": "snap-bottom-sheet",
+      "norm_label": "why this one"
     },
     {
-      "label": "Sheet Component Props",
-      "file_type": "document",
-      "source_file": "packages/sheet/README.md",
-      "source_location": "L34",
-      "_origin": "ast",
-      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_sheet_component_props",
-      "community": 5,
-      "community_name": "App TypeScript Config",
-      "norm_label": "sheet component props"
-    },
-    {
-      "label": "2. `<Sheet.Container>`",
-      "file_type": "document",
-      "source_file": "packages/sheet/README.md",
-      "source_location": "L47",
-      "_origin": "ast",
-      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_2_sheet_container",
-      "community": 5,
-      "community_name": "App TypeScript Config",
-      "norm_label": "2. `<sheet.container>`"
-    },
-    {
-      "label": "Sheet.Container Props",
-      "file_type": "document",
-      "source_file": "packages/sheet/README.md",
-      "source_location": "L51",
-      "_origin": "ast",
-      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_sheet_container_props",
-      "community": 5,
-      "community_name": "App TypeScript Config",
-      "norm_label": "sheet.container props"
-    },
-    {
-      "label": "3. `<Sheet.DynamicHeight>\\*\\*",
-      "file_type": "document",
-      "source_file": "packages/sheet/README.md",
-      "source_location": "L61",
-      "_origin": "ast",
-      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_3_sheet_dynamicheight",
-      "community": 5,
-      "community_name": "App TypeScript Config",
-      "norm_label": "3. `<sheet.dynamicheight>\\*\\*"
-    },
-    {
-      "label": "Snap Points Explained \ud83d\udd22",
-      "file_type": "document",
-      "source_file": "packages/sheet/README.md",
-      "source_location": "L65",
-      "_origin": "ast",
-      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_snap_points_explained",
-      "community": 5,
-      "community_name": "App TypeScript Config",
-      "norm_label": "snap points explained \ud83d\udd22"
-    },
-    {
-      "label": "Basic Usage \ud83d\ude80",
-      "file_type": "document",
-      "source_file": "packages/sheet/README.md",
-      "source_location": "L87",
-      "_origin": "ast",
-      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_basic_usage",
-      "community": 5,
-      "community_name": "App TypeScript Config",
-      "norm_label": "basic usage \ud83d\ude80"
-    },
-    {
-      "label": "Key Features Deep Dive \ud83d\udd0d",
-      "file_type": "document",
-      "source_file": "packages/sheet/README.md",
-      "source_location": "L132",
-      "_origin": "ast",
-      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_key_features_deep_dive",
-      "community": 5,
-      "community_name": "App TypeScript Config",
-      "norm_label": "key features deep dive \ud83d\udd0d"
-    },
-    {
-      "label": "1. Dynamic Height Handling",
+      "label": "Going deeper",
       "file_type": "document",
       "source_file": "packages/sheet/README.md",
       "source_location": "L134",
       "_origin": "ast",
-      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_1_dynamic_height_handling",
-      "community": 5,
-      "community_name": "App TypeScript Config",
-      "norm_label": "1. dynamic height handling"
+      "id": "packages_sheet_readme_going_deeper",
+      "community": 130,
+      "community_name": "snap-bottom-sheet",
+      "norm_label": "going deeper"
     },
     {
-      "label": "2. Scroll Management",
+      "label": "License",
       "file_type": "document",
       "source_file": "packages/sheet/README.md",
-      "source_location": "L144",
+      "source_location": "L151",
       "_origin": "ast",
-      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_2_scroll_management",
-      "community": 5,
-      "community_name": "App TypeScript Config",
-      "norm_label": "2. scroll management"
-    },
-    {
-      "label": "3. Drag Behavior Control",
-      "file_type": "document",
-      "source_file": "packages/sheet/README.md",
-      "source_location": "L155",
-      "_origin": "ast",
-      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_3_drag_behavior_control",
-      "community": 5,
-      "community_name": "App TypeScript Config",
-      "norm_label": "3. drag behavior control"
-    },
-    {
-      "label": "4. Custom Positioning",
-      "file_type": "document",
-      "source_file": "packages/sheet/README.md",
-      "source_location": "L166",
-      "_origin": "ast",
-      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_4_custom_positioning",
-      "community": 5,
-      "community_name": "App TypeScript Config",
-      "norm_label": "4. custom positioning"
-    },
-    {
-      "label": "SSR Considerations \u269b\ufe0f",
-      "file_type": "document",
-      "source_file": "packages/sheet/README.md",
-      "source_location": "L182",
-      "_origin": "ast",
-      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_ssr_considerations",
-      "community": 5,
-      "community_name": "App TypeScript Config",
-      "norm_label": "ssr considerations \u269b\ufe0f"
-    },
-    {
-      "label": "Styling Tips \ud83c\udfa8",
-      "file_type": "document",
-      "source_file": "packages/sheet/README.md",
-      "source_location": "L190",
-      "_origin": "ast",
-      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_styling_tips",
-      "community": 5,
-      "community_name": "App TypeScript Config",
-      "norm_label": "styling tips \ud83c\udfa8"
-    },
-    {
-      "label": "Best Practices \u2705",
-      "file_type": "document",
-      "source_file": "packages/sheet/README.md",
-      "source_location": "L209",
-      "_origin": "ast",
-      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_best_practices",
-      "community": 5,
-      "community_name": "App TypeScript Config",
-      "norm_label": "best practices \u2705"
-    },
-    {
-      "label": "TypeScript Support \ud83d\udcbb",
-      "file_type": "document",
-      "source_file": "packages/sheet/README.md",
-      "source_location": "L217",
-      "_origin": "ast",
-      "id": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_typescript_support",
-      "community": 5,
-      "community_name": "App TypeScript Config",
-      "norm_label": "typescript support \ud83d\udcbb"
+      "id": "packages_sheet_readme_license",
+      "community": 130,
+      "community_name": "snap-bottom-sheet",
+      "norm_label": "license"
     },
     {
       "label": "README.md",
@@ -28585,6 +28651,50 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": ".changeset/spotty-pandas-rewrite.md",
+      "source_location": "L74",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "changeset_spotty_pandas_rewrite",
+      "target": "changeset_spotty_pandas_rewrite_also",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".changeset/spotty-pandas-rewrite.md",
+      "source_location": "L40",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "changeset_spotty_pandas_rewrite",
+      "target": "changeset_spotty_pandas_rewrite_fixed",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".changeset/spotty-pandas-rewrite.md",
+      "source_location": "L20",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "changeset_spotty_pandas_rewrite",
+      "target": "changeset_spotty_pandas_rewrite_removed",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": ".changeset/spotty-pandas-rewrite.md",
+      "source_location": "L13",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "changeset_spotty_pandas_rewrite",
+      "target": "changeset_spotty_pandas_rewrite_two_entry_points",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": ".github/pull_request_template.md",
       "source_location": "L12",
       "weight": 1.0,
@@ -28602,6 +28712,138 @@
       "_origin": "ast",
       "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_github_pull_request_template_md",
       "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_github_pull_request_template_what_why",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CONTRIBUTING.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "contributing",
+      "target": "contributing_contributing",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "confidence": "EXTRACTED",
+      "source_file": "CONTRIBUTING.md",
+      "source_location": "L117",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "contributing",
+      "target": "docs_internal_plan",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CONTRIBUTING.md",
+      "source_location": "L72",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "contributing_contributing",
+      "target": "contributing_commits_and_changesets",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CONTRIBUTING.md",
+      "source_location": "L122",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "contributing_contributing",
+      "target": "contributing_deliberate_shortcuts",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CONTRIBUTING.md",
+      "source_location": "L32",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "contributing_contributing",
+      "target": "contributing_development_loop",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CONTRIBUTING.md",
+      "source_location": "L94",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "contributing_contributing",
+      "target": "contributing_how_the_engine_works",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CONTRIBUTING.md",
+      "source_location": "L128",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "contributing_contributing",
+      "target": "contributing_license",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CONTRIBUTING.md",
+      "source_location": "L6",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "contributing_contributing",
+      "target": "contributing_prerequisites",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CONTRIBUTING.md",
+      "source_location": "L45",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "contributing_contributing",
+      "target": "contributing_quality_gates",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CONTRIBUTING.md",
+      "source_location": "L87",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "contributing_contributing",
+      "target": "contributing_releasing",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CONTRIBUTING.md",
+      "source_location": "L18",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "contributing_contributing",
+      "target": "contributing_repository_layout",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "CONTRIBUTING.md",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "contributing_contributing",
+      "target": "contributing_setup",
       "confidence_score": 1.0
     },
     {
@@ -31203,6 +31445,17 @@
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
+      "source_file": "docs/internal/tasks/README.md",
+      "source_location": "L1",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "docs_internal_tasks_readme",
+      "target": "docs_internal_tasks_readme_task_files",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
       "source_file": "docs/reference/core.md",
       "source_location": "L1",
       "weight": 1.0,
@@ -31724,173 +31977,8 @@
       "source_location": "L1",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_md",
-      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_snap_bottom_sheet",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "packages/sheet/README.md",
-      "source_location": "L87",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_snap_bottom_sheet",
-      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_basic_usage",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "packages/sheet/README.md",
-      "source_location": "L209",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_snap_bottom_sheet",
-      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_best_practices",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "packages/sheet/README.md",
-      "source_location": "L26",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_snap_bottom_sheet",
-      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_core_components",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "packages/sheet/README.md",
-      "source_location": "L7",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_snap_bottom_sheet",
-      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_features",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "packages/sheet/README.md",
-      "source_location": "L18",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_snap_bottom_sheet",
-      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_installation",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "packages/sheet/README.md",
-      "source_location": "L132",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_snap_bottom_sheet",
-      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_key_features_deep_dive",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "packages/sheet/README.md",
-      "source_location": "L65",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_snap_bottom_sheet",
-      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_snap_points_explained",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "packages/sheet/README.md",
-      "source_location": "L182",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_snap_bottom_sheet",
-      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_ssr_considerations",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "packages/sheet/README.md",
-      "source_location": "L190",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_snap_bottom_sheet",
-      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_styling_tips",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "packages/sheet/README.md",
-      "source_location": "L217",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_snap_bottom_sheet",
-      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_typescript_support",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "packages/sheet/README.md",
-      "source_location": "L28",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_core_components",
-      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_1_sheet_root_component",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "packages/sheet/README.md",
-      "source_location": "L47",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_core_components",
-      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_2_sheet_container",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "packages/sheet/README.md",
-      "source_location": "L61",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_core_components",
-      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_3_sheet_dynamicheight",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "packages/sheet/README.md",
-      "source_location": "L34",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_core_components",
-      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_sheet_component_props",
-      "confidence_score": 1.0
-    },
-    {
-      "relation": "contains",
-      "confidence": "EXTRACTED",
-      "source_file": "packages/sheet/README.md",
-      "source_location": "L51",
-      "weight": 1.0,
-      "_origin": "ast",
-      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_core_components",
-      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_sheet_container_props",
+      "source": "packages_sheet_readme",
+      "target": "packages_sheet_readme_snap_bottom_sheet",
       "confidence_score": 1.0
     },
     {
@@ -31900,41 +31988,63 @@
       "source_location": "L134",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_key_features_deep_dive",
-      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_1_dynamic_height_handling",
+      "source": "packages_sheet_readme_snap_bottom_sheet",
+      "target": "packages_sheet_readme_going_deeper",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "packages/sheet/README.md",
-      "source_location": "L144",
+      "source_location": "L151",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_key_features_deep_dive",
-      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_2_scroll_management",
+      "source": "packages_sheet_readme_snap_bottom_sheet",
+      "target": "packages_sheet_readme_license",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "packages/sheet/README.md",
-      "source_location": "L155",
+      "source_location": "L22",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_key_features_deep_dive",
-      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_3_drag_behavior_control",
+      "source": "packages_sheet_readme_snap_bottom_sheet",
+      "target": "packages_sheet_readme_react",
       "confidence_score": 1.0
     },
     {
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "packages/sheet/README.md",
-      "source_location": "L166",
+      "source_location": "L83",
       "weight": 1.0,
       "_origin": "ast",
-      "source": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_key_features_deep_dive",
-      "target": "users_nehn_projects_core_snap_bottom_sheet_claude_worktrees_ho_3617d3_packages_sheet_readme_4_custom_positioning",
+      "source": "packages_sheet_readme_snap_bottom_sheet",
+      "target": "packages_sheet_readme_snap_points",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/sheet/README.md",
+      "source_location": "L56",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "packages_sheet_readme_snap_bottom_sheet",
+      "target": "packages_sheet_readme_vanilla",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "packages/sheet/README.md",
+      "source_location": "L114",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "packages_sheet_readme_snap_bottom_sheet",
+      "target": "packages_sheet_readme_why_this_one",
       "confidence_score": 1.0
     },
     {
@@ -33020,5 +33130,5 @@
       "source_file": ".claude/skills/graphify/references/query.md"
     }
   ],
-  "built_at_commit": "c38ca1ca0f9e565c9fb0945850cd3ce4f44f2d96"
+  "built_at_commit": "11cd0ff92e6e7a0b3046bd68c5d3b7c45ae57135"
 }

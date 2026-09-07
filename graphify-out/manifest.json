@@ -60,13 +60,13 @@
     "semantic_hash": "c698309979460d0f02ba616417844399"
   },
   "CLAUDE.md": {
-    "mtime": 1788795163.5695195,
-    "ast_hash": "4f4986a46727b6f398042044987cb4d5",
+    "mtime": 1788800868.542947,
+    "ast_hash": "90c38d3e41cc8519609e048669d18528",
     "semantic_hash": ""
   },
   "README.md": {
-    "mtime": 1788795163.5699067,
-    "ast_hash": "2a38d836048e58aa8e54255cfff88203",
+    "mtime": 1788800868.5433607,
+    "ast_hash": "1898c995cef8ed3eff1af0835d5f53ec",
     "semantic_hash": ""
   },
   ".changeset/config.json": {
@@ -150,8 +150,8 @@
     "semantic_hash": ""
   },
   "docs/internal/PLAN.md": {
-    "mtime": 1788800787.8942997,
-    "ast_hash": "209e2827771d6c9d3d1f18cd1b271a13",
+    "mtime": 1788800870.3672748,
+    "ast_hash": "27e2352b8cdfb8e029f2c0c6f70bcb47",
     "semantic_hash": ""
   },
   "docs/internal/tasks/00-scaffold.md": {
@@ -180,8 +180,8 @@
     "semantic_hash": ""
   },
   "packages/sheet/README.md": {
-    "mtime": 1788795163.5772593,
-    "ast_hash": "d2515bd0a1ad88f9f4ee851d9915dfe8",
+    "mtime": 1788800868.5437691,
+    "ast_hash": "15fbacfda638c48bce1d55d3fe4da461",
     "semantic_hash": ""
   },
   "playgrounds/README.md": {
@@ -802,6 +802,21 @@
   "packages/sheet/test/regressions/audit-p0.test.ts": {
     "mtime": 1788800777.749832,
     "ast_hash": "2ac28528463eb2593788ef56cb060306",
+    "semantic_hash": ""
+  },
+  ".changeset/spotty-pandas-rewrite.md": {
+    "mtime": 1788800868.5426075,
+    "ast_hash": "26cb003a2ee97e17bc1207bb9ea10c45",
+    "semantic_hash": ""
+  },
+  "CONTRIBUTING.md": {
+    "mtime": 1788800868.5431285,
+    "ast_hash": "8f9e984465170edb26a5073f4cde5bfa",
+    "semantic_hash": ""
+  },
+  "docs/internal/tasks/README.md": {
+    "mtime": 1788800868.543508,
+    "ast_hash": "6c76e7bbf65f5c535ffab01bb8435758",
     "semantic_hash": ""
   }
 }
