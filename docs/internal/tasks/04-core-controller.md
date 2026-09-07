@@ -85,3 +85,18 @@ Commits: `feat(core)!: framework-agnostic sheet controller (createSheet)` (+ `ch
 ## Report
 
 Worker report template. Include `wc -l` of every new core file and the list of exported symbols from `src/index.ts`.
+
+## 04b — review findings to fix on the same branch (orchestrator review of 816d148)
+
+1. **Publish bug:** `@snap-bottom-sheet/spring` / `gesture` must be `devDependencies` (they are bundled via `deps.alwaysBundle`); `workspace:*` under `dependencies` becomes an unresolvable `0.0.0` on npm. Update `description` (framework-agnostic core + React bindings) and keywords (`vanilla`, `headless`, `typescript`).
+2. **Guard leak:** `ModalGuard.engage()` / `captureFocus()` must be idempotent — re-entrant `open()` mid-close (React's controlled-veto bounce, fast reopen) currently overwrites the lock/inert restore closures → body lock refcount never returns to 0, siblings stay `inert`, focus restore targets an element inside the sheet.
+3. **Completion resilience:** open/close finalisation (`applyRest`, `data-state`, guard disengage, focus restore, `onAnimationEnd`) must run when the spring finally rests while a transition is pending, regardless of which `set()` call resolved `true`. `refresh()` retargets during open (measurement) and close (resize) currently orphan the transition.
+4. `setElements(partial)` per §2.2 (+ test 12).
+5. `getState()` reference-stable until change.
+6. `findContentInner`: `:scope > [data-snap-sheet-inner]` first, then single child, then `content`.
+7. `applyAria` removes `aria-labelledby`/`-describedby` when undefined; `update({ dismissible: true })` while open+modal pushes the Escape target.
+8. `open()` with no resolved snaps stays closed and warns (no jump to y = 0).
+
+Tests: bounce (`onOpenChange: o => { if (!o) ctrl.open() }` → ends open; then `close()` → lock released, no inert), measurement mid-open → `onAnimationEnd(true)` once, resize mid-close → close finalises + `onAnimationEnd(false)` once, `setElements` add/remove/throw, `getState()` identity across two calls without change.
+
+Task-text corrections from W1: test 5's "slow 100 px drag from the top snap of [0.3, 0.9] lands on index 0" is wrong (nearest is index 1 at y = 200); the crossing case needs ~400 px. `noExternal` does not exist in tsdown 0.22 — `deps.alwaysBundle` is the API.
