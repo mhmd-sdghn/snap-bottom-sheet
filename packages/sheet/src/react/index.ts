@@ -40,6 +40,4 @@ export type { OverlayProps } from "./Overlay.tsx";
 export type { PortalProps } from "./Portal.tsx";
 export type { SheetHandle, SheetProps } from "./Sheet.tsx";
 export type { TitleProps } from "./Title.tsx";
-export { useControllableState } from "./use-controllable-state.ts";
-export { useIsomorphicLayoutEffect } from "./use-isomorphic-layout-effect.ts";
 export { useSheetState } from "./use-sheet-state.ts";
