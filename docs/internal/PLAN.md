@@ -134,7 +134,7 @@ export type { SnapPoint, SnapPointConfig, SnapValue } from "./core/snap";
 ```
 
 Semantics:
-- `createSheet` starts **closed** (content translated to `viewHeight`, `data-state="closed"`). `open()` animates to the active snap. `elements.content` is required and fixed for the controller's lifetime; every other element may arrive later via `setElements`.
+- `createSheet` starts **closed** (content translated to `viewHeight`, `data-state="closed"`). `open()` animates to the active snap. `elements.content` is required; `content` and `container` are fixed for the controller's lifetime (`setElements` throws `TypeError` for them — destroy and recreate; the React layer does this automatically); `header`, `body`, `overlay`, `handle` may arrive later via `setElements`.
 - **Content-inner measurement contract:** `"content"` measures `content.querySelector(":scope > [data-snap-sheet-inner]")`, falling back to `content.firstElementChild` when `content` has exactly one element child, else `content` itself. React's `Sheet.Content` always renders the attributed inner div; vanilla consumers add the attribute or keep a single wrapper child.
 - Dismiss by drag / overlay / Escape: the controller closes itself, then calls `onOpenChange(false)`. A controlled React parent that refuses will re-open on the next render (one-frame bounce) — the documented way to veto is `dismissible: false`.
 - `update({ snapPoints })` keeps `snapIndex` if still valid, else clamps; if the active snap's y changed (new points, measurement, resize) it animates there (spring), except on view-height change during a drag → immediate.
@@ -172,9 +172,9 @@ interface SheetProps {
 }
 
 interface SheetHandle {
-  open(): Promise<void>;              // sets controllable open=true; resolves at onAnimationEnd(true)
+  open(): Promise<void>;              // routes through the controllable `open` state (a closed sheet has no controller yet); resolves at onAnimationEnd(true)
   snapTo(index: number, opts?: { immediate?: boolean }): Promise<void>;
-  close(): Promise<void>;
+  close(): Promise<void>;             // also via state (a controller close() would trip the controlled-veto bounce); resolves at onAnimationEnd(false)
   readonly activeSnapIndex: number;
   readonly y: number;                 // current px offset from top (0 = fully open)
 }
