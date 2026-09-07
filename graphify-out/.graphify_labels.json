@@ -111,5 +111,16 @@
   "109": "vite.config.ts",
   "110": "pointer.ts",
   "111": "FakeResizeObserver",
-  "112": "SheetElements"
+  "112": "SheetElements",
+  "113": "SheetController",
+  "114": "Task 12 — container-scoped modal behaviour + handle JSDoc",
+  "115": "basic.md",
+  "116": "controlled.md",
+  "117": "dynamic-height.md",
+  "118": "nested.md",
+  "119": "scrollable.md",
+  "120": "snap-points.md",
+  "121": "vanilla.md",
+  "122": "env.d.ts",
+  "123": "vanilla.ts"
 }

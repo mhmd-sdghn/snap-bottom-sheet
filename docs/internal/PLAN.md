@@ -281,7 +281,7 @@ Touch-action model used by the sheet (CSS spec: the browser walks from the touch
 
 ### 3.5 Scroll lock (fixes AUDIT P0-6)
 
-Module-level reference counter. First `lock()` saves `overflow`, `overscroll-behavior`, `padding-right` (scrollbar gap = `innerWidth - clientWidth`) of `documentElement` and `body`, then sets `overflow: hidden; overscroll-behavior: none`. Last `unlock()` restores the saved values. Applied only when `modal`. `// ponytail: no iOS touchmove prevention; add react-aria-style usePreventScroll if iOS rubber-band reports come in.`
+Module-level reference counter (document) — and, when a `container` is given, a per-container counter that locks the container's own `overflow` instead of the document's (task 12), so embedded sheets never freeze the host page. First `lock()` saves `overflow`, `overscroll-behavior`, `padding-right` (scrollbar gap = `innerWidth - clientWidth`) of `documentElement` and `body`, then sets `overflow: hidden; overscroll-behavior: none`. Last `unlock()` restores the saved values. Applied only when `modal`. `// ponytail: no iOS touchmove prevention; add react-aria-style usePreventScroll if iOS rubber-band reports come in.`
 
 ### 3.6 Accessibility
 
@@ -309,7 +309,8 @@ Three worker sessions: **W1**, **W2**, **W3**. Orchestrator reviews each task's 
 | 2d | `tasks/05-docs.md` (+05b answers) | W2 | 1c | `docs: VitePress site with guides and reference` ✅ 421b4f1 |
 | 2e | `tasks/11-core-followups.md` | W1 | 2a, 2b, 2d | core + react follow-ups ✅ merged |
 | 3a | `tasks/08-playgrounds.md` | W1 | 2a, 2b | `chore: vanilla, react and next playgrounds` ✅ e2e751f |
-| 3b | `tasks/09-docs-demos.md` | W2 or W3 (whoever is free) | 2a, 2b, 2d | `docs: live React demos` |
+| 3b | `tasks/09-docs-demos.md` | W2 | 2a, 2b, 2d | `docs: live React demos` ✅ merged |
+| 3d | `tasks/12-container-scoped-lock.md` | W1 (after 10) | 2e, 3b | `feat(core): scope the modal scroll lock to a custom container` |
 | 3c | `tasks/10-integration-tests.md` | W1 (W3 stalled) | 2a, 2b, 2e | `test(sheet): end-to-end controller + react integration, audit regressions, size budget` |
 | 4 | review loop | orchestrator + any idle worker | 3 | `fix: address code review findings` |
 

@@ -150,8 +150,8 @@
     "semantic_hash": ""
   },
   "docs/internal/PLAN.md": {
-    "mtime": 1788800168.597241,
-    "ast_hash": "e00396f22fcb37d20d06bd56fa0b3ceb",
+    "mtime": 1788800394.3665118,
+    "ast_hash": "6225542e141034abadcc7963a10e9bae",
     "semantic_hash": ""
   },
   "docs/internal/tasks/00-scaffold.md": {
@@ -495,8 +495,8 @@
     "semantic_hash": ""
   },
   "docs/.vitepress/config.ts": {
-    "mtime": 1788798069.8260732,
-    "ast_hash": "487eae2a63fd2775c3110a2928c977fb",
+    "mtime": 1788800386.684737,
+    "ast_hash": "c0c1d2111037adb859a6bb0a9f36649a",
     "semantic_hash": ""
   },
   "docs/.vitepress/theme/ReactDemo.vue": {
@@ -505,8 +505,8 @@
     "semantic_hash": ""
   },
   "docs/.vitepress/theme/index.ts": {
-    "mtime": 1788798069.8269591,
-    "ast_hash": "86e94677b04a9b926289a4050a785ac8",
+    "mtime": 1788800386.6863995,
+    "ast_hash": "f736d7b68abc6a320d772fbf0e1ffc96",
     "semantic_hash": ""
   },
   "docs/package.json": {
@@ -520,8 +520,8 @@
     "semantic_hash": ""
   },
   "docs/demos/index.md": {
-    "mtime": 1788798069.8272336,
-    "ast_hash": "7cc7b78a097a4f4ff98db56d0ad5d9e8",
+    "mtime": 1788800386.687074,
+    "ast_hash": "cab06a6e24f7120971d97e50342c7291",
     "semantic_hash": ""
   },
   "docs/guide/accessibility.md": {
@@ -530,8 +530,8 @@
     "semantic_hash": ""
   },
   "docs/guide/controlled-state.md": {
-    "mtime": 1788798662.1654828,
-    "ast_hash": "1c583cd4e5c3cff2774d259961a6035f",
+    "mtime": 1788800386.6878324,
+    "ast_hash": "f1fa9ce6d8e923854167851625f18a20",
     "semantic_hash": ""
   },
   "docs/guide/core-concepts.md": {
@@ -540,8 +540,8 @@
     "semantic_hash": ""
   },
   "docs/guide/dynamic-height.md": {
-    "mtime": 1788798662.1658773,
-    "ast_hash": "d9fda6a11ecd98a167b12e4f5653bcab",
+    "mtime": 1788800386.6880617,
+    "ast_hash": "34495158894e7edf38d55044b00dedd9",
     "semantic_hash": ""
   },
   "docs/guide/gestures.md": {
@@ -550,8 +550,8 @@
     "semantic_hash": ""
   },
   "docs/guide/getting-started.md": {
-    "mtime": 1788798662.1662953,
-    "ast_hash": "05680a187768e443a3f614e54bcaa3bd",
+    "mtime": 1788800386.6882644,
+    "ast_hash": "3401ef0274d8d627368cf8b6e660ffb0",
     "semantic_hash": ""
   },
   "docs/guide/migration.md": {
@@ -565,13 +565,13 @@
     "semantic_hash": ""
   },
   "docs/guide/scrolling.md": {
-    "mtime": 1788798069.829386,
-    "ast_hash": "04eb1b818e91d2483d26b759553d7fff",
+    "mtime": 1788800386.6884928,
+    "ast_hash": "350c5eb673257b6c22096255a1e95bda",
     "semantic_hash": ""
   },
   "docs/guide/snap-points.md": {
-    "mtime": 1788798069.829816,
-    "ast_hash": "e5ba501b0d5dd3c1f057a7affe2d86ba",
+    "mtime": 1788800386.6887176,
+    "ast_hash": "795f483b091a55f4031f9bc92a237906",
     "semantic_hash": ""
   },
   "docs/guide/ssr-nextjs.md": {
@@ -605,8 +605,8 @@
     "semantic_hash": ""
   },
   "docs/reference/react.md": {
-    "mtime": 1788798662.1673203,
-    "ast_hash": "0b8ca67e1d73879abab0b707bc142e59",
+    "mtime": 1788800386.68905,
+    "ast_hash": "1666bae0318ed1b38ad837fc82865336",
     "semantic_hash": ""
   },
   "docs/reference/snap-points.md": {
@@ -625,8 +625,8 @@
     "semantic_hash": ""
   },
   ".claude/launch.json": {
-    "mtime": 1788799170.3944895,
-    "ast_hash": "96aaf0760679a0fff7fa1f7f223ed7bb",
+    "mtime": 1788800386.684363,
+    "ast_hash": "22254d160c20dfc80205b2e5f346799c",
     "semantic_hash": ""
   },
   "playgrounds/next/app/layout.tsx": {
@@ -687,6 +687,96 @@
   "packages/sheet/test/core/guarantees.test.ts": {
     "mtime": 1788800141.1709604,
     "ast_hash": "1947ff90319af463b5cb629c48d069e8",
+    "semantic_hash": ""
+  },
+  "docs/.vitepress/env.d.ts": {
+    "mtime": 1788800386.6848807,
+    "ast_hash": "a46d317af04952b727e4dfe18969e514",
+    "semantic_hash": ""
+  },
+  "docs/.vitepress/theme/demos/basic.tsx": {
+    "mtime": 1788800386.685075,
+    "ast_hash": "a96765373d55a922aab469f63f6cadc6",
+    "semantic_hash": ""
+  },
+  "docs/.vitepress/theme/demos/controlled.tsx": {
+    "mtime": 1788800386.6852152,
+    "ast_hash": "ac66374ee42111fe9bb3120ff21645f4",
+    "semantic_hash": ""
+  },
+  "docs/.vitepress/theme/demos/dynamic-height.tsx": {
+    "mtime": 1788800386.6855555,
+    "ast_hash": "8697cf980cdda93b1356ab866cfa7d8f",
+    "semantic_hash": ""
+  },
+  "docs/.vitepress/theme/demos/mount.tsx": {
+    "mtime": 1788800386.685681,
+    "ast_hash": "d1e1afe23f30a2a6f8a1140670388803",
+    "semantic_hash": ""
+  },
+  "docs/.vitepress/theme/demos/nested.tsx": {
+    "mtime": 1788800386.6858168,
+    "ast_hash": "8921f24aba73d99f1e9361b6b621e3e1",
+    "semantic_hash": ""
+  },
+  "docs/.vitepress/theme/demos/scrollable.tsx": {
+    "mtime": 1788800386.685949,
+    "ast_hash": "a918e181eebe41854a1d26609e0ba616",
+    "semantic_hash": ""
+  },
+  "docs/.vitepress/theme/demos/snap-points.tsx": {
+    "mtime": 1788800386.6860845,
+    "ast_hash": "bf520cced07fbaf3024b16474170daf3",
+    "semantic_hash": ""
+  },
+  "docs/.vitepress/theme/demos/vanilla.ts": {
+    "mtime": 1788800386.6862168,
+    "ast_hash": "c1f69eab458f849b0f36ac69efff3231",
+    "semantic_hash": ""
+  },
+  "docs/tsconfig.json": {
+    "mtime": 1788800386.689184,
+    "ast_hash": "3ca0b6103a6267722eb4da0854e3418a",
+    "semantic_hash": ""
+  },
+  "docs/demos/basic.md": {
+    "mtime": 1788800386.6866477,
+    "ast_hash": "7c0c523acdd37bea619c3f63530abdf3",
+    "semantic_hash": ""
+  },
+  "docs/demos/controlled.md": {
+    "mtime": 1788800386.6867764,
+    "ast_hash": "40e2052615a90c15fc553f9bf69ec270",
+    "semantic_hash": ""
+  },
+  "docs/demos/dynamic-height.md": {
+    "mtime": 1788800386.686899,
+    "ast_hash": "f4ea477ef3c429e55ae1dbb7e1eeecea",
+    "semantic_hash": ""
+  },
+  "docs/demos/nested.md": {
+    "mtime": 1788800386.687199,
+    "ast_hash": "7ffd96a86f3b8fda2af183c7fb8cbb53",
+    "semantic_hash": ""
+  },
+  "docs/demos/scrollable.md": {
+    "mtime": 1788800386.6873205,
+    "ast_hash": "24a40df9ed65fad16fc19601ddc1d717",
+    "semantic_hash": ""
+  },
+  "docs/demos/snap-points.md": {
+    "mtime": 1788800386.687453,
+    "ast_hash": "3965650c8664a74769fe2cb79ec48a58",
+    "semantic_hash": ""
+  },
+  "docs/demos/vanilla.md": {
+    "mtime": 1788800386.6875796,
+    "ast_hash": "174238416b9251877fda21db08eb0379",
+    "semantic_hash": ""
+  },
+  "docs/internal/tasks/12-container-scoped-lock.md": {
+    "mtime": 1788800394.3481236,
+    "ast_hash": "fdce32da5f7a63fbf2033a233d3e4416",
     "semantic_hash": ""
   }
 }
