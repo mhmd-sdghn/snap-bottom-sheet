@@ -1,0 +1,198 @@
+/*
+ * Look-and-feel only. The controller owns position/inset/height/display/
+ * flex-direction/box-sizing/touch-action/overscroll-behavior/transform/
+ * padding-bottom on the panel (inline, so it wins) — nothing here fights it.
+ */
+
+:root {
+  color-scheme: dark;
+  --bg: #0e1116;
+  --panel: #171c24;
+  --line: #262c36;
+  --text: #e6e9ef;
+  --muted: #98a2b3;
+  --accent: #6ea8fe;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font:
+    14px / 1.55 ui-sans-serif,
+    system-ui,
+    -apple-system,
+    sans-serif;
+}
+
+/* The page is deliberately taller than the viewport so the non-modal
+   scenario can be checked by scrolling behind an open sheet. */
+.page {
+  max-width: 42rem;
+  padding: 2rem 1.25rem 90vh;
+}
+
+h1 {
+  font-size: 1.1rem;
+  margin: 0 0 1.25rem;
+}
+
+h2 {
+  font-size: 1rem;
+  margin: 1.5rem 0 0.25rem;
+}
+
+.hint {
+  color: var(--muted);
+  margin: 0 0 1rem;
+}
+
+.field {
+  display: block;
+  color: var(--muted);
+}
+
+select,
+.btn {
+  margin-top: 0.35rem;
+  padding: 0.4rem 0.6rem;
+  font: inherit;
+  color: var(--text);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+}
+
+.btn {
+  cursor: pointer;
+}
+
+.btn:hover {
+  border-color: var(--accent);
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+}
+
+.status {
+  margin: 0;
+  padding: 0.75rem;
+  font:
+    12px / 1.5 ui-monospace,
+    SFMono-Regular,
+    monospace;
+  color: var(--muted);
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  white-space: pre;
+}
+
+/* ------------------------------------------------------------------ sheet */
+
+.sheet-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9;
+  background: rgb(0 0 0 / 0.55);
+  opacity: var(--snap-sheet-progress, 0);
+}
+
+/* Fully faded out but still a full-viewport box — let the page through. */
+.sheet-overlay[data-state="closed"] {
+  pointer-events: none;
+}
+
+.sheet {
+  z-index: 10;
+  max-width: 34rem;
+  margin-inline: auto;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-bottom: 0;
+  border-radius: 16px 16px 0 0;
+  box-shadow: 0 -10px 40px rgb(0 0 0 / 0.5);
+}
+
+.sheet[data-dragging] {
+  box-shadow: 0 -10px 40px rgb(0 0 0 / 0.7);
+}
+
+/*
+ * The node the controller measures for a "content" snap.
+ *
+ * `flex-shrink: 0` is load-bearing. The panel is always full view height and
+ * carries `padding-bottom: <y>` at rest, so its content box is only the visible
+ * strip; as an ordinary flex item this wrapper would be shrunk to that strip and
+ * the measurement would depend on its own result — a "content" snap could then
+ * never grow past the height it already has. Cap against the viewport instead
+ * of the parent (100dvh, not 100%) for the same reason.
+ */
+.sheet-inner {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  flex-shrink: 0;
+  max-height: 100dvh;
+}
+
+.sheet-handle {
+  display: block;
+  width: 100%;
+  padding: 0.7rem 0 0.3rem;
+  background: transparent;
+  border: 0;
+  cursor: grab;
+}
+
+.sheet-handle::before {
+  content: "";
+  display: block;
+  width: 2.5rem;
+  height: 4px;
+  margin: 0 auto;
+  border-radius: 2px;
+  background: var(--line);
+}
+
+.sheet[data-dragging] .sheet-handle {
+  cursor: grabbing;
+}
+
+.sheet[data-dragging] .sheet-handle::before {
+  background: var(--accent);
+}
+
+.sheet-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.5rem 1rem 0.75rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.sheet-header h3 {
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.sheet-body {
+  flex: 1;
+  min-height: 0;
+  padding: 0.5rem 1rem 1.5rem;
+}
+
+.list-row {
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--line);
+  color: var(--muted);
+}

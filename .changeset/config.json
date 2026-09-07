@@ -2,7 +2,9 @@
   "$schema": "https://unpkg.com/@changesets/config@3.1.1/schema.json",
   "changelog": [
     "@changesets/changelog-github",
-    { "repo": "mhmd-sdghn/react-bottom-sheet" }
+    {
+      "repo": "mhmd-sdghn/react-bottom-sheet"
+    }
   ],
   "commit": false,
   "fixed": [],
@@ -15,6 +17,7 @@
     "playground-react",
     "playground-next",
     "@snap-bottom-sheet/spring",
-    "@snap-bottom-sheet/gesture"
+    "@snap-bottom-sheet/gesture",
+    "playground-vanilla"
   ]
 }

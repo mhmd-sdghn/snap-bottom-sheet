@@ -1,0 +1,124 @@
+/*
+ * Consumer-side styling only. The controller owns position/inset/height/
+ * display/flex-direction/box-sizing/touch-action/overscroll-behavior/
+ * transform/padding-bottom on Content, and writes --snap-sheet-y,
+ * --snap-sheet-progress, --snap-sheet-offset plus data-state,
+ * data-snap-index, data-dragging and data-content-mode. Everything below is
+ * background/radius/shadow/colour and inner padding — plus the overlay's own
+ * fixed positioning, which the controller does not write.
+ */
+
+body {
+  margin: 0;
+  font-family:
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: #18181b;
+  background: #fafafa;
+}
+
+main {
+  max-width: 40rem;
+  margin: 0 auto;
+  padding: 2rem 1.25rem 4rem;
+  line-height: 1.6;
+}
+
+main h1 {
+  font-size: 1.5rem;
+}
+
+main p {
+  color: #3f3f46;
+}
+
+.trigger {
+  font: inherit;
+  padding: 0.6rem 1rem;
+  border: 0;
+  border-radius: 0.5rem;
+  background: #18181b;
+  color: #fafafa;
+  cursor: pointer;
+}
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgb(0 0 0 / 45%);
+  opacity: var(--snap-sheet-progress);
+}
+
+.content {
+  background: #fff;
+  border-radius: 1rem 1rem 0 0;
+  box-shadow: 0 -8px 40px rgb(0 0 0 / 18%);
+  color: #18181b;
+}
+
+.handle {
+  border: 0;
+  background: transparent;
+  padding: 0.75rem 0;
+  cursor: grab;
+}
+
+.handle::after {
+  content: "";
+  display: block;
+  width: 2.5rem;
+  height: 0.25rem;
+  margin: 0 auto;
+  border-radius: 999px;
+  background: #d4d4d8;
+}
+
+.header {
+  padding: 0 1.25rem 0.75rem;
+  border-bottom: 1px solid #f4f4f5;
+}
+
+.title {
+  margin: 0;
+  font-size: 1.125rem;
+}
+
+.description {
+  margin: 0.25rem 0 0;
+  color: #71717a;
+  font-size: 0.875rem;
+}
+
+.state {
+  margin: 0.5rem 0 0;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.75rem;
+  color: #52525b;
+}
+
+.body {
+  flex: 1;
+  min-height: 0;
+  padding: 0.5rem 1.25rem;
+}
+
+.list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.list li {
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f4f4f5;
+}
+
+.close {
+  font: inherit;
+  margin: 1rem 1.25rem;
+  padding: 0.6rem 1rem;
+  border: 1px solid #e4e4e7;
+  border-radius: 0.5rem;
+  background: #fff;
+  color: #18181b;
+  cursor: pointer;
+}
