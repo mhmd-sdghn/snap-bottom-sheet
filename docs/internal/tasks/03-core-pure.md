@@ -1,33 +1,33 @@
-# Task 03 — sheet pure modules (snap math, scroll lock, measurement, state hooks)
+# Task 03 — core pure modules (snap math, scroll lock, measurement) + React state hooks
 
-Worker: W3. Branch: `w3/03-sheet-pure` off `v1` (after task 00 is merged). Plan sections: §2.1, §3.3–3.5. Audit items fixed here: P0-1, P0-2, P0-3, P0-4, P0-6, P1-1, P1-6, P1-9, P1-10.
+Worker: W3. Branch: `w3/03-core-pure` off `v1` (after task 00 is merged). Plan sections: §2.1, §3.3–3.5. Audit items fixed here: P0-1, P0-2, P0-3, P0-4, P0-6, P1-1, P1-6, P1-9, P1-10.
 
 ## Goal
 
-The non-component half of the 1.0 sheet: everything that can be unit-tested without rendering. Task 04 builds the components on top of these exact exports, so **the signatures below are a contract** — implement them as written; record any deviation in the report's Assumptions.
+The pure half of the framework-agnostic core (PLAN §2.2): everything that can be unit-tested without a sheet controller or rendering, plus two React hooks the bindings will need. Task 04 (core controller) and task 07 (React bindings) build on these exact exports, so **the signatures below are a contract** — implement them as written; record any deviation in the report's Assumptions. `src/core/**` must not import React.
 
 ## Scope
 
 New files only, inside `packages/sheet/`:
 
 ```
-src/snap.ts
-src/scroll-lock.ts
-src/measure.ts
-src/env.ts
-src/use-controllable-state.ts
-src/use-isomorphic-layout-effect.ts
-test/snap.test.ts
-test/scroll-lock.test.ts
-test/measure.test.ts
-test/use-controllable-state.test.tsx
+src/core/snap.ts
+src/core/scroll-lock.ts
+src/core/measure.ts
+src/core/env.ts
+src/react/use-controllable-state.ts
+src/react/use-isomorphic-layout-effect.ts
+test/core/snap.test.ts
+test/core/scroll-lock.test.ts
+test/core/measure.test.ts
+test/react/use-controllable-state.test.tsx
 ```
 
 Do not modify or import the legacy files (`utils.ts`, `types.ts`, `constants.ts`, `components/**`, `hooks/**`, `events/**`, `context/**`) — they are deleted in task 04. Do not touch `src/index.ts` yet.
 
 ## Contracts
 
-### `src/env.ts`
+### `src/core/env.ts`
 
 ```ts
 export const isBrowser = (): boolean => typeof document !== "undefined";   // replaces the fragile isSSR() (P1-6)
@@ -35,7 +35,7 @@ export const clamp = (n: number, min: number, max: number): number => Math.min(m
 export function warnOnce(key: string, message: string): void;              // dev-only (process.env.NODE_ENV !== "production"), console.warn once per key
 ```
 
-### `src/snap.ts` (no DOM, no React)
+### `src/core/snap.ts` (no DOM, no React)
 
 ```ts
 export type SnapValue = number | `${number}%` | `${number}px` | "header" | "content";
@@ -100,7 +100,7 @@ export function decideRelease(args: {
 
 Value parsing rules (P1-9, P1-10): number `0 < n <= 1` → fraction; `n > 1` → px; `n <= 0`, `NaN`, `Infinity` → invalid. `"50%"` → fraction (strings are parsed with `parseFloat` and a suffix check; `"abc"`, `"50"`, `"50 %"` → invalid). `"200px"` → px. Every result is `Math.min(Math.round(h), viewHeight)`, and `viewHeight <= 0` makes everything invalid.
 
-### `src/scroll-lock.ts` (fixes P0-6)
+### `src/core/scroll-lock.ts` (fixes P0-6)
 
 ```ts
 /** Reference-counted. First call saves + sets styles on <html> and <body>; the returned release restores them when the count reaches 0. Calling a release twice is a no-op. */
@@ -110,7 +110,7 @@ export function isBodyScrollLocked(): boolean;   // for tests
 
 Sets `overflow: hidden`, `overscroll-behavior: none` on both elements and `padding-right: <scrollbar gap>px` on `body` (gap = `window.innerWidth - document.documentElement.clientWidth`, only if > 0). Saves the *previous inline values* and restores exactly those (including empty string). No-op when `!isBrowser()`.
 
-### `src/measure.ts`
+### `src/core/measure.ts`
 
 ```ts
 /** Shared ResizeObserver (one per document). Calls cb(el.offsetHeight) immediately and on every resize. Returns unobserve. */
@@ -121,7 +121,7 @@ export function observeViewHeight(container: HTMLElement | null, cb: (height: nu
 
 Port the singleton logic from the legacy `hooks/useWatchHeight.ts` (one observer, `Map<Element, Set<cb>>`), drop the classes for plain module-level state, and add a `ResizeObserver`-missing fallback (call once, no observation). Never touch `window` at import time.
 
-### `src/use-controllable-state.ts` (Radix pattern)
+### `src/react/use-controllable-state.ts` (Radix pattern)
 
 ```ts
 export function useControllableState<T>(args: {
@@ -133,9 +133,9 @@ export function useControllableState<T>(args: {
 
 Controlled when `prop !== undefined`: setter only calls `onChange` (no internal state change). Uncontrolled: internal state + `onChange`. `onChange` is not called when the value is unchanged. Setter identity is stable. Uses a ref for the latest `onChange` (no stale closure).
 
-### `src/use-isomorphic-layout-effect.ts`
+### `src/react/use-isomorphic-layout-effect.ts`
 
-`export const useIsomorphicLayoutEffect = isBrowser() ? useLayoutEffect : useEffect;`
+`export const useIsomorphicLayoutEffect = isBrowser() ? useLayoutEffect : useEffect;` (import `isBrowser` from `../core/env.ts`).
 
 ## Tests (table-driven where possible)
 
@@ -163,7 +163,7 @@ pnpm --filter snap-bottom-sheet test
 pnpm lint
 ```
 
-Commit: `feat(sheet): snap resolution, scroll lock, measurement modules` — body cites the audit items fixed.
+Commit: `feat(core): snap resolution, scroll lock, measurement modules` — body cites the audit items fixed. If vitest's `include` in packages/sheet/vitest.config.ts does not already match nested `test/**/*.test.{ts,tsx}`, widen it.
 
 ## Report
 

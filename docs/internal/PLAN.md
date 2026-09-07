@@ -11,8 +11,9 @@ Companion to [AUDIT.md](./AUDIT.md). Every worker task in `tasks/` references se
 | Registry | registry.npmjs.org, changesets + OIDC trusted publishing (nBridge `release.yml`) |
 | Repo | `github.com/mhmd-sdghn/react-bottom-sheet`; docs on GitHub Pages, base `/react-bottom-sheet/` |
 | Layout & tooling | Clone nBridge: pnpm workspace, tsdown (ESM only), biome, lefthook, vitest+jsdom, changesets, publint + attw, VitePress, `playgrounds/*` |
-| Sub-packages | `packages/spring`, `packages/gesture` — `private: true`, bundled into `snap-bottom-sheet` dist by tsdown. No framework-agnostic `core` package. |
-| Peer deps | `react`, `react-dom` `^18 \|\| ^19` only. `@react-spring/web` and `@use-gesture/react` removed. |
+| Core vs bindings | **Framework-agnostic TypeScript core** (`snap-bottom-sheet`, vanilla JS usable) + **React bindings** (`snap-bottom-sheet/react`) built on it — nBridge pattern: one published package, subpath exports. Vue/Angular bindings can be added later as further subpaths. |
+| Sub-packages | `packages/spring`, `packages/gesture` — `private: true`, bundled into `snap-bottom-sheet` dist by tsdown. |
+| Peer deps | `react`, `react-dom` `^18 \|\| ^19`, both **optional** (`peerDependenciesMeta`) — the core entry has no peers. `@react-spring/web` and `@use-gesture/react` removed. |
 | SSR | Must work in Next.js app router + pages router: `"use client"` banner, no `window`/`document` at module scope or in render, portal renders `null` until mounted, `renderToString` test, `playgrounds/next` builds in CI |
 | Integration branch | `v1` (off `main`). Workers branch off `v1`, orchestrator merges accepted work into `v1`. Owner merges `v1` → `main`. |
 | Reference monorepo | `/Users/nehn/Projects/Core/nbridge` (read-only). Verbatim template spec: `/private/tmp/claude-501/-Users-nehn-Projects-Core-snap-bottom-sheet--claude-worktrees-bottom-sheet-audit-f63d97/4cf93f8c-a568-4d78-a164-34f1c87b4e64/scratchpad/nbridge-template.md` |
@@ -32,17 +33,22 @@ Companion to [AUDIT.md](./AUDIT.md). Every worker task in `tasks/` references se
 │  ├─ gesture/                  @snap-bottom-sheet/gesture  private
 │  │  └─ (same shape)
 │  └─ sheet/                    snap-bottom-sheet           published
-│     ├─ src/…  test/…  package.json  tsconfig.json  tsdown.config.ts  vitest.config.ts  README.md  CHANGELOG.md
+│     ├─ src/index.ts           core entry  → exports "."        createSheet, steps, types
+│     ├─ src/core/…             engine: snap.ts, scroll-lock.ts, measure.ts, env.ts, sheet.ts (controller)
+│     ├─ src/react/index.ts     React entry → exports "./react"  Sheet + parts + hooks
+│     ├─ src/react/…
+│     ├─ test/…  package.json  tsconfig.json  tsdown.config.ts  vitest.config.ts  README.md  CHANGELOG.md
 ├─ docs/                        VitePress site (package `snap-bottom-sheet-docs`, private)
 │  ├─ .vitepress/{config.ts,theme/index.ts,theme/custom.css,theme/ReactDemo.vue}
 │  ├─ guide/…  reference/…  demos/…  index.md
 │  └─ internal/                 this plan, audit, tasks — excluded from the site via `srcExclude`
 └─ playgrounds/
+   ├─ vanilla/                  Vite, no framework — exercises the core API directly
    ├─ react/                    Vite + React, scenarios for manual testing
    └─ next/                     Next.js app router, SSR smoke (`next build` in CI)
 ```
 
-Workspace deps: `playgrounds/*` and `docs` depend on `"snap-bottom-sheet": "workspace:*"` and resolve through `exports` to `dist/` (build first; `pnpm dev` = tsdown watch). `packages/sheet` depends on `"@snap-bottom-sheet/spring": "workspace:*"` and `"@snap-bottom-sheet/gesture": "workspace:*"`; tsdown config lists them in `noExternal` so the published bundle is self-contained.
+Workspace deps: `playgrounds/*` and `docs` depend on `"snap-bottom-sheet": "workspace:*"` and resolve through `exports` to `dist/` (build first; `pnpm dev` = tsdown watch). `packages/sheet` depends on `"@snap-bottom-sheet/spring": "workspace:*"` and `"@snap-bottom-sheet/gesture": "workspace:*"`; tsdown config lists them in `noExternal` so the published bundle is self-contained. tsdown entries: `{ index: "src/index.ts", "react/index": "src/react/index.ts" }`; `package.json` exports `.` (core) and `./react`, like nBridge's `.`/`./react`/`./next`. The `"use client"` banner applies to the react chunk only.
 
 ## 2. Public API (1.0)
 
@@ -73,7 +79,66 @@ Rules:
 - `0` is not a valid snap (it means closed); warn once in dev, drop it.
 - No snap points, or only `"content"` → **content mode**: sheet hugs content, drag up is pinned, drag down past threshold closes.
 
-### 2.2 Root
+### 2.2 Core (vanilla) API — `snap-bottom-sheet`
+
+The engine owns all behaviour; it is attached to DOM elements the consumer already rendered. React (and any future binding) is a thin layer that renders elements, hands them to `createSheet`, and mirrors props into `update()`.
+
+```ts
+export interface SheetElements {
+  content: HTMLElement;            // the panel: receives transform, padding-bottom, data-*, CSS vars, role/aria
+  header?: HTMLElement | null;     // measured for "header"
+  body?: HTMLElement | null;       // scroll region: overflow toggled per snap, scroll-vs-drag arbitration
+  overlay?: HTMLElement | null;    // click → close when dismissible; receives data-state, aria-hidden
+  handle?: HTMLElement | null;     // keyboard: ArrowUp/ArrowDown step, Enter/Space cycle
+  container?: HTMLElement | null;  // view-height source + inert scope; default document.body (window height)
+}
+
+export interface SheetOptions {
+  snapPoints?: SnapPoint[];            // default [] → content mode
+  defaultSnapIndex?: number;           // default 0
+  modal?: boolean;                     // default true
+  dismissible?: boolean;               // default true
+  reducedMotion?: boolean | "system";  // default "system"
+  skipInitialAnimation?: boolean;
+  labelledBy?: string;                 // aria-labelledby id
+  describedBy?: string;                // aria-describedby id
+  onOpenChange?(open: boolean): void;
+  onSnapIndexChange?(index: number, point: SnapPoint): void;
+  onDragStart?(): void;
+  onDragEnd?(targetIndex: number | -1): void;
+  onAnimationEnd?(open: boolean): void;
+}
+
+export interface SheetState {
+  open: boolean; snapIndex: number; y: number; progress: number;   // progress: 0 closed → 1 topmost snap
+  dragging: boolean; animating: boolean; contentMode: boolean;
+}
+
+export interface SheetController {
+  open(): Promise<void>;
+  close(): Promise<void>;
+  snapTo(index: number, opts?: { immediate?: boolean }): Promise<void>;
+  update(options: Partial<SheetOptions>): void;   // re-resolves snap points; re-snaps if the active value changed
+  getState(): SheetState;
+  subscribe(fn: (state: SheetState) => void): () => void;
+  destroy(): void;                                // detach gesture + observers, restore scroll lock / inert / focus / styles
+}
+
+export function createSheet(elements: SheetElements, options?: SheetOptions): SheetController;
+export { steps } from "./core/snap";
+export type { SnapPoint, SnapPointConfig, SnapValue } from "./core/snap";
+```
+
+Semantics:
+- `createSheet` starts **closed** (content translated to `viewHeight`, `data-state="closed"`). `open()` animates to the active snap.
+- Dismiss by drag / overlay / Escape: the controller closes itself, then calls `onOpenChange(false)`. A controlled React parent that refuses will re-open on the next render (one-frame bounce) — the documented way to veto is `dismissible: false`.
+- `update({ snapPoints })` keeps `snapIndex` if still valid, else clamps; if the active snap's y changed (new points, measurement, resize) it animates there (spring), except on view-height change during a drag → immediate.
+- The controller writes base layout styles inline on `content` **once** at attach (position fixed/absolute, inset, height, flex column, box-sizing, `touch-action: none`, `overscroll-behavior: none`), so consumers who set inline styles afterwards win. Dynamic writes each frame: `transform`, `--snap-sheet-y`, `--snap-sheet-progress` (on `content` and on `container`'s wrapper so the overlay can read it); at rest: `padding-bottom` / `--snap-sheet-offset`, `data-*`.
+- Vanilla usage: consumer renders markup, calls `createSheet`, calls `open()`. No CSS file required; look-and-feel (background, radius, shadow) is the consumer's CSS.
+
+### 2.3 React API — `snap-bottom-sheet/react`
+
+#### Root
 
 ```tsx
 interface SheetProps {
@@ -106,11 +171,11 @@ interface SheetHandle {
 }
 ```
 
-`<Sheet ref={handle} …>` — `forwardRef` to `SheetHandle`.
+`<Sheet ref={handle} …>` — `forwardRef` to `SheetHandle` (delegates to the core controller).
 
-Controlled/uncontrolled via one `useControllableState(prop, defaultProp, onChange)` hook (Radix pattern) for both `open` and `activeSnapIndex`.
+Controlled/uncontrolled via one `useControllableState(prop, defaultProp, onChange)` hook (Radix pattern) for both `open` and `activeSnapIndex`. Wiring: parts register their DOM nodes through context (callback refs); the Root's layout effect — which runs after all children mounted — calls `createSheet(elements, options)`, `controller.open()` when `open`, and `destroy()` on unmount. Prop changes → `controller.update(...)`; `open`/`activeSnapIndex` prop changes → `open()/close()/snapTo()` when they differ from `getState()`. Presence: Portal stays mounted while the close animation runs (`onAnimationEnd(false)` → unmount). `useSheetState()` exposes `SheetState` via `useSyncExternalStore(controller.subscribe, getState)`.
 
-### 2.3 Parts
+#### Parts
 
 ```
 <Sheet>                                   context only, no DOM
@@ -225,14 +290,16 @@ Three worker sessions: **W1**, **W2**, **W3**. Orchestrator reviews each task's 
 | 0 | `tasks/00-scaffold.md` | W1 | — | `chore!: restructure into pnpm monorepo with tsdown, biome, vitest, changesets` |
 | 1a | `tasks/01-spring.md` | W1 | 0 | `feat(spring): scalar spring primitive` |
 | 1b | `tasks/02-gesture.md` | W2 | 0 | `feat(gesture): pointer drag primitive` |
-| 1c | `tasks/03-sheet-pure.md` | W3 | 0 | `feat(sheet): snap resolution, scroll lock, measurement modules` |
-| 2 | `tasks/04-sheet-components.md` | W1 | 1a, 1b, 1c | `feat(sheet)!: 1.0 compound API on spring + gesture`, `test(sheet): components, a11y, SSR` |
-| 3a | `tasks/05-docs.md` | W2 | 2 | `docs: VitePress site with guides, reference, live demos` |
-| 3b | `tasks/06-playgrounds.md` | W3 | 2 | `chore: react and next playgrounds` |
-| 3c | `tasks/07-meta.md` | W1 | 2 | `docs: README, CONTRIBUTING, CLAUDE.md, 1.0 changeset` |
+| 1c | `tasks/03-core-pure.md` | W3 | 0 | `feat(core): snap resolution, scroll lock, measurement modules` |
+| 2a | `tasks/04-core-controller.md` | W1 | 1a, 1b, 1c | `feat(core)!: framework-agnostic sheet controller (createSheet)` |
+| 2b | `tasks/05-docs.md` | W2 | 1c (API is fixed by this plan) | `docs: VitePress site with guides and reference` (demos wired in 3c) |
+| 2c | `tasks/06-meta.md` | W3 | 0 | `docs: README, CONTRIBUTING, CLAUDE.md, 1.0 changeset` |
+| 3a | `tasks/07-react.md` | W1 | 2a | `feat(react)!: React bindings on the core controller`, `test(react): components, a11y, SSR` |
+| 3b | `tasks/08-playgrounds.md` | W3 | 2a, 3a | `chore: vanilla, react and next playgrounds` |
+| 3c | `tasks/09-docs-demos.md` | W2 | 3a | `docs: live React demos` |
 | 4 | review loop | orchestrator + any idle worker | 3 | `fix: address code review findings` |
 
-Phase 1 tasks run in parallel (disjoint directories). Phase 3 tasks run in parallel (disjoint directories: `docs/`, `playgrounds/`, root files).
+Phase 1 tasks run in parallel (disjoint directories). Phase 2 tasks run in parallel (`packages/sheet/src/core`, `docs/`, root files). Phase 3: 3b and 3c wait for 3a. Task files for phases 2–4 are written by the orchestrator once the previous phase has merged, so they reflect the real code.
 
 ### 4.1 Worker protocol
 
