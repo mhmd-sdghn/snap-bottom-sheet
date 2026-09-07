@@ -49,6 +49,7 @@
     "dev": "tsdown --watch",
     "test": "vitest run",
     "test:watch": "vitest",
+    "size": "node scripts/size.mjs",
     "typecheck": "tsc --noEmit",
     "verify:pkg": "publint && attw --pack . --profile esm-only --exclude-entrypoints ./package.json"
   },
