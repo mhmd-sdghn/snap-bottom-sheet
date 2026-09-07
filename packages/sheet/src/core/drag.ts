@@ -40,6 +40,19 @@ function blurInside(content: HTMLElement) {
   }
 }
 
+/**
+ * The same lock `onMove` applies to `dy`, applied to the release velocity. The
+ * panel does not move in a locked direction, so a fling that way must not
+ * project past a snap either — otherwise a fast flick down dismisses a sheet
+ * whose active snap sets `drag: { down: false }`.
+ */
+function lockVelocity(snap: ResolvedSnap | undefined, vy: number): number {
+  if (!snap) return vy;
+  if (!snap.drag.up && vy < 0) return 0;
+  if (!snap.drag.down && vy > 0) return 0;
+  return vy;
+}
+
 /** PLAN §3.4 rule 1: regions and situations that never start a drag. */
 function dragFilter(target: Element): boolean {
   if (target.closest("[data-snap-sheet-no-drag]")) return false;
@@ -111,7 +124,7 @@ export function attachSheetDrag(deps: DragDeps): () => void {
         }
         const decision = decideRelease({
           y: spring.get(),
-          vy: state.vy,
+          vy: lockVelocity(deps.activeSnap(), state.vy),
           resolved: deps.resolved(),
           dismissible: deps.dismissible(),
         });
@@ -120,7 +133,9 @@ export function attachSheetDrag(deps: DragDeps): () => void {
           deps.dismiss();
         } else {
           deps.onDragEnd?.(decision.snap.index);
-          deps.snapTo(decision.snap.index, { velocity: state.vy });
+          deps.snapTo(decision.snap.index, {
+            velocity: lockVelocity(deps.activeSnap(), state.vy),
+          });
         }
         deps.notify();
       },

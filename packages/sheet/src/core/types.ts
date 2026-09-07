@@ -23,7 +23,7 @@ export interface SheetOptions {
   onOpenChange?(open: boolean): void;
   onSnapIndexChange?(index: number, point: SnapPoint): void;
   onDragStart?(): void;
-  /** -1 when the release dismisses the sheet. */
+  /** The snap the release is heading to, or `-1` when it dismisses the sheet. */
   onDragEnd?(targetIndex: number): void;
   onAnimationEnd?(open: boolean): void;
 }

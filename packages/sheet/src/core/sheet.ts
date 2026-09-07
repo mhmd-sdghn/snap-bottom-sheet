@@ -4,6 +4,8 @@ import {
   bodyBaseStyles,
   contentBaseStyles,
   findContentInner,
+  innerBaseStyles,
+  overlayBaseStyles,
   setAttrs,
   setStyles,
   writeFrame,
@@ -65,6 +67,10 @@ export function createSheet(
    */
   let pending: "open" | "close" | null = null;
   let pendingResolvers: (() => void)[] = [];
+  /** `skipInitialAnimation` is spent by the first open of this instance. */
+  let hasOpened = false;
+  /** An open() that arrived before anything was measurable (item 10). */
+  let deferredOpen: (() => void) | null = null;
 
   let viewHeight = 0;
   let headerHeight = 0;
@@ -251,6 +257,9 @@ export function createSheet(
       // consumer gave us to report a change against.
       if (!contentMode()) opts.onSnapIndexChange?.(target.index, target.point);
     }
+    // Closed: record the index the next open() will use, but leave the panel
+    // where it is — animating behind `data-state="closed"` is invisible work.
+    if (!isOpen) return;
     const immediate = o.immediate === true || immediateByPreference();
     const rested = await spring.set(target.y, {
       immediate,
@@ -277,8 +286,17 @@ export function createSheet(
     if (destroyed || isOpen) return Promise.resolve();
     const snap = activeSnap();
     if (!snap) {
-      // Nothing resolved (an unmeasurable container, or every point invalid):
-      // animating to y=0 would slam the panel fully open.
+      // Nothing resolved yet — a hidden iframe, a `display: none` host, or a
+      // container that has not been laid out. Hold the request and run it on
+      // the first refresh() that produces a snap, rather than dropping it.
+      if (viewHeight <= 0) {
+        return new Promise<void>((resolve) => {
+          deferredOpen = () => {
+            deferredOpen = null;
+            open().then(resolve);
+          };
+        });
+      }
       warnOnce(
         "open:no-snaps",
         "open() ignored — no usable snap point. Is the container measurable?",
@@ -293,14 +311,19 @@ export function createSheet(
     notify();
 
     const done = new Promise<void>((resolve) => pendingResolvers.push(resolve));
+    // skipInitialAnimation is about mounting at position, so it applies to the
+    // first open of this controller only; later opens animate.
     const immediate =
-      opts.skipInitialAnimation === true || immediateByPreference();
+      (opts.skipInitialAnimation === true && !hasOpened) ||
+      immediateByPreference();
+    hasOpened = true;
     void spring.set(snap.y, { immediate });
     maybeFinalize();
     return done;
   };
 
   const closeWith = (dismissed: boolean): Promise<void> => {
+    deferredOpen = null;
     if (destroyed || !isOpen) return Promise.resolve();
     isOpen = false;
     pending = "close";
@@ -332,6 +355,10 @@ export function createSheet(
     resolve();
     const after = activeSnap();
     if (!after) return;
+    if (deferredOpen) {
+      deferredOpen();
+      return;
+    }
     if (!isOpen) {
       void spring.set(viewHeight, { immediate: true });
       return;
@@ -382,6 +409,10 @@ export function createSheet(
       return restore;
     },
     overlay: (el) => {
+      const restoreStyles = setStyles(
+        el,
+        overlayBaseStyles(Boolean(container)),
+      );
       const restore = setAttrs(el, {
         "aria-hidden": "true",
         "data-state": isOpen ? "open" : "closed",
@@ -391,6 +422,7 @@ export function createSheet(
         el.removeEventListener("click", onOverlayClick);
         el.style.removeProperty("--snap-sheet-progress");
         restore();
+        restoreStyles();
       };
     },
     handle: (el) => {
@@ -466,16 +498,20 @@ export function createSheet(
     viewHeight = height;
     refresh(changed);
   });
-  const unobserveContent = observeHeight(
-    findContentInner(content),
-    (height) => {
-      // Paused at a scrolling snap: Body is a scroller there, so its height is
-      // no longer the natural content height (PLAN §3.3).
-      if (activeSnap()?.scroll && contentHeight > 0) return;
-      contentHeight = height;
-      refresh(false);
-    },
-  );
+  // The wrapper the "content" snap is measured from. It gets base styles of its
+  // own: as a plain flex item of the panel it would be shrunk to the visible
+  // strip and the measurement would feed back into itself (item 8).
+  const contentInner = findContentInner(content);
+  if (contentInner !== content) {
+    restores.push(setStyles(contentInner, innerBaseStyles(Boolean(container))));
+  }
+  const unobserveContent = observeHeight(contentInner, (height) => {
+    // Paused at a scrolling snap: Body is a scroller there, so its height is
+    // no longer the natural content height (PLAN §3.3).
+    if (activeSnap()?.scroll && contentHeight > 0) return;
+    contentHeight = height;
+    refresh(false);
+  });
 
   for (const key of PartKeys) wirePart(key, parts[key]);
 

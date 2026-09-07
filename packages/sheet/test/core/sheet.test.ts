@@ -819,7 +819,7 @@ describe("createSheet", () => {
     expect(controller.getState().open).toBe(false);
   });
 
-  it("8. open() stays closed when nothing resolves", async () => {
+  it("8. open() is deferred while the view is unmeasurable", async () => {
     const el = fixture();
     setHeight(el.wrapper, 0);
     const controller = make(
@@ -827,12 +827,186 @@ describe("createSheet", () => {
       { snapPoints: [0.5] },
     );
 
+    let opened = false;
+    const promise = controller.open().then(() => {
+      opened = true;
+    });
+    await settle();
+
+    // held, not dropped: nothing resolved, so there is no position to open to
+    expect(opened).toBe(false);
+    expect(controller.getState().open).toBe(false);
+    expect(el.content.getAttribute("data-state")).toBe("closed");
+    expect(isBodyScrollLocked()).toBe(false);
+
+    // the container becomes measurable — the held open() runs now
+    resizeTo(el.wrapper, 800);
+    await settle();
+    await promise;
+
+    expect(opened).toBe(true);
+    expect(controller.getState().open).toBe(true);
+    expect(el.content.getAttribute("data-state")).toBe("open");
+    expect(yOf(el.content)).toBe(400);
+  });
+
+  it("8b. a deferred open is cancelled by close() and destroy()", async () => {
+    const el = fixture();
+    setHeight(el.wrapper, 0);
+    const controller = make(
+      { ...el, container: el.wrapper },
+      { snapPoints: [0.5] },
+    );
+
+    void controller.open();
+    await controller.close();
+    resizeTo(el.wrapper, 800);
+    await settle();
+
+    expect(controller.getState().open).toBe(false);
+    expect(el.content.getAttribute("data-state")).toBe("closed");
+  });
+
+  it("8c. open() still warns and stays closed when no snap is valid", async () => {
+    const el = fixture();
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    // measurable view, but every declared point resolves to nothing
+    const controller = make(el, { snapPoints: [0] });
+
     await controller.open();
     await settle();
 
     expect(controller.getState().open).toBe(false);
     expect(el.content.getAttribute("data-state")).toBe("closed");
     expect(isBodyScrollLocked()).toBe(false);
+    warn.mockRestore();
+  });
+
+  it("11a. snapTo() while closed moves the index, not the panel", async () => {
+    const el = fixture();
+    const onSnapIndexChange = vi.fn();
+    const controller = make(el, {
+      snapPoints: [0.3, 0.9],
+      onSnapIndexChange,
+    });
+
+    const closedY = yOf(el.content);
+    await controller.snapTo(1);
+    await settle();
+
+    // index recorded and reported, panel untouched behind data-state="closed"
+    expect(controller.getState().snapIndex).toBe(1);
+    expect(onSnapIndexChange).toHaveBeenCalledWith(1, 0.9);
+    expect(yOf(el.content)).toBe(closedY);
+    expect(el.content.getAttribute("data-state")).toBe("closed");
+
+    // the next open() uses it
+    const opened = controller.open();
+    await settle();
+    await opened;
+    expect(yOf(el.content)).toBe(100);
+  });
+
+  it("11b. skipInitialAnimation applies to the first open only", async () => {
+    const el = fixture();
+    const controller = make(el, {
+      snapPoints: [0.5],
+      skipInitialAnimation: true,
+    });
+
+    // first open: mounted at position, no frames needed
+    await controller.open();
+    expect(yOf(el.content)).toBe(500);
+    expect(controller.getState().animating).toBe(false);
+
+    const closed = controller.close();
+    await settle();
+    await closed;
+
+    // second open: animates
+    const reopened = controller.open();
+    await vi.advanceTimersByTimeAsync(16);
+    expect(controller.getState().animating).toBe(true);
+    expect(yOf(el.content)).not.toBe(500);
+    await settle();
+    await reopened;
+    expect(yOf(el.content)).toBe(500);
+  });
+
+  it("11c. writes restorable base geometry on the overlay", () => {
+    const el = fixture();
+    const overlay = el.overlay as HTMLElement;
+    overlay.style.zIndex = "5";
+    const controller = make(el, { snapPoints: [0.5] });
+
+    expect(overlay.style.position).toBe("fixed");
+    expect(overlay.style.inset).toBe("0");
+    // colour, z-index and pointer-events stay the consumer's
+    expect(overlay.style.zIndex).toBe("5");
+
+    controller.destroy();
+    expect(overlay.style.position).toBe("");
+    expect(overlay.style.inset).toBe("");
+    expect(overlay.style.zIndex).toBe("5");
+  });
+
+  it("11d. positions the overlay absolutely inside a container", () => {
+    const el = fixture();
+    setHeight(el.wrapper, 600);
+    make({ ...el, container: el.wrapper }, { snapPoints: [0.5] });
+    expect((el.overlay as HTMLElement).style.position).toBe("absolute");
+  });
+
+  it("11e. keeps the measured wrapper from being shrunk by the panel", async () => {
+    const el = fixture();
+    const controller = make(el, { snapPoints: ["content"] });
+
+    // the library owns this now: without it the wrapper is a shrinkable flex
+    // item of a panel whose content box is only the visible strip
+    expect(el.inner.style.flex).toBe("0 0 auto");
+    expect(el.inner.style.maxHeight).toBe("100dvh");
+
+    resizeTo(el.inner, 200);
+    const opened = controller.open();
+    await settle();
+    await opened;
+    expect(yOf(el.content)).toBe(800);
+
+    // growth is the case the shrink used to freeze
+    resizeTo(el.inner, 400);
+    await settle();
+    expect(yOf(el.content)).toBe(600);
+
+    controller.destroy();
+    expect(el.inner.style.flex).toBe("");
+  });
+
+  it("11f. a locked direction cannot be flung past", async () => {
+    const el = fixture();
+    const onOpenChange = vi.fn();
+    const controller = make(el, {
+      snapPoints: [{ value: 0.3, drag: { down: false } }, 0.9],
+      defaultSnapIndex: 0,
+      onOpenChange,
+    });
+
+    const opened = controller.open();
+    await settle();
+    await opened;
+    expect(yOf(el.content)).toBe(700);
+
+    // six 20px moves with no delay: dy is locked to 0 but vy is large
+    fire(el.content, "pointerdown", { clientY: 0, timeStamp: 0 });
+    for (let i = 1; i <= 6; i++) {
+      fire(el.content, "pointermove", { clientY: i * 20, timeStamp: i });
+    }
+    fire(el.content, "pointerup", { clientY: 120, timeStamp: 6 });
+    await settle();
+
+    expect(controller.getState().open).toBe(true);
+    expect(controller.getState().snapIndex).toBe(0);
+    expect(yOf(el.content)).toBe(700);
+    expect(onOpenChange).not.toHaveBeenCalled();
   });
 
   it("destroy() is idempotent", () => {
