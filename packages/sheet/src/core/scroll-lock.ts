@@ -75,3 +75,62 @@ export function lockBodyScroll(): () => void {
 export function isBodyScrollLocked(): boolean {
   return count > 0;
 }
+
+interface SavedContainerStyles {
+  overflow: string;
+  overscrollBehavior: string;
+}
+
+interface ContainerLock {
+  count: number;
+  saved: SavedContainerStyles;
+}
+
+/** Per-container refcounts, so two sheets in one container behave like two
+ * sheets on the page: the last release restores. */
+const containerLocks = new WeakMap<HTMLElement, ContainerLock>();
+
+/**
+ * The container-scoped counterpart of `lockBodyScroll`. An embedded sheet — a
+ * docs demo, a split pane, a phone-frame preview — is modal within its own
+ * box, so it must not freeze the whole page. No scrollbar-gap compensation:
+ * the container's own layout decides that, not the viewport.
+ *
+ * Releasing twice is a no-op. No-op entirely outside the browser.
+ */
+export function lockContainerScroll(container: HTMLElement): () => void {
+  if (!isBrowser()) return noop;
+
+  const existing = containerLocks.get(container);
+  if (existing) {
+    existing.count += 1;
+  } else {
+    containerLocks.set(container, {
+      count: 1,
+      saved: {
+        overflow: container.style.overflow,
+        overscrollBehavior: container.style.overscrollBehavior,
+      },
+    });
+    container.style.overflow = "hidden";
+    container.style.overscrollBehavior = "none";
+  }
+
+  let released = false;
+  return () => {
+    if (released) return;
+    released = true;
+    const lock = containerLocks.get(container);
+    if (!lock) return;
+    lock.count -= 1;
+    if (lock.count > 0) return;
+    container.style.overflow = lock.saved.overflow;
+    container.style.overscrollBehavior = lock.saved.overscrollBehavior;
+    containerLocks.delete(container);
+  };
+}
+
+/** Test/debug helper: is this container currently locked by a sheet? */
+export function isContainerScrollLocked(container: HTMLElement): boolean {
+  return (containerLocks.get(container)?.count ?? 0) > 0;
+}

@@ -1,7 +1,9 @@
 import { afterEach, beforeEach, describe, expect, it } from "vitest";
 import {
   isBodyScrollLocked,
+  isContainerScrollLocked,
   lockBodyScroll,
+  lockContainerScroll,
 } from "../../src/core/scroll-lock.ts";
 
 const html = () => document.documentElement;
@@ -97,5 +99,67 @@ describe("lockBodyScroll", () => {
     release();
     expect(isBodyScrollLocked()).toBe(true);
     other();
+  });
+
+  describe("container-scoped lock", () => {
+    it("locks the container and leaves the document alone", () => {
+      const container = document.createElement("div");
+      container.style.overflow = "auto";
+      document.body.append(container);
+      document.documentElement.style.overflow = "scroll";
+
+      const release = lockContainerScroll(container);
+
+      expect(container.style.overflow).toBe("hidden");
+      expect(container.style.overscrollBehavior).toBe("none");
+      // the page is untouched, and the document refcount never moved
+      expect(document.documentElement.style.overflow).toBe("scroll");
+      expect(isBodyScrollLocked()).toBe(false);
+      expect(isContainerScrollLocked(container)).toBe(true);
+
+      release();
+
+      expect(container.style.overflow).toBe("auto");
+      expect(isContainerScrollLocked(container)).toBe(false);
+    });
+
+    it("refcounts per container and restores on the last release", () => {
+      const a = document.createElement("div");
+      const b = document.createElement("div");
+      a.style.overflow = "scroll";
+      document.body.append(a, b);
+
+      const first = lockContainerScroll(a);
+      const second = lockContainerScroll(a);
+      const other = lockContainerScroll(b);
+
+      first();
+      // a second sheet in the same container still holds it
+      expect(a.style.overflow).toBe("hidden");
+      expect(isContainerScrollLocked(a)).toBe(true);
+
+      second();
+      expect(a.style.overflow).toBe("scroll");
+      expect(isContainerScrollLocked(a)).toBe(false);
+      // an unrelated container is unaffected throughout
+      expect(isContainerScrollLocked(b)).toBe(true);
+      other();
+      expect(isContainerScrollLocked(b)).toBe(false);
+    });
+
+    it("ignores a double release", () => {
+      const container = document.createElement("div");
+      document.body.append(container);
+      const release = lockContainerScroll(container);
+      const other = lockContainerScroll(container);
+
+      release();
+      release();
+
+      // the stale second call must not have decremented past the live lock
+      expect(isContainerScrollLocked(container)).toBe(true);
+      other();
+      expect(isContainerScrollLocked(container)).toBe(false);
+    });
   });
 });

@@ -1,7 +1,7 @@
 import { applyInert, focusFirst } from "./dom.ts";
 import { isBrowser } from "./env.ts";
 import { pushEscapeTarget } from "./keyboard.ts";
-import { lockBodyScroll } from "./scroll-lock.ts";
+import { lockBodyScroll, lockContainerScroll } from "./scroll-lock.ts";
 
 export interface ModalGuardParts {
   content: HTMLElement;
@@ -70,7 +70,11 @@ export function createModalGuard(parts: ModalGuardParts): ModalGuard {
     engage(dismissible) {
       if (engaged) return;
       engaged = true;
-      releaseLock = lockBodyScroll();
+      // An embedded sheet is modal within its own box: locking the document
+      // would freeze a host page that is not even showing the sheet.
+      releaseLock = container
+        ? lockContainerScroll(container)
+        : lockBodyScroll();
       const scope = container ?? (isBrowser() ? document.body : null);
       if (scope) {
         restoreInert = applyInert(scope, [rootOf(content, scope), overlay()]);

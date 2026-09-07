@@ -1009,6 +1009,106 @@ describe("createSheet", () => {
     expect(onOpenChange).not.toHaveBeenCalled();
   });
 
+  it("12a. a modal sheet in a container locks the container, not the page", async () => {
+    const el = fixture();
+    setHeight(el.wrapper, 600);
+    el.wrapper.style.overflow = "auto";
+    document.documentElement.style.overflow = "scroll";
+
+    const controller = make(
+      { ...el, container: el.wrapper },
+      { snapPoints: [0.5] },
+    );
+    const opened = controller.open();
+    await settle();
+    await opened;
+
+    expect(el.wrapper.style.overflow).toBe("hidden");
+    expect(el.wrapper.style.overscrollBehavior).toBe("none");
+    // the host page keeps its own scrolling and its own inline value
+    expect(document.documentElement.style.overflow).toBe("scroll");
+    expect(document.body.style.overflow).toBe("");
+    expect(isBodyScrollLocked()).toBe(false);
+
+    const closed = controller.close();
+    await settle();
+    await closed;
+
+    expect(el.wrapper.style.overflow).toBe("auto");
+  });
+
+  it("12b. refcounts two sheets sharing one container", async () => {
+    const outer = fixture();
+    setHeight(outer.wrapper, 600);
+    const innerEl = fixture();
+    // both sheets live in the same container element
+    outer.wrapper.append(innerEl.content);
+
+    const first = make(
+      { ...outer, container: outer.wrapper },
+      { snapPoints: [0.5] },
+    );
+    const second = make(
+      { content: innerEl.content, container: outer.wrapper },
+      { snapPoints: [0.5] },
+    );
+
+    const a = first.open();
+    await settle();
+    await a;
+    const b = second.open();
+    await settle();
+    await b;
+    expect(outer.wrapper.style.overflow).toBe("hidden");
+
+    const closedSecond = second.close();
+    await settle();
+    await closedSecond;
+    // the first sheet is still open, so the container stays locked
+    expect(outer.wrapper.style.overflow).toBe("hidden");
+
+    const closedFirst = first.close();
+    await settle();
+    await closedFirst;
+    expect(outer.wrapper.style.overflow).toBe("");
+  });
+
+  it("12c. destroy() mid-open releases the container", async () => {
+    const el = fixture();
+    setHeight(el.wrapper, 600);
+    el.wrapper.style.overflow = "scroll";
+    const controller = make(
+      { ...el, container: el.wrapper },
+      { snapPoints: [0.5] },
+    );
+
+    void controller.open();
+    await vi.advanceTimersByTimeAsync(32);
+    expect(el.wrapper.style.overflow).toBe("hidden");
+
+    controller.destroy();
+    expect(el.wrapper.style.overflow).toBe("scroll");
+  });
+
+  it("12d. Escape still reaches an embedded modal sheet", async () => {
+    const el = fixture();
+    setHeight(el.wrapper, 600);
+    const controller = make(
+      { ...el, container: el.wrapper },
+      { snapPoints: [0.5] },
+    );
+    const opened = controller.open();
+    await settle();
+    await opened;
+
+    document.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Escape", bubbles: true }),
+    );
+    await settle();
+
+    expect(controller.getState().open).toBe(false);
+  });
+
   it("destroy() is idempotent", () => {
     const el = fixture();
     const controller = make(el, { snapPoints: [0.5] });
