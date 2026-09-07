@@ -2,87 +2,139 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
-> The **Architecture** section below describes the legacy 0.x engine, which still
-> lives in `packages/sheet/src/`. See [docs/internal/PLAN.md](./docs/internal/PLAN.md)
-> for the 1.0 design that replaces it. Full rewrite of this file is task 07.
-
 ## What this is
 
-`snap-bottom-sheet` — a published React bottom-sheet library. pnpm monorepo: `packages/sheet/` is the shipped package (source in `packages/sheet/src/`, tests in `packages/sheet/test/`), `playgrounds/react/` is a Vite app for manual testing, `docs/` holds the plan/audit. Automated coverage is a vitest smoke test only — real verification is dragging the sheet in the playground.
+`snap-bottom-sheet` — a draggable, snappable bottom sheet published to npm. A
+pnpm monorepo: one published package with two entry points, two private
+packages bundled into it, a VitePress docs site, and three playgrounds.
+
+The engine is framework-agnostic. `createSheet(elements, options)` attaches to
+DOM nodes the consumer already rendered; the React layer renders those nodes
+and hands them over. There is no third framework binding yet, but the split
+exists so one can be added as another subpath.
 
 ## Commands
 
 ```bash
-pnpm build                     # packages/sheet -> dist/ via tsdown (ESM only)
-pnpm dev                       # tsdown --watch
-pnpm --filter playground-react dev    # Vite dev server (build the library first)
-pnpm test                      # vitest run
-pnpm typecheck                 # tsc --noEmit in packages/sheet
+pnpm dev                       # tsdown watch on packages/sheet
+pnpm build                     # packages/sheet -> dist/ (ESM only, two entries)
+pnpm test                      # vitest, all packages
+pnpm typecheck                 # tsc --noEmit, all packages
 pnpm lint                      # biome check .
 pnpm lint:fix                  # biome check --write .
-pnpm verify:pkg                # publint + attw on the packed tarball
+pnpm docs:dev                  # VitePress dev server
+pnpm docs:build                # VitePress build (needs `pnpm build` first)
+pnpm verify:pkg                # publint + are-the-types-wrong
+pnpm changeset                 # record a release note
 ```
 
-Playgrounds resolve `snap-bottom-sheet` through `exports` to `dist/`, not `src/` — build (or `pnpm dev`) before running one. lefthook pre-commit runs `biome check --write` on staged files.
+Playgrounds: `pnpm --filter playground-react dev`, `playground-vanilla`,
+`playground-next`. The playgrounds and the docs depend on
+`snap-bottom-sheet: workspace:*` and resolve through its `exports` to `dist/`,
+so **run `pnpm build` before them** (or leave `pnpm dev` running).
 
-Peer deps (`react`, `react-dom`, `@react-spring/web`, `@use-gesture/react`) are external in the build — never import them in a way that bundles them.
+`.claude/launch.json` has ready-made configurations for the React playground,
+the vanilla playground, and the docs site.
 
-## Imports
+## Layout
 
-No path aliases. Library code uses relative imports with explicit `.ts`/`.tsx` extensions (`allowImportingTsExtensions`, `moduleResolution: "bundler"`).
+```
+packages/spring        @snap-bottom-sheet/spring   private — scalar spring, no deps
+packages/gesture       @snap-bottom-sheet/gesture  private — pointer drag recogniser, no deps
+packages/sheet         snap-bottom-sheet           published
+  src/index.ts           core entry   -> exports "."
+  src/core/              the engine (see below)
+  src/react/index.ts     React entry  -> exports "./react"
+  src/react/             Root, parts, hooks
+docs/                  VitePress site; docs/internal/ is orchestration notes, excluded from the site
+playgrounds/{react,vanilla,next}
+```
+
+Both private packages are listed in tsdown's `noExternal`, so the published
+bundle is self-contained. They are in the changesets `ignore` list and never
+get their own version.
 
 ## Architecture
 
-Compound component: `Sheet` = `Sheet` + `.Container` + `.DynamicHeight`, assembled in `packages/sheet/src/index.ts`.
+### Core (`packages/sheet/src/core`)
 
-Responsibility split:
+| File | Owns |
+| --- | --- |
+| `sheet.ts` | `createSheet` — the controller; wires everything below together |
+| `snap.ts` | snap types, `steps`, resolution, closest/projection, release decision |
+| `position.ts` | y math, progress, the frame writes |
+| `measure.ts` | shared `ResizeObserver` for `"header"` / `"content"` / view height |
+| `drag.ts` | gesture bindings and the drag/scroll arbitration |
+| `keyboard.ts` | handle keys, the Escape stack |
+| `modal.ts` | scroll lock + `inert` + focus capture/restore, as one guard |
+| `scroll-lock.ts` | refcounted document scroll lock that restores what it saved |
+| `dom.ts` | attribute/style helpers, base style tables, `inert` application |
+| `env.ts` | `isBrowser`, `clamp`, `warnOnce` |
+| `types.ts` | the public core types |
 
-- **`Sheet.tsx`** — state gate only. Holds `present` so the sheet stays mounted through the closing animation, builds the context value, renders `SheetContextProvider`. No DOM, no animation.
-- **`SheetContainer.tsx`** — the whole engine. Owns the sheet ref, the spring, the gesture bindings, portal/wrapper decision, and wires every hook and event handler together. Almost all behavior changes land here or in a hook/handler it calls.
-- **`SheetWithDynamicHeight.tsx`** — a marker component: it returns `children` unchanged and carries `displayName = DynamicHeightComponentId`. `findDynamicHeightComponent` (utils) inspects the **first** child of `Sheet.Container` for that displayName; if found, `SheetContainer` swaps it for `SheetDynamicHeightContent` (which measures via `useWatchHeight` and pushes the height into context) and renders the remaining children after it. Consequence: `Sheet.DynamicHeight` only works as the first child.
+The controller owns **all** state-dependent DOM: `role`/`aria-*`, every
+`data-*`, the CSS custom properties, and the transform. Nothing that depends
+on sheet state is rendered by React.
 
-### Snap point model
+### React (`packages/sheet/src/react`)
 
-A snap point is `number | "dynamic" (SnapPointDynamicValue) | SnapPointConfigObj { value, scroll?, drag? }`.
+`Sheet.tsx` is a state gate and a lifecycle owner, not an engine: controllable
+`open` and `activeSnapIndex`, presence across the close animation, the
+prop-to-controller sync effects, and the `SheetHandle` ref. Parts
+(`Content`, `Header`, `Body`, `Overlay`, `Handle`, `Title`, `Description`,
+`Close`, `Portal`) each render one element and register it through context.
 
-Everything internal works in **pixel y-offset from the top** (0 = fully open, `viewHeight` = closed), not in heights. `getSnapValues` (utils) converts: values `<= 1` are treated as a fraction of view height, `> 1` as absolute pixels, then `viewHeight - offset` gives the y position. Values are sorted descending with `0` forced last, so **index 0 is always the smallest/lowest snap** regardless of the order the consumer passed them.
+Things that will bite you here:
 
-`SnapPointDynamicValue` must be the first entry when using `Sheet.DynamicHeight`; `validateDynamicSnapPosition` only `console.warn`s otherwise.
+- `present = open || closing` gates the children, so **a closed sheet has no
+  controller**. Anything imperative must go through the open state, not
+  `controllerRef.current` — that is why `SheetHandle.open()`/`close()` call the
+  controllable setter and resolve through a deferred list.
+- `usePartRef` must stay memoised. React detaches and reattaches a callback ref
+  whose identity changed, so a fresh closure per render re-registers every part
+  on every commit.
+- `content` and `container` are fixed for a controller's lifetime; their
+  identity keys the create effect (destroy + recreate). Every other part is
+  handed over in place with `controller.setElements`.
 
-"Content mode" (`isContentMode`) means there are no real snap points — the sheet just hugs its content height; the container then renders `height: fit-content` and drag-up is pinned to the content height.
+### Snap model
 
-### Animation and gestures
+A snap point is `SnapValue | SnapPointConfig`. `SnapValue` is a number
+(`<= 1` a fraction of view height, `> 1` pixels), a `"50%"` or `"320px"`
+string, or `"header"` / `"content"` — measured live.
 
-- `useAnim` wraps a single `useSpring` on `y` and exposes `animate(y, cb?, { jump })`. Every position change goes through it — don't set transforms directly (`y.set()` is used only for hard clamps in the drag-end handler).
-- `@use-gesture/react` bindings in `SheetContainer` delegate to `packages/sheet/src/events/onDrag{Start,,End}EventHandler.ts`. Handlers are wrapped in `useEffectEvent` so the gesture binding stays stable while reading fresh state.
-- `onDragEventHandler` — live drag: applies per-snap `drag.up`/`drag.down` locks, and when `scroll: true` only takes over dragging if the content is already scrolled to top.
-- `onDragEndEventHandler` — decides the target snap via `getClosestIndex`, closes the sheet if dragged past `DragOffsetThreshold` (80px) at index 0, and re-applies scroll lock. It calls `onSnap(-1, null)` before `onClose()` when closing by drag.
-- `onDragStartEventHandler` — blurs a focused input inside the sheet (mobile ghost-caret workaround).
-
-### Scroll locking
-
-`useScrollLock` returns a ref holding `activate`/`deactivate` that toggle `overflowY`/`touchAction` on the sheet element, and locks `document.documentElement`/`body` overflow for the sheet's lifetime. Scroll is enabled only for snap points declared as `{ scroll: true }`; `useSnapScroll` re-applies the lock (and scrolls content back to top) whenever the active snap changes from outside.
-
-### Height tracking
-
-`useWatchHeight(ref?, cb?)` returns the element's `offsetHeight`, or `window.innerHeight` when no ref/element. Both the `ResizeObserver` and the window `resize` listener are shared singletons inside that file — one observer for the whole app.
-
-### Portal / wrapper modes
-
-`Sheet.Container` renders one of four ways: SSR (`isSSR()` → plain markup, no portal), no `wrapper` (portal to `document.body`, `position: fixed`, no overlay), `wrapper` + `wrapperPortalElement` (portal into that element with a wrapper div + overlay), or `wrapper` alone (in-place wrapper div + overlay, `position: absolute`). The overlay only appears when `overlayColor` is set **and** `wrapper` is truthy — `useMount` warns otherwise. Overlay background is set/cleared imperatively via `document.querySelector('#snap-bottom-sheet-wrapper-overlay')`, not React state.
-
-Nested sheets are supported; `onDragStart` calls `event.stopPropagation()` and cancels the gesture when it originates on an overlay so an inner sheet's drag doesn't move the outer one.
-
-### `useSnapState`
-
-Exported convenience hook: prepends the dynamic snap point (optionally with `scroll`/`drag` config) to a consumer's snap array and keeps doing so on every `setSnaps` call.
+**Indices are the consumer's array order, always.** Internally each point
+resolves to `{ index, y, config }` and a y-sorted view is used for
+neighbour and closest search, but that ordering never leaks into an index.
+`0` is not a valid snap; it is warned about once in dev and dropped. No snap
+points (or only `"content"`) is content mode: one snap synthesized from the
+measured content height.
 
 ## Conventions
 
-- Default exports for components and hooks; hook files named `useX.ts`, one hook per file.
-- All shared types live in `packages/sheet/src/types.ts`; magic values in `packages/sheet/src/constants.ts`.
-- `useIsomorphicLayoutEffect` from `@react-spring/web` rather than `useLayoutEffect` in library code that can run during SSR.
-- New public exports must be added to `packages/sheet/src/index.ts` — it is the single tsdown entry, and `dist/index.d.ts` is generated from it.
+- **biome** for lint and format (`biome.jsonc`), enforced by lefthook on commit.
+- Tests live in `<package>/test/**/*.test.{ts,tsx}`, vitest + jsdom. React tests
+  use RTL; cleanup comes from `packages/sheet/vitest.setup.ts` because `globals`
+  is off.
+- `.ts`/`.tsx` extensions are included in import specifiers
+  (`allowImportingTsExtensions`).
+- Deliberate shortcuts carry a `// ponytail:` comment naming the ceiling and the
+  upgrade path.
+- Conventional commits. User-visible changes need a changeset
+  (`pnpm changeset`); the private packages are ignored there.
+- New public exports must be added to `src/index.ts` or `src/react/index.ts` —
+  the `dist` types are rolled up from those two entries.
+
+## SSR rules
+
+Non-negotiable, and there are tests for them:
+
+- No `window` / `document` at module scope or during render. Use `isBrowser()`
+  from `core/env.ts`, or `useIsomorphicLayoutEffect`.
+- `Sheet.Portal` returns `null` on the server **and** on the first client
+  render, so hydration matches.
+- The React entry starts with `"use client"`, and tsdown adds the banner to that
+  chunk only — the core entry must stay directive-free.
 
 ## graphify
 
