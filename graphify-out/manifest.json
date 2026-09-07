@@ -60,8 +60,8 @@
     "semantic_hash": "c698309979460d0f02ba616417844399"
   },
   "CLAUDE.md": {
-    "mtime": 1788800868.542947,
-    "ast_hash": "90c38d3e41cc8519609e048669d18528",
+    "mtime": 1788801017.8881793,
+    "ast_hash": "78280b9db1df41c239c85cfeea75739d",
     "semantic_hash": ""
   },
   "README.md": {
@@ -805,13 +805,13 @@
     "semantic_hash": ""
   },
   ".changeset/spotty-pandas-rewrite.md": {
-    "mtime": 1788800868.5426075,
-    "ast_hash": "26cb003a2ee97e17bc1207bb9ea10c45",
+    "mtime": 1788801017.8879128,
+    "ast_hash": "d6d3a23960635f96c9af3cecefecd7cc",
     "semantic_hash": ""
   },
   "CONTRIBUTING.md": {
-    "mtime": 1788800868.5431285,
-    "ast_hash": "8f9e984465170edb26a5073f4cde5bfa",
+    "mtime": 1788801017.888413,
+    "ast_hash": "10915ceebce90c27a9388929dec4ae0a",
     "semantic_hash": ""
   },
   "docs/internal/tasks/README.md": {
