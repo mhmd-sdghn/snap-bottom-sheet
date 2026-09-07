@@ -26,7 +26,7 @@ pnpm build       # the docs and playgrounds import the built package
 | `playgrounds/react`, `playgrounds/vanilla`, `playgrounds/next` | manual testing |
 
 The two private packages are bundled into the published output (tsdown
-`noExternal`) and are in the changesets `ignore` list, so they never get
+`deps.alwaysBundle`) and are in the changesets `ignore` list, so they never get
 versions of their own.
 
 ## Development loop
@@ -56,6 +56,12 @@ pnpm docs:build    # needs pnpm build first
 ```
 
 lefthook runs biome on staged files before each commit.
+
+One expected piece of noise: building the docs prints Rollup's `Module level
+directives cause errors when bundled, "use client" … was ignored` for the React
+entry. Any `"use client"` in a bundled dependency triggers it, so every
+RSC-aware library does the same. It is not a sign of a duplicate directive —
+`dist/react/index.js` carries exactly one, and the core entry carries none.
 
 Tests live in `<package>/test/**/*.test.{ts,tsx}`. React tests use React
 Testing Library; cleanup is registered in `packages/sheet/vitest.setup.ts`
