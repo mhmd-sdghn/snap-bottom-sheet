@@ -23,3 +23,7 @@ pnpm typecheck && pnpm test && pnpm lint && pnpm build && pnpm verify:pkg && pnp
 ```
 
 Commit: `feat(core): scope the modal scroll lock to a custom container`, `docs: container-scoped modal demos`.
+
+## Also (tiny)
+
+- `.claude/launch.json` `docs` entry: `pnpm docs:dev -- --port 5175 --strictPort` reaches vitepress as `vitepress dev -- --port 5175`, and vitepress ignores everything after `--`, so the server starts on 5173 while the launch config expects 5175. Fix: make `docs/package.json`'s `docs:dev` accept the port (`vitepress dev --port 5175 --strictPort` directly in the docs package script, or drop the `--`), and point the launch entry at the port it actually uses.
