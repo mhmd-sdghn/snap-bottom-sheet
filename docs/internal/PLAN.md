@@ -48,7 +48,7 @@ Companion to [AUDIT.md](./AUDIT.md). Every worker task in `tasks/` references se
    └─ next/                     Next.js app router, SSR smoke (`next build` in CI)
 ```
 
-Workspace deps: `playgrounds/*` and `docs` depend on `"snap-bottom-sheet": "workspace:*"` and resolve through `exports` to `dist/` (build first; `pnpm dev` = tsdown watch). `packages/sheet` depends on `"@snap-bottom-sheet/spring": "workspace:*"` and `"@snap-bottom-sheet/gesture": "workspace:*"`; tsdown config lists them in `noExternal` so the published bundle is self-contained. tsdown entries: `{ index: "src/index.ts", "react/index": "src/react/index.ts" }`; `package.json` exports `.` (core) and `./react`, like nBridge's `.`/`./react`/`./next`. The `"use client"` banner applies to the react chunk only.
+Workspace deps: `playgrounds/*` and `docs` depend on `"snap-bottom-sheet": "workspace:*"` and resolve through `exports` to `dist/` (build first; `pnpm dev` = tsdown watch). `packages/sheet` depends on `"@snap-bottom-sheet/spring": "workspace:*"` and `"@snap-bottom-sheet/gesture": "workspace:*"`; tsdown config lists them in `noExternal` so the published bundle is self-contained. tsdown entries: `{ index: "src/index.ts", "react/index": "src/react/index.ts" }`; `package.json` exports `.` (core) and `./react`, like nBridge's `.`/`./react`/`./next`. The `"use client"` banner applies to the react chunk only — `outputOptions.banner` must be a function keyed on the chunk file name (`chunk.fileName.startsWith("react/")`), since a string banner is per-build and would mark the core entry as a client module.
 
 ## 2. Public API (1.0)
 
@@ -198,7 +198,7 @@ Controlled/uncontrolled via one `useControllableState(prop, defaultProp, onChang
 </Sheet>
 ```
 
-Every part forwards `ref`, spreads rest props onto its element, merges `className`/`style`. No `asChild` (YAGNI — add later if asked).
+Every part forwards `ref`, spreads rest props onto its element, merges `className`/`style`. No `asChild` (YAGNI — add later if asked). The annotations in the tree above (`role`, `aria-*`, `data-*`, CSS vars) describe the **resulting DOM**: the controller writes them at attach/runtime (§2.2); React parts render nothing state-dependent, which is also why server output carries no `data-state`.
 
 Styling hooks (no CSS shipped except position/transform essentials):
 - `data-state="open" | "closed"` on Overlay and Content; `data-snap-index`, `data-dragging`, `data-content-mode` on Content.

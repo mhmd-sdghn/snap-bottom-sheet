@@ -18,7 +18,7 @@ packages/sheet/src/core/keyboard.ts       Escape / handle keys
 packages/sheet/src/index.ts               REWRITE: core entry — export createSheet, steps, and public types only
 packages/sheet/test/core/sheet.test.ts    controller behaviour (jsdom)
 packages/sheet/test/core/dom.test.ts
-packages/sheet/tsdown.config.ts           entries { index, "react/index" } — the react entry may point at a placeholder `src/react/index.ts` exporting nothing until task 07 (create it if absent). Banner `"use client";` only on the react chunk.
+packages/sheet/tsdown.config.ts           entries { index, "react/index" } (W2's branch already has src/react/index.ts; if absent on yours, a placeholder). Banner `"use client";` on the react chunk ONLY: `outputOptions: { banner: (chunk) => chunk.fileName.startsWith("react/") ? '"use client";' : "" }` — a string banner is per-build and leaks into dist/index.js (verified by W2). Done-when checks both heads.
 packages/sheet/package.json               exports "." and "./react"; remove @react-spring/web + @use-gesture/react; react/react-dom peers optional via peerDependenciesMeta; add workspace deps on @snap-bottom-sheet/spring + gesture
 biome.json                                delete the legacy override added in task 00
 ```
@@ -77,6 +77,7 @@ pnpm build            # dist/index.js, dist/index.d.ts, dist/react/index.js (pla
 pnpm verify:pkg
 grep -c "react-spring\|use-gesture" packages/sheet/dist/index.js   # 0
 head -1 packages/sheet/dist/react/index.js                          # "use client";
+head -1 packages/sheet/dist/index.js                                # NOT "use client" (core entry is framework-agnostic)
 ```
 
 Commits: `feat(core)!: framework-agnostic sheet controller (createSheet)` (+ `chore(sheet): drop react-spring and use-gesture` if you prefer two commits: deletion first, then feature).
