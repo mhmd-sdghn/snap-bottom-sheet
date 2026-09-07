@@ -85,9 +85,8 @@ This is the minimum that makes it look like a sheet:
 
 ```css
 /* sheet.css */
+/* The controller positions the overlay itself — colour is yours. */
 .sheet-overlay {
-  position: fixed; /* absolute, if you gave Sheet.Portal a container */
-  inset: 0;
   background: rgb(0 0 0 / 0.4);
 }
 
@@ -118,9 +117,12 @@ This is the minimum that makes it look like a sheet:
 ```
 
 ::: tip
-The overlay fades on its own: the controller writes `--snap-sheet-progress`
-(`0` closed → `1` at the topmost snap) onto the overlay element and its default
-opacity reads that variable. See [Styling](/guide/styling) for every hook.
+The controller positions the overlay for you — at attach it writes
+`position: fixed` (or `absolute` when `Sheet.Portal` has a `container`) and
+`inset: 0` on it, so your rule only needs the colour. It also fades on its own:
+the controller writes `--snap-sheet-progress` (`0` closed → `1` at the topmost
+snap) onto the overlay element and its default opacity reads that variable. See
+[Styling](/guide/styling) for every hook.
 :::
 
 ## 3. The same sheet in vanilla JS

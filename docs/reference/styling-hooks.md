@@ -10,12 +10,17 @@ and your CSS reads them.
 
 | Attribute | Element | Values | When it changes |
 | --- | --- | --- | --- |
-| `data-state` | Content, Overlay | `"open"` \| `"closed"` | `"open"` the moment `open()` starts; back to `"closed"` **after** the close animation rests, so a CSS transition still plays. Written as `"closed"` at attach. |
-| `data-snap-index` | Content | the active index as a string (`"0"`, `"1"`, …) | At rest, after a snap transition finishes. In content mode it stays `"0"` — there is one synthesized snap. |
+| `data-state` | Content, Overlay | `"open"` \| `"closed"` | `"open"` the moment `open()` starts; back to `"closed"` **after** the close animation rests, so a CSS transition still plays. `SheetState.open` is already `false` by then — it flips when the close *starts*. Written as `"closed"` at attach. |
+| `data-snap-index` | Content | the active index as a string (`"0"`, `"1"`, …) | At rest, after a snap transition finishes. In content mode it is always `"0"` — there is one synthesized snap. |
 | `data-dragging` | Content | present (empty value) or absent | Added when the drag passes the 3 px threshold, removed on release. |
 | `data-content-mode` | Content | present (empty value) or absent | Set at attach and re-evaluated on `update({ snapPoints })`: present when there are no real snap points (`[]` or all-`"content"`). |
 | `data-snap-sheet-inner` | the single wrapper `div` inside Content | present | Never changes. `Sheet.Content` always renders it; it is the element measured for the `"content"` snap value. In vanilla, add it yourself. |
 | `data-snap-sheet-no-drag` | any descendant of Content — **you** write this one | present | Never changes. A `pointerdown` inside a subtree carrying it is ignored by the drag recogniser, so sliders, maps, carousels and swipeable rows keep their own gestures. |
+
+`data-dragging` and `data-content-mode` are **presence** attributes: they are
+written with an empty value and removed again, never set to `"false"`. So match
+them with `[data-dragging]` / `[data-content-mode]` and their absence with
+`:not([data-dragging])` — `[data-dragging="false"]` never matches anything.
 
 `data-*` attributes are absent from server-rendered markup: there is no state
 until the controller attaches on the client.
@@ -37,13 +42,25 @@ until the controller attaches on the client.
 | Property | Element | Unit | Meaning |
 | --- | --- | --- | --- |
 | `--snap-sheet-y` | Content | px (e.g. `240px`) | Offset of the panel's top edge from the top of the view. `0px` = fully open, view height = closed. This is what the panel's `translate3d` uses. |
-| `--snap-sheet-progress` | Content, Overlay | unitless `0`–`1` | `0` closed → `1` at the topmost snap. The friendly one: use it for opacity, blur, colour mixes, anything that should fade with the sheet. |
+| `--snap-sheet-progress` | Content, Overlay | unitless `0`–`1` | `0` fully closed → `1` at the topmost **declared** snap. The friendly one: use it for opacity, blur, colour mixes, anything that should fade with the sheet. |
 | `--snap-sheet-offset` | Content | px | How much of the panel sits below the bottom of the view **at rest** — the same number as the panel's `padding-bottom`. Use it to keep a sticky footer or safe-area padding aligned with the visible part of the panel. |
 
 `--snap-sheet-progress` is written on the **Overlay element itself**, not on a
 shared ancestor: the controller never touches ancestors, the Portal wrapper or
 the document root, so an overlay reads the value from its own style attribute
 and nested sheets cannot overwrite each other's.
+
+The scale is the topmost snap you **declared**, not the full view height. With
+`snapPoints={[0.3, 0.6]}` on an 800 px view, `1` is reached at `0.6` — a 480 px
+tall sheet — and the lower snap (240 px) reads `0.5`. So the value always spans
+the sheet's real travel, and `calc(var(--snap-sheet-progress) * 0.45)` reaches
+its full `0.45` at the top snap whatever heights you declared.
+
+::: info The library never writes `z-index`
+Not on the panel, not on the overlay, not on the Portal container — on any
+element. Stacking is entirely yours, which is also what makes nested sheets and
+your own fixed-position UI predictable.
+:::
 
 ::: warning Read them where they are written
 `--snap-sheet-y` and `--snap-sheet-offset` exist on Content only, so a
@@ -57,7 +74,8 @@ The three groups differ, and the difference is visible.
 
 **Once, at attach.** Base layout on Content (`position`, `inset`, `height`,
 `display: flex`, `box-sizing`, `touch-action: none`,
-`overscroll-behavior: none`), `role="dialog"`, `aria-modal`,
+`overscroll-behavior: none`), the Overlay's positioning (`position: fixed` or
+`absolute`, `inset: 0`), `role="dialog"`, `aria-modal`,
 `aria-labelledby`/`aria-describedby`, `tabindex="-1"`, the Overlay's
 `aria-hidden`, the Handle's `aria-label`. Inline styles you set after attach win.
 
@@ -85,7 +103,10 @@ rest. Anything that must track the panel every frame should use
 ### Overlay fade
 
 `--snap-sheet-progress` on the overlay is exactly the opacity you want, so no
-transition is needed — the value already comes from the spring.
+transition is needed — the value already comes from the spring. The controller
+owns the overlay's positioning: at attach it writes `position: fixed` (or
+`absolute` when the sheet has a Portal `container`) and `inset: 0`, so the rule
+you write is colour only.
 
 ```tsx
 <Sheet.Overlay className="overlay" />
@@ -93,8 +114,6 @@ transition is needed — the value already comes from the spring.
 
 ```css
 .overlay {
-  position: absolute;
-  inset: 0;
   background: rgb(0 0 0 / 0.45);
   opacity: var(--snap-sheet-progress);
 }

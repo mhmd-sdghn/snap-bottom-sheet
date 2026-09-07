@@ -20,6 +20,12 @@ Because they are written once, at attach, **inline styles you set afterwards win
 
 Per frame the controller then writes `transform`, `--snap-sheet-y` and `--snap-sheet-progress`; `will-change: transform` is set only while dragging or animating. At rest it writes `padding-bottom` / `--snap-sheet-offset` and the `data-*` attributes. `Sheet.Body`'s `flex` and `overflow-y` are also toggled by the controller as the active snap's `scroll` option changes — see [Scrolling](/guide/scrolling).
 
+On the **Overlay** it writes two declarations, also once at attach: `position: fixed` — `absolute` when `Sheet.Portal` has a `container` — and `inset: 0`. So an overlay rule needs no positioning of its own; leave `position` and `inset` out of it. Colour, `pointer-events` and `z-index` on the overlay are entirely yours.
+
+::: info The library never writes a `z-index`
+Not on the panel, not on the overlay, not on the portal wrapper — on any element, ever. Stacking is 100% your CSS, and nothing the controller does will silently outrank a value you set. The flip side is that a sheet with no `z-index` stacks purely by DOM order, which is why [nested sheets](/guide/nested-sheets) want an explicit one per level.
+:::
+
 ## Data attributes
 
 The controller writes these straight to the DOM, so they are available to CSS without a React render. Server output carries none of them.
@@ -30,6 +36,8 @@ The controller writes these straight to the DOM, so they are available to CSS wi
 | `data-snap-index` | Content | the active index, in **your** array order |
 | `data-dragging` | Content | present while a drag is in progress |
 | `data-content-mode` | Content | present when the sheet is in content mode |
+
+`data-dragging` and `data-content-mode` are **presence** attributes: the controller sets them as empty attributes and removes them again. They are never written as `"false"`, so match on presence (`[data-dragging]`) and never on a value (`[data-dragging="true"]` will not match either). In content mode `data-snap-index` is `"0"` — the synthesized snap is still an index.
 
 ```css
 /* A heavier shadow once the sheet is at its topmost snap. */
@@ -53,10 +61,12 @@ The controller writes these straight to the DOM, so they are available to CSS wi
 | Property | Meaning | Written on |
 |---|---|---|
 | `--snap-sheet-y` | px offset of the panel from the top of the view; `0` is fully open | Content, every frame |
-| `--snap-sheet-progress` | `0` closed → `1` at the topmost snap | Content and Overlay, every frame |
+| `--snap-sheet-progress` | `0` closed → `1` at the **topmost declared snap** | Content and Overlay, every frame |
 | `--snap-sheet-offset` | px of the panel hanging below the viewport **at rest** | Content, at rest |
 
 `--snap-sheet-progress` is written on the Overlay element itself, not on a shared ancestor or the document root — the controller never touches elements it was not handed. That is what lets the overlay fade without the two elements sharing a parent.
+
+`1` is the **topmost snap you declared**, not the full view height. With `snapPoints={[0.3, 0.6]}` the sheet reaches `1` at `0.6`: progress is `0` closed, `0.5` at the `0.3` snap — half the distance to the top snap — and `1` at `0.6`, even though 40% of the view is still uncovered. That makes the value safe to do arithmetic on, because the top of its range is always a position the sheet can actually rest at.
 
 ::: warning `--snap-sheet-offset` is a rest value
 It is written when the spring comes to rest and is deliberately **stale during a drag** — it is corrected on the next rest. Use it for layout that only matters at rest (bottom padding, a sticky footer inset). Anything that must track the finger should use `--snap-sheet-y` or `--snap-sheet-progress`.
@@ -102,8 +112,7 @@ It is written when the spring comes to rest and is deliberately **stale during a
 }
 
 .overlay {
-  position: fixed;
-  inset: 0;
+  /* No position or inset — the controller writes both at attach. */
   background: rgb(0 0 0 / 0.4);
   opacity: var(--snap-sheet-progress);
 }
@@ -120,7 +129,7 @@ It is written when the spring comes to rest and is deliberately **stale during a
 
 ## The overlay fade
 
-The overlay has no opacity of its own — read the progress value:
+The overlay has no opacity of its own — read the progress value. Positioning is already done for you, so the rule is two declarations:
 
 ```css
 .overlay {
@@ -129,7 +138,7 @@ The overlay has no opacity of its own — read the progress value:
 }
 ```
 
-For a dim that saturates before the topmost snap, scale and clamp it: `opacity: min(1, calc(var(--snap-sheet-progress) * 2))`.
+For a dim that saturates before the topmost snap, scale and clamp it: `opacity: min(1, calc(var(--snap-sheet-progress) * 2))` reaches full dim halfway up the range.
 
 ## Safe areas
 

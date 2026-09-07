@@ -114,12 +114,15 @@ obvious things:
 
 | Key | Action |
 |---|---|
-| <kbd>ArrowUp</kbd> | Step one snap up |
-| <kbd>ArrowDown</kbd> | Step one snap down |
-| <kbd>Enter</kbd> / <kbd>Space</kbd> | Cycle to the next snap |
+| <kbd>ArrowUp</kbd> | Step one snap up, clamping at the topmost |
+| <kbd>ArrowDown</kbd> | Step one snap down, clamping at the lowest |
+| <kbd>Enter</kbd> / <kbd>Space</kbd> | Cycle to the next snap, wrapping round to the lowest |
 
 Stepping and cycling move through the snaps in position order — lowest to
-topmost — regardless of the order you passed them in.
+topmost — regardless of the order you passed them in. The difference between the
+two is what happens at the top: the arrow keys **clamp**, so ArrowUp at the
+topmost snap does nothing, while <kbd>Enter</kbd> / <kbd>Space</kbd> **wrap**
+back to the lowest snap.
 <kbd>Escape</kbd> closes the sheet when it is
 `modal` and `dismissible`; see [Accessibility](/guide/accessibility) for how
 that is routed when sheets are nested.
@@ -140,10 +143,17 @@ that is routed when sheets are nested.
 | Callback | Signature | Fires |
 |---|---|---|
 | `onDragStart` | `() => void` | Once the drag threshold is crossed and the sheet has taken the gesture |
-| `onDragEnd` | `(targetIndex: number \| -1) => void` | At release, with the decided target — **`-1` when the release closes the sheet** |
+| `onDragEnd` | `(targetIndex: number) => void` | At release, with the decided target index in your array |
+
+The `targetIndex` is a plain `number`, and the one value that is not an index is
+`-1`: it means the release is closing the sheet.
 
 `onDragEnd` reports the *decision*, not the arrival: the spring is still
 running when it fires. Wait for `onAnimationEnd` if you need the resting state.
+
+On a drag dismissal the two callbacks fire in a fixed order — `onDragEnd(-1)`
+first, then `onOpenChange(false)`. So by the time your open-state handler runs,
+the drag handler has already seen the dismissal.
 
 ## Where next
 

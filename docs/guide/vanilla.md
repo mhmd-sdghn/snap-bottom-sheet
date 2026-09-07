@@ -35,12 +35,13 @@ Three files: markup, CSS, and one call.
 
 The library writes only what it must own on the panel — `position`, `inset`,
 `height`, `display: flex`, `box-sizing`, `touch-action`, `overscroll-behavior`,
-and `transform`. Everything that makes it *look* like a sheet is yours.
+and `transform`. On the overlay it writes `position` (`fixed`, or `absolute` when
+you pass a `container`) and `inset: 0`, and nothing else — so your overlay rule
+carries the colour and leaves the positioning alone. Everything that makes it
+*look* like a sheet is yours, and no `z-index` is ever written on any element.
 
 ```css
 .sheet-overlay {
-  position: fixed;
-  inset: 0;
   background: rgb(0 0 0 / 0.4);
   opacity: var(--snap-sheet-progress, 0);
 }
@@ -112,8 +113,8 @@ CSS-variable write are the controller's job.
 
 Only `content` is required, and it is **fixed for the controller's lifetime** —
 to move the sheet to a different panel element, `destroy()` and create a new
-controller. Everything else may be `null` at attach and arrive later through
-`setElements`.
+controller. `container` is fixed for the same reason. Every other element may be
+`null` at attach and arrive later through `setElements`.
 
 | Element | Required | What it does |
 | --- | --- | --- |
@@ -121,16 +122,31 @@ controller. Everything else may be `null` at attach and arrive later through
 | `header` | No | Measured for the `"header"` snap value. |
 | `body` | No | The scroll region: `overflow` is toggled per snap, and scroll-vs-drag is decided here. |
 | `overlay` | No | Click closes the sheet when `dismissible`. Receives `data-state` and `aria-hidden`. |
-| `handle` | No | Keyboard target: ArrowUp/ArrowDown step one snap, Enter/Space cycles. |
+| `handle` | No | Keyboard target: ArrowUp/ArrowDown step one snap and clamp at the ends, Enter/Space cycles to the next snap and wraps. |
 | `container` | No | View-height source and `inert` scope. Defaults to `document.body` (window height). |
+
+::: warning A custom `container` narrows the `inert` scope
+`inert` is applied to the *children of the container*, so with the default
+`document.body` the whole page behind the sheet goes inert. Pass your own
+`container` and only its children do — anything outside it stays interactive and
+reachable by screen reader while the modal sheet is open.
+:::
 
 ::: warning The controller starts closed
 `createSheet` translates the panel to `viewHeight` and sets
 `data-state="closed"` immediately. Nothing is visible until you call `open()`.
 There is no `defaultOpen` on the core — call `open()` right after creating the
 controller, or pass `skipInitialAnimation: true` and `open()` to appear at
-position instead of animating up.
+position instead of animating up. `skipInitialAnimation` applies to the **first
+`open()` of a controller instance** only: every later `open()` animates
+normally, and creating a new controller gets a fresh first open.
 :::
+
+`content` is also validated: `createSheet` throws a `TypeError` when
+`elements.content` is missing, and `setElements` throws a `TypeError` if you try
+to pass `content` or `container` to it — those two are fixed for the
+controller's lifetime, so `setElements({ content })` and
+`setElements({ container })` are errors, not silent no-ops.
 
 ## The content-inner measurement contract
 
@@ -158,7 +174,7 @@ only comes up in vanilla usage.
 | --- | --- | --- |
 | `open()` | `Promise<void>` | Animates to the active snap. Resolves when the spring rests. |
 | `close()` | `Promise<void>` | Animates to `viewHeight` and reports `onOpenChange(false)`. |
-| `snapTo(index, { immediate })` | `Promise<void>` | Moves to a snap point by **your array index**. `immediate: true` jumps. |
+| `snapTo(index, { immediate })` | `Promise<void>` | Moves to a snap point by **your array index**. `immediate: true` jumps. On a **closed** sheet it only records the snap to open at — it does not open the sheet; call `open()` for that. |
 | `update(options)` | `void` | Merges into the options: re-resolves snap points, keeps `snapIndex` if still valid, clamps otherwise, and re-animates if the active snap's position changed. |
 | `setElements(elements)` | `void` | Registers or replaces optional parts after attach; `null` removes one. Rewires only the parts that changed; the current position is kept. |
 | `getState()` | `SheetState` | `{ open, snapIndex, y, progress, dragging, animating, contentMode }`. |

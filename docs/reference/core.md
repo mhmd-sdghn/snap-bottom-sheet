@@ -28,7 +28,8 @@ function createSheet(
 ```
 
 Attaches the engine to `elements.content` and returns a controller.
-`elements.content` is required. The sheet starts **closed** — call `open()`.
+`elements.content` is required — calling `createSheet` without it throws a
+`TypeError`. The sheet starts **closed**; call `open()` to show it.
 
 ```ts
 const controller = createSheet(
@@ -56,13 +57,14 @@ await controller.open();
 | `content` | `HTMLElement` | yes | The panel. Receives the transform, `padding-bottom`, `data-*`, the CSS custom properties, `role`/`aria-*`, and the drag listeners. **Fixed for the controller's lifetime.** |
 | `header` | `HTMLElement \| null` | no | Measured with a shared `ResizeObserver` for the `"header"` snap value. |
 | `body` | `HTMLElement \| null` | no | The scroll region: `overflow` is toggled per active snap, and scroll-vs-drag arbitration reads its `scrollTop`. |
-| `overlay` | `HTMLElement \| null` | no | Gets `data-state`, `aria-hidden="true"`, `--snap-sheet-progress`, and a click listener that closes when `dismissible`. |
-| `handle` | `HTMLElement \| null` | no | Gets `aria-label="Resize sheet"` when it has none, plus the keyboard handlers (<kbd>ArrowUp</kbd>/<kbd>ArrowDown</kbd> step, <kbd>Enter</kbd>/<kbd>Space</kbd> cycle). |
-| `container` | `HTMLElement \| null` | no | View-height source and `inert` scope; defaults to the window / `document.body`. With a container the panel is `position: absolute; height: 100%` and view height is the container's `offsetHeight`. **Fixed for the controller's lifetime.** |
+| `overlay` | `HTMLElement \| null` | no | Positioned at attach (`position: fixed`, or `absolute` with a `container`, plus `inset: 0`). Gets `data-state`, `aria-hidden="true"`, `--snap-sheet-progress`, and a click listener that closes when `dismissible`. Colour, `pointer-events` and `z-index` stay yours. |
+| `handle` | `HTMLElement \| null` | no | Gets `aria-label="Resize sheet"` when it has none, plus the keyboard handlers (<kbd>ArrowUp</kbd>/<kbd>ArrowDown</kbd> step and clamp, <kbd>Enter</kbd>/<kbd>Space</kbd> cycle and wrap). |
+| `container` | `HTMLElement \| null` | no | View-height source and `inert` scope; defaults to the window / `document.body`. With a container the panel is `position: absolute; height: 100%` and view height is the container's `offsetHeight`. Only the container's own children are made inert, so anything outside it stays interactive. **Fixed for the controller's lifetime.** |
 
 Every optional element may arrive later through
-[`setElements`](#setelements-elements). `content` and `container` may not — pass
-them at `createSheet` time.
+[`setElements`](#setelements-elements). `content` and `container` may not —
+passing either one to `setElements` throws a `TypeError`. Pass them at
+`createSheet` time.
 
 ## `SheetOptions`
 
@@ -75,13 +77,13 @@ All optional.
 | `modal` | `boolean` | `true` | Lock page scroll, apply `inert` to siblings, enable Escape, and drive the overlay's state. |
 | `dismissible` | `boolean` | `true` | Allow drag-below, overlay click and Escape to close. `false` clamps back to the lowest snap instead. |
 | `reducedMotion` | `boolean \| "system"` | `"system"` | `true` → every animation immediate; `"system"` → follows `prefers-reduced-motion: reduce`. |
-| `skipInitialAnimation` | `boolean` | `false` | First `open()` jumps to the active snap instead of animating from closed. |
+| `skipInitialAnimation` | `boolean` | `false` | The **first `open()` of this controller instance** jumps to the active snap instead of animating from closed. Every later `open()` animates; a fresh controller gets a fresh first `open()`. |
 | `labelledBy` | `string` | — | Written as `aria-labelledby` on `content`. Removed again when set back to `undefined` via `update()`. |
 | `describedBy` | `string` | — | Written as `aria-describedby` on `content`. |
 | `onOpenChange` | `(open: boolean) => void` | — | Fires after internal state updated, including on self-initiated dismissals. |
 | `onSnapIndexChange` | `(index: number, point: SnapPoint) => void` | — | Only when the index actually changes, and before the animation starts. Never fires in content mode. |
 | `onDragStart` | `() => void` | — | Drag passed the 3 px threshold. |
-| `onDragEnd` | `(targetIndex: number) => void` | — | Release target decided, before the spring starts. `-1` = closing. |
+| `onDragEnd` | `(targetIndex: number) => void` | — | Release target decided, before the spring starts. `-1` = closing; on a drag dismissal `onDragEnd(-1)` fires **before** `onOpenChange(false)`. |
 | `onAnimationEnd` | `(open: boolean) => void` | — | The open/close spring reached rest. Fires once per transition. |
 
 ## `SheetState`
@@ -100,10 +102,10 @@ interface SheetState {
 
 | Field | Type | Description |
 | --- | --- | --- |
-| `open` | `boolean` | `true` from the start of `open()` until the close animation finishes. |
+| `open` | `boolean` | `true` from the start of `open()`. Flips to `false` when closing **starts** — not when it finishes, which is when `data-state="closed"` lands. |
 | `snapIndex` | `number` | Active snap in your array order; always `0` in content mode. |
 | `y` | `number` | Px offset of the panel top from the top of the view. `0` = fully open, view height = closed. |
-| `progress` | `number` | `0` closed → `1` at the topmost snap. |
+| `progress` | `number` | `0` closed → `1` at the topmost **declared** snap. |
 | `dragging` | `boolean` | A pointer drag is in progress. |
 | `animating` | `boolean` | The spring is running. |
 | `contentMode` | `boolean` | No real snap points; the single snap is synthesized from the measured content height. |
@@ -132,12 +134,18 @@ first focusable element inside `content` (or `content` itself). Resolves when th
 spring rests; `onAnimationEnd(true)` fires then. With no resolvable snap points
 the sheet stays closed and warns in dev.
 
+`open()` is the only way to show a closed sheet: `snapTo(i)` on a closed sheet
+just changes which snap it will open at, it does not open it. The React
+[`SheetHandle`](/reference/react#sheethandle) mirrors both methods with the same
+semantics.
+
 ### `close()`
 
 `() => Promise<void>` — animate to closed, restore focus, release the scroll
-lock, remove `inert`. `data-state="closed"` is written **after** the animation
-rests, so a CSS transition on the overlay or panel still plays. Ignores
-`dismissible` — that option only governs user-initiated dismissal.
+lock, remove `inert`. `SheetState.open` goes `false` as the close **starts**,
+while `data-state="closed"` is written **after** the animation rests, so a CSS
+transition on the overlay or panel still plays. Ignores `dismissible` — that
+option only governs user-initiated dismissal.
 
 ### `snapTo(index, opts?)`
 
@@ -165,8 +173,9 @@ snap points are re-resolved. `null` removes a part. The spring position is
 untouched, so nothing moves.
 
 ::: warning
-`content` and `container` are fixed for a controller's lifetime, so they cannot
-be passed here. Destroy the controller and create a new one instead — the React
+`content` and `container` are fixed for a controller's lifetime:
+`setElements({ content })` and `setElements({ container })` each throw a
+`TypeError`. Destroy the controller and create a new one instead — the React
 bindings do exactly that when either element's identity changes.
 :::
 
@@ -217,7 +226,10 @@ The details that decide how the engine behaves at the edges.
   attach**: `position: fixed` (or `absolute` with a container), `top/left/right:
   0`, `height: 100dvh` (or `100%`), `display: flex; flex-direction: column`,
   `box-sizing: border-box`, `touch-action: none`, `overscroll-behavior: none`.
-  Inline styles you set afterwards therefore win. **Each frame**, from the
+  `overlay` gets its positioning at attach too — `position: fixed` (or
+  `absolute` with a container) and `inset: 0`; its colour, `pointer-events` and
+  `z-index` stay yours. Inline styles you set afterwards therefore win.
+  **Each frame**, from the
   spring: `transform`, `--snap-sheet-y`, and `--snap-sheet-progress` on `content`
   and on `overlay`. **At rest only**: `padding-bottom` / `--snap-sheet-offset`,
   `data-snap-index`, and the Body `overflow`/`flex` for the active snap.
