@@ -260,8 +260,8 @@
     "semantic_hash": ""
   },
   "docs/internal/PLAN.md": {
-    "mtime": 1788795825.6266205,
-    "ast_hash": "492d6c6d315543ae88f540b19c7a2465",
+    "mtime": 1788796057.1037252,
+    "ast_hash": "31fb3d6da38bf543f3d4a9a28225761e",
     "semantic_hash": ""
   },
   "docs/internal/tasks/00-scaffold.md": {
@@ -365,8 +365,8 @@
     "semantic_hash": ""
   },
   "docs/internal/tasks/04-core-controller.md": {
-    "mtime": 1788795765.641163,
-    "ast_hash": "0c218369224cfb8bbef5c3a1e936ad2e",
+    "mtime": 1788796057.1039462,
+    "ast_hash": "9feb911a36178ec2ed2c995dd1a75a47",
     "semantic_hash": ""
   },
   "docs/internal/tasks/05-docs.md": {
@@ -440,8 +440,23 @@
     "semantic_hash": ""
   },
   "docs/internal/tasks/07-react.md": {
-    "mtime": 1788795765.6414742,
-    "ast_hash": "bffa951bdceb247de6d8b26e2dca92ac",
+    "mtime": 1788795995.911815,
+    "ast_hash": "71a376f3186d1a413badcb1368f74769",
+    "semantic_hash": ""
+  },
+  "docs/internal/tasks/08-playgrounds.md": {
+    "mtime": 1788795892.836373,
+    "ast_hash": "0f59f3df442cb350e0e9231ac3a5bb6b",
+    "semantic_hash": ""
+  },
+  "docs/internal/tasks/09-docs-demos.md": {
+    "mtime": 1788795910.1511226,
+    "ast_hash": "4fa4565b084ccd207bc194cb7f1e6082",
+    "semantic_hash": ""
+  },
+  "docs/internal/tasks/10-integration-tests.md": {
+    "mtime": 1788795925.894882,
+    "ast_hash": "591821c7bc2d8f385ac9c0ee1b177136",
     "semantic_hash": ""
   }
 }
