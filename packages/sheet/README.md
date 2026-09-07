@@ -1,232 +1,153 @@
-# Snap Bottom Sheet 🎯
+# snap-bottom-sheet
 
-A lightweight, flexible, and highly customizable bottom sheet component for React with dynamic height support, scroll management, and SSR compatibility. Built with TypeScript and supports CommonJS/ESM modules.
+A draggable, snappable bottom sheet for the web. Framework-agnostic core, thin
+React bindings, zero runtime dependencies.
 
-![Demo](https://via.placeholder.com/600x400?text=Bottom+Sheet+Demo) _[Placeholder for demo GIF]_
-
-## Features ✨
-
-- 📱 Compound component pattern for ultimate flexibility
-- 🔄 Dynamic height support with `Sheet.DynamicHeight`
-- 📜 Scroll management for content
-- 🎯 Snap points in pixels, percentages, or dynamic values
-- 🖱️ Drag behavior customization (lock directions)
-- 🌍 SSR compatible
-- � TypeScript-first with full TS support
-- 🎨 Customizable positioning (portal or custom wrapper)
-
-## Installation 📦
+**[Documentation](https://mhmd-sdghn.github.io/react-bottom-sheet/)** ·
+[Demos](https://mhmd-sdghn.github.io/react-bottom-sheet/demos/) ·
+[Migrating from 0.x](https://mhmd-sdghn.github.io/react-bottom-sheet/guide/migration)
 
 ```bash
 npm install snap-bottom-sheet
-# or
-yarn add snap-bottom-sheet
 ```
 
-## Core Components 🧩
+Two entry points. `react` and `react-dom` (18 or 19) are optional peers — the
+core entry needs neither.
 
-### 1. `<Sheet>` (Root Component)
+| Import | What |
+| --- | --- |
+| `snap-bottom-sheet` | `createSheet`, `steps`, and the types. Works in any framework, or none. |
+| `snap-bottom-sheet/react` | `Sheet` and its parts, `useSheetState`. |
 
-Manages sheet state and snap behavior.
-
-**Props:**
-
-### Sheet Component Props
-
-| Prop Name              | Required | Type                                | Default Value |
-| ---------------------- | -------- | ----------------------------------- | ------------- |
-| `isOpen`               | Yes      | `boolean`                           |               |
-| `snapPoints`           | No       | `(number or SnapPointDynamicValue)` | -             |
-| `activeSnapPointIndex` | No       | -                                   |               |
-| `onClose`              | Yes      | -                                   |               |
-| `onSnap`               | Yes      | -                                   |               |
-| `noInitialAnimation`   | No       | -                                   |               |
-
----
-
-### 2. `<Sheet.Container>`
-
-Wrapper for your sheet content.
-
-### Sheet.Container Props
-
-| Prop Name   | Required | Default Value |
-| ----------- | -------- | ------------- |
-| `style`     | No       | -             |
-| `className` | No       | -             |
-| `wrapper`   | No       | -             |
-
----
-
-### 3. `<Sheet.DynamicHeight>\*\*
-
-Special container for content with changing heights.
-
-## Snap Points Explained 🔢
-
-Define your snap points as:
-
-- **Pixel value**: `200` (200px from bottom)
-- **Percentage**: `0.5` (50% of viewport height)
-- **Dynamic**: `SnapPointDynamicValue` (Use with `Sheet.DynamicHeight`)
-
-**Advanced configuration:**
+## React
 
 ```tsx
-const snapPoints = [
-  SnapPointDynamicValue, // Required first when using DynamicHeight
-  {
-    value: 0.4, // 40% height
-    scroll: true, // Enable content scrolling
-    drag: { up: false }, // Disable dragging up
-  },
-  200, // Fixed 200px height
-];
-```
+import { useState } from "react";
+import { Sheet } from "snap-bottom-sheet/react";
 
-## Basic Usage 🚀
-
-```tsx
-import { Sheet, SnapPointDynamicValue } from "snap-bottom-sheet";
-
-function App() {
-  const [isOpen, setIsOpen] = useState(true);
-  const [activeSnap, setActiveSnap] = useState(0);
-
-  const snapPoints = [
-    SnapPointDynamicValue,
-    0.5, // 50% height
-    600, // 600px height
-  ];
+export function RideOptions() {
+  const [open, setOpen] = useState(false);
 
   return (
-    <Sheet
-      isOpen={isOpen}
-      snapPoints={snapPoints}
-      activeSnapPointIndex={activeSnap}
-      onClose={() => setIsOpen(false)}
-      onSnap={(index) => setActiveSnap(index)}
-    >
-      <Sheet.Container>
-        <Sheet.DynamicHeight>
-          <div
-            style={{
-              height: activeSnap === 0 ? 100 : 300,
-              transition: "height 0.3s",
-            }}
-          >
-            Resizable Content
-          </div>
-        </Sheet.DynamicHeight>
+    <>
+      <button type="button" onClick={() => setOpen(true)}>
+        Choose a ride
+      </button>
 
-        <div className="content">
-          <h2>My Bottom Sheet</h2>
-          <p>Scrollable content here...</p>
-        </div>
-      </Sheet.Container>
-    </Sheet>
+      <Sheet open={open} onOpenChange={setOpen} snapPoints={["header", 0.5, 1]}>
+        <Sheet.Portal>
+          <Sheet.Overlay className="overlay" />
+          <Sheet.Content className="sheet">
+            <Sheet.Handle className="handle" />
+            <Sheet.Header className="header">
+              <Sheet.Title>Ride options</Sheet.Title>
+            </Sheet.Header>
+            <Sheet.Body className="body">
+              <p>Drag the handle, or drag anywhere on the sheet.</p>
+            </Sheet.Body>
+          </Sheet.Content>
+        </Sheet.Portal>
+      </Sheet>
+    </>
   );
 }
 ```
 
-## Key Features Deep Dive 🔍
+## Vanilla
 
-### 1. Dynamic Height Handling
+`createSheet` attaches the engine to elements you already rendered.
 
-Wrap content with changing heights in `Sheet.DynamicHeight`:
+```ts
+import { createSheet } from "snap-bottom-sheet";
 
-```tsx
-<Sheet.DynamicHeight>
-  <CollapsibleSection /> {/* Height changes internally */}
-</Sheet.DynamicHeight>
+const content = document.querySelector<HTMLElement>("#sheet");
+if (!content) throw new Error("missing sheet markup");
+
+const sheet = createSheet(
+  {
+    content,
+    header: document.querySelector<HTMLElement>("#sheet-header"),
+    body: document.querySelector<HTMLElement>("#sheet-body"),
+    overlay: document.querySelector<HTMLElement>("#sheet-overlay"),
+    handle: document.querySelector<HTMLElement>("#sheet-handle"),
+  },
+  { snapPoints: ["header", 0.5, 1], defaultSnapIndex: 1 },
+);
+
+void sheet.open();
 ```
 
-### 2. Scroll Management
+The panel needs one element child carrying `data-snap-sheet-inner`, or a single
+element child, so `"content"` can be measured.
 
-Enable content scrolling per snap point:
+## Snap points
 
-```tsx
-const snapPoints = [
-  SnapPointDynamicValue,
-  { value: 400, scroll: true }, // Enable scroll at 400px
-];
-```
+```ts
+type SnapValue =
+  | number            // 0 < n <= 1 → fraction of view height; n > 1 → px
+  | `${number}%`
+  | `${number}px`
+  | "header"          // measured height of Sheet.Header
+  | "content";        // measured natural height of the content, capped at view height
 
-### 3. Drag Behavior Control
-
-Restrict drag directions:
-
-```tsx
-const restrictedSnap = {
-  value: 0.5,
-  drag: { up: false }, // Only allow dragging down
+type SnapPoint = SnapValue | {
+  value: SnapValue;
+  scroll?: boolean;                                   // body scrolls here (default false)
+  drag?: boolean | { up?: boolean; down?: boolean };   // default true
 };
 ```
 
-### 4. Custom Positioning
+| You write | You get |
+| --- | --- |
+| `[0.5, 1]` | half the view, then all of it |
+| `["50%", "320px"]` | the same half, then a fixed 320px |
+| `["header", "content"]` | a peek at the header, then the whole content |
+| `[{ value: 1, scroll: true }]` | full height, body scrolls, pull down at the top to drag |
+| `[{ value: 0.3, drag: { down: false } }]` | cannot be dragged below 30% |
+| `steps(3)` | `[1/3, 2/3, 1]` |
+| `[]` | content mode — the sheet hugs its content |
 
-Render in custom container instead of portal:
+**Indices are your array order.** Points are sorted internally to find
+neighbours, but `activeSnapIndex` and `onSnapIndexChange` always speak in the
+order you wrote.
 
-```tsx
-const wrapperRef = useRef<HTMLDivElement>(null);
+## Why this one
 
-// In parent component:
-<div ref={wrapperRef} className="custom-wrapper" />
+- **Measured, not guessed.** `"header"` and `"content"` are live-measured with a
+  shared `ResizeObserver`. When the active snap's height changes, the sheet
+  springs to the new position rather than jumping.
+- **Per-snap scroll and drag rules**, so a scrollable list and a peek header can
+  live in one sheet without fighting each other for the gesture.
+- **Zero runtime dependencies** — its own spring integrator and Pointer Events
+  recogniser. About 13 kB gzipped for the core, 17 kB with the React bindings.
+- **Dialog semantics included**: `role="dialog"`, labelled by your title, focus
+  moved in and restored on close, siblings `inert` while modal, Escape to the
+  innermost sheet, `prefers-reduced-motion` honoured.
+- **SSR-safe on purpose.** No `window` or `document` at module scope or during
+  render; the portal renders `null` until mounted. Next.js App Router, Pages
+  Router and `renderToString` all work with no dynamic import.
 
-// In Sheet:
-<Sheet.Container wrapper={wrapperRef}>
-  {/* Content */}
-</Sheet.Container>
-```
+No stylesheet ships. The library writes only the positioning and transform it
+must own; background, radius and shadow are yours, driven by `data-state`,
+`data-snap-index`, `data-dragging` and the `--snap-sheet-*` custom properties.
 
-## SSR Considerations ⚛️
+## Going deeper
 
-The sheet works seamlessly with Server-Side Rendering:
+| Topic | Page |
+| --- | --- |
+| Install and first sheet | [Getting Started](https://mhmd-sdghn.github.io/react-bottom-sheet/guide/getting-started) |
+| The y-offset model, content mode | [Core Concepts](https://mhmd-sdghn.github.io/react-bottom-sheet/guide/core-concepts) |
+| Scroll vs drag, `touch-action` | [Scrolling](https://mhmd-sdghn.github.io/react-bottom-sheet/guide/scrolling) |
+| Drag locks, velocity, dismissal | [Gestures](https://mhmd-sdghn.github.io/react-bottom-sheet/guide/gestures) |
+| Data attributes and CSS variables | [Styling](https://mhmd-sdghn.github.io/react-bottom-sheet/guide/styling) |
+| Focus, `inert`, Escape, reduced motion | [Accessibility](https://mhmd-sdghn.github.io/react-bottom-sheet/guide/accessibility) |
+| Next.js, `renderToString` | [SSR & Next.js](https://mhmd-sdghn.github.io/react-bottom-sheet/guide/ssr-nextjs) |
+| Every prop and method | [React API](https://mhmd-sdghn.github.io/react-bottom-sheet/reference/react) · [Core API](https://mhmd-sdghn.github.io/react-bottom-sheet/reference/core) |
 
-- Automatic portal handling
-- No hydration mismatches
-- Graceful fallbacks
+Coming from 0.x? The API is different in almost every name —
+[the migration guide](https://mhmd-sdghn.github.io/react-bottom-sheet/guide/migration)
+has a full before/after table.
 
-## Styling Tips 🎨
+## License
 
-1. Override default styles:
-
-```css
-.snap-bottom-sheet-container {
-  box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
-  border-radius: 16px 16px 0 0;
-}
-```
-
-2. Add custom transitions:
-
-```css
-.snap-bottom-sheet-content {
-  transition: transform 0.3s cubic-bezier(0.33, 0.84, 0.24, 1);
-}
-```
-
-## Best Practices ✅
-
-- Always include `SnapPointDynamicValue` as first snap point when using dynamic content
-- Use percentage values for responsive layouts
-- Wrap height-changing content in `Sheet.DynamicHeight`
-- Use `noInitialAnimation` for modals triggered by instant actions
-- Combine pixel and percentage snap points for hybrid layouts
-
-## TypeScript Support 💻
-
-Full type definitions included - no need for separate `@types` package!
-
-```ts
-import type {
-  SnapPoint,
-  SnapPointConfigObj,
-  SheetCallbacks,
-} from "snap-bottom-sheet";
-```
-
----
-
-**Enjoy building smooth, interactive bottom sheets!** 🚀  
-_Found an issue? Please [report it on GitHub](https://github.com/your-repo-url)._
+MIT © Mo Sadeghian
