@@ -1,0 +1,25 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "playground-react",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--filter", "playground-react", "dev"],
+      "port": 5173
+    },
+    {
+      "name": "playground-vanilla",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": [
+        "--filter",
+        "playground-vanilla",
+        "dev",
+        "--",
+        "--port",
+        "5174",
+        "--strictPort"
+      ],
+      "port": 5174
+    }
+  ]
+}

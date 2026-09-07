@@ -99,5 +99,14 @@
   "97": "Task 11 — core/react follow-ups surfaced by the docs pass",
   "98": "index.md",
   "99": "index.md",
-  "100": "config.ts"
+  "100": "config.ts",
+  "101": "main.ts",
+  "102": "sheet.test.tsx",
+  "103": "App.tsx",
+  "104": "SheetController",
+  "105": "Sheet.tsx",
+  "106": "sheet-demo.tsx",
+  "107": "snap-bottom-sheet playgrounds",
+  "108": "next.config.mjs",
+  "109": "vite.config.ts"
 }

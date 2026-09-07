@@ -39,3 +39,9 @@ jobs:
 
       - name: Validate package (publint + arethetypeswrong)
         run: pnpm verify:pkg
+
+      - name: Build playgrounds (consume dist through workspace:*)
+        run: |
+          pnpm --filter playground-vanilla build
+          pnpm --filter playground-react build
+          pnpm --filter playground-next build

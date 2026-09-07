@@ -1,0 +1,251 @@
+/*
+ * The library ships no CSS. It owns layout on the panel — position, inset,
+ * height, flex direction, box-sizing, touch-action, overscroll-behavior,
+ * transform, padding-bottom — and exposes styling hooks:
+ *   data-state="open|closed"   on Overlay and Content
+ *   data-snap-index, data-dragging, data-content-mode   on Content
+ *   --snap-sheet-y, --snap-sheet-progress, --snap-sheet-offset
+ * Everything below is look-and-feel only; nothing here fights those.
+ */
+
+main {
+  max-width: 46rem;
+  margin: 0 auto;
+  padding: 1.5rem 1rem 6rem;
+}
+
+h1 {
+  font-size: 1.25rem;
+  margin: 0 0 1rem;
+}
+
+h2 {
+  font-size: 1rem;
+  margin: 0 0 0.25rem;
+}
+
+.tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  margin-bottom: 1.25rem;
+}
+
+button {
+  font: inherit;
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #3a3a44;
+  border-radius: 0.375rem;
+  background: #23232b;
+  color: inherit;
+  cursor: pointer;
+}
+
+button:hover {
+  border-color: #55555f;
+}
+
+button.active {
+  background: #3d5afe;
+  border-color: #3d5afe;
+  color: #fff;
+}
+
+button.primary {
+  background: #3d5afe;
+  border-color: #3d5afe;
+  color: #fff;
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.375rem;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.hint,
+.note {
+  color: #a0a0ad;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+  margin: 0 0 1rem;
+}
+
+code {
+  background: #23232b;
+  border-radius: 0.25rem;
+  padding: 0.05rem 0.3rem;
+  font-size: 0.9em;
+}
+
+.toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.8125rem;
+}
+
+/* ---------------------------------------------------------------- the sheet */
+
+/*
+ * Element identity comes from className (every part spreads DOM props);
+ * state comes from the library's data-attributes and CSS variables.
+ */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: #000;
+  /* --snap-sheet-progress is written on the overlay itself each frame */
+  opacity: calc(var(--snap-sheet-progress, 0) * 0.5);
+}
+
+.panel {
+  background: #1b1b22;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  box-shadow: 0 -0.5rem 2rem rgb(0 0 0 / 45%);
+  outline: none;
+}
+
+.panel[data-dragging] {
+  cursor: grabbing;
+}
+
+/*
+ * The inner wrapper the library renders is the panel's only child and the node
+ * it measures for "content"/"header". It must NOT be stretched to the panel
+ * height, or the measurement always reports the full view height.
+ */
+.panel > [data-snap-sheet-inner] {
+  display: flex;
+  flex-direction: column;
+  /*
+   * flex-shrink: 0 is load-bearing. The panel is always full view height and
+   * gets padding-bottom = y at rest, so its content box is exactly the visible
+   * strip; without this the wrapper is shrunk to that strip and a "content"
+   * snap can never measure larger than it already is (it freezes). See the
+   * task 08 report — the library should own this.
+   */
+  flex-shrink: 0;
+  max-height: 100dvh;
+}
+
+.handle {
+  flex: none;
+  display: block;
+  width: 2.5rem;
+  height: 0.25rem;
+  padding: 0;
+  margin: 0.6rem auto 0.2rem;
+  border: 0;
+  border-radius: 999px;
+  background: #4a4a55;
+}
+
+.handle:hover {
+  background: #5d5d6a;
+}
+
+.sheet-header {
+  flex: none;
+  padding: 0.25rem 0 0.5rem;
+}
+
+.sheet-header h2 {
+  margin: 0.25rem 1rem 0.25rem;
+}
+
+.sheet-header p {
+  margin: 0 1rem 0.25rem;
+  color: #a0a0ad;
+  font-size: 0.8125rem;
+  line-height: 1.45;
+}
+
+/* the library toggles overflow/flex here per snap; it needs a basis */
+.sheet-body {
+  flex: 1;
+  min-height: 0;
+  padding: 0 1rem 1rem;
+}
+
+.sheet-close {
+  flex: none;
+  margin: 0 1rem 1rem;
+}
+
+.list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.list li {
+  padding: 0.55rem 0.25rem;
+  border-bottom: 1px solid #2c2c35;
+  font-size: 0.875rem;
+}
+
+label {
+  display: block;
+  font-size: 0.75rem;
+  color: #a0a0ad;
+  margin: 0.6rem 0 0.2rem;
+}
+
+input[type="email"],
+input[type="password"] {
+  font: inherit;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 0.5rem 0.6rem;
+  border: 1px solid #3a3a44;
+  border-radius: 0.375rem;
+  background: #14141a;
+  color: inherit;
+  margin-bottom: 0.4rem;
+}
+
+.readout {
+  display: grid;
+  grid-template-columns: repeat(4, auto);
+  gap: 0 0.75rem;
+  margin: 0 1rem 0.25rem;
+  font-size: 0.6875rem;
+  color: #a0a0ad;
+}
+
+.readout dt {
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.readout dd {
+  margin: 0 0 0.25rem;
+  font-variant-numeric: tabular-nums;
+}
+
+/* -------------------------------------------------- scenario 7: phone frame */
+
+.phone {
+  position: relative;
+  overflow: hidden;
+  height: 26rem;
+  margin-top: 1rem;
+  border: 1px solid #3a3a44;
+  border-radius: 1.25rem;
+  background: #101015;
+}
+
+.phone > p {
+  margin: 0;
+  padding: 1rem;
+  color: #a0a0ad;
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
