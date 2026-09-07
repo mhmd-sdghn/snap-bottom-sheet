@@ -21,6 +21,21 @@ importers:
         specifier: ^1.11.0
         version: 1.13.6
 
+  packages/gesture:
+    devDependencies:
+      '@types/node':
+        specifier: ^24.0.0
+        version: 24.13.3
+      jsdom:
+        specifier: ^26.0.0
+        version: 26.1.0
+      typescript:
+        specifier: ^5.9.0
+        version: 5.9.3
+      vitest:
+        specifier: ^3.2.0
+        version: 3.2.7(@types/node@24.13.3)(jsdom@26.1.0)(tsx@4.19.3)(yaml@2.7.1)
+
   packages/sheet:
     dependencies:
       '@react-spring/web':
