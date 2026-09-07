@@ -136,7 +136,11 @@ export function writeRest(content: HTMLElement, y: number): void {
   content.style.setProperty("--snap-sheet-offset", `${y}px`);
 }
 
-/** Body overflow/flex for the active snap. */
+/**
+ * Body overflow/flex for the active snap. The caller owns restoring these —
+ * see `rememberBodyScroll`, which snapshots them once at attach so `destroy()`
+ * and `setElements({ body: null })` can put the consumer's own values back.
+ */
 export function applyBodyScroll(body: HTMLElement, scroll: boolean): void {
   // The shorthand and the longhand must never both be set, or toggling snaps
   // leaves the loser behind. Clear the other one before writing ours.
@@ -149,6 +153,23 @@ export function applyBodyScroll(body: HTMLElement, scroll: boolean): void {
     body.style.overflow = "hidden";
     body.style.flex = "0 0 auto";
   }
+}
+
+/**
+ * Snapshot the three properties `applyBodyScroll` writes, so they can be put
+ * back exactly as the consumer left them. Returns the restore closure.
+ */
+export function rememberBodyScroll(body: HTMLElement): () => void {
+  const previous = {
+    overflow: body.style.overflow,
+    overflowY: body.style.overflowY,
+    flex: body.style.flex,
+  };
+  return () => {
+    body.style.overflow = previous.overflow;
+    body.style.overflowY = previous.overflowY;
+    body.style.flex = previous.flex;
+  };
 }
 
 /**

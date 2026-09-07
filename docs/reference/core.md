@@ -221,7 +221,10 @@ The details that decide how the engine behaves at the edges.
   failing that, `content` itself. React's `Sheet.Content` always renders the
   attributed inner div. In vanilla, either add
   `data-snap-sheet-inner` to your wrapper or keep the panel down to a single
-  element child.
+  element child. The element is resolved **once, at attach**, and observed for
+  the controller's lifetime: replacing the wrapper afterwards leaves the
+  controller measuring a detached node, so `"content"` stops tracking. Keep the
+  wrapper element stable and change its contents instead, or recreate the sheet.
 - **When each style is written.** Base layout goes onto `content` **once at
   attach**: `position: fixed` (or `absolute` with a container), `top/left/right:
   0`, `height: 100dvh` (or `100%`), `display: flex; flex-direction: column`,

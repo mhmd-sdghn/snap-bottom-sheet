@@ -142,6 +142,17 @@ export function resolveSnapPoints(
 
     const measured = value === "header" || value === "content";
     if (measured && !(height > 0) && viewHeight > 0) {
+      // A placeholder is normal on the first frame, before the observer has
+      // reported. It is *not* normal to stay there — a sheet with no
+      // Sheet.Header would otherwise sit at 50% forever with no clue why.
+      warnOnce(
+        `snap:unmeasured:${value}`,
+        `Snap point ${JSON.stringify(value)} has no measured height yet — ` +
+          `using ${Math.round(UNMEASURED_RATIO * 100)}% of the view until it ` +
+          `does. If it never resolves, is <Sheet.${
+            value === "header" ? "Header" : "Content"
+          }> rendered?`,
+      );
       height = Math.round(viewHeight * UNMEASURED_RATIO);
     }
 

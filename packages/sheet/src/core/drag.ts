@@ -16,6 +16,7 @@ export interface DragDeps {
   body(): HTMLElement | null | undefined;
   spring: Spring;
   activeSnap(): ResolvedSnap | undefined;
+  isOpen(): boolean;
   resolved(): ResolvedSnap[];
   viewHeight(): number;
   snapIndex(): number;
@@ -88,6 +89,11 @@ export function attachSheetDrag(deps: DragDeps): () => void {
       onStart(state) {
         // Nested sheets: the inner panel swallows the gesture (P0-5).
         state.event.stopPropagation();
+        // A closed panel is still in the DOM through the close animation.
+        if (!deps.isOpen()) {
+          state.cancel();
+          return;
+        }
         if (scrollWins(deps, state.dy, state.target)) {
           state.cancel();
           return;
@@ -118,6 +124,8 @@ export function attachSheetDrag(deps: DragDeps): () => void {
         content.removeAttribute("data-dragging");
         deps.setDragging(false);
         if (state.cancelled) {
+          // A drag that started must always end: onDragStart already fired.
+          deps.onDragEnd?.(deps.snapIndex());
           deps.snapTo(deps.snapIndex());
           deps.notify();
           return;

@@ -102,6 +102,26 @@ describe("createSpring", () => {
     expect(spring.get()).toBe(100);
   });
 
+  it("5b. reports animating from inside a frame notification", async () => {
+    const spring = createSpring(0);
+    const seen: boolean[] = [];
+    spring.subscribe(() => seen.push(spring.animating));
+
+    const settled = record(spring.set(100));
+    await vi.advanceTimersByTimeAsync(2000);
+
+    expect(settled.value).toBe(true);
+    // `handle` is null inside every callback (tick clears it before notifying
+    // and re-schedules after), so a subscriber must not be told the spring has
+    // stopped for the whole flight.
+    expect(seen.length).toBeGreaterThan(2);
+    expect(seen.slice(0, -1).every(Boolean)).toBe(true);
+    // ...and the last notification, the one at rest, must report stopped —
+    // that is the one a caller uses to run the tail of a transition.
+    expect(seen.at(-1)).toBe(false);
+    expect(spring.animating).toBe(false);
+  });
+
   it("6. stop() freezes the value and resolves false", async () => {
     const spring = createSpring(0);
     const settled = record(spring.set(100));

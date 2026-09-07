@@ -58,6 +58,9 @@ export function observeHeight(el: Element, cb: HeightCallback): () => void {
 
     elementCallbacks.delete(el);
     observer?.unobserve(el);
+    // The observer itself is kept deliberately: it is a process-wide singleton
+    // shared by every sheet, and disconnecting on an empty map would just make
+    // the next sheet build a new one. Nothing is observed once the map empties.
   };
 }
 
