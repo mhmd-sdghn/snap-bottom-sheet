@@ -302,10 +302,11 @@ Three worker sessions: **W1**, **W2**, **W3**. Orchestrator reviews each task's 
 | 1b | `tasks/02-gesture.md` | W2 | 0 | `feat(gesture): pointer drag primitive` ✅ 21dc1bd |
 | 1c | `tasks/03-core-pure.md` | W3 | 0 | `feat(core): snap resolution, scroll lock, measurement modules` ✅ b0ef8e2 |
 | 2a | `tasks/04-core-controller.md` | W1 | 1a, 1b, 1c | `feat(core)!: framework-agnostic sheet controller (createSheet)` |
-| 2b | `tasks/07-react.md` | W2 | 1c (built against the §2.2 contract with a mocked controller; integrated after 2a) | `feat(react)!: React bindings on the core controller`, `test(react): …` |
-| 2c | `tasks/06-meta.md` then `tasks/05-docs.md` | W3 | 0 / 1c | `docs: README, CONTRIBUTING, CLAUDE.md, 1.0 changeset`, `docs: VitePress site with guides and reference` |
+| 2b | `tasks/07-react.md` (+07b follow-up: setElements wiring, export trim, setup file) | W2 | 1c (built against the §2.2 contract with a mocked controller; integrated after 2a) | `feat(react)!: React bindings on the core controller`, `test(react): …` — done on `w2/07-react`, merges after 2a |
+| 2c | `tasks/06-meta.md` | W3 | 0 | `docs: README, CONTRIBUTING, CLAUDE.md, 1.0 changeset` |
+| 2d | `tasks/05-docs.md` | W2 (after 07b) | 1c | `docs: VitePress site with guides and reference` |
 | 3a | `tasks/08-playgrounds.md` | W1 | 2a, 2b | `chore: vanilla, react and next playgrounds` |
-| 3b | `tasks/09-docs-demos.md` | W2 | 2a, 2b, 2c | `docs: live React demos` |
+| 3b | `tasks/09-docs-demos.md` | W2 or W3 (whoever is free) | 2a, 2b, 2d | `docs: live React demos` |
 | 3c | `tasks/10-integration-tests.md` | W3 | 2a, 2b | `test(sheet): end-to-end controller + react integration, audit regressions, size budget` |
 | 4 | review loop | orchestrator + any idle worker | 3 | `fix: address code review findings` |
 
