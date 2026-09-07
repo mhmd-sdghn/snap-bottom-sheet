@@ -210,18 +210,18 @@
     "semantic_hash": ""
   },
   "packages/sheet/src/core/measure.ts": {
-    "mtime": 1788795825.724211,
-    "ast_hash": "cc9bb03412d5a8630406cf8ea9d9e132",
+    "mtime": 1788803171.1282117,
+    "ast_hash": "99360397545da05578a8d4ba2db1b25e",
     "semantic_hash": ""
   },
   "packages/sheet/src/core/scroll-lock.ts": {
-    "mtime": 1788801393.9469538,
-    "ast_hash": "a8f98dd55bd012557c5d0bb1cff2b855",
+    "mtime": 1788803171.1286423,
+    "ast_hash": "0b781f4b6a3bfca5349ffd7f683c0748",
     "semantic_hash": ""
   },
   "packages/sheet/src/core/snap.ts": {
-    "mtime": 1788795825.7244718,
-    "ast_hash": "ce175b27922f1d62373276a5ad7f7b90",
+    "mtime": 1788803171.1292818,
+    "ast_hash": "c5d1a724362324f5de40b706cd831ca8",
     "semantic_hash": ""
   },
   "packages/sheet/src/react/use-controllable-state.ts": {
@@ -310,13 +310,13 @@
     "semantic_hash": ""
   },
   "packages/spring/src/index.ts": {
-    "mtime": 1788795739.9614236,
-    "ast_hash": "d5ab6bf47edf66fccd293ef5c5eef40a",
+    "mtime": 1788803171.1314218,
+    "ast_hash": "23fb919b5dea06f144ae0504f316cc31",
     "semantic_hash": ""
   },
   "packages/spring/test/spring.test.ts": {
-    "mtime": 1788795739.9616876,
-    "ast_hash": "44e88bfbf4e7a3182eacba9b6a82d253",
+    "mtime": 1788803171.1317258,
+    "ast_hash": "855c7528c778c1aa8656e91cc8aedd75",
     "semantic_hash": ""
   },
   "packages/spring/tsconfig.json": {
@@ -350,23 +350,23 @@
     "semantic_hash": ""
   },
   "packages/sheet/src/core/dom.ts": {
-    "mtime": 1788800141.1692097,
-    "ast_hash": "b87e52d5fd27a632413f49da2aae647a",
+    "mtime": 1788803171.1272082,
+    "ast_hash": "b9f15370ec7cbab380628368f95e68f8",
     "semantic_hash": ""
   },
   "packages/sheet/src/core/drag.ts": {
-    "mtime": 1788800141.169423,
-    "ast_hash": "ef973017a3c5a4f54484c2f6e62faa75",
+    "mtime": 1788803171.1275105,
+    "ast_hash": "576e63b0684d4d272335334bab9032d7",
     "semantic_hash": ""
   },
   "packages/sheet/src/core/keyboard.ts": {
-    "mtime": 1788797667.2247458,
-    "ast_hash": "9084ae8543f03e622e66a113746b28fd",
+    "mtime": 1788803171.1279902,
+    "ast_hash": "1ce673d5c00e6db3df3e447a10cb82e9",
     "semantic_hash": ""
   },
   "packages/sheet/src/core/modal.ts": {
-    "mtime": 1788801393.9466772,
-    "ast_hash": "1d160e61a880111e818e6a5954b764f4",
+    "mtime": 1788803171.1284258,
+    "ast_hash": "c8bf0d6ff43006eff751245fb2e9636a",
     "semantic_hash": ""
   },
   "packages/sheet/src/core/position.ts": {
@@ -375,8 +375,8 @@
     "semantic_hash": ""
   },
   "packages/sheet/src/core/sheet.ts": {
-    "mtime": 1788801393.9472713,
-    "ast_hash": "f03eb31ae526d50c0ac4184c09aea364",
+    "mtime": 1788803171.1290298,
+    "ast_hash": "8c5548aa1175a45a0f8dcc611d7f4c20",
     "semantic_hash": ""
   },
   "packages/sheet/src/core/types.ts": {
@@ -455,8 +455,8 @@
     "semantic_hash": ""
   },
   "packages/sheet/test/core/sheet.test.ts": {
-    "mtime": 1788801393.9483006,
-    "ast_hash": "049890e7489e47a163ee21410e911ff7",
+    "mtime": 1788803171.129935,
+    "ast_hash": "a37393f1f864e333bac479d6074fd9f0",
     "semantic_hash": ""
   },
   "packages/sheet/test/core/ssr.test.ts": {
@@ -585,8 +585,8 @@
     "semantic_hash": ""
   },
   "docs/guide/vanilla.md": {
-    "mtime": 1788798662.1669016,
-    "ast_hash": "91b7522fec49917ebc6d9f8c8bc92ef6",
+    "mtime": 1788803171.1264868,
+    "ast_hash": "e8367a47c748e29b8795c1b7516c1fbe",
     "semantic_hash": ""
   },
   "docs/index.md": {
@@ -600,8 +600,8 @@
     "semantic_hash": ""
   },
   "docs/reference/core.md": {
-    "mtime": 1788801393.9463172,
-    "ast_hash": "7b6abb015ae819599234ec5964e313ca",
+    "mtime": 1788803171.1268299,
+    "ast_hash": "07fa838fd9c396661276f64dfb844644",
     "semantic_hash": ""
   },
   "docs/reference/react.md": {
@@ -685,8 +685,8 @@
     "semantic_hash": ""
   },
   "packages/sheet/test/core/guarantees.test.ts": {
-    "mtime": 1788800141.1709604,
-    "ast_hash": "1947ff90319af463b5cb629c48d069e8",
+    "mtime": 1788803171.1295552,
+    "ast_hash": "e0651c0cb0fad560675ea79216af78e8",
     "semantic_hash": ""
   },
   "docs/.vitepress/env.d.ts": {
@@ -785,13 +785,13 @@
     "semantic_hash": ""
   },
   "packages/sheet/test/helpers/env.ts": {
-    "mtime": 1788800777.748888,
-    "ast_hash": "e453df47f63123339aeb3311cb778743",
+    "mtime": 1788803171.1303496,
+    "ast_hash": "1383f0a504c039145a9dbef6de595b58",
     "semantic_hash": ""
   },
   "packages/sheet/test/integration/react-real-controller.test.tsx": {
-    "mtime": 1788801393.9485574,
-    "ast_hash": "9b808a644ce1e1f9e0ea9cad00b18d6f",
+    "mtime": 1788803171.1307552,
+    "ast_hash": "f8bfa6f94168bfdbad8f7096ef2dd44f",
     "semantic_hash": ""
   },
   "packages/sheet/test/integration/vanilla.test.ts": {
@@ -800,8 +800,8 @@
     "semantic_hash": ""
   },
   "packages/sheet/test/regressions/audit-p0.test.ts": {
-    "mtime": 1788801393.9487753,
-    "ast_hash": "76bb46ec9a0878be287d7640dae63131",
+    "mtime": 1788803171.13107,
+    "ast_hash": "e55b88b3890592b7b9fc7acbe1bed415",
     "semantic_hash": ""
   },
   ".changeset/spotty-pandas-rewrite.md": {
@@ -827,6 +827,11 @@
   "docs/internal/tasks/14-review-fixes-react.md": {
     "mtime": 1788802564.1460128,
     "ast_hash": "b80598ad482e3e19b1d567aff275de60",
+    "semantic_hash": ""
+  },
+  "packages/sheet/test/core/warn.test.ts": {
+    "mtime": 1788803171.1300948,
+    "ast_hash": "d16b6f1dadc5edd1ace3099e10bc025d",
     "semantic_hash": ""
   }
 }
