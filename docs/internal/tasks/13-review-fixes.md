@@ -1,6 +1,6 @@
 # Task 13 — review-loop fixes
 
-Worker: W1. Branch: `w1/13-review-fixes` off `v1`. Sources: W2's independent core review (verified by probes; items 1 and 3 re-verified by the orchestrator in source), the orchestrator's automated review (section B, appended when complete). Plan sections: §2.2, §3.1, §3.4, §3.6.
+Worker: W1 (core/spring/gesture/build). React-layer findings are in `tasks/14-review-fixes-react.md` (W2). Branch: `w1/13-review-fixes` off `v1`. Sources: W2's independent core review (verified by probes; items 1 and 3 re-verified by the orchestrator in source), the orchestrator's automated review (section B, appended when complete). Plan sections: §2.2, §3.1, §3.4, §3.6.
 
 > FINAL for section A. Section B may be appended — re-read the file before starting each section.
 
@@ -38,9 +38,47 @@ Rules: fix root causes, not symptoms; every fix ships with the test that would h
 
 **A.14 TEST SUITE — make the suite able to see the above.** (a) `test/helpers/env.ts:81` `settle()` without a predicate is a 3–5 s burn; give it a default predicate (`!controller.getState().animating` when a controller is passed, else "spring rested") and make it throw on timeout in every call site; remove the inline copies in `sheet.test.ts:87` and `guarantees.test.ts:86`. (b) The fake `ResizeObserver` fires every callback regardless of target and `unobserve`/`disconnect` are no-ops — make it target-aware so "unobserved on teardown" can fail. (c) `test/regressions/audit-p0.test.ts:289` (P0-7) is vacuous (`const typeCheck = null; expect(typeCheck).toBeNull()`) — assert the exported symbols/types exist via `import * as core` + `import * as react` and a type-level `satisfies`. (d) `sheet.test.ts:870` "still warns" never asserts the warning — spy on `console.warn`. (e) `spring.test.ts:105` — add the mid-flight `animating === true` assertion.
 
-## B. Automated review (orchestrator) — appended when complete
+## B. Automated review — core, spring, gesture, build (W1)
 
-_(pending)_
+Verified-by-probe items are marked ✔; others are PLAUSIBLE from source reading — verify in your triage. Items already covered by section A are not repeated.
+
+**B.1 ✔ Drag during a close animation strands the sheet.** `drag.ts:136`: `isOpen` flips false at close start; a pointerdown on the still-visible panel starts a drag whose `onMove` immediate sets cancel the closing spring; on release `snapTo`/`dismiss` are no-ops (`!isOpen`) and nothing finalises `pending: "close"` → panel frozen mid-screen, `data-state="open"`, lock/inert leaked, React never unmounts. Fix: A.12's `isOpen` gate in `onStart` covers new drags; additionally in `onEnd` (and the cancelled branch) when `!isOpen` resume the close (`spring.set(viewHeight)`) so the pending close finalises. Test: `close()`, one frame, pointer drag, release → sheet finishes closing, lock released, `onAnimationEnd(false)` once.
+
+**B.2 ✔ `refresh()` during a pending close jump-cuts the panel.** `sheet.ts:367` treats `!isOpen` as parked and does `spring.set(viewHeight, { immediate: true })` — a header/content measurement or resize landing mid-close teleports the panel to closed instead of letting it slide. Fix: while `pending === "close"` do not retarget (the finaliser handles the end; at most update the target y non-immediately).
+
+**B.3 ✔ Layout: `Sheet.Body` is never a real scroller without consumer CSS, and the inner wrapper overflows the visible strip.** `dom.ts:110` `innerBaseStyles` leaves the inner `display: block` (Body's `flex: 1 1 auto; min-height: 0` is inert inside it — only `playgrounds/react/src/App.css` patches this; docs demos and next playground do not) and caps it at `max-height: 100dvh` while the panel's content box is `viewHeight − y`, so at a `scroll: true` partial snap the bottom `y` px of Body sit below the viewport (AUDIT P0-8 back). Fix (design): inner always `display: flex; flex-direction: column; min-height: 0`; per active snap — scroll → inner `flex: 1 1 auto` (fills the panel content box) + Body `flex: 1 1 auto; min-height: 0; overflow-y: auto`; non-scroll → inner `flex: 0 0 auto` (natural height, measurable) + Body `flex: 0 0 auto; overflow: hidden`. Drop the `100dvh` cap (the content box already bounds it). `"content"` measurement is already paused at scroll snaps. Update `applyBodyScroll` to toggle both elements; remove the workaround CSS from playgrounds (out-of-scope touch, list it). Tests: style assertions per snap; docs `scrollable` demo re-check by W2 afterwards.
+
+**B.4 ✔ `update()` with only `scroll` changed never re-applies Body styles.** `sheet.ts:549` re-snaps only when index/y changed; `applyBodyScroll` runs only from `applyRest`. `[{value:0.5}]` → `[{value:0.5, scroll:true}]`: Body stays `overflow: hidden` while `scrollWins` yields to a scroll that cannot happen → neither scrolls nor drags. Fix: when at rest and the active snap's config changed, run `applyRest(active)`.
+
+**B.5 Overlay must be inert when `!modal`.** `sheet.ts:416` wires and positions the overlay regardless of `modal` (React's `Sheet.Overlay` renders unconditionally) → a non-modal sheet gets an invisible full-viewport click-catcher that dismisses on any outside click; `guide/migration.md` says it "only renders when modal". Fix: controller writes `display: none` (restorable) on the overlay when `!modal`, toggled in `update` and in `setElements({ overlay })`.
+
+**B.6 Lock Body's native scroll during a JS-driven takeover.** `drag.ts:97`: when the drag wins at a `scroll: true` snap (pull-down from top) Body keeps native scrolling; a reversal in the same gesture scrolls the list while the sheet moves (and may `pointercancel`). 0.x locked overflow + touch-action at takeover. Fix: on takeover set Body `overflow: hidden; touch-action: none` for the gesture; `applyRest` restores at the end.
+
+**B.7 Nested sheet without a Portal: the outer sheet captures the pointer.** `drag.ts:58`: both panels' `pointerdown` handlers run (inner first, outer last) and both `setPointerCapture` — the outer's wins, so dragging the inner panel or its overlay drags the outer sheet; `stopPropagation` in `onStart` is too late (threshold-crossing). Fix: drag.ts registers a `pointerdown` listener on `content` (and the overlay) that calls `event.stopPropagation()` before `attachDrag`'s listener; or the filter rejects targets inside another sheet's content/overlay. Test with two controllers, inner content nested in the outer.
+
+**B.8 Drag start during an animation snaps back.** `drag.ts:97` records `startY = spring.get()` but the spring keeps flying until the first `onMove`. Fix: `spring.stop()` (freeze under the finger) in `onStart` before recording `startY`. Test: `snapTo` mid-flight + pointerdown + hold → y stops moving.
+
+**B.9 `destroy()` re-writes the overlay after cleaning it.** `sheet.ts:566` `spring.stop()` notifies after the part restores ran; the still-subscribed frame writer puts `--snap-sheet-progress` back on the overlay. Fix: unsubscribe before `stop()`.
+
+**B.10 Late-wired overlay carries no progress value.** `sheet.ts:416` wirers.overlay never writes the current frame; `{modal && <Sheet.Overlay/>}` toggled on at rest → `opacity: var(--snap-sheet-progress)` resolves to nothing until the next spring notification. Fix: write current `data-state` + progress in the overlay wirer (and `--snap-sheet-y`/progress for content in `setElements` generally).
+
+**B.11 ✔ `process.env.NODE_ENV` guard is folded away in dist.** `env.ts:16`: `dist/sheet-*.js` has no `isProd` branch — `warnOnce` fires in production for every consumer. The published bundle must keep `process.env.NODE_ENV` verbatim so consumers' bundlers fold it. Fix in `tsdown.config.ts` (do not define/replace NODE_ENV; check `platform: "browser"` defaults and `env`/`define` options); add a build check in `scripts/size.mjs` or a new `scripts/check-dist.mjs` that greps dist for `process.env.NODE_ENV` and for the single `"use client"`.
+
+**B.12 Re-entrant `set()` from a subscriber orphans an rAF loop.** `spring/index.ts:117`: with `handle` nulled at the top of `tick`, a `set()` inside a notification schedules a second frame that `tick` then overwrites → two loops, `stop()` cancels one. Fix alongside A.1: never null `handle` before notify (or gate scheduling on the running flag); test: subscriber that calls `set()` → exactly one outstanding frame, `stop()` stops everything.
+
+**B.13 `.d.ts` files reference missing `.d.ts.map`.** `tsdown.config.ts:7` `sourcemap: true` stamps `//# sourceMappingURL=*.d.ts.map` into `dist/*.d.ts` but no declaration maps are emitted. Fix: emit them or disable dts sourcemaps; `publint` did not catch it — add to the dist check script.
+
+**B.14 Static container breaks geometry.** `dom.ts:77` writes `position: absolute` against a consumer container that may be `position: static`, while `viewHeight` is measured from it. Fix: if `getComputedStyle(container).position === "static"`, set `position: relative` (restorable) — plus `warnOnce` in dev.
+
+**B.15 Re-locking to a non-scroll snap keeps Body's `scrollTop`.** `dom.ts:148`: 0.x scrolled to top; now the top of the list is unreachable under `overflow: hidden`. Fix: `body.scrollTop = 0` in the non-scroll branch.
+
+**B.16 Content mode is detected and resolved with two different rules.** `snap.ts isContentMode` (empty OR all-`"content"`) vs `sheet.ts:105 effectivePoints` (only empty). An all-`"content"` array of two config entries reports `contentMode: true` but resolves two indices. Fix: synthesise the single snap for both cases (take the first entry's `scroll`/`drag`), in one place.
+
+**B.17 `snapTo` still finalises via its own `rested` flag.** `sheet.ts:264`: a plain `snapTo` superseded by a `refresh()` re-snap skips `applyRest` for that call; at-rest attributes go stale until the churn stops. Fix: `applyRest(activeSnap)` from the rest path (finaliser / spring-rest notification) regardless of which `set()` resolved.
+
+**B.18 Cleanup (do; each is small):** delete the dead `?? lowest` in `snap.ts:232` (`closest` cannot return undefined past the non-empty guard); a single `dragging` flag (drag returns `isDragging()`, `sheet.ts:60` copy removed); `once()` helper in `env.ts` replacing the five hand-rolled released-once closures; `noop` in `env.ts`; `lockVelocity` computed once in `onEnd`; `applyAria` through `setAttrs` restore semantics (a consumer's own `aria-labelledby` must be restored, not deleted); fold `core/types.ts` into `sheet.ts` (single importer); attach: resolve once after wiring instead of 3–4 times (observers fire synchronously — guard with an `attaching` flag). Skip: `StyleKey` mapped type, spring listener copy, gesture `shift()`, per-tick allocations, chunk-shape change.
+
+**B.19 Docs/process:** `onSnapIndexChange` silent when a release lands on the same snap is intentional — say so in `reference/core.md` (`onDragEnd` fires every time). Fix `docs/internal/tasks/00-scaffold.md` step 8 to match the later graphify policy (historical accuracy).
 
 ## Done when
 
