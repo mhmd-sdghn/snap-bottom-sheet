@@ -49,6 +49,7 @@ function fixture(): Fixture {
   const overlay = document.createElement("div");
   const content = document.createElement("div");
   const inner = document.createElement("div");
+  inner.setAttribute("data-snap-sheet-inner", "");
   const handle = document.createElement("button");
   const header = document.createElement("div");
   const body = document.createElement("div");
@@ -566,6 +567,133 @@ describe("createSheet", () => {
     const before = seen.length;
     await controller.snapTo(0, { immediate: true });
     expect(seen).toHaveLength(before);
+  });
+
+  it("12. setElements rewires parts; content/container changes throw", async () => {
+    const el = fixture();
+    // attach with no header, then hand one over afterwards
+    const controller = make(
+      { content: el.content, body: el.body, overlay: el.overlay },
+      { snapPoints: ["header"] },
+    );
+
+    const opened = controller.open();
+    await settle();
+    await opened;
+    // unmeasured "header" resolves to the 50% placeholder
+    expect(yOf(el.content)).toBe(500);
+
+    setHeight(el.header as HTMLElement, 120);
+    controller.setElements({ header: el.header });
+    await settle();
+    expect(yOf(el.content)).toBe(880);
+
+    // a later resize of the registered header is picked up
+    resizeTo(el.header as HTMLElement, 200);
+    await settle();
+    expect(yOf(el.content)).toBe(800);
+
+    // removing it drops the measurement back to the placeholder
+    controller.setElements({ header: null });
+    await settle();
+    expect(yOf(el.content)).toBe(500);
+    resizeTo(el.header as HTMLElement, 300);
+    await settle();
+    expect(yOf(el.content)).toBe(500);
+
+    expect(() => controller.setElements({ content: el.inner })).toThrow(
+      TypeError,
+    );
+    expect(() => controller.setElements({ container: el.wrapper })).toThrow(
+      TypeError,
+    );
+  });
+
+  it("12b. setElements wires a late overlay and unwires a removed one", async () => {
+    const el = fixture();
+    const controller = make({ content: el.content }, { snapPoints: [0.5] });
+    const opened = controller.open();
+    await settle();
+    await opened;
+
+    const overlay = el.overlay as HTMLElement;
+    controller.setElements({ overlay });
+    expect(overlay.getAttribute("aria-hidden")).toBe("true");
+    expect(overlay.getAttribute("data-state")).toBe("open");
+
+    controller.setElements({ overlay: null });
+    expect(overlay.getAttribute("aria-hidden")).toBeNull();
+    // the detached overlay no longer dismisses
+    overlay.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    await settle();
+    expect(controller.getState().open).toBe(true);
+  });
+
+  it("12c. every method is a no-op after destroy()", async () => {
+    const el = fixture();
+    const controller = make(el, { snapPoints: [0.5] });
+    const opened = controller.open();
+    await settle();
+    await opened;
+
+    controller.destroy();
+    const transform = el.content.style.transform;
+
+    await expect(controller.open()).resolves.toBeUndefined();
+    await expect(controller.close()).resolves.toBeUndefined();
+    await expect(controller.snapTo(0)).resolves.toBeUndefined();
+    expect(() => controller.update({ snapPoints: [0.9] })).not.toThrow();
+    expect(() => controller.setElements({ header: null })).not.toThrow();
+    expect(() => controller.destroy()).not.toThrow();
+    expect(controller.subscribe(() => {})).toBeTypeOf("function");
+
+    expect(el.content.style.transform).toBe(transform);
+    expect(el.content.getAttribute("data-state")).toBeNull();
+  });
+
+  it("getState() keeps one reference until something changes", async () => {
+    const el = fixture();
+    const controller = make(el, { snapPoints: [0.5] });
+
+    const first = controller.getState();
+    expect(controller.getState()).toBe(first);
+    expect(Object.isFrozen(first)).toBe(true);
+
+    const opened = controller.open();
+    await settle();
+    await opened;
+
+    const afterOpen = controller.getState();
+    expect(afterOpen).not.toBe(first);
+    expect(controller.getState()).toBe(afterOpen);
+    expect(afterOpen.y).toBe(500);
+  });
+
+  it("a re-entrant open() from onOpenChange vetoes the dismissal", async () => {
+    const el = fixture();
+    let controller: SheetController | undefined;
+    controller = make(el, {
+      snapPoints: [0.5],
+      onOpenChange: (open) => {
+        if (!open) void controller?.open();
+      },
+    });
+
+    const opened = controller.open();
+    await settle();
+    await opened;
+
+    document.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Escape", bubbles: true }),
+    );
+    await settle();
+
+    expect(controller.getState().open).toBe(true);
+    expect(el.content.getAttribute("data-state")).toBe("open");
+    expect(yOf(el.content)).toBe(500);
+    // the veto must not have leaked a second body-scroll lock
+    controller.destroy();
+    expect(document.body.style.overflow).toBe("");
   });
 
   it("destroy() is idempotent", () => {

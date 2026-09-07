@@ -178,11 +178,15 @@ export function focusFirst(el: HTMLElement): void {
 }
 
 /**
- * The element whose height is the natural content height: the single element
- * child of `content` when it has exactly one, otherwise `content` itself.
- * (React's Sheet.Content wraps its children in one div so this picks the wrapper.)
+ * The element whose height is the natural content height: an explicitly marked
+ * `[data-snap-sheet-inner]` child first, then the single element child when
+ * there is exactly one, and `content` itself as the last resort. React's
+ * Sheet.Content always renders the marked wrapper; vanilla consumers add the
+ * attribute themselves.
  */
 export function findContentInner(content: HTMLElement): HTMLElement {
+  const marked = content.querySelector(":scope > [data-snap-sheet-inner]");
+  if (marked instanceof HTMLElement) return marked;
   const only = content.children.length === 1 ? content.children[0] : null;
   return only instanceof HTMLElement ? only : content;
 }

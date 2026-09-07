@@ -14,12 +14,9 @@ export default defineConfig({
   },
   clean: true,
   outputOptions: {
-    // The core entry has no React dependency, so only the react chunk gets the
-    // directive — a `"use client";` on the core chunk would drag every core
-    // consumer out of the server graph.
+    // Per-chunk, not per-build: a string banner would also stamp
+    // dist/index.js, marking the framework-agnostic core as a client module.
     banner: (chunk) =>
-      /react/.test(chunk.name) || /react/.test(chunk.fileName)
-        ? '"use client";'
-        : "",
+      chunk.fileName.startsWith("react/") ? '"use client";' : "",
   },
 });

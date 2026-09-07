@@ -41,6 +41,10 @@ export type {
   SheetState,
 } from "./types.ts";
 
+/** The parts `setElements` can swap; `content` and `container` are fixed. */
+type PartKey = "header" | "body" | "overlay" | "handle";
+const PartKeys: PartKey[] = ["header", "body", "overlay", "handle"];
+
 /**
  * Attach the engine to elements the consumer already rendered. Starts closed:
  * the panel is translated to the bottom of the view and `data-state="closed"`.
@@ -49,7 +53,7 @@ export function createSheet(
   elements: SheetElements,
   options: SheetOptions = {},
 ): SheetController {
-  const { content, header, body, overlay, handle, container } = elements;
+  const { content, container } = elements;
   if (!content) {
     throw new TypeError("createSheet: elements.content is required");
   }
@@ -63,7 +67,14 @@ export function createSheet(
   let headerHeight = 0;
   let contentHeight = 0;
   let resolved: ResolvedSnap[] = [];
-  let snapIndex = opts.defaultSnapIndex ?? 0;
+
+  const parts: Record<PartKey, HTMLElement | null> = {
+    header: elements.header ?? null,
+    body: elements.body ?? null,
+    overlay: elements.overlay ?? null,
+    handle: elements.handle ?? null,
+  };
+  const unwire: Partial<Record<PartKey, () => void>> = {};
 
   const restores: (() => void)[] = [];
   const listeners = new Set<(state: SheetState) => void>();
@@ -73,6 +84,9 @@ export function createSheet(
   const dismissible = () => opts.dismissible ?? true;
   const points = () => opts.snapPoints ?? [];
   const contentMode = () => isContentMode(points());
+
+  // Content mode never exposes indices, so it always sits at 0.
+  let snapIndex = contentMode() ? 0 : (opts.defaultSnapIndex ?? 0);
 
   /**
    * Content mode has no snap points of its own, but the controller still needs
@@ -93,7 +107,9 @@ export function createSheet(
   const activeSnap = (): ResolvedSnap | undefined =>
     pickIndex(resolved, snapIndex);
 
-  const getState = (): SheetState => {
+  // ------------------------------------------------------------------- state
+
+  const computeState = (): SheetState => {
     const y = spring.get();
     return {
       open: isOpen,
@@ -106,8 +122,33 @@ export function createSheet(
     };
   };
 
+  const unchanged = (a: SheetState, b: SheetState) =>
+    a.open === b.open &&
+    a.snapIndex === b.snapIndex &&
+    a.y === b.y &&
+    a.progress === b.progress &&
+    a.dragging === b.dragging &&
+    a.animating === b.animating &&
+    a.contentMode === b.contentMode;
+
+  let state: SheetState = Object.freeze(computeState());
+
+  /** Replaces the cached snapshot only when a field actually moved. */
+  const syncState = (): boolean => {
+    const next = computeState();
+    if (unchanged(state, next)) return false;
+    state = Object.freeze(next);
+    return true;
+  };
+
+  // A stable reference between changes is what useSyncExternalStore needs.
+  const getState = (): SheetState => {
+    syncState();
+    return state;
+  };
+
   const notify = () => {
-    const state = getState();
+    if (!syncState()) return;
     for (const fn of [...listeners]) fn(state);
   };
 
@@ -123,12 +164,12 @@ export function createSheet(
   const setDataState = (open: boolean) => {
     const value = open ? "open" : "closed";
     content.setAttribute("data-state", value);
-    overlay?.setAttribute("data-state", value);
+    parts.overlay?.setAttribute("data-state", value);
   };
 
   const applyRest = (snap: ResolvedSnap) => {
     writeRest(content, snap.y);
-    if (body) applyBodyScroll(body, snap.scroll);
+    if (parts.body) applyBodyScroll(parts.body, snap.scroll);
     content.setAttribute("data-snap-index", String(snap.index));
   };
 
@@ -161,8 +202,10 @@ export function createSheet(
     }
     if (target.index !== snapIndex) {
       snapIndex = target.index;
-      opts.onSnapIndexChange?.(target.index, target.point);
       notify();
+      // Content mode synthesizes its single position, so there is no index the
+      // consumer gave us to report a change against.
+      if (!contentMode()) opts.onSnapIndexChange?.(target.index, target.point);
     }
     const immediate = o.immediate === true || immediateByPreference();
     const rested = await spring.set(target.y, {
@@ -178,7 +221,7 @@ export function createSheet(
 
   const guard = createModalGuard({
     content,
-    overlay,
+    overlay: () => parts.overlay,
     container,
     onEscape: () => dismiss(),
   });
@@ -197,7 +240,7 @@ export function createSheet(
     const rested = await spring.set(snap ? snap.y : topmostY(resolved), {
       immediate,
     });
-    if (!rested || destroyed) return;
+    if (!rested || destroyed || !isOpen) return;
     if (snap) applyRest(snap);
     notify();
     opts.onAnimationEnd?.(true);
@@ -211,11 +254,14 @@ export function createSheet(
     // Reported as soon as the close is under way: a controlled parent needs it
     // to mirror state, and unmounting waits for onAnimationEnd(false) anyway.
     if (dismissed) opts.onOpenChange?.(false);
+    // A controlled parent vetoes a dismissal by calling open() from inside that
+    // callback; its animation must not be clobbered by the close we started.
+    if (isOpen || destroyed) return;
 
     const rested = await spring.set(viewHeight, {
       immediate: immediateByPreference(),
     });
-    if (destroyed || !rested) return;
+    if (destroyed || !rested || isOpen) return;
     setDataState(false);
     guard.disengage();
     guard.restoreFocus();
@@ -249,7 +295,7 @@ export function createSheet(
 
   const detachDrag = attachSheetDrag({
     content,
-    body,
+    body: () => parts.body,
     spring,
     activeSnap,
     resolved: () => resolved,
@@ -266,31 +312,40 @@ export function createSheet(
     onDragEnd: (index) => opts.onDragEnd?.(index),
   });
 
-  // --------------------------------------------------------------- attach
-
-  restores.push(setStyles(content, contentBaseStyles(Boolean(container))));
-  restores.push(
-    setAttrs(content, { role: "dialog", "data-state": "closed" }),
-    setAttrs(content, { tabindex: "-1" }, true),
-  );
-  if (body) restores.push(setStyles(body, bodyBaseStyles()));
-  if (overlay) {
-    restores.push(
-      setAttrs(overlay, { "aria-hidden": "true", "data-state": "closed" }),
-    );
-  }
-  if (handle) {
-    restores.push(setAttrs(handle, { "aria-label": "Resize sheet" }, true));
-  }
-  applyAria();
+  // ------------------------------------------------------------ part wiring
 
   const onOverlayClick = () => {
     if (dismissible()) dismiss();
   };
-  overlay?.addEventListener("click", onOverlayClick);
 
-  const detachHandle = handle
-    ? attachHandleKeys(handle, {
+  /** Everything one optional part owns, and how to give it all back. */
+  const wirers: Record<PartKey, (el: HTMLElement) => () => void> = {
+    header: (el) =>
+      observeHeight(el, (height) => {
+        headerHeight = height;
+        refresh(false);
+      }),
+    body: (el) => {
+      const restore = setStyles(el, bodyBaseStyles());
+      const snap = activeSnap();
+      if (snap) applyBodyScroll(el, snap.scroll);
+      return restore;
+    },
+    overlay: (el) => {
+      const restore = setAttrs(el, {
+        "aria-hidden": "true",
+        "data-state": isOpen ? "open" : "closed",
+      });
+      el.addEventListener("click", onOverlayClick);
+      return () => {
+        el.removeEventListener("click", onOverlayClick);
+        el.style.removeProperty("--snap-sheet-progress");
+        restore();
+      };
+    },
+    handle: (el) => {
+      const restore = setAttrs(el, { "aria-label": "Resize sheet" }, true);
+      const detach = attachHandleKeys(el, {
         step(delta) {
           const target = stepFrom(resolved, snapIndex, delta);
           if (target) void snapTo(target.index);
@@ -299,11 +354,59 @@ export function createSheet(
           const target = cycleFrom(resolved, snapIndex);
           if (target) void snapTo(target.index);
         },
-      })
-    : null;
+      });
+      return () => {
+        detach();
+        restore();
+      };
+    },
+  };
+
+  const wirePart = (key: PartKey, el: HTMLElement | null) => {
+    unwire[key]?.();
+    delete unwire[key];
+    parts[key] = el;
+    if (el) unwire[key] = wirers[key](el);
+  };
+
+  const setElements = (next: Partial<SheetElements>) => {
+    if (destroyed) return;
+    if ("content" in next && next.content !== content) {
+      throw new TypeError(
+        "setElements: `content` cannot change — recreate the sheet",
+      );
+    }
+    if (
+      "container" in next &&
+      (next.container ?? null) !== (container ?? null)
+    ) {
+      throw new TypeError(
+        "setElements: `container` cannot change — recreate the sheet",
+      );
+    }
+    for (const key of PartKeys) {
+      if (!(key in next)) continue;
+      const el = next[key] ?? null;
+      // A removed header leaves a stale measurement behind.
+      if (key === "header" && !el) headerHeight = 0;
+      wirePart(key, el);
+    }
+    if ("overlay" in next) setDataState(isOpen);
+    refresh(false);
+    notify();
+  };
+
+  // --------------------------------------------------------------- attach
+
+  restores.push(setStyles(content, contentBaseStyles(Boolean(container))));
+  restores.push(
+    setAttrs(content, { role: "dialog", "data-state": "closed" }),
+    setAttrs(content, { tabindex: "-1" }, true),
+  );
+  applyAria();
 
   const unsubscribeSpring = spring.subscribe((y) => {
-    writeFrame(content, overlay, y, progressOf(y, viewHeight, resolved));
+    writeFrame(content, parts.overlay, y, progressOf(y, viewHeight, resolved));
     notify();
   });
 
@@ -312,12 +415,6 @@ export function createSheet(
     viewHeight = height;
     refresh(changed);
   });
-  const unobserveHeader = header
-    ? observeHeight(header, (height) => {
-        headerHeight = height;
-        refresh(false);
-      })
-    : null;
   const unobserveContent = observeHeight(
     findContentInner(content),
     (height) => {
@@ -329,8 +426,10 @@ export function createSheet(
     },
   );
 
+  for (const key of PartKeys) wirePart(key, parts[key]);
+
   resolve();
-  writeFrame(content, overlay, viewHeight, 0);
+  writeFrame(content, parts.overlay, viewHeight, 0);
   void spring.set(viewHeight, { immediate: true });
 
   // -------------------------------------------------------------- lifecycle
@@ -363,10 +462,11 @@ export function createSheet(
     if (destroyed) return;
     destroyed = true;
     detachDrag();
-    detachHandle?.();
-    overlay?.removeEventListener("click", onOverlayClick);
+    for (const key of PartKeys) {
+      unwire[key]?.();
+      delete unwire[key];
+    }
     unobserveView();
-    unobserveHeader?.();
     unobserveContent();
     spring.stop();
     unsubscribeSpring();
@@ -381,7 +481,6 @@ export function createSheet(
     content.style.removeProperty("padding-bottom");
     for (const prop of ["y", "progress", "offset"]) {
       content.style.removeProperty(`--snap-sheet-${prop}`);
-      overlay?.style.removeProperty(`--snap-sheet-${prop}`);
     }
     for (const attr of [
       "data-snap-index",
@@ -390,7 +489,7 @@ export function createSheet(
     ]) {
       content.removeAttribute(attr);
     }
-    overlay?.removeAttribute("data-state");
+    parts.overlay?.removeAttribute("data-state");
     listeners.clear();
   };
 
@@ -399,8 +498,10 @@ export function createSheet(
     close,
     snapTo: (index, o) => snapTo(index, o),
     update,
+    setElements,
     getState,
     subscribe(fn) {
+      if (destroyed) return () => {};
       listeners.add(fn);
       return () => {
         listeners.delete(fn);

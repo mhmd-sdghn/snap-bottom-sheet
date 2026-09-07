@@ -44,6 +44,12 @@ export interface SheetController {
   close(): Promise<void>;
   snapTo(index: number, opts?: { immediate?: boolean }): Promise<void>;
   update(options: Partial<SheetOptions>): void;
+  /**
+   * (Re)register optional parts after attach; `null` removes one. Only the keys
+   * present are rewired, and the spring position is untouched. Changing
+   * `content` or `container` throws a TypeError — recreate the sheet instead.
+   */
+  setElements(elements: Partial<SheetElements>): void;
   getState(): SheetState;
   subscribe(fn: (state: SheetState) => void): () => void;
   destroy(): void;

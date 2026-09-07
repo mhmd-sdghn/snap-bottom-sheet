@@ -12,7 +12,8 @@ const BlurredTags = new Set(["INPUT", "TEXTAREA"]);
 /** The controller's side of the drag layer. */
 export interface DragDeps {
   content: HTMLElement;
-  body?: HTMLElement | null;
+  /** Read lazily: `setElements` can swap the body after attach. */
+  body(): HTMLElement | null | undefined;
   spring: Spring;
   activeSnap(): ResolvedSnap | undefined;
   resolved(): ResolvedSnap[];
@@ -53,7 +54,8 @@ function dragFilter(target: Element): boolean {
  * the very top.
  */
 function scrollWins(deps: DragDeps, dy: number, target: EventTarget | null) {
-  const { body, spring } = deps;
+  const { spring } = deps;
+  const body = deps.body();
   const snap = deps.activeSnap();
   if (!snap?.scroll || !body) return false;
   if (!(target instanceof Node) || !body.contains(target)) return false;

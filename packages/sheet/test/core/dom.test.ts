@@ -199,4 +199,16 @@ describe("findContentInner", () => {
     const el = div("<div>a</div><div>b</div>");
     expect(findContentInner(el)).toBe(el);
   });
+
+  it("prefers a marked child over the single-child fallback", () => {
+    const el = div(
+      "<div id='a'>a</div><div data-snap-sheet-inner id='b'>b</div>",
+    );
+    expect(findContentInner(el)).toBe(el.querySelector("#b"));
+  });
+
+  it("only matches a direct child, not a nested marked node", () => {
+    const el = div("<div id='a'><span data-snap-sheet-inner>x</span></div>");
+    expect(findContentInner(el)).toBe(el.querySelector("#a"));
+  });
 });
