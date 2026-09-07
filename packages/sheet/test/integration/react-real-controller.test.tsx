@@ -437,12 +437,10 @@ describe("controlled veto bounce (PLAN §2.2)", () => {
    * an unrelated `update()` (`isOpen && modal() && dismissible()` →
    * `ensureEscape()`) would re-arm it by accident.
    *
-   * Fix candidate: call `ensureEscape()` unconditionally in `open()` when
-   * `modal() && dismissible()`, rather than only via the guarded `engage()`.
-   *
-   * Un-`.todo` this once fixed.
+   * Fixed in task 12: `open()` calls `ensureEscape()` whenever the sheet is
+   * modal and dismissible, independently of the guarded `engage()`.
    */
-  it.todo("still answers a second Escape after the first was refused", async () => {
+  it("still answers a second Escape after the first was refused", async () => {
     const onOpenChange = vi.fn();
     render(<Stubborn onOpenChange={onOpenChange} />);
     await flush();

@@ -306,6 +306,11 @@ export function createSheet(
     isOpen = true;
     pending = "open";
     if (modal()) guard.engage(dismissible());
+    // Re-arm separately from engage(): a dismissal that the consumer vetoes by
+    // re-opening from inside onOpenChange gets here while the close animation
+    // has not disengaged yet, so the idempotent engage() early-returns — but
+    // closeWith() has already popped this sheet off the Escape stack.
+    if (modal() && dismissible()) guard.ensureEscape();
     guard.captureFocus();
     setDataState(true);
     notify();
