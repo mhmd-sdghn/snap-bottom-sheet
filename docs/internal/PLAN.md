@@ -309,6 +309,7 @@ Phase 1 tasks run in parallel (disjoint directories). Phase 2 tasks run in paral
 4. Run `graphify update .` if `graphify-out/graph.json` exists; commit the graph changes with the task.
 5. Report to the orchestrator via `mcp__ccd_session_mgmt__send_message` (session `local_39e24a00-657f-4cc2-9ee3-cc3043741433`) using the report format in the task file. Include branch name and HEAD sha.
 6. Do not merge. Do not touch `v1` or `main`. Wait for the next task.
+7. Use subagents freely for independent sub-parts (source vs tests, disjoint file groups, research) — the owner wants speed. The worker itself integrates the pieces and runs every "Done when" command before committing.
 
 ### 4.2 Definition of done (whole project)
 
