@@ -1,7 +1,7 @@
 # Vanilla
 
-The same sheet as [Basic](/demos/basic), built with `createSheet` against
-hand-written markup. No React in this demo at all.
+The same sheet as [Basic](/demos/basic), built with `createSheet` on markup
+written by hand. There is no React in this demo at all.
 
 <script setup>
 import mount from "../.vitepress/theme/demos/vanilla.ts";

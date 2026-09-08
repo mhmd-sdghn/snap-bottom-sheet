@@ -1,17 +1,17 @@
 # Gestures
 
-How a drag becomes a snap: what is grabbable, which directions are allowed, and where the sheet lands when you let go.
+How a drag becomes a snap. This page covers what you can grab, which directions are allowed, and where the sheet lands when you let go.
 
 ## The whole panel drags
 
 The handle is a convenience, not a requirement. `Sheet.Content` is the drag
-surface, so a pointer anywhere on the panel — header, body, buttons, empty
-space — moves the sheet. Mouse, touch and pen all go through the same Pointer
-Events recogniser; a drag begins after 3 px of movement, and only when the
-movement is more vertical than horizontal.
+surface, so a pointer anywhere on the panel moves the sheet. That includes the
+header, the body, buttons and empty space. Mouse, touch and pen all go through
+the same Pointer Events recogniser. A drag begins after 3 px of movement, and
+only when that movement is more vertical than horizontal.
 
 The one exception is a body that is allowed to scroll at the active snap. See
-[Scrolling](/guide/scrolling) for the arbitration rule.
+[Scrolling](/guide/scrolling) for the rule that decides between the two.
 
 ## Locking a direction per snap
 
@@ -33,33 +33,33 @@ snapPoints={[
 ]}
 ```
 
-A lock means **no movement**, not a rubber-band: the finger moves, the panel
-does not, and the gesture ends with the sheet exactly where it started.
+A lock means **no movement** at all, not a rubber-band effect. The finger moves,
+the panel does not, and the gesture ends with the sheet exactly where it started.
 
 ::: info
-Locks are read from the **active** snap, so the same drag can be legal in one
-position and refused in another. A `drag: false` snap can still be left
-programmatically with `snapTo()`, or by keyboard on the handle.
+Locks are read from the **active** snap, so the same drag can be allowed in one
+position and refused in another. You can still leave a `drag: false` snap from
+code with `snapTo()`, or with the keyboard on the handle.
 :::
 
-There is no rubber-banding above the topmost snap either. Live drag clamps the
-position to the range between the topmost snap and the closed position; pulling
-past the top simply stops.
+There is no rubber-banding above the topmost snap either. During a drag the
+position is clamped to the range between the topmost snap and the closed
+position. Pulling past the top simply stops.
 
 ## Where a release lands
 
-At release, the engine does not pick the nearest snap to where your finger
-stopped — it picks the nearest snap to where the sheet was *heading*:
+At release, the engine does not pick the snap nearest to where your finger
+stopped. It picks the snap nearest to where the sheet was *heading*:
 
 ```
 projected = y + vy * 200
 ```
 
 `vy` is the velocity in px/ms, measured over roughly the last 100 ms of the
-gesture, and 200 ms is the projection window. The target is the resolved snap
-closest to `projected`. A slow drag has `vy ≈ 0` and behaves like plain nearest
-snapping; a quick flick carries the sheet across one or more intermediate snaps,
-which is what makes a flick feel like a flick.
+gesture. The 200 ms is the projection window. The target is the resolved snap
+closest to `projected`. A slow drag has `vy ≈ 0`, so it behaves like plain
+nearest snapping. A quick flick carries the sheet across one or more snaps in
+between, which is what makes a flick feel like a flick.
 
 `onSnapIndexChange` fires **before** the spring starts, so your UI updates with
 the gesture rather than after it. `onAnimationEnd` fires when the spring comes
@@ -73,19 +73,19 @@ If `projected` falls below the lowest snap by more than
 min(80px, 25% of the lowest snap's height)
 ```
 
-the sheet closes. Otherwise it clamps back to the lowest snap. The 25% term
-matters for short peek snaps: on a 120 px header snap the sheet dismisses after
-30 px of overshoot, not 80 px, so a small sheet does not feel glued down.
+the sheet closes. Otherwise it clamps back to the lowest snap. The 25% part
+matters for short peek snaps. On a 120 px header snap, the sheet closes after
+30 px of overshoot rather than 80 px, so a small sheet does not feel glued down.
 
-Dismissal by drag only happens when `dismissible` is `true` (the default). With
-`dismissible: false` the same gesture clamps to the lowest snap and the sheet
-stays open — that is also the supported way to veto a close. See
+Dismissal by drag only happens when `dismissible` is `true`, which is the
+default. With `dismissible: false`, the same gesture clamps to the lowest snap
+and the sheet stays open. That is also the supported way to refuse a close. See
 [Controlled State](/guide/controlled-state#the-dismissal-contract).
 
 ## Opting a region out
 
-Add `data-snap-sheet-no-drag` to any descendant and pointers that start inside
-it are ignored by the recogniser:
+Add `data-snap-sheet-no-drag` to any descendant. The recogniser then ignores
+pointers that start inside it:
 
 ```tsx
 <Sheet.Body>
@@ -100,9 +100,9 @@ needs its own vertical drag.
 
 Three things are ignored without any markup:
 
-- A focused `<input>` or `<textarea>` inside the sheet is **blurred** on drag
-  start, which avoids the ghost caret mobile browsers leave behind on a moving
-  element.
+- A focused `<input>` or `<textarea>` inside the sheet is **blurred** when a drag
+  starts. This avoids the ghost caret that mobile browsers leave behind on a
+  moving element.
 - Pointers starting on a `<select>`.
 - Pointers starting while a text selection is active, so selecting text does not
   drag the sheet away.
@@ -118,14 +118,14 @@ obvious things:
 | <kbd>ArrowDown</kbd> | Step one snap down, clamping at the lowest |
 | <kbd>Enter</kbd> / <kbd>Space</kbd> | Cycle to the next snap, wrapping round to the lowest |
 
-Stepping and cycling move through the snaps in position order — lowest to
-topmost — regardless of the order you passed them in. The difference between the
-two is what happens at the top: the arrow keys **clamp**, so ArrowUp at the
-topmost snap does nothing, while <kbd>Enter</kbd> / <kbd>Space</kbd> **wrap**
-back to the lowest snap.
-<kbd>Escape</kbd> closes the sheet when it is
-`modal` and `dismissible`; see [Accessibility](/guide/accessibility) for how
-that is routed when sheets are nested.
+Stepping and cycling move through the snaps in position order, from the lowest to
+the topmost, whatever order you passed them in. The two differ at the top. The
+arrow keys **clamp**, so ArrowUp at the topmost snap does nothing.
+<kbd>Enter</kbd> and <kbd>Space</kbd> **wrap** back to the lowest snap instead.
+
+<kbd>Escape</kbd> closes the sheet when it is `modal` and `dismissible`. See
+[Accessibility](/guide/accessibility) for how Escape is routed when sheets are
+nested.
 
 ## Drag callbacks
 
@@ -145,15 +145,15 @@ that is routed when sheets are nested.
 | `onDragStart` | `() => void` | Once the drag threshold is crossed and the sheet has taken the gesture |
 | `onDragEnd` | `(targetIndex: number) => void` | At release, with the decided target index in your array |
 
-The `targetIndex` is a plain `number`, and the one value that is not an index is
-`-1`: it means the release is closing the sheet.
+The `targetIndex` is a plain `number`. The only value that is not an index is
+`-1`, which means the release is closing the sheet.
 
-`onDragEnd` reports the *decision*, not the arrival: the spring is still
-running when it fires. Wait for `onAnimationEnd` if you need the resting state.
+`onDragEnd` reports the *decision*, not the arrival. The spring is still running
+when it fires. Wait for `onAnimationEnd` if you need the resting state.
 
-On a drag dismissal the two callbacks fire in a fixed order — `onDragEnd(-1)`
-first, then `onOpenChange(false)`. So by the time your open-state handler runs,
-the drag handler has already seen the dismissal.
+On a drag dismissal the two callbacks fire in a fixed order. `onDragEnd(-1)`
+comes first, then `onOpenChange(false)`. So by the time your open-state handler
+runs, the drag handler has already seen the dismissal.
 
 ## Where next
 

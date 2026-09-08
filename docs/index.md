@@ -3,8 +3,8 @@ layout: home
 
 hero:
   name: "Snap Bottom Sheet"
-  text: "A bottom sheet that lands where you meant it to"
-  tagline: Draggable, snappable, accessible. A framework-agnostic core plus thin React bindings — no animation or gesture dependencies.
+  text: "A bottom sheet that stops where you asked it to"
+  tagline: You drag it, it snaps into place, and it is accessible. A framework-free core with a thin React layer, and no animation or gesture dependencies.
   image:
     src: /logo.svg
     alt: Snap Bottom Sheet
@@ -18,34 +18,34 @@ hero:
 
 features:
   - icon: 🎯
-    title: Snap points that mean what you wrote
-    details: Fractions, percentages, pixels, or the measured height of your header or content. Indices always refer to your array order, never a sorted rewrite of it.
+    title: Snap points that behave as written
+    details: Use fractions, percentages, pixels, or the measured height of your header or content. An index always points at the same item in the array you passed. Nothing is re-sorted behind your back.
   - icon: 📐
     title: Measured, not guessed
-    details: '"header" and "content" are live-measured with a shared ResizeObserver. When the active snap''s height changes, the sheet springs to the new position instead of jumping.'
+    details: '"header" and "content" are measured while your app runs, through one shared ResizeObserver. When the height of the active snap changes, the sheet springs to the new position instead of jumping.'
   - icon: 🪶
     title: Zero runtime dependencies
-    details: Its own spring integrator and its own Pointer Events drag recogniser. React and react-dom are optional peers — the core entry needs neither.
+    details: The library brings its own spring and its own Pointer Events drag recogniser. React and react-dom are optional peers, and the core entry needs neither of them.
   - icon: 📜
-    title: Scroll and drag, arbitrated
-    details: Mark a snap point scroll and Sheet.Body scrolls there. Pull down at the top of the scroll and the sheet takes over. No double-handling, no stuck gestures.
+    title: Scrolling and dragging take turns
+    details: Mark a snap point scroll and Sheet.Body scrolls there. Pull down at the top of the scroll and the sheet takes over. Nothing is handled twice, and no gesture gets stuck.
   - icon: 🎨
     title: Style it with CSS, not props
-    details: No stylesheet ships. You get data-state, data-snap-index, data-dragging and CSS custom properties for position and progress, written straight to the DOM each frame.
+    details: No stylesheet ships with the library. You get data-state, data-snap-index, data-dragging and CSS custom properties for position and progress. They are written straight to the DOM on each frame.
   - icon: ♿
-    title: Dialog semantics included
-    details: role="dialog", labelled by your Title, focus moved in and restored on close, siblings inert while modal, Escape to the innermost sheet, and prefers-reduced-motion honoured.
+    title: Dialog behaviour included
+    details: The panel is a role="dialog" element, labelled by your Title. Focus moves in and returns on close, siblings become inert while modal, Escape closes the innermost sheet, and prefers-reduced-motion is honoured.
   - icon: 🧩
     title: Vanilla or React
-    details: createSheet attaches the engine to elements you already rendered. The React layer renders those elements and hands them over — the same engine underneath.
+    details: createSheet attaches the engine to elements you already rendered. The React layer renders those elements and hands them over. The engine underneath is the same one.
   - icon: ▲
-    title: SSR-safe on purpose
-    details: No window or document at module scope or during render. The portal renders null until mounted, so app router, pages router and renderToString all work without a dynamic import.
+    title: Safe to render on the server
+    details: There is no window or document at module scope or during render. The portal renders null until it has mounted, so app router, pages router and renderToString all work without a dynamic import.
 ---
 
 ## Show me code
 
-The React bindings render the DOM and hand it to the engine. The core does the same job when you bring your own markup.
+The React bindings render the DOM and hand it to the engine. If you prefer to write the markup yourself, the core does the same job.
 
 ::: code-group
 
@@ -113,12 +113,13 @@ document.querySelector("#choose")?.addEventListener("click", () => {
 
 :::
 
-The sheet ships no CSS beyond the transform and positioning it must own, so the
-look above is yours: background, radius, shadow, and the handle pill.
+The sheet writes only the transform and positioning it has to own. Everything
+you see above is yours to style: the background, the radius, the shadow and the
+handle pill.
 
 ## Where next
 
-- [Getting Started](/guide/getting-started) — install and a working sheet in both flavours.
-- [Core Concepts](/guide/core-concepts) — the y-offset model, snap indices, content mode.
+- [Getting Started](/guide/getting-started) — how to install, and a working sheet in both flavours.
+- [Core Concepts](/guide/core-concepts) — the y-offset model, snap indices and content mode.
 - [Snap Points](/guide/snap-points) — every value form and the per-snap options.
-- [React API](/reference/react) and [Core API](/reference/core) — the full surface.
+- [React API](/reference/react) and [Core API](/reference/core) — the complete API.

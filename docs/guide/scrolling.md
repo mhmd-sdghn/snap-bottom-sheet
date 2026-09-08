@@ -4,7 +4,7 @@ import scrollableDemo from "../.vitepress/theme/demos/scrollable.tsx";
 
 # Scrolling
 
-A sheet scrolls its content only at the snap points you mark `scroll: true`, and only inside `Sheet.Body`.
+A sheet scrolls its content only at the snap points you mark with `scroll: true`, and only inside `Sheet.Body`.
 
 <ClientOnly>
   <ReactDemo :mount="scrollableDemo" />
@@ -13,25 +13,25 @@ A sheet scrolls its content only at the snap points you mark `scroll: true`, and
 ## `Sheet.Body` is the scroll region
 
 `Sheet.Content` is a flex column. `Sheet.Header` sits at the top and never
-scrolls; `Sheet.Body` takes the remaining space and is the one element the
-engine ever turns into a scroller. Anything you put directly in `Sheet.Content`
-outside those two parts is laid out but never scrolled.
+scrolls. `Sheet.Body` takes the space that is left, and it is the only element
+the engine ever turns into a scroller. Anything you put directly in
+`Sheet.Content`, outside those two parts, is laid out but never scrolled.
 
-`Sheet.Body` is only *allowed* to scroll where you say so. Give the snap point a
+`Sheet.Body` scrolls only where you allow it. To allow it, give the snap point a
 config object with `scroll: true`:
 
 ```ts
 snapPoints={["header", 0.5, { value: 1, scroll: true }]}
 ```
 
-Here the sheet drags between the header height, half the view, and full height —
-and the list inside `Sheet.Body` becomes scrollable only once it reaches that
-last snap. At `"header"` and `0.5` the body is `overflow: hidden` and every
-gesture moves the sheet.
+Here the sheet drags between the header height, half the view and full height.
+The list inside `Sheet.Body` becomes scrollable only when the sheet reaches that
+last snap. At `"header"` and `0.5` the body is `overflow: hidden`, so every
+gesture moves the sheet instead.
 
 ::: tip
 Most sheets want scrolling at their topmost snap and dragging everywhere else.
-That is exactly the array above.
+The array above does exactly that.
 :::
 
 ## A scrollable list
@@ -105,20 +105,20 @@ document.querySelector("#pick")?.addEventListener("click", () => {
 
 :::
 
-The `body` element must be the scroll region for the arbitration below to work —
-in the vanilla flavour that means handing the same element to `createSheet` that
-your CSS gives `flex: 1`. The engine sets `overflow-y` and
-`overscroll-behavior` on it; padding, gaps and item styling stay yours.
+The `body` element has to be the scroll region for the rule below to work. In
+the vanilla version, that means you pass `createSheet` the same element your CSS
+gives `flex: 1`. The engine sets `overflow-y` and `overscroll-behavior` on it.
+Padding, gaps and item styling stay yours.
 
 ## Scroll versus drag
 
 At a `scroll: true` snap, one downward gesture inside the body could mean two
-things. The rule the engine applies, at the moment the drag crosses its 3 px
-threshold:
+things. Here is the rule the engine applies, at the moment the drag crosses its
+3 px threshold:
 
 **The sheet takes over the gesture only when `body.scrollTop <= 0` and the user
-is pulling down, or when the sheet is already displaced from its snap.
-Otherwise the native scroll proceeds and the drag is cancelled.**
+is pulling down, or when the sheet has already moved away from its snap. In
+every other case the native scroll continues and the drag is cancelled.**
 
 In practice:
 
@@ -129,60 +129,61 @@ In practice:
 | Any position, drag up | Native scroll up to the list's end |
 | Sheet already mid-drag between snaps | Sheet keeps dragging, scroll ignored |
 
-A cancelled drag fires no `onDragStart`/`onDragEnd` pair — from the sheet's
-point of view the gesture never began.
+A cancelled drag calls neither `onDragStart` nor `onDragEnd`. As far as the
+sheet is concerned, the gesture never started.
 
 ## Why the panel is `touch-action: none`
 
-The engine relies on the CSS touch-action walk: a browser looks from the touched
-element up to the **nearest ancestor with a default touch behaviour** — that is,
-the nearest scroller — and only that segment's `touch-action` values matter.
+The engine relies on how the browser reads `touch-action`. The browser looks
+from the touched element upwards until it finds the **nearest ancestor with a
+default touch behaviour**, which means the nearest scroller. Only the
+`touch-action` values along that stretch matter.
 
 So:
 
-- `Sheet.Content` (the panel) gets `touch-action: none`. Nothing above the body
-  can pan or zoom; the panel's own drag recogniser owns every pointer.
+- `Sheet.Content`, the panel, gets `touch-action: none`. Nothing above the body
+  can pan or zoom, so the panel's own drag recogniser receives every pointer.
 - At a snap with `scroll: true`, `Sheet.Body` gets
-  `overflow-y: auto; overscroll-behavior: contain` and its default
-  `touch-action`. Because the body is now a scroller, the walk **stops there** —
-  the panel's `touch-action: none` is never consulted, and native scrolling
-  works with full momentum. `overscroll-behavior: contain` keeps the page behind
-  from rubber-banding when the list hits an edge.
+  `overflow-y: auto; overscroll-behavior: contain` and keeps its default
+  `touch-action`. The body is now a scroller, so the browser **stops there**. It
+  never reads the panel's `touch-action: none`, and native scrolling keeps its
+  full momentum. `overscroll-behavior: contain` stops the page behind from
+  rubber-banding when the list reaches an edge.
 - At every other snap, `Sheet.Body` gets `overflow: hidden`. It is no longer a
-  scroller, the walk continues up to the panel, and the drag wins.
+  scroller, so the browser carries on up to the panel and the drag wins.
 
-That leaves exactly one case CSS cannot express: pulling down when the list is
-already at `scrollTop <= 0`. That one is decided in JavaScript, by the rule
-above.
+That leaves one case that CSS cannot express: pulling down when the list is
+already at `scrollTop <= 0`. The engine decides that one in JavaScript, with the
+rule above.
 
 ::: warning
-Do not set `touch-action` or `overflow` on `Sheet.Content` or `Sheet.Body`
-yourself. Both are toggled per snap by the engine, and overriding them breaks
-the arbitration in one direction or the other.
+Please do not set `touch-action` or `overflow` on `Sheet.Content` or
+`Sheet.Body` yourself. The engine changes both per snap, and overriding them
+breaks the choice between scrolling and dragging in one direction or the other.
 :::
 
 ## Reaching the end of the content
 
-The panel is always full-height and translated down — a half-open sheet is a
-full-height panel whose bottom half is off-screen. Left alone, the last items in
-a scrolled body would sit in that off-screen part and be unreachable.
+The panel is always full-height and is moved down with a transform. A half-open
+sheet is a full-height panel whose lower half is off-screen. Without help, the
+last items in a scrolled body would sit in that off-screen part, where you
+cannot reach them.
 
 **At rest**, the engine sets `padding-bottom` on the panel equal to its current
-y offset, and mirrors the value as `--snap-sheet-offset`. The panel keeps its
-full height (so no gap opens up when you drag it upward), but its *content box*
-now ends exactly at the viewport bottom, and `Sheet.Body` scrolls to its true
-end.
+y offset, and writes the same value to `--snap-sheet-offset`. The panel keeps
+its full height, so no gap opens up when you drag it upwards. Its content box
+now ends exactly at the bottom of the viewport, and `Sheet.Body` scrolls to its
+true end.
 
-The value is **deliberately stale during a drag**: recomputing it every frame
-would resize the scroller mid-gesture and make the content jump under the
-finger. It is corrected on the next rest — after a snap, a resize, or a
-measurement change.
+The value is **deliberately left stale during a drag**. Recalculating it every
+frame would resize the scroller in the middle of the gesture and make the
+content jump under your finger. The engine corrects it at the next rest, which
+is after a snap, a resize or a measurement change.
 
-Because the padding is on the panel, anything you render inside
-`Sheet.Content` — a footer after `Sheet.Body`, for instance — already sits
-above the fold with no work on your part. `--snap-sheet-offset` is exposed for
-the cases where your own CSS needs to know how much of the panel is below the
-viewport:
+The padding sits on the panel, so anything else you render inside
+`Sheet.Content`, such as a footer after `Sheet.Body`, stays visible without any
+work on your part. `--snap-sheet-offset` is there for the cases where your own
+CSS needs to know how much of the panel is below the viewport:
 
 ```css
 /* Bleed a decorative background past the visible edge. */

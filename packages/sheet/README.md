@@ -1,7 +1,7 @@
 # snap-bottom-sheet
 
-A draggable, snappable bottom sheet for the web. Framework-agnostic core, thin
-React bindings, zero runtime dependencies.
+A draggable, snappable bottom sheet for the web. The core works with any
+framework, the React bindings are thin, and there are no runtime dependencies.
 
 **[Documentation](https://mhmd-sdghn.github.io/react-bottom-sheet/)** ·
 [Demos](https://mhmd-sdghn.github.io/react-bottom-sheet/demos/) ·
@@ -11,12 +11,12 @@ React bindings, zero runtime dependencies.
 npm install snap-bottom-sheet
 ```
 
-Two entry points. `react` and `react-dom` (18 or 19) are optional peers — the
-core entry needs neither.
+There are two entry points. `react` and `react-dom` (18 or 19) are optional
+peers, and the core entry needs neither.
 
 | Import | What |
 | --- | --- |
-| `snap-bottom-sheet` | `createSheet`, `steps`, and the types. Works in any framework, or none. |
+| `snap-bottom-sheet` | `createSheet`, `steps`, and the types. Works with any framework, or none. |
 | `snap-bottom-sheet/react` | `Sheet` and its parts, `useSheetState`. |
 
 ## React
@@ -77,8 +77,8 @@ const sheet = createSheet(
 void sheet.open();
 ```
 
-The panel needs one element child carrying `data-snap-sheet-inner`, or a single
-element child, so `"content"` can be measured.
+For `"content"` to be measured, the panel needs one element child carrying
+`data-snap-sheet-inner`. A single element child works too.
 
 ## Snap points
 
@@ -105,31 +105,35 @@ type SnapPoint = SnapValue | {
 | `[{ value: 1, scroll: true }]` | full height, body scrolls, pull down at the top to drag |
 | `[{ value: 0.3, drag: { down: false } }]` | cannot be dragged below 30% |
 | `steps(3)` | `[1/3, 2/3, 1]` |
-| `[]` | content mode — the sheet hugs its content |
+| `[]` | content mode: the sheet takes the height of its content |
 
-**Indices are your array order.** Points are sorted internally to find
-neighbours, but `activeSnapIndex` and `onSnapIndexChange` always speak in the
-order you wrote.
+**Indices are your array order.** The library sorts the points internally to
+find neighbours. Even so, `activeSnapIndex` and `onSnapIndexChange` always use
+the order you wrote.
 
 ## Why this one
 
-- **Measured, not guessed.** `"header"` and `"content"` are live-measured with a
-  shared `ResizeObserver`. When the active snap's height changes, the sheet
+- **Measured, not guessed.** `"header"` and `"content"` are measured live by a
+  shared `ResizeObserver`. When the height of the active snap changes, the sheet
   springs to the new position rather than jumping.
-- **Per-snap scroll and drag rules**, so a scrollable list and a peek header can
+- **Per-snap scroll and drag rules.** A scrollable list and a peek header can
   live in one sheet without fighting each other for the gesture.
-- **Zero runtime dependencies** — its own spring integrator and Pointer Events
-  recogniser. About 13 kB gzipped for the core, 17 kB with the React bindings.
-- **Dialog semantics included**: `role="dialog"`, labelled by your title, focus
-  moved in and restored on close, siblings `inert` while modal, Escape to the
-  innermost sheet, `prefers-reduced-motion` honoured.
-- **SSR-safe on purpose.** No `window` or `document` at module scope or during
-  render; the portal renders `null` until mounted. Next.js App Router, Pages
-  Router and `renderToString` all work with no dynamic import.
+- **Zero runtime dependencies.** The library brings its own spring integrator
+  and Pointer Events recogniser. That comes to about 13 kB gzipped for the core,
+  and 17 kB with the React bindings.
+- **Dialog semantics included.** The sheet gets `role="dialog"` and is labelled
+  by your title. Focus moves into it, and returns where it came from on close.
+  While the sheet is modal its siblings are marked `inert`. Escape closes the
+  innermost sheet, and `prefers-reduced-motion` is honoured.
+- **Safe for server-side rendering (SSR).** Nothing touches `window` or
+  `document` at module scope or during render, and the portal renders `null`
+  until it is mounted. The Next.js App Router, the Pages Router and
+  `renderToString` all work with no dynamic import.
 
-No stylesheet ships. The library writes only the positioning and transform it
-must own; background, radius and shadow are yours, driven by `data-state`,
-`data-snap-index`, `data-dragging` and the `--snap-sheet-*` custom properties.
+No stylesheet ships. The library writes only the positioning and the transform
+that it has to own. Background, radius and shadow are yours. You drive them with
+`data-state`, `data-snap-index`, `data-dragging` and the `--snap-sheet-*` custom
+properties.
 
 ## Going deeper
 
@@ -144,9 +148,9 @@ must own; background, radius and shadow are yours, driven by `data-state`,
 | Next.js, `renderToString` | [SSR & Next.js](https://mhmd-sdghn.github.io/react-bottom-sheet/guide/ssr-nextjs) |
 | Every prop and method | [React API](https://mhmd-sdghn.github.io/react-bottom-sheet/reference/react) · [Core API](https://mhmd-sdghn.github.io/react-bottom-sheet/reference/core) |
 
-Coming from 0.x? The API is different in almost every name —
-[the migration guide](https://mhmd-sdghn.github.io/react-bottom-sheet/guide/migration)
-has a full before/after table.
+Coming from 0.x? Almost every name has changed.
+[The migration guide](https://mhmd-sdghn.github.io/react-bottom-sheet/guide/migration)
+has a full before and after table.
 
 ## License
 
