@@ -297,6 +297,17 @@ export function createSheet(
    */
   let snapSeq = 0;
 
+  /**
+   * A snap the sheet entered mid-gesture, waiting for the finger to lift.
+   *
+   * `enterScrollSnap` changes the active snap while the pointer is still down,
+   * and reporting it there reaches a controlled React parent during the drag:
+   * its snap-sync effect then calls `snapTo` with the index it still holds, and
+   * fights the gesture. `onEnd` calls `snapTo` on the settled index either way,
+   * and that is where the consumer hears about it — once, after `onDragEnd`.
+   */
+  let deferredSnapReport: ResolvedSnap | null = null;
+
   const snapTo = async (
     index: number,
     o: { immediate?: boolean; velocity?: number } = {},
@@ -311,7 +322,9 @@ export function createSheet(
       );
     }
     const seq = ++snapSeq;
-    if (target.index !== snapIndex) {
+    const deferred = deferredSnapReport;
+    deferredSnapReport = null;
+    if (target.index !== snapIndex || deferred?.index === target.index) {
       // A fling on the content belongs to the snap it started at.
       drag.stopScroll();
       snapIndex = target.index;
@@ -420,6 +433,8 @@ export function createSheet(
     }
     isOpen = false;
     drag.stopScroll();
+    // The sheet is leaving; a snap it entered on the way out is not news.
+    deferredSnapReport = null;
     // Cancels a still-deferred open, whose waiter beginTransition settles.
     deferredOpen = null;
     const done = beginTransition("close");
@@ -486,13 +501,10 @@ export function createSheet(
     // at-rest DOM — above all, the body laid out as a scroller — applied
     // mid-gesture, where the drag would otherwise hold it back.
     enterScrollSnap: (snap) => {
-      const changed = snap.index !== snapIndex;
+      if (snap.index !== snapIndex) deferredSnapReport = snap;
       snapIndex = snap.index;
       applyRest(snap);
       notify();
-      if (changed && !contentMode()) {
-        opts.onSnapIndexChange?.(snap.index, snap.point);
-      }
     },
     dismiss: () => dismiss(),
     notify,
@@ -606,6 +618,9 @@ export function createSheet(
   };
 
   const wirePart = (key: PartKey, el: HTMLElement | null) => {
+    // A fling belongs to the element it started on. Handing Body over mid-flight
+    // would leave the old one scrolling with nothing left to stop it.
+    if (key === "body") drag.stopScroll();
     unwire[key]?.();
     delete unwire[key];
     parts[key] = el;

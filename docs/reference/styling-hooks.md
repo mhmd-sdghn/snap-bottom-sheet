@@ -16,7 +16,7 @@ render, and your CSS reads them.
 | `data-scrolling` | Content | present (empty value) or absent | Added while a gesture is scrolling the body's content, removed on release. |
 | `data-content-mode` | Content | present (empty value) or absent | Set at attach, and worked out again on `update({ snapPoints })`. It is present when there are no real snap points, meaning `[]` or only `"content"`. |
 | `data-snap-sheet-inner` | the single wrapper `div` inside Content | present | Never changes. `Sheet.Content` always renders it, and it is the element measured for the `"content"` snap value. In vanilla, please add it yourself. |
-| `data-snap-sheet-no-drag` | any descendant of Content, and **you** write this one | present | Never changes. The gesture layer ignores a `pointerdown` inside a subtree that carries it, so neither a drag nor a library scroll starts there, and sliders, maps, carousels and swipeable rows keep their own gestures. |
+| `data-snap-sheet-no-drag` | any descendant of Content, and **you** write this one | present | Never changes. The gesture layer ignores a `pointerdown` inside a subtree that carries it, so neither a drag nor a library scroll starts there. Horizontal gestures still work, which covers sliders, carousels and swipeable rows. Vertical touch panning does not, inside `Sheet.Body` at a `scroll: true` snap — see [Scrolling](/guide/scrolling#nested-scrollers-inside-the-body). |
 
 `data-dragging`, `data-scrolling` and `data-content-mode` are **presence**
 attributes. They are written with an empty value and removed again, and never
