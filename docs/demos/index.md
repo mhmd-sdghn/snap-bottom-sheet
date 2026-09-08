@@ -14,6 +14,9 @@ itself. Each snippet is taken from the file that is running.
 | [Controlled](/demos/controlled) | External buttons and the `SheetHandle` ref |
 | [Vanilla](/demos/vanilla) | `createSheet` against hand-written markup, no React |
 
+For sheets that take over the whole viewport, as they would in a real app,
+please see the <a href="/snap-bottom-sheet/playground/">playground</a>.
+
 ::: info These demos live in a frame
 Each demo renders into its own frame instead of `document.body`. The frame is
 passed to `Sheet.Portal` as its `container`.

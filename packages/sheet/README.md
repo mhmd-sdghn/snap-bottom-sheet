@@ -4,6 +4,7 @@ A draggable, snappable bottom sheet for the web. The core works with any
 framework, the React bindings are thin, and there are no runtime dependencies.
 
 **[Documentation](https://mhmd-sdghn.github.io/snap-bottom-sheet/)** ·
+[Live demo](https://mhmd-sdghn.github.io/snap-bottom-sheet/playground/) ·
 [Demos](https://mhmd-sdghn.github.io/snap-bottom-sheet/demos/) ·
 [Migrating from 0.x](https://mhmd-sdghn.github.io/snap-bottom-sheet/guide/migration)
 

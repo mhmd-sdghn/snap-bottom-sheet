@@ -371,6 +371,14 @@ export default function App() {
   return (
     <main>
       <h1>snap-bottom-sheet — React playground</h1>
+      <p className="intro">
+        A live playground for{" "}
+        <a href="https://mhmd-sdghn.github.io/snap-bottom-sheet/">
+          snap-bottom-sheet
+        </a>
+        . Pick a scenario below and drag the sheet. Each one is a small React
+        app running the published build.
+      </p>
       <nav className="tabs">
         {Scenarios.map((s) => (
           <button

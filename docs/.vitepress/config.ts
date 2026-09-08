@@ -39,6 +39,10 @@ export default defineConfig({
         activeMatch: "/reference/",
       },
       { text: "Demos", link: "/demos/", activeMatch: "/demos/" },
+      // The playground is a separate Vite app copied into dist/playground/ by
+      // `pnpm site:build`. `target` keeps VitePress's router from handling the
+      // click, so the browser navigates to it normally.
+      { text: "Playground", link: "/playground/", target: "_self" },
     ],
 
     sidebar: {

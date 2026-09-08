@@ -12,6 +12,7 @@
 
 <p align="center">
   <a href="https://mhmd-sdghn.github.io/snap-bottom-sheet/"><b>Documentation</b></a> ·
+  <a href="https://mhmd-sdghn.github.io/snap-bottom-sheet/playground/">Live demo</a> ·
   <a href="https://mhmd-sdghn.github.io/snap-bottom-sheet/demos/">Demos</a> ·
   <a href="https://mhmd-sdghn.github.io/snap-bottom-sheet/guide/migration">Migrating from 0.x</a>
 </p>

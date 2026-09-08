@@ -66,12 +66,17 @@ button.primary {
   margin-bottom: 0.75rem;
 }
 
+.intro,
 .hint,
 .note {
   color: #a0a0ad;
   font-size: 0.8125rem;
   line-height: 1.5;
   margin: 0 0 1rem;
+}
+
+a {
+  color: #8ea2ff;
 }
 
 code {

@@ -17,6 +17,8 @@
     "docs:dev": "pnpm --filter snap-bottom-sheet-docs docs:dev",
     "docs:build": "pnpm --filter snap-bottom-sheet-docs docs:build",
     "docs:preview": "pnpm --filter snap-bottom-sheet-docs docs:preview",
+    "site:build": "pnpm docs:build && PLAYGROUND_BASE=/snap-bottom-sheet/playground/ pnpm --filter playground-react build && rm -rf docs/.vitepress/dist/playground && cp -R playgrounds/react/dist docs/.vitepress/dist/playground",
+    "site:preview": "pnpm docs:preview",
     "verify:pkg": "pnpm --filter snap-bottom-sheet verify:pkg",
     "check:dist": "pnpm --filter snap-bottom-sheet check:dist",
     "changeset": "changeset",
