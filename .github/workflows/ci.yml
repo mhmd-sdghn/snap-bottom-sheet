@@ -96,8 +96,11 @@ jobs:
       - name: Build library
         run: pnpm build
 
+      # Explicitly at the root base, matching e2e/playwright.config.ts, whose
+      # webServer rebuilds it the same way. Doing it here too keeps a build
+      # failure reported as a build failure instead of a server timeout.
       - name: Build the React playground
-        run: pnpm --filter playground-react build
+        run: PLAYGROUND_BASE=/ pnpm --filter playground-react build
 
       - name: End-to-end tests
         run: pnpm e2e

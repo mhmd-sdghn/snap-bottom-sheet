@@ -19,7 +19,7 @@ exists so one can be added as another subpath.
 pnpm dev                       # tsdown watch on packages/sheet
 pnpm build                     # packages/sheet -> dist/ (ESM only, two entries)
 pnpm test                      # vitest, all packages
-pnpm typecheck                 # tsc --noEmit, all packages
+pnpm typecheck                 # tsc --noEmit, all packages (needs `pnpm build` first)
 pnpm lint                      # biome check .
 pnpm lint:fix                  # biome check --write .
 pnpm docs:dev                  # VitePress dev server
@@ -27,6 +27,11 @@ pnpm docs:build                # VitePress build (needs `pnpm build` first)
 pnpm verify:pkg                # publint + are-the-types-wrong
 pnpm changeset                 # record a release note
 ```
+
+`pnpm typecheck` needs the build for the same reason `pnpm docs:build` does:
+the docs package typechecks the demo files, and those resolve
+`snap-bottom-sheet` through its `exports` to `dist/`. On a fresh clone or
+worktree it reports eight `TS2307 Cannot find module` errors until you build.
 
 Playgrounds: `pnpm --filter playground-react dev`, `playground-vanilla`,
 `playground-next`. The playgrounds and the docs depend on
