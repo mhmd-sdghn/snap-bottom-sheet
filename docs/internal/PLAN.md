@@ -312,7 +312,7 @@ Three worker sessions: **W1**, **W2**, **W3**. Orchestrator reviews each task's 
 | 3b | `tasks/09-docs-demos.md` | W2 | 2a, 2b, 2d | `docs: live React demos` ✅ merged |
 | 3d | `tasks/12-container-scoped-lock.md` ✅ merged | W1 | 2e, 3b | Escape re-arm fix, container-scoped lock, docs launch port |
 | 3c | `tasks/10-integration-tests.md` ✅ merged | W1 (W3 stalled) | 2a, 2b, 2e | `test(sheet): end-to-end controller + react integration, audit regressions, size budget` |
-| 4 | review loop: `tasks/13-review-fixes.md` (core/build; W1 groups 1–2 ✅, remaining groups by a refactor-worker agent) + `tasks/14-review-fixes-react.md` (W2 ✅ merged) | orchestrator + workers/agents | 3 | `fix(spring)…`, `fix(core)…`, `fix(react)…`, `test(sheet)…` |
+| 4 | review loop: `tasks/13-review-fixes.md` (core/build ✅ merged 9a25f3d — W1 groups 1–2, refactor-worker agent groups 3–4 + sweep) + `tasks/14-review-fixes-react.md` (W2 ✅ merged) | orchestrator + workers/agents | 3 | `fix(spring)…`, `fix(core)…`, `fix(react)…`, `test(sheet)…` |
 
 Phase 1 tasks run in parallel (disjoint directories). Phase 2 runs in parallel too: core controller (`src/core`), React bindings (`src/react`, mocked controller), meta+docs (root files, `docs/`). Phase 3 waits for 2a+2b. Task files for later phases are drafted early and finalised by the orchestrator when their dependencies have merged, so they reflect the real code.
 
