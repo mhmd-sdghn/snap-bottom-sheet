@@ -318,6 +318,8 @@ Phase 1 tasks run in parallel (disjoint directories). Phase 2 runs in parallel t
 
 ### 4.1 Worker protocol
 
+**Writing style for every document (docs site, READMEs, CONTRIBUTING, changesets):** polite and a bit formal; easy to read; simple English words and simple sentence structures; clear, direct meaning; a straightforward approach; written the way a helpful person explains something to a colleague. Short sentences, one idea each, active voice, "you" for the reader. Keep technical terms exact and explain them once. No dense or clever prose, no stacked clauses, no insider shorthand.
+
 1. `git fetch` is unnecessary (same repo). Start: `git checkout -b <worker>/<task-slug> v1` in your own worktree.
 2. Read the task file, this plan's referenced sections, and every file you will touch.
 3. Implement. Verify with the task's **Done when** commands. Commit (conventional commits, `Co-Authored-By: Claude Opus 5 <noreply@anthropic.com>` trailer).
