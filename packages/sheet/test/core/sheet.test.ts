@@ -943,7 +943,7 @@ describe("createSheet", () => {
     const controller = make(el, { snapPoints: [0.5] });
 
     expect(overlay.style.position).toBe("fixed");
-    expect(overlay.style.inset).toBe("0");
+    expect(overlay.style.inset).toBe("0px");
     // colour, z-index and pointer-events stay the consumer's
     expect(overlay.style.zIndex).toBe("5");
 
@@ -1227,7 +1227,16 @@ describe("createSheet", () => {
     const body = el.body as HTMLElement;
     body.style.overflow = "scroll";
     body.style.flex = "2 2 auto";
-    const before = body.getAttribute("style");
+    // The declarations, not the attribute string: restoring writes them back
+    // one property at a time, so their order is the library's, not the
+    // consumer's. What matters is that the same set comes back.
+    const declarations = () =>
+      (body.getAttribute("style") ?? "")
+        .split(";")
+        .map((declaration) => declaration.trim())
+        .filter(Boolean)
+        .sort();
+    const before = declarations();
 
     const controller = make(el, {
       snapPoints: [{ value: 0.5, scroll: true }],
@@ -1240,7 +1249,7 @@ describe("createSheet", () => {
 
     controller.destroy();
 
-    expect(body.getAttribute("style")).toBe(before);
+    expect(declarations()).toEqual(before);
   });
 
   it("A.6 a non-dismissible modal swallows Escape", async () => {
@@ -1449,7 +1458,7 @@ describe("createSheet", () => {
     expect(el.inner.style.flex).toBe("1 1 auto");
     expect(el.inner.style.maxHeight).toBe("");
     expect(body.style.flex).toBe("1 1 auto");
-    expect(body.style.minHeight).toBe("0");
+    expect(body.style.minHeight).toBe("0px");
     expect(body.style.overflowY).toBe("auto");
   });
 

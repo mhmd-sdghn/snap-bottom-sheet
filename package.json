@@ -20,12 +20,12 @@
     "verify:pkg": "pnpm --filter snap-bottom-sheet verify:pkg",
     "check:dist": "pnpm --filter snap-bottom-sheet check:dist",
     "changeset": "changeset",
-    "release": "pnpm typecheck && pnpm test && pnpm build && pnpm check:dist && pnpm verify:pkg && changeset publish"
+    "release": "pnpm build && pnpm typecheck && pnpm test && pnpm check:dist && pnpm verify:pkg && changeset publish"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.12",
-    "@changesets/changelog-github": "^0.7.0",
-    "@changesets/cli": "^2.29.0",
-    "lefthook": "^1.11.0"
+    "@changesets/changelog-github": "^1.0.1",
+    "@changesets/cli": "^3.0.2",
+    "lefthook": "^2.1.12"
   }
 }
