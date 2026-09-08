@@ -241,14 +241,59 @@ describe("cancelling", () => {
   });
 });
 
+describe("pointer capture", () => {
+  /*
+   * A captured pointer sends its `pointerup` to the capturing element, and the
+   * browser derives the `click` from that pair — so capturing on pointerdown
+   * makes every button inside the element unclickable. The recogniser must
+   * wait until a drag has actually begun.
+   */
+  it("is not taken until the drag passes the threshold", () => {
+    const capture = vi.fn();
+    const release = vi.fn();
+    el.setPointerCapture = capture;
+    el.releasePointerCapture = release;
+
+    fire(el, "pointerdown", { clientY: 0 });
+    expect(capture).not.toHaveBeenCalled();
+
+    // still under the 3px threshold
+    fire(el, "pointermove", { clientY: 2 });
+    expect(capture).not.toHaveBeenCalled();
+
+    fire(el, "pointermove", { clientY: 20 });
+    expect(capture).toHaveBeenCalledWith(1);
+
+    fire(el, "pointerup", { clientY: 20 });
+    expect(release).toHaveBeenCalledWith(1);
+  });
+
+  it("is never released for a tap that never became a drag", () => {
+    const release = vi.fn();
+    el.setPointerCapture = vi.fn();
+    el.releasePointerCapture = release;
+
+    fire(el, "pointerdown", { clientY: 0 });
+    fire(el, "pointerup", { clientY: 0 });
+    expect(release).not.toHaveBeenCalled();
+  });
+});
+
 describe("detach", () => {
   it("removes every listener and stays silent afterwards", () => {
+    // A pointer is down but under the threshold, so the document-scoped
+    // tracking listeners are live and detaching has to take them off too;
+    // only what *starts* a gesture ever lives on the element itself.
+    fire(el, "pointerdown", { clientY: 0 });
     const remove = vi.spyOn(el, "removeEventListener");
+    const removeFromDocument = vi.spyOn(document, "removeEventListener");
     detach();
     expect(remove.mock.calls.map(([type]) => type).sort()).toEqual([
       "lostpointercapture",
-      "pointercancel",
       "pointerdown",
+    ]);
+    expect(removeFromDocument.mock.calls.map(([type]) => type).sort()).toEqual([
+      "pointercancel",
       "pointermove",
       "pointerup",
     ]);
