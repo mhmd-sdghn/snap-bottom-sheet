@@ -140,8 +140,30 @@ In practice:
 | Drag on the handle, the header, or anywhere outside the body | The sheet drags across every snap, the ones above the scrolling snap included |
 
 Snaps above the scrolling one are still reachable, then. You just reach them
-from outside `Sheet.Body`. A `data-snap-sheet-no-drag` region is unchanged, and
-still opted out of both: neither a drag nor a library scroll starts inside it.
+from outside `Sheet.Body`. A `data-snap-sheet-no-drag` region is still opted out
+of both: neither a drag nor a library scroll starts inside it.
+
+### Nested scrollers inside the body
+
+At a `scroll: true` snap the library drives `scrollTop` itself, and to do that
+it takes vertical touch panning from the browser. It sets `touch-action: pan-x`
+on `Sheet.Body`, which applies to everything inside it.
+
+So a second vertical scroller nested inside `Sheet.Body` cannot be scrolled by
+touch. This is true even inside a `data-snap-sheet-no-drag` region: that
+attribute stops the sheet from claiming the gesture, but it cannot give
+vertical panning back, because the browser decides that from `touch-action`.
+Horizontal panning is unaffected, so a carousel or a swipeable row is fine.
+
+Two ways around it, depending on what you need:
+
+- Put the nested scroller outside `Sheet.Body`, in `Sheet.Header` or in your own
+  footer element. Only the body has its touch behaviour taken.
+- Leave `scroll` off for that snap. Without it the library never drives
+  scrolling, and everything inside the panel keeps its native behaviour.
+
+A mouse wheel and a trackpad are not affected either way. `touch-action` governs
+touch only.
 
 ### After you let go
 
