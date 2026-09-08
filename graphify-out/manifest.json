@@ -60,8 +60,8 @@
     "semantic_hash": "c698309979460d0f02ba616417844399"
   },
   "CLAUDE.md": {
-    "mtime": 1788882645.301327,
-    "ast_hash": "4114ffa614188be7305c3bc3d43e0764",
+    "mtime": 1788883792.8728592,
+    "ast_hash": "7d5507226536b064c7297e45604fb148",
     "semantic_hash": ""
   },
   "README.md": {
@@ -135,8 +135,8 @@
     "semantic_hash": ""
   },
   ".github/workflows/ci.yml": {
-    "mtime": 1788882645.301113,
-    "ast_hash": "f1bf15d85fd5cd420f33e8977d211574",
+    "mtime": 1788883792.8725731,
+    "ast_hash": "2689ebb0af95fa7847d49bc08c7dbba3",
     "semantic_hash": ""
   },
   ".github/workflows/release.yml": {
@@ -180,8 +180,8 @@
     "semantic_hash": ""
   },
   "packages/sheet/README.md": {
-    "mtime": 1788882284.7262437,
-    "ast_hash": "582232f5d74ded63cc7494a102a932e3",
+    "mtime": 1788883266.1701512,
+    "ast_hash": "c2d2acb7fcb0deabe74d63edec8af377",
     "semantic_hash": ""
   },
   "playgrounds/README.md": {
@@ -215,8 +215,8 @@
     "semantic_hash": ""
   },
   "packages/sheet/src/core/scroll-lock.ts": {
-    "mtime": 1788868298.5249343,
-    "ast_hash": "fcd3eca8996f46976ad49d6d7e0c4e11",
+    "mtime": 1788883189.797568,
+    "ast_hash": "4d584614ca25ef466536ded358f4d0e6",
     "semantic_hash": ""
   },
   "packages/sheet/src/core/snap.ts": {
@@ -240,8 +240,8 @@
     "semantic_hash": ""
   },
   "packages/sheet/test/core/scroll-lock.test.ts": {
-    "mtime": 1788868298.5287902,
-    "ast_hash": "0334072afb8e2f2eaf71c7c2e746aabd",
+    "mtime": 1788883189.7989795,
+    "ast_hash": "86f7a595796bdd041a34b0847a99b362",
     "semantic_hash": ""
   },
   "packages/sheet/test/core/snap.test.ts": {
@@ -350,13 +350,13 @@
     "semantic_hash": ""
   },
   "packages/sheet/src/core/dom.ts": {
-    "mtime": 1788882645.3049812,
-    "ast_hash": "bf962370f729ae9110c6150742e6236b",
+    "mtime": 1788883189.7967887,
+    "ast_hash": "985e28e02a4e31f801d5ab1be1378ea9",
     "semantic_hash": ""
   },
   "packages/sheet/src/core/drag.ts": {
-    "mtime": 1788882645.3053195,
-    "ast_hash": "e7382fb4ff85b183920c2c51f2f9fbd9",
+    "mtime": 1788884028.9500964,
+    "ast_hash": "90b0458f7f54a80ba16622bd4ef6ac4b",
     "semantic_hash": ""
   },
   "packages/sheet/src/core/keyboard.ts": {
@@ -365,8 +365,8 @@
     "semantic_hash": ""
   },
   "packages/sheet/src/core/modal.ts": {
-    "mtime": 1788868298.5246816,
-    "ast_hash": "c8bf0d6ff43006eff751245fb2e9636a",
+    "mtime": 1788883189.7971716,
+    "ast_hash": "387605dfdd83b2848cbee5c35cd68bf6",
     "semantic_hash": ""
   },
   "packages/sheet/src/core/position.ts": {
@@ -375,8 +375,8 @@
     "semantic_hash": ""
   },
   "packages/sheet/src/core/sheet.ts": {
-    "mtime": 1788882645.3057292,
-    "ast_hash": "95fa1a8f69723ae4137bb3c38479ca2d",
+    "mtime": 1788884028.9504683,
+    "ast_hash": "4378998af819295462696d2db9da2a01",
     "semantic_hash": ""
   },
   "packages/sheet/src/core/types.ts": {
@@ -425,8 +425,8 @@
     "semantic_hash": ""
   },
   "packages/sheet/src/react/Sheet.tsx": {
-    "mtime": 1788872180.8087828,
-    "ast_hash": "2f72f4ab8bc52c82ea3aa451d6c80ab2",
+    "mtime": 1788884906.978718,
+    "ast_hash": "edd27638b3841426409c4ace3be92bd8",
     "semantic_hash": ""
   },
   "packages/sheet/src/react/Title.tsx": {
@@ -450,8 +450,8 @@
     "semantic_hash": ""
   },
   "packages/sheet/test/core/dom.test.ts": {
-    "mtime": 1788880440.0969913,
-    "ast_hash": "382d3adf9d0637203701652a71991245",
+    "mtime": 1788883189.7985885,
+    "ast_hash": "b4c6ab425ffb6298c6b69347652bd7a3",
     "semantic_hash": ""
   },
   "packages/sheet/test/core/sheet.test.ts": {
@@ -565,13 +565,13 @@
     "semantic_hash": ""
   },
   "docs/guide/scrolling.md": {
-    "mtime": 1788882645.3020847,
-    "ast_hash": "08b26a68c62cae5b561854a916f17a67",
+    "mtime": 1788884028.9493072,
+    "ast_hash": "3f49f61a3ac6395da8e65754633045e0",
     "semantic_hash": ""
   },
   "docs/guide/snap-points.md": {
-    "mtime": 1788872180.8064413,
-    "ast_hash": "851fb9b053946a6072900470466a9f7f",
+    "mtime": 1788883266.1696453,
+    "ast_hash": "da0ab8c117148361116762c2c2a1d693",
     "semantic_hash": ""
   },
   "docs/guide/ssr-nextjs.md": {
@@ -615,8 +615,8 @@
     "semantic_hash": ""
   },
   "docs/reference/styling-hooks.md": {
-    "mtime": 1788882645.303822,
-    "ast_hash": "67636b9796c0d383d94a527a380c4e43",
+    "mtime": 1788884028.9496648,
+    "ast_hash": "764e5e2add749e954859c6515ca88b93",
     "semantic_hash": ""
   },
   "docs/public/logo.svg": {
@@ -625,8 +625,8 @@
     "semantic_hash": ""
   },
   ".claude/launch.json": {
-    "mtime": 1788868298.4712949,
-    "ast_hash": "308a2f92ec60562d5749d956db3f39ac",
+    "mtime": 1788883189.7961895,
+    "ast_hash": "0865c676025b1b6d8c89b477a0e5dca9",
     "semantic_hash": ""
   },
   "playgrounds/next/app/layout.tsx": {
@@ -760,8 +760,8 @@
     "semantic_hash": ""
   },
   "docs/demos/scrollable.md": {
-    "mtime": 1788882284.7242193,
-    "ast_hash": "dfa87e8134bab87efd08ceb35d0c7949",
+    "mtime": 1788883266.1689022,
+    "ast_hash": "e1a740afbf21c458ed3a7ff9f877c319",
     "semantic_hash": ""
   },
   "docs/demos/snap-points.md": {
@@ -805,8 +805,8 @@
     "semantic_hash": ""
   },
   ".changeset/spotty-pandas-rewrite.md": {
-    "mtime": 1788882645.3009489,
-    "ast_hash": "507828a6c4e6ed944d739d2615d68b9d",
+    "mtime": 1788883266.1682553,
+    "ast_hash": "4f413bca11baa8ec8878ada77336af0b",
     "semantic_hash": ""
   },
   "CONTRIBUTING.md": {
@@ -890,18 +890,18 @@
     "semantic_hash": ""
   },
   "e2e/playwright.config.ts": {
-    "mtime": 1788882645.3041837,
-    "ast_hash": "ba1e36d9d240508f1720bb210c74929c",
+    "mtime": 1788883792.8731058,
+    "ast_hash": "a2dc2d7883a030d6cdd2eb25f52fe521",
     "semantic_hash": ""
   },
   "e2e/tests/handoff.spec.ts": {
-    "mtime": 1788882645.3043334,
-    "ast_hash": "6d9920d6308a81e5eacb495ce4ccfe21",
+    "mtime": 1788883792.8733914,
+    "ast_hash": "db5b40ec0be95e19ec7dd4779c0c02db",
     "semantic_hash": ""
   },
   "e2e/tests/helpers.ts": {
-    "mtime": 1788882645.3044376,
-    "ast_hash": "9fda07d6fce6f8b038ab5e0466e25152",
+    "mtime": 1788883792.8736343,
+    "ast_hash": "8e030791f2c8c26e231802b1bec53242",
     "semantic_hash": ""
   },
   "packages/sheet/src/core/scroll-momentum.ts": {
@@ -910,8 +910,8 @@
     "semantic_hash": ""
   },
   "packages/sheet/test/core/drag-scroll.test.ts": {
-    "mtime": 1788882645.3059201,
-    "ast_hash": "23cebb9a211fc8dcc72b7953abf2bc00",
+    "mtime": 1788884028.950933,
+    "ast_hash": "9c02a36869adf39d7a40a8ecd5547cf5",
     "semantic_hash": ""
   },
   "docs/internal/tasks/19-drag-scroll-handoff.md": {
@@ -927,6 +927,16 @@
   "docs/internal/tasks/21-docs-messaging.md": {
     "mtime": 1788882284.7257388,
     "ast_hash": "06571f3a02fdb62ecd742be47410fc46",
+    "semantic_hash": ""
+  },
+  "packages/sheet/test/integration/container-close.test.tsx": {
+    "mtime": 1788884906.9789126,
+    "ast_hash": "6d1645cb044c4c7e3939724fc5cc8a14",
+    "semantic_hash": ""
+  },
+  ".changeset/quick-pugs-shake.md": {
+    "mtime": 1788884906.9781473,
+    "ast_hash": "18bda7b70a1e6d55ef01884819ede6c3",
     "semantic_hash": ""
   }
 }
