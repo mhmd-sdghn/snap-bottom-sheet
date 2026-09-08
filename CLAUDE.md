@@ -24,9 +24,14 @@ pnpm lint                      # biome check .
 pnpm lint:fix                  # biome check --write .
 pnpm docs:dev                  # VitePress dev server
 pnpm docs:build                # VitePress build (needs `pnpm build` first)
+pnpm e2e                       # Playwright, the React playground (needs `pnpm build`)
 pnpm verify:pkg                # publint + are-the-types-wrong
 pnpm changeset                 # record a release note
 ```
+
+`pnpm e2e` needs a Chromium once per machine:
+`pnpm --filter snap-bottom-sheet-e2e exec playwright install chromium` (the
+filter matters — playwright is not linked at the workspace root).
 
 `pnpm typecheck` needs the build for the same reason `pnpm docs:build` does:
 the docs package typechecks the demo files, and those resolve
@@ -53,6 +58,7 @@ packages/sheet         snap-bottom-sheet           published
   src/react/             Root, parts, hooks
 docs/                  VitePress site; docs/internal/ is orchestration notes, excluded from the site
 playgrounds/{react,vanilla,next}
+e2e/                   Playwright suite for the drag/scroll handoff; builds and previews the React playground itself
 ```
 
 Both private packages are listed in tsdown's `deps.alwaysBundle`, so the

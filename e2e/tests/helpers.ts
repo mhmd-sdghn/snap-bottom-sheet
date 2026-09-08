@@ -55,21 +55,43 @@ export const touchEnd = (page: Page) => dispatch(page, "touchEnd");
 /**
  * One unbroken single-finger gesture through `points`, pausing `stepMs` between
  * moves so the engine sees real per-frame deltas and a real release velocity.
+ *
+ * `park: true` holds the finger still at the last point before lifting it, so
+ * the release carries no velocity and no fling follows — see `park`.
  */
 export async function touchDrag(
   page: Page,
   points: Point[],
-  opts?: { stepMs?: number },
+  opts?: { stepMs?: number; park?: boolean },
 ) {
   const stepMs = opts?.stepMs ?? 16;
   const [first, ...rest] = points;
   if (!first) throw new Error("touchDrag needs at least one point");
   await touchStart(page, first);
+  let last = first;
   for (const point of rest) {
     await page.waitForTimeout(stepMs);
     await touchMove(page, point);
+    last = point;
   }
+  if (opts?.park) await park(page, last);
   await touchEnd(page);
+}
+
+/**
+ * Hold the finger still long enough that the release carries no velocity.
+ *
+ * Repeating the same point does nothing: the engine returns early on a zero
+ * delta (core/drag.ts `onMove`), so no sample is recorded and none of the older
+ * ones age out of the 100 ms window either — the stale velocity survives and a
+ * fling still runs. Two real 1 px moves further apart than that window are what
+ * empties it.
+ */
+export async function park(page: Page, point: Point) {
+  await page.waitForTimeout(120);
+  await touchMove(page, { x: point.x, y: point.y + 1 });
+  await page.waitForTimeout(120);
+  await touchMove(page, point);
 }
 
 /** A straight line of `steps` points from `from` to `to`, inclusive. */
@@ -82,15 +104,22 @@ export function line(from: Point, to: Point, steps: number): Point[] {
 
 export function readState(page: Page): Promise<SheetState> {
   return page.evaluate(() => {
-    const panel = document.querySelector("[data-testid=panel]") as HTMLElement;
+    // Named, because the alternatives are worse: a missing panel throws
+    // "Cannot read properties of null" from whichever line touches it first,
+    // and a missing body used to read as `scrollTop: 0` — a plausible value
+    // that turns a broken page into a confusing assertion failure.
+    const panel = document.querySelector<HTMLElement>("[data-testid=panel]");
+    if (!panel)
+      throw new Error("readState: no [data-testid=panel] on the page");
     const body = document.querySelector<HTMLElement>("[data-testid=body]");
+    if (!body) throw new Error("readState: no [data-testid=body] on the page");
     return {
       snapIndex: panel.dataset.snapIndex,
       y:
         Number.parseFloat(
           getComputedStyle(panel).getPropertyValue("--snap-sheet-y"),
         ) || 0,
-      scrollTop: body?.scrollTop ?? 0,
+      scrollTop: body.scrollTop,
       dragging: panel.dataset.dragging !== undefined,
       scrolling: panel.dataset.scrolling !== undefined,
     };

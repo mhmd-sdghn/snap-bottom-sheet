@@ -21,7 +21,9 @@ export default defineConfig({
   retries: process.env.CI ? 1 : 0,
   workers: 1,
   reporter: process.env.CI ? "line" : "list",
-  use: { baseURL: url },
+  // Kept only for failures: a green run leaves nothing behind, and the CI job
+  // uploads e2e/test-results when it fails.
+  use: { baseURL: url, trace: "retain-on-failure", video: "retain-on-failure" },
   projects: [{ name: "chromium", use: { ...devices["Pixel 7"] } }],
   webServer: {
     command:
