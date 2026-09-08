@@ -6,7 +6,11 @@ what your change has to pass.
 
 ## Prerequisites
 
-- **Node 22 or later.** CI uses 24, and `.nvmrc` pins it.
+- **Node 22.22.2 or later, 24.15 or later, or 26 and above.** The floors come
+  from the development toolchain rather than from the library: jsdom, tsdown
+  and vitest each refuse to run on older patch releases. CI uses 24, and
+  `.nvmrc` pins it. The published package itself has no Node requirement — it
+  runs in the browser.
 - **pnpm.** The repo is a pnpm workspace, and `packageManager` is pinned.
 
 ## Setup

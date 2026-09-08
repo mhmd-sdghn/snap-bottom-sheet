@@ -16,6 +16,11 @@ concurrency:
   group: pages
   cancel-in-progress: false
 
+# Nothing at workflow level: the jobs below ask for what they need, and a job
+# added later should have to ask too.
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest

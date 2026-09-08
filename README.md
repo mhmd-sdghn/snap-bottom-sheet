@@ -117,8 +117,8 @@ and CSS custom properties for position and progress. See
 
 ## Contributing
 
-You need Node 22 or later, and pnpm. Please see
-[CONTRIBUTING.md](./CONTRIBUTING.md).
+You need pnpm and a recent Node — 22.22.2 or later, 24.15 or later, or 26 and
+above. Please see [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## License
 
