@@ -60,7 +60,7 @@ Wrap a value in an object to give one snap its own behaviour.
 | Field | Type | Default | Description |
 | --- | --- | --- | --- |
 | `value` | `SnapValue` | — | Required. Any of the forms above. |
-| `scroll` | `boolean` | `false` | `Sheet.Body` scrolls at this snap, with `overflow-y: auto; flex: 1 1 auto`. Measurement of `"content"` pauses and holds the last measured value. With `false` the Body is `overflow: hidden; flex: 0 0 auto`, so `"content"` measures its natural height. |
+| `scroll` | `boolean` | `false` | `Sheet.Body` scrolls at this snap, with `overflow-y: auto; flex: 1 1 auto; touch-action: pan-x`. A touch gesture may cross between dragging the sheet and scrolling the body without a lift; see [Scrolling](/guide/scrolling). Measurement of `"content"` pauses and holds the last measured value. With `false` the Body is `overflow: hidden; flex: 0 0 auto`, so `"content"` measures its natural height. |
 | `drag` | `boolean \| { up?: boolean; down?: boolean }` | `true` | Whether a drag may leave this snap. `false` pins it in both directions. The object form locks one direction, so `{ down: false }` lets the user drag up but not down. Each field inside defaults to `true`. |
 
 ```tsx

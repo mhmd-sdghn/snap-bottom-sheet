@@ -27,8 +27,8 @@ to `controller.update()`.
 | `dismissible` | `boolean` | `true` | A drag below the lowest snap, an overlay click and Escape all close the sheet. With `false` the sheet returns to the lowest snap instead, which is how you refuse a dismissal. |
 | `skipInitialAnimation` | `boolean` | `false` | Mount at the active snap rather than animating up from closed. |
 | `reducedMotion` | `boolean \| "system"` | `"system"` | `true` makes every transition immediate. `"system"` follows `prefers-reduced-motion: reduce`. |
-| `onDragStart` | `() => void` | — | The drag passed the 3 px threshold. |
-| `onDragEnd` | `(targetIndex: number) => void` | — | The target of the release has been chosen, and the spring has not started yet. `-1` means the sheet is closing. When a drag dismisses the sheet, `onDragEnd(-1)` runs **before** `onOpenChange(false)`. |
+| `onDragStart` | `() => void` | — | The gesture passed the 3 px threshold and the sheet has taken it. A gesture inside a scrollable `Sheet.Body` counts, because the sheet owns both its phases. |
+| `onDragEnd` | `(targetIndex: number) => void` | — | The target of the release has been chosen, and the spring has not started yet. `-1` means the sheet is closing. When a drag dismisses the sheet, `onDragEnd(-1)` runs **before** `onOpenChange(false)`. When the release happened while the gesture was scrolling the body's content, it reports the snap the sheet is resting at. |
 | `onAnimationEnd` | `(open: boolean) => void` | — | The open or close spring came to rest. The close one is what unmounts the portal subtree. |
 | `children` | `React.ReactNode` | — | Rendered only while the sheet is present, meaning open or still playing its close animation. |
 | `ref` | `Ref<SheetHandle>` | — | The imperative handle. See [`SheetHandle`](#sheethandle). |
@@ -172,7 +172,7 @@ The panel. Everything else lives inside it.
 | Renders | `<div>`, with children wrapped in a single inner `<div data-snap-sheet-inner>` |
 | Own props | none beyond native `div` props |
 | Attributes | `role="dialog"`, `aria-modal` when `modal`, `aria-labelledby` and `aria-describedby` from a rendered `Sheet.Title` and `Sheet.Description`, and `tabindex="-1"` if you did not set one |
-| Data attributes | `data-state`, `data-snap-index`, `data-dragging`, `data-content-mode` |
+| Data attributes | `data-state`, `data-snap-index`, `data-dragging`, `data-scrolling`, `data-content-mode` |
 | CSS properties | `--snap-sheet-y`, `--snap-sheet-progress`, `--snap-sheet-offset` |
 | Behaviour | This is the drag target. The base layout styles are written once at attach, and `transform` and the CSS properties are written on every frame. |
 
@@ -185,6 +185,10 @@ The panel. Everything else lives inside it.
   `touch-action: none`, `overscroll-behavior: none`. Inline styles you set
   afterwards win, so the background, radius and shadow are yours.
 - No panel visuals ship with the library. There is no CSS file to import.
+- `data-dragging` is present while a gesture is moving the sheet, and
+  `data-scrolling` while a gesture is scrolling the body's content. They are the
+  two phases of one gesture, so they never appear together, and both are removed
+  on release.
 
 ### `Sheet.Handle`
 
@@ -222,11 +226,14 @@ You may mount and unmount it freely. The root registers it again through
 | --- | --- |
 | Renders | `<div>` |
 | Own props | none beyond native `div` props |
-| Behaviour | The scroll region. At attach it gets `min-height: 0` and `overscroll-behavior: contain`. For each active snap it gets `overflow-y: auto; flex: 1 1 auto` when that snap has `scroll: true`, and `overflow: hidden; flex: 0 0 auto` otherwise. The choice between scrolling and dragging is made on this element. |
+| Behaviour | The scroll region. At attach it gets `min-height: 0` and `overscroll-behavior: contain`. For each active snap it gets `overflow-y: auto; flex: 1 1 auto; touch-action: pan-x` when that snap has `scroll: true`, and `overflow: hidden; flex: 0 0 auto` otherwise. At a scrolling snap the engine drives this element's `scrollTop` for touch gestures. |
 
-At a `scroll: true` snap, a downward drag takes over only when
-`body.scrollTop <= 0`, or when the sheet has already moved. Otherwise the native
-scroll keeps the gesture. See [Scrolling](/guide/scrolling).
+At a `scroll: true` snap, a touch gesture inside the body belongs to the sheet
+in both of its phases. Dragging up moves the sheet as far as that snap, and the
+rest of the same movement scrolls the content. Scrolling to the top of the
+content and carrying on drags the sheet down again. The wheel, the keyboard and
+the scrollbar stay native, and `touch-action: pan-x` leaves horizontal panning
+native too. See [Scrolling](/guide/scrolling).
 
 ### `Sheet.Title`
 

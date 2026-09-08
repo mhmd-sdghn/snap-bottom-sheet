@@ -18,7 +18,7 @@ The controller sets these base layout styles inline on the Content panel **once*
 
 They are written once, at attach, so **any inline style you set afterwards wins**. That includes a `style` prop on `Sheet.Content`, which React re-applies on every render. Overriding `position` or `height` will break the position model, but `background`, `border-radius`, `max-width` and the like are all yours.
 
-On every frame the controller then writes `transform`, `--snap-sheet-y` and `--snap-sheet-progress`. It sets `will-change: transform` only while the sheet is dragging or animating. At rest it writes `padding-bottom`, `--snap-sheet-offset` and the `data-*` attributes. It also changes `Sheet.Body`'s `flex` and `overflow-y` as the active snap's `scroll` option changes. See [Scrolling](/guide/scrolling).
+On every frame the controller then writes `transform`, `--snap-sheet-y` and `--snap-sheet-progress`. It sets `will-change: transform` only while the sheet is dragging or animating. At rest it writes `padding-bottom`, `--snap-sheet-offset` and the `data-*` attributes. It also changes `Sheet.Body`'s `flex`, `overflow-y` and `touch-action` as the active snap's `scroll` option changes, and it writes the body's `scrollTop` while a touch gesture is scrolling the content. See [Scrolling](/guide/scrolling).
 
 On the **Overlay** it writes two declarations, again once at attach: `inset: 0`, and `position: fixed`, which becomes `absolute` when `Sheet.Portal` has a `container`. Your overlay rule therefore needs no positioning of its own, so please leave `position` and `inset` out of it. The colour, `pointer-events` and `z-index` are entirely yours.
 
@@ -34,10 +34,13 @@ The controller writes these straight to the DOM, so your CSS can use them withou
 |---|---|---|
 | `data-state` | Overlay, Content | `"open"` or `"closed"` |
 | `data-snap-index` | Content | the active index, in **your** array order |
-| `data-dragging` | Content | present while a drag is in progress |
+| `data-dragging` | Content | present while a gesture is moving the sheet |
+| `data-scrolling` | Content | present while a gesture is scrolling the body's content |
 | `data-content-mode` | Content | present when the sheet is in content mode |
 
-`data-dragging` and `data-content-mode` are **presence** attributes. The controller adds them as empty attributes and removes them again. It never writes them as `"false"`. So match on presence, with `[data-dragging]`, and not on a value: `[data-dragging="true"]` will not match either. In content mode, `data-snap-index` is `"0"`, because the snap the sheet creates for itself is still an index.
+`data-dragging`, `data-scrolling` and `data-content-mode` are **presence** attributes. The controller adds them as empty attributes and removes them again. It never writes them as `"false"`. So match on presence, with `[data-dragging]`, and not on a value: `[data-dragging="true"]` will not match either. In content mode, `data-snap-index` is `"0"`, because the snap the sheet creates for itself is still an index.
+
+A gesture inside a scrollable `Sheet.Body` has two phases, and the two attributes follow them. `data-dragging` is present only while the finger is moving the sheet, `data-scrolling` only while the finger is scrolling the content. They never appear together, and both are removed on release, so the momentum that follows a scroll carries neither.
 
 ```css
 /* A heavier shadow once the sheet is at its topmost snap. */
@@ -45,8 +48,9 @@ The controller writes these straight to the DOM, so your CSS can use them withou
   box-shadow: 0 -12px 40px rgb(0 0 0 / 0.28);
 }
 
-/* Kill the hover affordance mid-drag. */
-.sheet[data-dragging] .row:hover {
+/* Kill the hover affordance mid-gesture. */
+.sheet[data-dragging] .row:hover,
+.sheet[data-scrolling] .row:hover {
   background: none;
 }
 

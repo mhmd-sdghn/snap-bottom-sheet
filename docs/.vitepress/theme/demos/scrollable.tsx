@@ -33,7 +33,8 @@ function Scrollable({ frame }: { frame: HTMLElement }) {
                 Scroll, then drag
               </Sheet.Title>
               <Sheet.Description className="demo-description">
-                Scroll the list. At the top, pull down and the sheet takes over.
+                Drag the list up: the sheet rises, then the same movement
+                scrolls. Scroll back to the top and it drags again.
               </Sheet.Description>
             </Sheet.Header>
             <Sheet.Body className="demo-body">

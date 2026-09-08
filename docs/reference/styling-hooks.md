@@ -11,17 +11,24 @@ render, and your CSS reads them.
 | Attribute | Element | Values | When it changes |
 | --- | --- | --- | --- |
 | `data-state` | Content, Overlay | `"open"` \| `"closed"` | It becomes `"open"` the moment `open()` starts. It returns to `"closed"` **after** the close animation comes to rest, so a CSS transition still plays. `SheetState.open` is already `false` by then, because it turns over when the close *starts*. At attach the attribute is written as `"closed"`. |
-| `data-snap-index` | Content | the active index as a string (`"0"`, `"1"`, …) | At rest, once a snap transition has finished. In content mode it is always `"0"`, because there is only the one snap the controller built. |
-| `data-dragging` | Content | present (empty value) or absent | Added when the drag passes the 3 px threshold, and removed on release. |
+| `data-snap-index` | Content | the active index as a string (`"0"`, `"1"`, …) | At rest, once a snap transition has finished. It is also written mid-gesture at the moment a drag reaches a scrolling snap and the content takes over, because the sheet is resting at that snap from then on. In content mode it is always `"0"`, because there is only the one snap the controller built. |
+| `data-dragging` | Content | present (empty value) or absent | Added when a gesture starts moving the sheet, and removed on release. |
+| `data-scrolling` | Content | present (empty value) or absent | Added while a gesture is scrolling the body's content, removed on release. |
 | `data-content-mode` | Content | present (empty value) or absent | Set at attach, and worked out again on `update({ snapPoints })`. It is present when there are no real snap points, meaning `[]` or only `"content"`. |
 | `data-snap-sheet-inner` | the single wrapper `div` inside Content | present | Never changes. `Sheet.Content` always renders it, and it is the element measured for the `"content"` snap value. In vanilla, please add it yourself. |
-| `data-snap-sheet-no-drag` | any descendant of Content, and **you** write this one | present | Never changes. The drag recogniser ignores a `pointerdown` inside a subtree that carries it, so sliders, maps, carousels and swipeable rows keep their own gestures. |
+| `data-snap-sheet-no-drag` | any descendant of Content, and **you** write this one | present | Never changes. The gesture layer ignores a `pointerdown` inside a subtree that carries it, so neither a drag nor a library scroll starts there, and sliders, maps, carousels and swipeable rows keep their own gestures. |
 
-`data-dragging` and `data-content-mode` are **presence** attributes. They are
-written with an empty value and removed again, and never set to `"false"`. So
-match them with `[data-dragging]` and `[data-content-mode]`, and match their
-absence with `:not([data-dragging])`. A selector like `[data-dragging="false"]`
-never matches anything.
+`data-dragging`, `data-scrolling` and `data-content-mode` are **presence**
+attributes. They are written with an empty value and removed again, and never
+set to `"false"`. So match them with `[data-dragging]` and `[data-content-mode]`,
+and match their absence with `:not([data-dragging])`. A selector like
+`[data-dragging="false"]` never matches anything.
+
+`data-dragging` and `data-scrolling` are the two phases of one gesture, and they
+are mutually exclusive. Inside a scrollable `Sheet.Body`, the finger first moves
+the sheet, under `data-dragging`, and then scrolls the content, under
+`data-scrolling`. Both are removed on release, so the momentum that carries the
+content afterwards has neither. See [Scrolling](/guide/scrolling).
 
 Server-rendered markup carries no `data-*` attributes, because there is no state
 until the controller attaches on the client.
@@ -91,13 +98,16 @@ removed, or when the sheet is destroyed. See
 [`Sheet.Overlay`](/reference/react#sheet-overlay).
 
 **Every frame, from the spring.** `transform`, `--snap-sheet-y` and
-`--snap-sheet-progress`, on Content and on Overlay. `data-dragging` is added and
-removed at the start and end of a drag. These are direct style writes, so there
-is no React render per frame, and `useSheetState()` still notifies you only once
-per frame.
+`--snap-sheet-progress`, on Content and on Overlay. `data-dragging` and
+`data-scrolling` are added and removed as the gesture enters and leaves each of
+its phases. These are direct style writes, so there is no React render per
+frame, and `useSheetState()` still notifies you only once per frame.
 
 **At rest only.** `padding-bottom` and `--snap-sheet-offset`, `data-snap-index`,
-and the `Sheet.Body` pair of `overflow` and `flex` for the active snap.
+and the `Sheet.Body` set of `overflow`, `flex` and `touch-action` for the active
+snap. `Sheet.Body`'s `scrollTop` is written outside all of these: the engine
+drives it while a touch gesture scrolls the content, and while the momentum
+afterwards runs.
 
 ::: info `--snap-sheet-offset` is out of date during a drag, on purpose
 The panel is always full height, so no gap opens while you drag it up.
