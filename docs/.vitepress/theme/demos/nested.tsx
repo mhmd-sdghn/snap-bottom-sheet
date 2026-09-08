@@ -17,12 +17,7 @@ function Nested({ frame }: { frame: HTMLElement }) {
         Open the sheet
       </button>
 
-      <Sheet
-        open={outer}
-        onOpenChange={setOuter}
-        snapPoints={[0.6]}
-        modal={false}
-      >
+      <Sheet open={outer} onOpenChange={setOuter} snapPoints={[0.6]}>
         <Sheet.Portal container={frame}>
           <Sheet.Overlay className="demo-overlay" />
           <Sheet.Content className="demo-sheet">
@@ -43,7 +38,7 @@ function Nested({ frame }: { frame: HTMLElement }) {
                 Choose payment
               </button>
 
-              <Sheet open={inner} onOpenChange={setInner} modal={false}>
+              <Sheet open={inner} onOpenChange={setInner}>
                 <Sheet.Portal container={frame}>
                   <Sheet.Overlay className="demo-overlay demo-overlay--inner" />
                   <Sheet.Content className="demo-sheet demo-sheet--inner">

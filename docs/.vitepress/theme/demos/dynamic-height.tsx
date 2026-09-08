@@ -22,7 +22,6 @@ function DynamicHeight({ frame }: { frame: HTMLElement }) {
         onOpenChange={setOpen}
         snapPoints={["header", "content"]}
         defaultSnapIndex={1}
-        modal={false}
       >
         <Sheet.Portal container={frame}>
           <Sheet.Overlay className="demo-overlay" />

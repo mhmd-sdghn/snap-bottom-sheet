@@ -15,9 +15,12 @@ itself — the snippet is extracted from the file that is running.
 | [Vanilla](/demos/vanilla) | `createSheet` against hand-written markup, no React |
 
 ::: info These demos live in a frame
-They portal into their own frame rather than `document.body`, which is what
-makes them safe to embed: with a `container`, a modal sheet locks *that*
-container instead of the document, so the page you are reading keeps scrolling.
-[Basic](/demos/basic) runs modal to show it. The rest stay non-modal to keep
-several demos usable on one page. See [Accessibility](/guide/accessibility).
+Each demo renders into its own frame instead of `document.body`. The frame is
+passed to `Sheet.Portal` as its `container`.
+
+Every demo runs modal, which is the default. A modal sheet with a `container`
+locks that container rather than the whole document, and marks only that
+container's children `inert`. This is why the page you are reading keeps
+scrolling, and why several modal demos can sit on one page and all stay usable.
+See [Accessibility](/guide/accessibility).
 :::

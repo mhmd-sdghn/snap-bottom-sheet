@@ -129,7 +129,7 @@ It is written when the spring comes to rest and is deliberately **stale during a
 
 ## The overlay fade
 
-The overlay has no opacity of its own — read the progress value. Positioning is already done for you, so the rule is two declarations:
+The overlay has no opacity of its own, so read the progress value. Positioning is already done for you, so the rule is two declarations:
 
 ```css
 .overlay {
@@ -139,6 +139,12 @@ The overlay has no opacity of its own — read the progress value. Positioning i
 ```
 
 For a dim that saturates before the topmost snap, scale and clamp it: `opacity: min(1, calc(var(--snap-sheet-progress) * 2))` reaches full dim halfway up the range.
+
+::: info The overlay only appears in a modal sheet
+When `modal` is `false`, the controller writes `display: none` on the overlay element, so none of these rules show. This is deliberate: a non-modal sheet is a panel rather than a dialog, and an invisible overlay across the whole view would swallow every click outside the sheet.
+
+You still render `Sheet.Overlay` as usual. The controller hides and shows it as `modal` changes, and puts your original inline `display` back when the sheet becomes modal again or the overlay goes away. See the [Overlay reference](/reference/react#sheet-overlay).
+:::
 
 ## Safe areas
 

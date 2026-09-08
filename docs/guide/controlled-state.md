@@ -141,18 +141,27 @@ interface SheetHandle {
 }
 ```
 
-`open()` on a closed sheet shows it, whether or not you control the `open` prop —
-that is the whole click-to-open trigger. `snapTo(i)` on a **closed** sheet only
-changes which snap it will open at; it does not open the sheet.
+`open()` on a closed sheet shows it, whether or not you control the `open` prop.
+That is the whole click-to-open trigger. `snapTo(i)` on a **closed** sheet only
+changes which snap it will open at. It does not open the sheet.
 
-All three methods return a promise that resolves when the spring rests (or
-immediately, with `{ immediate: true }`), so you can sequence work after a
-transition:
+Each method returns a promise, so you can sequence work after a transition:
 
 ```ts
 await sheet.current?.close();
 router.push("/next");
 ```
+
+When the promise resolves depends on the call:
+
+- `snapTo(i)` resolves when the spring rests, or straight away with
+  `{ immediate: true }`. On a closed sheet it resolves at once, because nothing
+  moves.
+- `open()` and `close()` resolve when the animation ends on an **uncontrolled**
+  sheet. On a **controlled** sheet they are only a request: the parent owns
+  `open` and may ignore it, so there is no animation to wait for and the promise
+  resolves immediately.
+- Any call that asks for the state the sheet is already in resolves immediately.
 
 `activeSnapIndex` and `y` are live reads, not React state — reading them does
 not subscribe you to anything and will not re-render your component.

@@ -32,7 +32,7 @@ export function mountVanilla(frame: HTMLElement) {
       handle: frame.querySelector<HTMLElement>("#v-handle"),
       container: frame,
     },
-    { modal: false, labelledBy: "v-title" },
+    { labelledBy: "v-title" },
   );
 
   frame.querySelector("#v-open")?.addEventListener("click", () => {
