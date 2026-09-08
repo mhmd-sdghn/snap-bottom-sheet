@@ -264,10 +264,21 @@ export const Sheet = forwardRef<SheetHandle, SheetProps>(
     // biome-ignore lint/correctness/useExhaustiveDependencies: see above
     useEffect(() => {
       const controller = controllerRef.current;
-      if (!controller || controller.getState().open === open) return;
+      if (!controller) return;
+      if (controller.getState().open === open) {
+        // Already agreed. This is also the only place that can release the
+        // presence gate when the close never animated: an immediate close
+        // (reducedMotion) started by the sheet itself fires onAnimationEnd
+        // *before* the render that turns `closing` on, so nothing else would
+        // ever turn it off and the panel would stay mounted for good.
+        if (!open && closing && !controller.getState().animating) {
+          setClosing(false);
+        }
+        return;
+      }
       if (open) controller.open();
       else controller.close();
-    }, [open, controllerVersion, reconcileVersion]);
+    }, [open, closing, controllerVersion, reconcileVersion]);
 
     // Same shape for the snap index: in controlled mode `setSnapIndex` cannot
     // change anything, so without reconcileVersion a drag would leave the
@@ -308,12 +319,19 @@ export const Sheet = forwardRef<SheetHandle, SheetProps>(
     // onOpenChange would leave `await handle.close()` hanging forever. Once the
     // sheet has settled in the opposite state with no animation running, the
     // request is moot — resolve it.
+    // biome-ignore lint/correctness/useExhaustiveDependencies: controllerVersion is the change detector
     useEffect(() => {
       if (closing) return;
       const pending = pendingRef.current;
       const moot = open ? pending.close : pending.open;
       for (const resolve of moot.splice(0)) resolve();
-    }, [open, closing]);
+      // Closed with no controller — `await handle.close()` from a mount effect
+      // on a `defaultOpen` sheet gets here before the panel ever attached.
+      // There is nothing left to animate, so that request is done too.
+      if (!open && !controllerRef.current) {
+        for (const resolve of pending.close.splice(0)) resolve();
+      }
+    }, [open, closing, controllerVersion]);
 
     // A caller awaiting open()/close() on a sheet that unmounts would otherwise
     // wait forever.

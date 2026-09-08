@@ -1,6 +1,7 @@
 import type { Ref, RefObject } from "react";
 import { createContext, useCallback, useContext, useRef } from "react";
 import type { SheetController } from "../core/sheet.ts";
+import { useIsomorphicLayoutEffect } from "./use-isomorphic-layout-effect.ts";
 
 /**
  * Parts the Root tracks. `content`…`container` are handed to the controller as
@@ -39,6 +40,30 @@ export function useSheetContext(part: string): SheetContextValue {
     );
   }
   return context;
+}
+
+/**
+ * Keep `aria-labelledby` / `aria-describedby` pointing at the id that is
+ * actually on the element.
+ *
+ * The Root registers the id when the element attaches, and reads it again
+ * whenever it builds a controller, so mount and unmount are already covered.
+ * What is not is a consumer `id` that *changes* while the element stays put:
+ * nothing re-registers, so the sheet would keep the first id for ever. Only a
+ * real change is pushed, which leaves the mount path at the single call the
+ * Root already makes.
+ */
+export function useAriaId(part: "title" | "description", id: string): void {
+  const { controllerRef } = useSheetContext(part);
+  const last = useRef(id);
+
+  useIsomorphicLayoutEffect(() => {
+    if (last.current === id) return;
+    last.current = id;
+    controllerRef.current?.update(
+      part === "title" ? { labelledBy: id } : { describedBy: id },
+    );
+  }, [part, id, controllerRef]);
 }
 
 /**

@@ -45,7 +45,11 @@ export function useSheetState<T>(
   // make the selector cost more than it saves.
   const selectorRef = useRef(selector);
   selectorRef.current = selector;
-  const selection = useRef<{ source: SheetState; value: T } | null>(null);
+  const selection = useRef<{
+    source: SheetState;
+    selector: (state: SheetState) => T;
+    value: T;
+  } | null>(null);
 
   // Resubscribing is the point: a new controller means a new store.
   // biome-ignore lint/correctness/useExhaustiveDependencies: see above
@@ -71,17 +75,24 @@ export function useSheetState<T>(
     const selectFn = selectorRef.current;
     if (!selectFn) return source;
 
-    // Memoised per source object, not for speed: `useSyncExternalStore`
-    // calls this several times per render and requires a stable result, so a
-    // selector returning a fresh object or array would otherwise hand React
-    // a new reference every call and trip its "getSnapshot should be cached"
-    // loop. React compares the value it gets back with `Object.is`, and that
-    // is what limits re-renders to actual changes.
+    // Memoised per source object *and* per selector, not for speed:
+    // `useSyncExternalStore` calls this several times per render and requires a
+    // stable result, so a selector returning a fresh object or array would
+    // otherwise hand React a new reference every call and trip its "getSnapshot
+    // should be cached" loop. React compares the value it gets back with
+    // `Object.is`, and that is what limits re-renders to actual changes. The
+    // selector is part of the key because it is usually an inline closure that
+    // reads props: the same state selected by a new closure can be a new value.
     const previous = selection.current;
-    if (previous && previous.source === source) return previous.value;
+    if (
+      previous &&
+      previous.source === source &&
+      previous.selector === selectFn
+    )
+      return previous.value;
 
     const value = selectFn(source);
-    selection.current = { source, value };
+    selection.current = { source, selector: selectFn, value };
     return value;
   }, []);
 
