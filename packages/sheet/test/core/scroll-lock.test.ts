@@ -102,6 +102,28 @@ describe("lockBodyScroll", () => {
   });
 
   describe("container-scoped lock", () => {
+    it("pins the container's scroll position while it is locked", () => {
+      const container = document.createElement("div");
+      document.body.append(container);
+      Object.defineProperty(container, "scrollTop", {
+        value: 0,
+        writable: true,
+        configurable: true,
+      });
+      container.scrollTop = 42;
+
+      const release = lockContainerScroll(container);
+
+      // `overflow: hidden` stops the user scrolling but not focus reveal or Tab
+      // navigation, and any scroll shifts the overlay out of the container.
+      expect(container.scrollTop).toBe(0);
+
+      release();
+
+      // and the consumer's own scroll position comes back
+      expect(container.scrollTop).toBe(42);
+    });
+
     it("locks the container and leaves the document alone", () => {
       const container = document.createElement("div");
       container.style.overflow = "auto";

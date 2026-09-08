@@ -193,6 +193,24 @@ describe("applyInert", () => {
 });
 
 describe("focusFirst", () => {
+  it("never scrolls an ancestor to reveal what it focuses", () => {
+    const el = div("<button id='b'>go</button>");
+    const target = el.querySelector<HTMLElement>("#b") as HTMLElement;
+    const calls: (FocusOptions | undefined)[] = [];
+    target.focus = (options?: FocusOptions) => {
+      calls.push(options);
+    };
+
+    focusFirst(el);
+
+    // In container mode the panel is translated past the container's bottom, so
+    // it makes the container scrollable; focus lands while the panel is still
+    // at its closed position and a scroll-into-view drags the overlay out of
+    // the frame with it.
+    expect(calls).toHaveLength(1);
+    expect(calls[0]?.preventScroll).toBe(true);
+  });
+
   it("focuses the first focusable child", () => {
     const el = div("<div>text</div><button>ok</button><input />");
     focusFirst(el);

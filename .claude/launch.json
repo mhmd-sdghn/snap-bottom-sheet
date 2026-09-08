@@ -26,6 +26,12 @@
         "--strictPort"
       ],
       "port": 5174
+    },
+    {
+      "name": "docs-preview",
+      "runtimeExecutable": "pnpm",
+      "runtimeArgs": ["--filter", "snap-bottom-sheet-docs", "docs:preview"],
+      "port": 4173
     }
   ]
 }

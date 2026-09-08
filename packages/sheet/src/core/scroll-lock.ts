@@ -75,6 +75,7 @@ export function isBodyScrollLocked(): boolean {
 interface SavedContainerStyles {
   overflow: string;
   overscrollBehavior: string;
+  scrollTop: number;
 }
 
 interface ContainerLock {
@@ -106,10 +107,17 @@ export function lockContainerScroll(container: HTMLElement): () => void {
       saved: {
         overflow: container.style.overflow,
         overscrollBehavior: container.style.overscrollBehavior,
+        scrollTop: container.scrollTop,
       },
     });
     container.style.overflow = "hidden";
     container.style.overscrollBehavior = "none";
+    // The panel is absolutely positioned and translated down by `y`, so it
+    // overflows the container and leaves it scrollable however hidden the
+    // overflow is. Any scroll — focus reveal, Tab navigation, a consumer's
+    // autofocus — shifts the overlay out of the container with it, so the
+    // scroll position is pinned for as long as the sheet owns the container.
+    container.scrollTop = 0;
   }
 
   return once(() => {
@@ -119,6 +127,7 @@ export function lockContainerScroll(container: HTMLElement): () => void {
     if (lock.count > 0) return;
     container.style.overflow = lock.saved.overflow;
     container.style.overscrollBehavior = lock.saved.overscrollBehavior;
+    container.scrollTop = lock.saved.scrollTop;
     containerLocks.delete(container);
   });
 }
