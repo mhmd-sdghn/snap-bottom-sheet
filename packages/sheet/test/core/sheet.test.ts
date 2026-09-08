@@ -12,6 +12,7 @@ import {
   resizeTo,
   setHeight,
   settle,
+  stubScroller,
   ViewHeight,
 } from "../helpers/env.ts";
 import { fire, press } from "../helpers/pointer.ts";
@@ -308,7 +309,7 @@ describe("createSheet", () => {
     expect(yOf(stubborn.content)).toBe(700);
   });
 
-  it("6. honours drag locks and lets body scroll win", async () => {
+  it("6. honours drag locks and scrolls the body before the sheet", async () => {
     const locked = fixture();
     const controller = make(locked, {
       snapPoints: [{ value: 0.5, drag: { down: false } }],
@@ -331,22 +332,22 @@ describe("createSheet", () => {
     await ready;
 
     const bodyEl = el.body as HTMLElement;
-    Object.defineProperty(bodyEl, "scrollTop", {
-      value: 50,
-      writable: true,
-      configurable: true,
-    });
+    stubScroller(bodyEl, { scrollHeight: 3000, clientHeight: 400 });
+    bodyEl.scrollTop = 50;
 
-    // mid-scroll: the native scroll keeps the gesture
-    drag(bodyEl, 0, 100, { up: false });
-    expect(scroller.getState().dragging).toBe(false);
-    expect(yOf(el.content)).toBe(500);
-    fire(bodyEl, "pointerup", { clientY: 100, timeStamp: 210 });
-
-    // at the top, pulling down: the drag wins
-    bodyEl.scrollTop = 0;
+    // mid-scroll: the content takes the gesture until it is back at its top,
+    // and the remaining 50 px of the same drag move the sheet down
     drag(bodyEl, 0, 100, { up: false });
     expect(scroller.getState().dragging).toBe(true);
+    expect(bodyEl.scrollTop).toBe(0);
+    expect(yOf(el.content)).toBe(550);
+    fire(bodyEl, "pointerup", { clientY: 100, timeStamp: 210 });
+    await settle(scroller);
+
+    // already at the top: the whole drag is the sheet's
+    drag(bodyEl, 0, 100, { up: false });
+    expect(scroller.getState().dragging).toBe(true);
+    expect(bodyEl.scrollTop).toBe(0);
     expect(yOf(el.content)).toBe(600);
     fire(bodyEl, "pointerup", { clientY: 100, timeStamp: 210 });
   });
@@ -1391,7 +1392,7 @@ describe("createSheet", () => {
     expect(el.inner.style.flex).toBe("1 1 auto");
   });
 
-  it("B.6 freezes the body's own scrolling for a taken-over gesture", async () => {
+  it("B.6 keeps the body a scroller while the sheet drags", async () => {
     const el = fixture();
     const body = el.body as HTMLElement;
     const controller = make(el, {
@@ -1402,27 +1403,34 @@ describe("createSheet", () => {
     await opened;
     expect(body.style.overflowY).toBe("auto");
 
-    Object.defineProperty(body, "scrollTop", {
-      value: 0,
-      writable: true,
-      configurable: true,
-    });
+    stubScroller(body, { scrollHeight: 3000, clientHeight: 400 });
 
-    // pull down from the very top: the sheet takes the gesture
+    // at the top of the list, moving down: the sheet takes the gesture
     fire(body, "pointerdown", { clientY: 0, timeStamp: 0 });
     fire(body, "pointermove", { clientY: 8, timeStamp: 10 });
     expect(controller.getState().dragging).toBe(true);
-    // while the sheet owns it, the list must not scroll underneath
-    expect(body.style.overflow).toBe("hidden");
-    expect(body.style.touchAction).toBe("none");
+    // B.6 used to freeze the body here. The arbiter decides per frame instead,
+    // so the styles that make the body a scroller must stay exactly as they are
+    // — a reversal mid-gesture scrolls the list, and nothing reflows.
+    expect(body.style.overflowY).toBe("auto");
+    expect(body.style.touchAction).toBe("pan-x");
+    expect(body.style.getPropertyValue("overflow")).toBe("");
 
     fire(body, "pointermove", { clientY: 120, timeStamp: 100 });
-    fire(body, "pointerup", { clientY: 120, timeStamp: 110 });
+    expect(yOf(el.content)).toBe(620);
+    // and back up: the list scrolls, the sheet stops at its snap
+    fire(body, "pointermove", { clientY: 0, timeStamp: 140 });
+    expect(yOf(el.content)).toBe(500);
+    expect(body.scrollTop).toBe(0);
+    fire(body, "pointermove", { clientY: -40, timeStamp: 180 });
+    expect(yOf(el.content)).toBe(500);
+    expect(body.scrollTop).toBe(40);
+
+    fire(body, "pointerup", { clientY: -40, timeStamp: 190 });
     await settle(controller);
 
-    // and the snap's own layout comes back at rest
     expect(body.style.overflowY).toBe("auto");
-    expect(body.style.touchAction).toBe("");
+    expect(body.style.touchAction).toBe("pan-x");
   });
 
   it("B.3 a partial scroll snap bounds the body at the fold (P0-8)", async () => {
