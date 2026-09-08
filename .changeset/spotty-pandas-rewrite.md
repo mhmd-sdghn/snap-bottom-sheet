@@ -89,3 +89,16 @@ Bugs in 0.x that the rewrite removes, each with a regression test:
 - Styling is CSS, not props: `data-state`, `data-snap-index`, `data-dragging`,
   `data-content-mode`, and the `--snap-sheet-y` / `-progress` / `-offset` custom
   properties. No stylesheet ships.
+
+### Escape and the modal lock
+
+- **A modal sheet always takes the Escape key, even when it cannot be
+  dismissed.** With `dismissible: false` the sheet stays open and nothing else
+  happens. Escape does not pass through to a sheet behind it. Otherwise the
+  wrong sheet would close: the one the reader is not looking at.
+- **A custom `container` scopes the modal lock to that container.** When
+  `Sheet.Portal` has a `container` (or you pass `elements.container` to
+  `createSheet`), a modal sheet locks that element's scrolling and marks only
+  its children `inert`. The rest of the page keeps scrolling and stays
+  interactive. With the default `document.body`, the whole page is locked as you
+  would expect.

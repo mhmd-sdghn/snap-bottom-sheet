@@ -15,8 +15,8 @@ import mount from "../.vitepress/theme/demos/basic.tsx";
 
 ::: info This demo is modal
 It runs with the default `modal`, and the page you are reading still scrolls.
-When `Sheet.Portal` has a `container`, the scroll lock is scoped to that
-container rather than the document, so an embedded sheet is modal within its
-own box: `inert` covers the frame's children, Escape still closes, and the host
+When `Sheet.Portal` has a `container`, the scroll lock covers that container
+instead of the document. The sheet is then modal inside its own box. `inert`
+covers the frame's children, Escape still closes the sheet, and the rest of the
 page is left alone. See [Accessibility](/guide/accessibility).
 :::

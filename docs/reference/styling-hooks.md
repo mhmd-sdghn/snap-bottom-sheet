@@ -79,6 +79,14 @@ The three groups differ, and the difference is visible.
 `aria-labelledby`/`aria-describedby`, `tabindex="-1"`, the Overlay's
 `aria-hidden`, the Handle's `aria-label`. Inline styles you set after attach win.
 
+**When `modal` changes.** The Overlay's `display`. A non-modal sheet has no
+overlay, so the controller writes `display: none` on the element while `modal`
+is `false`. It checks this at attach, on every `update({ modal })`, and whenever
+the overlay element itself is swapped in or out. Your own inline `display` is
+saved first and restored when the sheet becomes modal again, when the overlay is
+removed, or when the sheet is destroyed. See
+[`Sheet.Overlay`](/reference/react#sheet-overlay).
+
 **Every frame, from the spring.** `transform`, `--snap-sheet-y`, and
 `--snap-sheet-progress` (on Content and Overlay). `data-dragging` flips at the
 start and end of a drag. These are direct style writes — no React render per

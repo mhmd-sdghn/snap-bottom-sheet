@@ -52,7 +52,6 @@ function Controlled({ frame }: { frame: HTMLElement }) {
         activeSnapIndex={index}
         onSnapIndexChange={setIndex}
         snapPoints={[0.35, 0.75]}
-        modal={false}
       >
         <Sheet.Portal container={frame}>
           <Sheet.Overlay className="demo-overlay" />

@@ -30,7 +30,6 @@ function SnapPoints({ frame }: { frame: HTMLElement }) {
         onOpenChange={setOpen}
         snapPoints={[0.25, 0.5, 0.9]}
         defaultSnapIndex={1}
-        modal={false}
       >
         <Sheet.Portal container={frame}>
           <Sheet.Overlay className="demo-overlay" />

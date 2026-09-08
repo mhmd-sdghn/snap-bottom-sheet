@@ -21,7 +21,6 @@ function Scrollable({ frame }: { frame: HTMLElement }) {
         onOpenChange={setOpen}
         snapPoints={[0.4, { value: 1, scroll: true }]}
         defaultSnapIndex={1}
-        modal={false}
       >
         <Sheet.Portal container={frame}>
           <Sheet.Overlay className="demo-overlay" />

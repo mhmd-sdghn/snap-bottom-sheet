@@ -122,13 +122,32 @@ Renders its children into a portal. Nothing else.
 | Own props | none beyond native `div` props |
 | Data attributes | `data-state="open" \| "closed"` |
 | CSS properties | `--snap-sheet-progress` |
-| Behaviour | Click closes the sheet when `dismissible`; `aria-hidden="true"` is set at attach. |
+| Behaviour | Click closes the sheet when `dismissible`; `aria-hidden="true"` is set at attach. Hidden with `display: none` while `modal` is `false`. |
 
-Render it only in a modal sheet. The controller positions the overlay for you —
-at attach it writes `position: fixed` (or `absolute` when `Sheet.Portal` has a
-`container`) and `inset: 0` on the element, so your CSS only has to supply
-colour. `--snap-sheet-progress` is written on the overlay element itself, so the
-fade is one line:
+The overlay belongs to a modal sheet. A non-modal sheet is a panel, not a
+dialog, so an overlay there would be an invisible full-screen click catcher
+that closes the sheet on any outside click.
+
+You do not have to render it conditionally. The controller hides the overlay
+for you whenever `modal` is `false`, by writing `display: none` on the element.
+It does this in three places:
+
+- **At attach**, when the overlay is first wired up.
+- **On `update({ modal })`**, so switching a live sheet between modal and
+  non-modal shows or hides the overlay straight away. In React this is any
+  render that changes the `modal` prop.
+- **When the overlay element itself changes**, through
+  `setElements({ overlay })` — for example when you mount or unmount
+  `Sheet.Overlay`.
+
+The hiding is reversible. The controller remembers whatever inline `display`
+the element had, and puts it back when the sheet becomes modal again, when the
+overlay is unmounted, or when the sheet is destroyed.
+
+The controller also positions the overlay for you. At attach it writes
+`position: fixed` (or `absolute` when `Sheet.Portal` has a `container`) and
+`inset: 0`, so your CSS only has to supply colour. `--snap-sheet-progress` is
+written on the overlay element itself, so the fade is one line:
 
 ```tsx
 <Sheet.Overlay className="overlay" />
