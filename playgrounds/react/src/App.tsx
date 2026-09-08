@@ -318,6 +318,37 @@ function ContainerScenario() {
   );
 }
 
+/** 8. Drag and scroll in one gesture: the sheet stops at the scroll snap. */
+function HandoffScenario() {
+  const [open, setOpen] = useState(false);
+  return (
+    <>
+      <button type="button" data-testid="open" onClick={() => setOpen(true)}>
+        Open handoff sheet
+      </button>
+      <Sheet
+        open={open}
+        onOpenChange={setOpen}
+        snapPoints={["header", { value: 0.5, scroll: true }, 1]}
+        modal={false}
+      >
+        <Sheet.Portal>
+          <Sheet.Content className="panel" data-testid="panel">
+            <Sheet.Handle className="handle" data-testid="handle" />
+            <Sheet.Header className="sheet-header">
+              <Sheet.Title>Drag and scroll</Sheet.Title>
+              <StateReadout />
+            </Sheet.Header>
+            <Sheet.Body className="sheet-body" data-testid="body">
+              <Filler count={100} label="Row" />
+            </Sheet.Body>
+          </Sheet.Content>
+        </Sheet.Portal>
+      </Sheet>
+    </>
+  );
+}
+
 const Scenarios = [
   {
     id: "login",
@@ -328,7 +359,7 @@ const Scenarios = [
   {
     id: "peek",
     title: "Map-style peek sheet",
-    hint: '["header", 0.5, { value: 1, scroll: true }] and non-modal. Drag between the three snaps; at the top, scroll the list, then pull down from the very top to drag instead.',
+    hint: '["header", 0.5, { value: 1, scroll: true }] and non-modal. Drag between the three snaps. At the top snap the list scrolls, and scrolling it back to the top hands the same movement over to the sheet.',
     Component: PeekScenario,
   },
   {
@@ -360,6 +391,12 @@ const Scenarios = [
     title: "Custom Portal container",
     hint: "The sheet renders inside the phone frame: position absolute, view height = the frame's. The rest of the page stays interactive.",
     Component: ContainerScenario,
+  },
+  {
+    id: "handoff",
+    title: "Drag ↔ scroll handoff",
+    hint: "The middle snap is { value: 0.5, scroll: true }. Start the gesture in the list and move up: the sheet rises to that snap, stops there, and the same finger movement carries on into scrolling. Move back down and the list scrolls to its top, then the sheet follows your finger again. The handle has no such ceiling — drag it up and the sheet goes all the way.",
+    Component: HandoffScenario,
   },
 ] as const;
 

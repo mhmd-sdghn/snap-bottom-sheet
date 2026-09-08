@@ -2,6 +2,7 @@ packages:
   - packages/*
   - playgrounds/*
   - docs
+  - e2e
 
 # pnpm 10 spelling of build-script approval (pnpm 11 renamed it to `allowBuilds`).
 # esbuild: Vite. lefthook: postinstall installs the git hooks.

@@ -18,6 +18,7 @@
     "playground-next",
     "@snap-bottom-sheet/spring",
     "@snap-bottom-sheet/gesture",
-    "playground-vanilla"
+    "playground-vanilla",
+    "snap-bottom-sheet-e2e"
   ]
 }

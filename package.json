@@ -18,6 +18,7 @@
     "docs:build": "pnpm --filter snap-bottom-sheet-docs docs:build",
     "docs:preview": "pnpm --filter snap-bottom-sheet-docs docs:preview",
     "verify:pkg": "pnpm --filter snap-bottom-sheet verify:pkg",
+    "e2e": "pnpm --filter snap-bottom-sheet-e2e test",
     "check:dist": "pnpm --filter snap-bottom-sheet check:dist",
     "changeset": "changeset",
     "release": "pnpm typecheck && pnpm test && pnpm build && pnpm check:dist && pnpm verify:pkg && changeset publish"
