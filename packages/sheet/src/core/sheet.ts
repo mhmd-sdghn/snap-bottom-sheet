@@ -290,6 +290,13 @@ export function createSheet(
 
   // ---------------------------------------------------------------- position
 
+  /**
+   * Bumped by every snapTo that gets past its guards. A later call supersedes
+   * an earlier one, including one made *from inside* `onSnapIndexChange` — the
+   * outer call would otherwise carry on and animate to its own stale target.
+   */
+  let snapSeq = 0;
+
   const snapTo = async (
     index: number,
     o: { immediate?: boolean; velocity?: number } = {},
@@ -303,12 +310,15 @@ export function createSheet(
         `Snap index ${index} is not available — using ${target.index}.`,
       );
     }
+    const seq = ++snapSeq;
     if (target.index !== snapIndex) {
       snapIndex = target.index;
       notify();
       // Content mode synthesizes its single position, so there is no index the
       // consumer gave us to report a change against.
       if (!contentMode()) opts.onSnapIndexChange?.(target.index, target.point);
+      // The callback may have called snapTo again; that call owns the target.
+      if (seq !== snapSeq) return;
     }
     // Closed: record the index the next open() will use, but leave the panel
     // where it is — animating behind `data-state="closed"` is invisible work.
@@ -319,7 +329,7 @@ export function createSheet(
     // otherwise leave data-snap-index and the padding stale until the churn
     // stopped, even though the panel did come to rest.
     await spring.set(target.y, { immediate, velocity: o.velocity });
-    if (destroyed) return;
+    if (destroyed || seq !== snapSeq) return;
     notify();
     maybeFinalize();
   };
@@ -359,15 +369,19 @@ export function createSheet(
       return Promise.resolve();
     }
     isOpen = true;
+    // Focus is remembered *before* engage(): engage() marks the siblings
+    // `inert`, and a browser blurs the focused element when its subtree becomes
+    // inert — so afterwards the trigger is gone and <body> is all there is to
+    // remember. PLAN §3.6 scopes focus management to modal: a non-modal sheet
+    // is a persistent panel and must not steal focus from whatever the user
+    // is on.
+    if (modal()) guard.captureFocus();
     if (modal()) guard.engage();
     // Re-arm separately from engage(): a dismissal that the consumer vetoes by
     // re-opening from inside onOpenChange gets here while the close animation
     // has not disengaged yet, so the idempotent engage() early-returns — but
     // closeWith() has already popped this sheet off the Escape stack.
     if (modal()) guard.ensureEscape();
-    // PLAN §3.6 scopes focus management to modal: a non-modal sheet is a
-    // persistent panel and must not steal focus from whatever the user is on.
-    if (modal()) guard.captureFocus();
     setDataState(true);
     notify();
 
@@ -385,10 +399,20 @@ export function createSheet(
 
   const closeWith = (dismissed: boolean): Promise<void> => {
     if (destroyed || !isOpen) {
-      // Nothing open, but a deferral may still be queued: cancel and settle it.
+      // Nothing open, but a deferral may still be queued: cancel it, drop the
+      // open transition it opened, and settle its waiters.
       if (deferredOpen) {
         deferredOpen = null;
+        // `pending` too, not just the waiters: left at "open", the next spring
+        // notification would finalise an open that never happened — writing
+        // data-snap-index and firing onAnimationEnd(true) on a closed sheet.
+        pending = null;
         settlePending("open");
+        // The transition ended, in the closed state. Reported even though no
+        // animation ran, so a consumer (React's presence gate above all) that
+        // waits for the close to finish is not left waiting for a frame that
+        // will never come.
+        opts.onAnimationEnd?.(false);
       }
       return Promise.resolve();
     }
@@ -502,7 +526,7 @@ export function createSheet(
       }),
     body: (el) => {
       const restoreBase = setStyles(el, bodyBaseStyles());
-      // applyBodyScroll writes overflow/overflowY/flex outside setStyles's
+      // applySnapLayout writes overflow/overflowY/flex outside setStyles's
       // bookkeeping, so they need their own snapshot or destroy() leaves them.
       const restoreScroll = rememberBodyScroll(el);
       const snap = activeSnap();
@@ -679,6 +703,20 @@ export function createSheet(
   // layout it would have written is written here instead — once.
   const initial = activeSnap();
   if (initial) applySnapLayout(contentInner, parts.body, initial.scroll);
+  // `defaultSnapIndex` is stored before anything is resolved, so an out-of-range
+  // one would name a missing snap for the controller's whole life: every read
+  // falls back to the nearest snap, while `snapIndex` keeps reporting the index
+  // that is not there — and the first ArrowUp would step from it, not from
+  // where the panel is.
+  if (initial && initial.index !== snapIndex) {
+    warnOnce(
+      `defaultSnapIndex:${snapIndex}`,
+      `defaultSnapIndex ${snapIndex} is not a snap point — using ${initial.index}.`,
+    );
+    snapIndex = initial.index;
+    // No subscriber can exist yet; this only refreshes the cached snapshot.
+    notify();
+  }
   writeFrame(content, parts.overlay, viewHeight, 0);
   void spring.set(viewHeight, { immediate: true });
 
@@ -697,8 +735,9 @@ export function createSheet(
     // A.11: the two directions must be symmetric, focus included.
     if (isOpen && wasModal !== modal()) {
       if (modal()) {
-        guard.engage();
+        // Capture first, engage second — see open().
         guard.captureFocus();
+        guard.engage();
       } else {
         guard.disengage();
         guard.restoreFocus();

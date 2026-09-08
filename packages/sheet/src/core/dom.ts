@@ -4,7 +4,7 @@
  * returns the closure that puts things back.
  */
 
-import { isBrowser } from "./env.ts";
+import { isBrowser, warnOnce } from "./env.ts";
 
 /** The string-valued (i.e. settable) properties of CSSStyleDeclaration. */
 type StyleKey = keyof {
@@ -212,10 +212,6 @@ export function suspendBodyScroll(body: HTMLElement): () => void {
   };
 }
 
-/**
- * Snapshot the three properties `applyBodyScroll` writes, so they can be put
- * back exactly as the consumer left them. Returns the restore closure.
- */
 /** Snapshot the one property `applySnapLayout` writes on the wrapper. */
 export function rememberSnapLayout(inner: HTMLElement): () => void {
   const previous = inner.style.flex;
@@ -224,6 +220,11 @@ export function rememberSnapLayout(inner: HTMLElement): () => void {
   };
 }
 
+/**
+ * Snapshot every property `applySnapLayout` and `suspendBodyScroll` write on
+ * Body, so they can be put back exactly as the consumer left them. Returns the
+ * restore closure.
+ */
 export function rememberBodyScroll(body: HTMLElement): () => void {
   const previous = {
     overflow: body.style.overflow ?? "",
@@ -311,5 +312,14 @@ export function findContentInner(content: HTMLElement): HTMLElement {
   const marked = content.querySelector(":scope > [data-snap-sheet-inner]");
   if (marked instanceof HTMLElement) return marked;
   const only = content.children.length === 1 ? content.children[0] : null;
-  return only instanceof HTMLElement ? only : content;
+  if (only instanceof HTMLElement) return only;
+  // Last resort: the panel is full-height by design, so a "content" snap would
+  // measure the viewport and hug nothing. Say so rather than look broken.
+  warnOnce(
+    "content-inner:missing",
+    'The sheet panel has no single wrapper to measure, so a "content" snap ' +
+      "would measure the whole view. Please wrap the panel's children in one " +
+      "element and mark it with `data-snap-sheet-inner`.",
+  );
+  return content;
 }

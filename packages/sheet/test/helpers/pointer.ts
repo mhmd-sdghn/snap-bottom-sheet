@@ -50,3 +50,18 @@ export function fire(el: HTMLElement, type: string, init: FireInit = {}) {
   el.dispatchEvent(event);
   return event;
 }
+
+/**
+ * A keydown the way a keyboard user produces one. `cancelable` matters:
+ * `preventDefault()` on a non-cancelable event does nothing, so a test that
+ * asserts `defaultPrevented` would pass for the wrong reason without it.
+ */
+export function press(el: HTMLElement, key: string): KeyboardEvent {
+  const event = new KeyboardEvent("keydown", {
+    key,
+    bubbles: true,
+    cancelable: true,
+  });
+  el.dispatchEvent(event);
+  return event;
+}
