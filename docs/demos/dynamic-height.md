@@ -1,6 +1,6 @@
 # Dynamic height
 
-"header" and "content" used together. Add a row while the sheet is open. The
+"header" and "content" working together. Add a row while the sheet is open. The
 sheet measures itself again and springs to the new height instead of jumping.
 
 <script setup>

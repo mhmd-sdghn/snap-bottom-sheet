@@ -4,7 +4,7 @@ layout: home
 hero:
   name: "Snap Bottom Sheet"
   text: "A bottom sheet that stops where you asked it to"
-  tagline: You drag it, it snaps into place, and it is accessible. A framework-free core with a thin React layer, and no animation or gesture dependencies.
+  tagline: Snap points you define down to the pixel, one touch that drags the sheet and then scrolls its content, and dialog behaviour out of the box. A framework-free core with a thin React layer, and no runtime dependencies.
   image:
     src: /logo.svg
     alt: Snap Bottom Sheet
@@ -18,17 +18,17 @@ hero:
 
 features:
   - icon: 🎯
-    title: Snap points that behave as written
-    details: Use fractions, percentages, pixels, or the measured height of your header or content. An index always points at the same item in the array you passed. Nothing is re-sorted behind your back.
+    title: Snap points you define
+    details: A snap point is a fraction, a percentage, a pixel height, or the measured height of your header or content. steps(3) writes the even ones for you. Each snap can carry its own scroll and drag rules, and an index always points at the same item in the array you passed.
   - icon: 📐
     title: Measured, not guessed
     details: '"header" and "content" are measured while your app runs, through one shared ResizeObserver. When the height of the active snap changes, the sheet springs to the new position instead of jumping.'
-  - icon: 🪶
-    title: Zero runtime dependencies
-    details: The library brings its own spring and its own Pointer Events drag recogniser. React and react-dom are optional peers, and the core entry needs neither of them.
   - icon: 📜
-    title: Scrolling and dragging take turns
-    details: Mark a snap point scroll and Sheet.Body scrolls there. Pull down at the top of the scroll and the sheet takes over. Nothing is handled twice, and no gesture gets stuck.
+    title: One gesture, drag then scroll
+    details: A single touch drags the sheet to the top snap, carries on scrolling the body, and hands the gesture back to the sheet when you pull down from the top. You do not lift your finger, and you decide which snaps scroll.
+  - icon: 🪶
+    title: Small, and dependency-free
+    details: The library brings its own spring and its own Pointer Events drag recogniser, so it installs no runtime dependencies. Minified and gzipped, that is about 10 kB with the React bindings and about 8 kB for the core alone.
   - icon: 🎨
     title: Style it with CSS, not props
     details: No stylesheet ships with the library. You get data-state, data-snap-index, data-dragging and CSS custom properties for position and progress. They are written straight to the DOM on each frame.
@@ -36,11 +36,14 @@ features:
     title: Dialog behaviour included
     details: The panel is a role="dialog" element, labelled by your Title. Focus moves in and returns on close, siblings become inert while modal, Escape closes the innermost sheet, and prefers-reduced-motion is honoured.
   - icon: 🧩
-    title: Vanilla or React
-    details: createSheet attaches the engine to elements you already rendered. The React layer renders those elements and hands them over. The engine underneath is the same one.
+    title: Vanilla core, React bindings
+    details: createSheet attaches the engine to elements you already rendered, and the React layer renders those elements and hands them over. The engine underneath is the same one, so a binding for another framework can sit on it. Everything is written in TypeScript, and the types ship with the package.
+  - icon: 🧭
+    title: Ready for real screens
+    details: Content mode sizes the sheet to its content. Sheets nest, each with its own overlay and scroll lock. A portal container puts a sheet inside a card instead of the page. Open state and active snap are controlled or uncontrolled, whichever suits you.
   - icon: ▲
     title: Safe to render on the server
-    details: There is no window or document at module scope or during render. The portal renders null until it has mounted, so app router, pages router and renderToString all work without a dynamic import.
+    details: There is no window or document at module scope or during render. The portal renders null until it has mounted, so the Next.js App Router, the Pages Router and renderToString all work without a dynamic import.
 ---
 
 ## Show me code

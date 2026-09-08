@@ -168,9 +168,9 @@ measurement falls back to the panel itself. The panel is full-height, so
 
 The wrapper is resolved **once, at attach**, and observed for as long as the
 controller lives. If you replace that element later, for example by rendering
-the panel's markup again from scratch, the controller keeps measuring the old
-node, which is no longer in the document, and `"content"` stops responding.
-Keep the wrapper in place and replace what is inside it, or call `destroy()` and
+the panel's markup again from scratch, the controller keeps measuring the node
+it captured, which has left the document, and `"content"` stops responding. Keep
+the wrapper in place and replace what is inside it, or call `destroy()` and
 create the sheet again.
 
 ::: tip
