@@ -14,7 +14,7 @@ hero:
       link: /guide/getting-started
     - theme: alt
       text: View on GitHub
-      link: https://github.com/mhmd-sdghn/react-bottom-sheet
+      link: https://github.com/mhmd-sdghn/snap-bottom-sheet
 
 features:
   - icon: 🎯

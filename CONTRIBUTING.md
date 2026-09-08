@@ -146,7 +146,7 @@ The full design, and the audit of the 0.x code that led to the rewrite, are in
 [`docs/internal/PLAN.md`](./docs/internal/PLAN.md) and
 [`docs/internal/AUDIT.md`](./docs/internal/AUDIT.md). Please treat them as
 historical records rather than maintained specs. The code and the
-[docs site](https://mhmd-sdghn.github.io/react-bottom-sheet/) are the truth.
+[docs site](https://mhmd-sdghn.github.io/snap-bottom-sheet/) are the truth.
 
 ## Deliberate shortcuts
 

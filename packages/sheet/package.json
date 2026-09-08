@@ -7,11 +7,11 @@
   "author": "Mo Sadeghian <mo.sdghn@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mhmd-sdghn/react-bottom-sheet.git",
+    "url": "git+https://github.com/mhmd-sdghn/snap-bottom-sheet.git",
     "directory": "packages/sheet"
   },
-  "homepage": "https://mhmd-sdghn.github.io/react-bottom-sheet",
-  "bugs": "https://github.com/mhmd-sdghn/react-bottom-sheet/issues",
+  "homepage": "https://mhmd-sdghn.github.io/snap-bottom-sheet",
+  "bugs": "https://github.com/mhmd-sdghn/snap-bottom-sheet/issues",
   "keywords": [
     "bottom-drawer",
     "bottom-sheet",

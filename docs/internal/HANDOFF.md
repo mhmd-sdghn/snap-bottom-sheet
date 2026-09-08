@@ -17,7 +17,7 @@ Every change went through the same gate before it was merged into `v1`: `pnpm in
 ## What is left for you
 
 1. **Push `main`.** `main` already contains everything (`git push origin main`). The push starts CI, the docs deployment, and the release workflow, so do steps 2 and 3 first if you want them to succeed on the first run.
-2. **Enable GitHub Pages** for the repository (source: GitHub Actions). The `docs.yml` workflow deploys the site to `https://mhmd-sdghn.github.io/react-bottom-sheet/` on the first push to `main`.
+2. **Enable GitHub Pages** for the repository (source: GitHub Actions). The `docs.yml` workflow deploys the site to `https://mhmd-sdghn.github.io/snap-bottom-sheet/` on the first push to `main`.
 3. **Set up npm trusted publishing** for `snap-bottom-sheet` (OIDC, no token), the same way nBridge does it. The `release.yml` workflow then opens a "chore: release" pull request; merging it publishes 1.0.0 from the changeset already on `v1`.
 4. **Optional: OpenCodeReview with its own model.** The delegation-mode review is done. If you also want OCR's LLM-backed pass, give the `ocr` CLI an endpoint (`ocr config provider`, or `OCR_LLM_URL` / `OCR_LLM_TOKEN` / `OCR_LLM_MODEL`) and run `ocr review --from 58d0cc2 --to main --audience agent`.
 5. **Housekeeping.** All work branches and worktrees are gone; only `main` and the desktop app's own session branches remain. The root checkout's `node_modules` predates the monorepo: run `pnpm install` there before working in it (pnpm will switch itself to the version in `packageManager`). `docs/internal/` is a historical record of the rewrite; keep it or prune it before publishing the repository.

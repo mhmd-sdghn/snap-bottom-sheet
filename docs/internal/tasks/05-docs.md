@@ -18,7 +18,7 @@ A VitePress documentation site in `docs/`, cloned from nBridge's docs setup (str
 ```
 docs/package.json                      name "snap-bottom-sheet-docs", private, vitepress ^1.6, plus react, react-dom,
                                        snap-bottom-sheet (workspace:*) as devDeps for the demo wrapper (task 09 uses them)
-docs/.vitepress/config.ts              base "/react-bottom-sheet/", title "Snap Bottom Sheet", cleanUrls, local search,
+docs/.vitepress/config.ts              base "/snap-bottom-sheet/", title "Snap Bottom Sheet", cleanUrls, local search,
                                        srcExclude: ["internal/**"], nav Guide/Reference/Demos, sidebar as below,
                                        vite: { esbuild: { jsx: "automatic" } } for the React demo wrapper,
                                        head favicon with base prefix, socialLinks → GitHub repo, MIT footer

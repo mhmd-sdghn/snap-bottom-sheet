@@ -31,7 +31,7 @@ CLAUDE.md                          FULL REWRITE for the 1.0 monorepo: what it is
 docs/internal/tasks/README.md      3 lines: what these files are, that they are orchestration artefacts, not user docs
 ```
 
-Facts to get right: package name `snap-bottom-sheet`; import paths `snap-bottom-sheet` (core) and `snap-bottom-sheet/react`; repo `mhmd-sdghn/react-bottom-sheet`; docs URL `https://mhmd-sdghn.github.io/react-bottom-sheet/`; license MIT; author Mo Sadeghian; React 18/19 optional peers; Node ≥ 22. Code samples must match PLAN §2 exactly.
+Facts to get right: package name `snap-bottom-sheet`; import paths `snap-bottom-sheet` (core) and `snap-bottom-sheet/react`; repo `mhmd-sdghn/snap-bottom-sheet`; docs URL `https://mhmd-sdghn.github.io/snap-bottom-sheet/`; license MIT; author Mo Sadeghian; React 18/19 optional peers; Node ≥ 22. Code samples must match PLAN §2 exactly.
 
 ## Done when
 

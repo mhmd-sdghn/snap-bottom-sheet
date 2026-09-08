@@ -3,7 +3,7 @@
   "changelog": [
     "@changesets/changelog-github",
     {
-      "repo": "mhmd-sdghn/react-bottom-sheet"
+      "repo": "mhmd-sdghn/snap-bottom-sheet"
     }
   ],
   "commit": false,

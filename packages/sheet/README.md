@@ -3,9 +3,9 @@
 A draggable, snappable bottom sheet for the web. The core works with any
 framework, the React bindings are thin, and there are no runtime dependencies.
 
-**[Documentation](https://mhmd-sdghn.github.io/react-bottom-sheet/)** ·
-[Demos](https://mhmd-sdghn.github.io/react-bottom-sheet/demos/) ·
-[Migrating from 0.x](https://mhmd-sdghn.github.io/react-bottom-sheet/guide/migration)
+**[Documentation](https://mhmd-sdghn.github.io/snap-bottom-sheet/)** ·
+[Demos](https://mhmd-sdghn.github.io/snap-bottom-sheet/demos/) ·
+[Migrating from 0.x](https://mhmd-sdghn.github.io/snap-bottom-sheet/guide/migration)
 
 ```bash
 npm install snap-bottom-sheet
@@ -139,17 +139,17 @@ properties.
 
 | Topic | Page |
 | --- | --- |
-| Install and first sheet | [Getting Started](https://mhmd-sdghn.github.io/react-bottom-sheet/guide/getting-started) |
-| The y-offset model, content mode | [Core Concepts](https://mhmd-sdghn.github.io/react-bottom-sheet/guide/core-concepts) |
-| Scroll vs drag, `touch-action` | [Scrolling](https://mhmd-sdghn.github.io/react-bottom-sheet/guide/scrolling) |
-| Drag locks, velocity, dismissal | [Gestures](https://mhmd-sdghn.github.io/react-bottom-sheet/guide/gestures) |
-| Data attributes and CSS variables | [Styling](https://mhmd-sdghn.github.io/react-bottom-sheet/guide/styling) |
-| Focus, `inert`, Escape, reduced motion | [Accessibility](https://mhmd-sdghn.github.io/react-bottom-sheet/guide/accessibility) |
-| Next.js, `renderToString` | [SSR & Next.js](https://mhmd-sdghn.github.io/react-bottom-sheet/guide/ssr-nextjs) |
-| Every prop and method | [React API](https://mhmd-sdghn.github.io/react-bottom-sheet/reference/react) · [Core API](https://mhmd-sdghn.github.io/react-bottom-sheet/reference/core) |
+| Install and first sheet | [Getting Started](https://mhmd-sdghn.github.io/snap-bottom-sheet/guide/getting-started) |
+| The y-offset model, content mode | [Core Concepts](https://mhmd-sdghn.github.io/snap-bottom-sheet/guide/core-concepts) |
+| Scroll vs drag, `touch-action` | [Scrolling](https://mhmd-sdghn.github.io/snap-bottom-sheet/guide/scrolling) |
+| Drag locks, velocity, dismissal | [Gestures](https://mhmd-sdghn.github.io/snap-bottom-sheet/guide/gestures) |
+| Data attributes and CSS variables | [Styling](https://mhmd-sdghn.github.io/snap-bottom-sheet/guide/styling) |
+| Focus, `inert`, Escape, reduced motion | [Accessibility](https://mhmd-sdghn.github.io/snap-bottom-sheet/guide/accessibility) |
+| Next.js, `renderToString` | [SSR & Next.js](https://mhmd-sdghn.github.io/snap-bottom-sheet/guide/ssr-nextjs) |
+| Every prop and method | [React API](https://mhmd-sdghn.github.io/snap-bottom-sheet/reference/react) · [Core API](https://mhmd-sdghn.github.io/snap-bottom-sheet/reference/core) |
 
 Coming from 0.x? Almost every name has changed.
-[The migration guide](https://mhmd-sdghn.github.io/react-bottom-sheet/guide/migration)
+[The migration guide](https://mhmd-sdghn.github.io/snap-bottom-sheet/guide/migration)
 has a full before and after table.
 
 ## License

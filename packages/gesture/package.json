@@ -8,7 +8,7 @@
   "author": "Mo Sadeghian <mo.sdghn@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mhmd-sdghn/react-bottom-sheet.git",
+    "url": "git+https://github.com/mhmd-sdghn/snap-bottom-sheet.git",
     "directory": "packages/gesture"
   },
   "sideEffects": false,

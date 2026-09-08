@@ -9,7 +9,7 @@ Companion to [AUDIT.md](./AUDIT.md). Every worker task in `tasks/` references se
 | Version | **1.0.0**, breaking changes allowed, migration guide in docs |
 | Package name | `snap-bottom-sheet` (public npm, free as of 2026-09-07) |
 | Registry | registry.npmjs.org, changesets + OIDC trusted publishing (nBridge `release.yml`) |
-| Repo | `github.com/mhmd-sdghn/react-bottom-sheet`; docs on GitHub Pages, base `/react-bottom-sheet/` |
+| Repo | `github.com/mhmd-sdghn/snap-bottom-sheet`; docs on GitHub Pages, base `/snap-bottom-sheet/`. Renamed from `react-bottom-sheet` on 2026-09-08 — the old URL 301-redirects, but nothing in the repo may point at it. |
 | Layout & tooling | Clone nBridge: pnpm workspace, tsdown (ESM only), biome, lefthook, vitest+jsdom, changesets, publint + attw, VitePress, `playgrounds/*` |
 | Core vs bindings | **Framework-agnostic TypeScript core** (`snap-bottom-sheet`, vanilla JS usable) + **React bindings** (`snap-bottom-sheet/react`) built on it — nBridge pattern: one published package, subpath exports. Vue/Angular bindings can be added later as further subpaths. |
 | Sub-packages | `packages/spring`, `packages/gesture` — `private: true`, bundled into `snap-bottom-sheet` dist by tsdown. |

@@ -6,7 +6,7 @@
 thin React bindings on top. It carries its own spring and gesture code in place
 of two dependencies, and the names in the API say what they do.
 
-**Migrating:** the [migration guide](https://mhmd-sdghn.github.io/react-bottom-sheet/guide/migration)
+**Migrating:** the [migration guide](https://mhmd-sdghn.github.io/snap-bottom-sheet/guide/migration)
 has a full before and after table. Nearly every name has changed, so please
 expect to edit every call site. The new API is smaller than the one it replaces.
 

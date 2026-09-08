@@ -1,8 +1,8 @@
 import { defineConfig } from "vitepress";
 
-// A GitHub Pages project site served under /react-bottom-sheet/, so every
+// A GitHub Pages project site served under /snap-bottom-sheet/, so every
 // asset needs that prefix.
-const base = "/react-bottom-sheet/";
+const base = "/snap-bottom-sheet/";
 
 export default defineConfig({
   base,
@@ -113,7 +113,7 @@ export default defineConfig({
     socialLinks: [
       {
         icon: "github",
-        link: "https://github.com/mhmd-sdghn/react-bottom-sheet",
+        link: "https://github.com/mhmd-sdghn/snap-bottom-sheet",
       },
     ],
 

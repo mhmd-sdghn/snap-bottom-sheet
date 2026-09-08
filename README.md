@@ -6,14 +6,14 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/snap-bottom-sheet"><img alt="npm" src="https://img.shields.io/npm/v/snap-bottom-sheet.svg"></a>
-  <a href="https://github.com/mhmd-sdghn/react-bottom-sheet/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/mhmd-sdghn/react-bottom-sheet/actions/workflows/ci.yml/badge.svg"></a>
+  <a href="https://github.com/mhmd-sdghn/snap-bottom-sheet/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/mhmd-sdghn/snap-bottom-sheet/actions/workflows/ci.yml/badge.svg"></a>
   <a href="./LICENSE"><img alt="MIT" src="https://img.shields.io/npm/l/snap-bottom-sheet.svg"></a>
 </p>
 
 <p align="center">
-  <a href="https://mhmd-sdghn.github.io/react-bottom-sheet/"><b>Documentation</b></a> ·
-  <a href="https://mhmd-sdghn.github.io/react-bottom-sheet/demos/">Demos</a> ·
-  <a href="https://mhmd-sdghn.github.io/react-bottom-sheet/guide/migration">Migrating from 0.x</a>
+  <a href="https://mhmd-sdghn.github.io/snap-bottom-sheet/"><b>Documentation</b></a> ·
+  <a href="https://mhmd-sdghn.github.io/snap-bottom-sheet/demos/">Demos</a> ·
+  <a href="https://mhmd-sdghn.github.io/snap-bottom-sheet/guide/migration">Migrating from 0.x</a>
 </p>
 
 ---
@@ -102,7 +102,7 @@ void sheet.open();
 
 No stylesheet ships. You get `data-state`, `data-snap-index`, `data-dragging`
 and CSS custom properties for position and progress. See
-[Styling](https://mhmd-sdghn.github.io/react-bottom-sheet/guide/styling).
+[Styling](https://mhmd-sdghn.github.io/snap-bottom-sheet/guide/styling).
 
 ## Repository layout
 
