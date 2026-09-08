@@ -1,12 +1,13 @@
 import { createSpring } from "@snap-bottom-sheet/spring";
 import {
-  applyBodyScroll,
+  applySnapLayout,
   bodyBaseStyles,
   contentBaseStyles,
   findContentInner,
   innerBaseStyles,
   overlayBaseStyles,
   rememberBodyScroll,
+  rememberSnapLayout,
   setAttrs,
   setStyles,
   writeFrame,
@@ -187,7 +188,7 @@ export function createSheet(
 
   const applyRest = (snap: ResolvedSnap) => {
     writeRest(content, snap.y);
-    if (parts.body) applyBodyScroll(parts.body, snap.scroll);
+    applySnapLayout(contentInner, parts.body, snap.scroll);
     content.setAttribute("data-snap-index", String(snap.index));
   };
 
@@ -451,7 +452,7 @@ export function createSheet(
       // bookkeeping, so they need their own snapshot or destroy() leaves them.
       const restoreScroll = rememberBodyScroll(el);
       const snap = activeSnap();
-      if (snap) applyBodyScroll(el, snap.scroll);
+      if (snap) applySnapLayout(contentInner, el, snap.scroll);
       return () => {
         restoreScroll();
         restoreBase();
@@ -552,8 +553,10 @@ export function createSheet(
   // strip and the measurement would feed back into itself (item 8).
   const contentInner = findContentInner(content);
   if (contentInner !== content) {
-    restores.push(setStyles(contentInner, innerBaseStyles(Boolean(container))));
+    restores.push(setStyles(contentInner, innerBaseStyles()));
   }
+  // applySnapLayout writes `flex` per snap, outside setStyles's bookkeeping.
+  restores.push(rememberSnapLayout(contentInner));
   const unobserveContent = observeHeight(contentInner, (height) => {
     // Paused at a scrolling snap: Body is a scroller there, so its height is
     // no longer the natural content height (PLAN §3.3).
@@ -573,7 +576,9 @@ export function createSheet(
   const update = (next: Partial<SheetOptions>) => {
     if (destroyed) return;
     const wasModal = modal();
-    const beforeY = activeSnap()?.y;
+    const before = activeSnap();
+    const beforeY = before?.y;
+    const beforeScroll = before?.scroll;
     opts = { ...opts, ...next };
     applyAria();
     resolve();
@@ -597,9 +602,15 @@ export function createSheet(
     }
     if (target.index !== snapIndex || target.y !== beforeY) {
       void snapTo(target.index, { immediate: dragging });
-    } else {
-      notify();
+      return;
     }
+    // Same index, same y, but the snap's own config may have changed — a
+    // `scroll` flip alone never reached applyRest, so Body stayed clipped while
+    // the drag logic yielded to a scroll that could not happen.
+    if (target.scroll !== beforeScroll && !spring.animating && isOpen) {
+      applyRest(target);
+    }
+    notify();
   };
 
   const destroy = () => {

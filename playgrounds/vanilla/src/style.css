@@ -126,14 +126,6 @@ select,
   box-shadow: 0 -10px 40px rgb(0 0 0 / 0.7);
 }
 
-/* The node the controller measures for a "content" snap. It writes the flex
-   and max-height that keep the measurement honest; we only make it a column. */
-.sheet-inner {
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-}
-
 .sheet-handle {
   display: block;
   width: 100%;

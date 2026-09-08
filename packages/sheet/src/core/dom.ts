@@ -99,16 +99,23 @@ export function overlayBaseStyles(positioned: boolean): Styles {
 }
 
 /**
- * Base styles for the measured wrapper. `flex: 0 0 auto` is load-bearing: the
- * panel's content box is only the visible strip (its `padding-bottom` is the
- * resting `y`), so as an ordinary flex item this element would be shrunk to
- * that strip and a `"content"` snap could never measure taller than it already
- * is — the height would freeze.
+ * Base styles for the measured wrapper.
+ *
+ * It has to be a flex column itself, or `Sheet.Body`'s `flex`/`min-height` are
+ * inert inside it and the body never becomes a real scroller without the
+ * consumer writing that CSS by hand.
+ *
+ * No height cap: the panel's content box (`100dvh` minus the resting
+ * `padding-bottom`) already bounds it. A `100dvh` cap ignores the padding, so
+ * at a partial `scroll: true` snap the bottom `y` px of the body sat below the
+ * viewport with no way to scroll them up — audit P0-8, returning by the back
+ * door. The per-snap `flex` in `applySnapLayout` does the rest.
  */
-export function innerBaseStyles(positioned: boolean): Styles {
+export function innerBaseStyles(): Styles {
   return {
-    flex: "0 0 auto",
-    maxHeight: positioned ? "100%" : "100dvh",
+    display: "flex",
+    flexDirection: "column",
+    minHeight: "0",
   };
 }
 
@@ -137,38 +144,90 @@ export function writeRest(content: HTMLElement, y: number): void {
 }
 
 /**
- * Body overflow/flex for the active snap. The caller owns restoring these —
- * see `rememberBodyScroll`, which snapshots them once at attach so `destroy()`
- * and `setElements({ body: null })` can put the consumer's own values back.
+ * Lay the panel out for the active snap. Both elements move together:
+ *
+ * - `scroll: true` — the wrapper fills the panel's content box and the body is
+ *   the scroller inside it, so the scrollable area ends exactly where the
+ *   viewport does.
+ * - otherwise — the wrapper takes its natural height (which is what a
+ *   `"content"` snap measures) and the body is clipped rather than scrollable.
+ *
+ * The caller owns restoring these; see `rememberSnapLayout` and
+ * `rememberBodyScroll`.
  */
-export function applyBodyScroll(body: HTMLElement, scroll: boolean): void {
+export function applySnapLayout(
+  inner: HTMLElement,
+  body: HTMLElement | null | undefined,
+  scroll: boolean,
+): void {
+  inner.style.flex = scroll ? "1 1 auto" : "0 0 auto";
+  if (!body) return;
+
   // The shorthand and the longhand must never both be set, or toggling snaps
   // leaves the loser behind. Clear the other one before writing ours.
   if (scroll) {
     body.style.removeProperty("overflow");
     body.style.overflowY = "auto";
     body.style.flex = "1 1 auto";
+    body.style.minHeight = "0";
   } else {
     body.style.removeProperty("overflow-y");
     body.style.overflow = "hidden";
     body.style.flex = "0 0 auto";
+    // Leaving a scrolled body clipped puts the top of the list out of reach.
+    body.scrollTop = 0;
   }
+}
+
+/**
+ * Freeze the body's own scrolling for the duration of a gesture the sheet has
+ * taken over, so a reversal mid-drag scrolls the list instead of moving the
+ * sheet. Returns the release.
+ */
+export function suspendBodyScroll(body: HTMLElement): () => void {
+  // `?? ""`: a property never set reads back undefined in some DOM
+  // implementations, and restoring that would write `undefined` into the style.
+  const previous = {
+    overflow: body.style.overflow ?? "",
+    overflowY: body.style.overflowY ?? "",
+    touchAction: body.style.touchAction ?? "",
+  };
+  body.style.removeProperty("overflow-y");
+  body.style.overflow = "hidden";
+  body.style.touchAction = "none";
+  return () => {
+    body.style.overflow = previous.overflow;
+    body.style.overflowY = previous.overflowY;
+    body.style.touchAction = previous.touchAction;
+  };
 }
 
 /**
  * Snapshot the three properties `applyBodyScroll` writes, so they can be put
  * back exactly as the consumer left them. Returns the restore closure.
  */
+/** Snapshot the one property `applySnapLayout` writes on the wrapper. */
+export function rememberSnapLayout(inner: HTMLElement): () => void {
+  const previous = inner.style.flex;
+  return () => {
+    inner.style.flex = previous;
+  };
+}
+
 export function rememberBodyScroll(body: HTMLElement): () => void {
   const previous = {
-    overflow: body.style.overflow,
-    overflowY: body.style.overflowY,
-    flex: body.style.flex,
+    overflow: body.style.overflow ?? "",
+    overflowY: body.style.overflowY ?? "",
+    flex: body.style.flex ?? "",
+    minHeight: body.style.minHeight ?? "",
+    touchAction: body.style.touchAction ?? "",
   };
   return () => {
     body.style.overflow = previous.overflow;
     body.style.overflowY = previous.overflowY;
     body.style.flex = previous.flex;
+    body.style.minHeight = previous.minHeight;
+    body.style.touchAction = previous.touchAction;
   };
 }
 

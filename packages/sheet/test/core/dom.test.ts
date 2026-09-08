@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import {
-  applyBodyScroll,
   applyInert,
+  applySnapLayout,
   bodyBaseStyles,
   contentBaseStyles,
   findContentInner,
@@ -126,22 +126,44 @@ describe("writeRest", () => {
   });
 });
 
-describe("applyBodyScroll", () => {
+describe("applySnapLayout", () => {
   it("toggles both ways without leaving the other property set", () => {
+    const inner = div();
     const body = div();
 
-    applyBodyScroll(body, true);
+    applySnapLayout(inner, body, true);
+    expect(inner.style.flex).toBe("1 1 auto");
     expect(body.style.overflowY).toBe("auto");
     expect(body.style.flex).toBe("1 1 auto");
+    expect(body.style.minHeight).toBe("0");
     expect(body.style.getPropertyValue("overflow")).toBe("");
 
-    applyBodyScroll(body, false);
+    applySnapLayout(inner, body, false);
+    expect(inner.style.flex).toBe("0 0 auto");
     expect(body.style.overflow).toBe("hidden");
     expect(body.style.flex).toBe("0 0 auto");
 
-    applyBodyScroll(body, true);
+    applySnapLayout(inner, body, true);
     expect(body.style.overflowY).toBe("auto");
     expect(body.style.getPropertyValue("overflow")).toBe("");
+  });
+
+  it("scrolls the body back to the top when it stops scrolling", () => {
+    const inner = div();
+    const body = div();
+    applySnapLayout(inner, body, true);
+    body.scrollTop = 120;
+
+    applySnapLayout(inner, body, false);
+
+    // clipped at scrollTop 120, the top of the list is unreachable
+    expect(body.scrollTop).toBe(0);
+  });
+
+  it("lays out the wrapper even with no body", () => {
+    const inner = div();
+    expect(() => applySnapLayout(inner, null, true)).not.toThrow();
+    expect(inner.style.flex).toBe("1 1 auto");
   });
 });
 

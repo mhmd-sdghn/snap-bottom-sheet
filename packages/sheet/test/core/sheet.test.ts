@@ -917,9 +917,13 @@ describe("createSheet", () => {
     const controller = make(el, { snapPoints: ["content"] });
 
     // the library owns this now: without it the wrapper is a shrinkable flex
-    // item of a panel whose content box is only the visible strip
-    expect(el.inner.style.flex).toBe("0 0 auto");
-    expect(el.inner.style.maxHeight).toBe("100dvh");
+    // item of a panel whose content box is only the visible strip. It is also
+    // a flex column itself, or Body's flex/min-height would be inert inside it.
+    expect(el.inner.style.display).toBe("flex");
+    expect(el.inner.style.flexDirection).toBe("column");
+    // no height cap: the panel's content box already bounds it, and a 100dvh
+    // cap ignores padding-bottom (audit P0-8 by the back door)
+    expect(el.inner.style.maxHeight).toBe("");
 
     resizeTo(el.inner, 200);
     const opened = controller.open();
@@ -1317,6 +1321,88 @@ describe("createSheet", () => {
     // controller; the fake is target-aware now, so this can actually fail
     expect(isObserved(el.inner)).toBe(false);
     expect(isObserved(el.header as HTMLElement)).toBe(false);
+  });
+
+  it("B.4 update() re-applies layout when only `scroll` changed", async () => {
+    const el = fixture();
+    const body = el.body as HTMLElement;
+    const controller = make(el, { snapPoints: [{ value: 0.5 }] });
+    const opened = controller.open();
+    await settle(controller);
+    await opened;
+
+    expect(body.style.overflow).toBe("hidden");
+
+    // same index, same y — only the config moved
+    controller.update({ snapPoints: [{ value: 0.5, scroll: true }] });
+    await settle(controller);
+
+    // without this the body stays clipped while the drag logic yields to a
+    // scroll that cannot happen: the sheet neither scrolls nor drags
+    expect(body.style.overflowY).toBe("auto");
+    expect(el.inner.style.flex).toBe("1 1 auto");
+  });
+
+  it("B.6 freezes the body's own scrolling for a taken-over gesture", async () => {
+    const el = fixture();
+    const body = el.body as HTMLElement;
+    const controller = make(el, {
+      snapPoints: [{ value: 0.5, scroll: true }, 0.9],
+    });
+    const opened = controller.open();
+    await settle(controller);
+    await opened;
+    expect(body.style.overflowY).toBe("auto");
+
+    Object.defineProperty(body, "scrollTop", {
+      value: 0,
+      writable: true,
+      configurable: true,
+    });
+
+    // pull down from the very top: the sheet takes the gesture
+    fire(body, "pointerdown", { clientY: 0, timeStamp: 0 });
+    fire(body, "pointermove", { clientY: 8, timeStamp: 10 });
+    expect(controller.getState().dragging).toBe(true);
+    // while the sheet owns it, the list must not scroll underneath
+    expect(body.style.overflow).toBe("hidden");
+    expect(body.style.touchAction).toBe("none");
+
+    fire(body, "pointermove", { clientY: 120, timeStamp: 100 });
+    fire(body, "pointerup", { clientY: 120, timeStamp: 110 });
+    await settle(controller);
+
+    // and the snap's own layout comes back at rest
+    expect(body.style.overflowY).toBe("auto");
+    expect(body.style.touchAction).toBe("");
+  });
+
+  it("B.3 a partial scroll snap bounds the body at the fold (P0-8)", async () => {
+    const el = fixture();
+    const body = el.body as HTMLElement;
+    // scroll at a PARTIAL snap is the P0-8 case: the panel is full height and
+    // translated down, so anything not bounded by the content box hangs below
+    // the viewport with no way to scroll it up
+    const controller = make(el, {
+      snapPoints: [{ value: 0.5, scroll: true }],
+    });
+    const opened = controller.open();
+    await settle(controller);
+    await opened;
+
+    const y = 500;
+    expect(yOf(el.content)).toBe(y);
+    // the chain that keeps the scroll region inside the visible strip:
+    // panel content box = 100dvh - padding-bottom, wrapper fills it, body fills
+    // the wrapper. Break any link and the bottom `y` px become unreachable.
+    expect(el.content.style.paddingBottom).toBe(`${y}px`);
+    expect(el.inner.style.display).toBe("flex");
+    expect(el.inner.style.flexDirection).toBe("column");
+    expect(el.inner.style.flex).toBe("1 1 auto");
+    expect(el.inner.style.maxHeight).toBe("");
+    expect(body.style.flex).toBe("1 1 auto");
+    expect(body.style.minHeight).toBe("0");
+    expect(body.style.overflowY).toBe("auto");
   });
 
   it("destroy() is idempotent", () => {
