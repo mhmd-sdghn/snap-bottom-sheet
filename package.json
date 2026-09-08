@@ -23,7 +23,8 @@
     "e2e": "pnpm --filter snap-bottom-sheet-e2e test",
     "check:dist": "pnpm --filter snap-bottom-sheet check:dist",
     "changeset": "changeset",
-    "release": "pnpm build && pnpm typecheck && pnpm test && pnpm check:dist && pnpm verify:pkg && changeset publish"
+    "release": "pnpm build && pnpm typecheck && pnpm test && pnpm check:dist && pnpm verify:pkg && changeset publish",
+    "e2e:site": "pnpm --filter snap-bottom-sheet-e2e test:site"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.12",
