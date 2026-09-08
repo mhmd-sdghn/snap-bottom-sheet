@@ -74,7 +74,7 @@ interface SnapPointConfig {
 | Prop | Type | Default | Description |
 | --- | --- | --- | --- |
 | `value` | `SnapValue` | — | Any of the forms above |
-| `scroll` | `boolean` | `false` | `Sheet.Body` scrolls at this snap. Pulling down at the top of the scroll gives the gesture back to the sheet |
+| `scroll` | `boolean` | `false` | `Sheet.Body` scrolls at this snap. One touch can move from dragging the sheet to scrolling the body and back without lifting — see [Scrolling](/guide/scrolling) |
 | `drag` | `boolean \| { up?, down? }` | `true` | The drag directions allowed from this snap. `false` pins the sheet in place, and `{ down: false }` makes the snap a floor the user cannot drag below |
 
 `drag` only limits movement away from this snap. A snap with `{ down: false }`

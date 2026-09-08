@@ -105,7 +105,7 @@ type SnapPoint = SnapValue | {
 | `[0.5, 1]` | half the view, then all of it |
 | `["50%", "320px"]` | the same half, then a fixed 320px |
 | `["header", "content"]` | a peek at the header, then the whole content |
-| `[{ value: 1, scroll: true }]` | full height, body scrolls, pull down at the top to drag |
+| `[{ value: 1, scroll: true }]` | full height, body scrolls, one touch moves between scrolling and dragging |
 | `[{ value: 0.3, drag: { down: false } }]` | cannot be dragged below 30% |
 | `steps(3)` | `[1/3, 2/3, 1]` |
 | `[]` | content mode: the sheet takes the height of its content |

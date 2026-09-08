@@ -33,9 +33,12 @@ already rendered, and needs no framework at all. `snap-bottom-sheet/react` has
 | UMD and CJS builds | ESM only |
 | `./*` subpath exports | `.` and `./react` |
 
-Also new: `Sheet.Handle`, `Sheet.Header`, `Sheet.Body`, `Sheet.Title`,
-`Sheet.Description`, `Sheet.Close`, a `SheetHandle` ref (`open`, `close`,
-`snapTo`, `activeSnapIndex`, `y`), `useSheetState()`, and `steps()`.
+### New
+
+The parts and helpers that 0.x did not have: `Sheet.Handle`, `Sheet.Header`,
+`Sheet.Body`, `Sheet.Title`, `Sheet.Description`, `Sheet.Close`, a `SheetHandle`
+ref (`open`, `close`, `snapTo`, `activeSnapIndex`, `y`), `useSheetState()`, and
+`steps()`.
 
 - **Dragging and scrolling are one gesture now.** Drag up with your finger
   inside `Sheet.Body` and the sheet rises to the first snap you marked
