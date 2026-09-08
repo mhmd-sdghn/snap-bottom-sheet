@@ -67,7 +67,6 @@ beforeEach(() => {
 afterEach(() => {
   for (const controller of controllers) controller.destroy();
   controllers.length = 0;
-  vi.unstubAllGlobals();
   vi.useRealTimers();
 });
 
@@ -424,5 +423,28 @@ describe("C.5 — clicking the handle", () => {
     await settle(controller);
 
     expect(controller.getState().snapIndex).toBe(0);
+  });
+
+  it("cycles again once the 300 ms window has passed", async () => {
+    const el = fixture();
+    const controller = make(el, { snapPoints: [0.3, 0.9] });
+    await settle(controller);
+    await opened(controller);
+    await settle(controller);
+
+    const handle = el.handle;
+    fire(handle, "pointerdown", { clientY: 700, timeStamp: 0 });
+    fire(handle, "pointermove", { clientY: 694, timeStamp: 10 });
+    fire(handle, "pointermove", { clientY: 690, timeStamp: 20 });
+    fire(handle, "pointerup", { clientY: 690, timeStamp: 30 });
+    await settle(controller);
+    expect(controller.getState().snapIndex).toBe(0);
+
+    // The window is measured against the clock, which the fake timers own.
+    await vi.advanceTimersByTimeAsync(301);
+    handle.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    await settle(controller);
+
+    expect(controller.getState().snapIndex).toBe(1);
   });
 });

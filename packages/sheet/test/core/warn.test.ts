@@ -14,7 +14,6 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  vi.unstubAllGlobals();
   vi.useRealTimers();
 });
 
@@ -43,5 +42,36 @@ describe("dev warnings", () => {
 
     warn.mockRestore();
     controller.destroy();
+  });
+
+  it("says nothing in a production build", async () => {
+    // A fresh registry, or `warnOnce` would be silent for the wrong reason:
+    // the key above is already spent in the module instance the other test
+    // loaded.
+    vi.resetModules();
+    const { createSheet } = await import("../../src/core/sheet.ts");
+    const warn = vi.spyOn(console, "warn").mockImplementation(() => {});
+    const previous = process.env.NODE_ENV;
+    process.env.NODE_ENV = "production";
+
+    try {
+      const content = document.createElement("div");
+      const inner = document.createElement("div");
+      inner.setAttribute("data-snap-sheet-inner", "");
+      content.append(inner);
+      document.body.append(content);
+
+      const controller = createSheet({ content }, { snapPoints: ["header"] });
+      const opened = controller.open();
+      await settle(controller);
+      await opened;
+
+      expect(yOf(content)).toBe(500);
+      expect(warn).not.toHaveBeenCalled();
+      controller.destroy();
+    } finally {
+      process.env.NODE_ENV = previous;
+      warn.mockRestore();
+    }
   });
 });

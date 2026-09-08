@@ -17,7 +17,7 @@ import {
   screen,
 } from "@testing-library/react";
 import type { ReactNode } from "react";
-import { createRef, useState } from "react";
+import { createRef, StrictMode, useState } from "react";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import type { SheetHandle } from "../../src/react/index.ts";
 import { Sheet, useSheetState } from "../../src/react/index.ts";
@@ -99,10 +99,10 @@ beforeEach(() => {
 });
 
 afterEach(() => {
-  // Before the globals go: unmounting destroys controllers, and destroy()
-  // cancels frames through the stubbed cancelAnimationFrame.
+  // Unmounting destroys controllers, and destroy() cancels frames through the
+  // stubbed cancelAnimationFrame — so it has to happen while the stubs are
+  // still in place. `unstubGlobals` restores them before the *next* test.
   cleanup();
-  vi.unstubAllGlobals();
   vi.useRealTimers();
 });
 
@@ -158,6 +158,31 @@ describe("open", () => {
     expect(content().getAttribute("data-snap-index")).toBe("0");
     expect(yOf(content())).toBe(yFor(0.5));
     expect(probe().dataset.open).toBe("true");
+  });
+
+  it("survives StrictMode's double effect pass", async () => {
+    render(
+      <StrictMode>
+        <Sheet defaultOpen snapPoints={[0.5]}>
+          <Panel />
+        </Sheet>
+      </StrictMode>,
+    );
+    await flush();
+
+    // A controller destroyed by the second pass would leave the panel with no
+    // transform and no data-state at all.
+    expect(content().getAttribute("data-state")).toBe("open");
+    expect(yOf(content())).toBe(yFor(0.5));
+    expect(probe().dataset.open).toBe("true");
+
+    // And the surviving one is still listening: dragging it down dismisses.
+    await act(async () => {
+      drag(content(), 500, 950);
+    });
+    await flush();
+
+    expect(screen.queryByTestId("content")).toBeNull();
   });
 
   it("mounts at the default snap index, not at index 0", async () => {

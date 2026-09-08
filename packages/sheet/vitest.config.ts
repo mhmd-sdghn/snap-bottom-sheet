@@ -6,5 +6,7 @@ export default defineConfig({
     include: ["test/**/*.test.{ts,tsx}"],
     setupFiles: ["./vitest.setup.ts"],
     restoreMocks: true,
+    // Stubs are undone before the next test, so no suite has to remember to.
+    unstubGlobals: true,
   },
 });

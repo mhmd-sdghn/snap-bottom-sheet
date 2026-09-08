@@ -21,7 +21,6 @@ describe("createSpring", () => {
   });
 
   afterEach(() => {
-    vi.unstubAllGlobals();
     vi.useRealTimers();
   });
 

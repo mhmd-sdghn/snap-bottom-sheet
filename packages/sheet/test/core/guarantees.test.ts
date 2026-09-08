@@ -5,34 +5,15 @@ import {
   type SheetElements,
   type SheetOptions,
 } from "../../src/core/sheet.ts";
-import { settle } from "../helpers/env.ts";
-import { fire } from "../helpers/pointer.ts";
-
-const ViewHeight = 1000;
-
-type ResizeEntryLike = { target: Element };
-/**
- * measure.ts creates one module-level ResizeObserver on its first use and keeps
- * it for the lifetime of the module, so this list must NOT be reset per test —
- * clearing it would orphan the only callback that reaches the shared observer.
- */
-const observerCallbacks: ((entries: ResizeEntryLike[]) => void)[] = [];
-
-/** Fires every live ResizeObserver callback for one element. */
-const resizeTo = (el: HTMLElement, height: number) => {
-  Object.defineProperty(el, "offsetHeight", {
-    value: height,
-    configurable: true,
-  });
-  for (const cb of [...observerCallbacks]) cb([{ target: el }]);
-};
-
-const setHeight = (el: HTMLElement, height: number) => {
-  Object.defineProperty(el, "offsetHeight", {
-    value: height,
-    configurable: true,
-  });
-};
+import {
+  installTestEnv,
+  resizeTo,
+  setHeight,
+  settle,
+  ViewHeight,
+  yOf,
+} from "../helpers/env.ts";
+import { fire, press } from "../helpers/pointer.ts";
 
 interface Fixture extends SheetElements {
   wrapper: HTMLElement;
@@ -83,12 +64,6 @@ const make = (elements: SheetElements, options: SheetOptions = {}) => {
   return controller;
 };
 
-const yOf = (content: HTMLElement) =>
-  Number(
-    /translate3d\(0, (-?[\d.]+)px, 0\)/.exec(content.style.transform)?.[1] ??
-      Number.NaN,
-  );
-
 /** pointerdown → threshold move → drag move → pointerup, all on `el`. */
 function drag(el: HTMLElement, from: number, to: number) {
   fire(el, "pointerdown", { clientY: from, timeStamp: 0 });
@@ -97,10 +72,6 @@ function drag(el: HTMLElement, from: number, to: number) {
   fire(el, "pointermove", { clientY: to, timeStamp: 200 });
   fire(el, "pointerup", { clientY: to, timeStamp: 210 });
 }
-
-const press = (el: HTMLElement, key: string) => {
-  el.dispatchEvent(new KeyboardEvent("keydown", { key, bubbles: true }));
-};
 
 const progressOn = (el: HTMLElement) =>
   el.style.getPropertyValue("--snap-sheet-progress");
@@ -112,38 +83,12 @@ beforeEach(() => {
   document.body.innerHTML = "";
   document.documentElement.style.cssText = "";
   document.body.style.cssText = "";
-
-  Object.defineProperty(window, "innerHeight", {
-    value: ViewHeight,
-    configurable: true,
-  });
-  vi.stubGlobal(
-    "ResizeObserver",
-    class {
-      constructor(cb: (entries: ResizeEntryLike[]) => void) {
-        observerCallbacks.push(cb);
-      }
-      observe() {}
-      unobserve() {}
-      disconnect() {}
-    },
-  );
-  vi.stubGlobal("requestAnimationFrame", (cb: FrameRequestCallback) =>
-    setTimeout(() => cb(performance.now()), 16),
-  );
-  vi.stubGlobal("cancelAnimationFrame", clearTimeout);
-  vi.stubGlobal("matchMedia", (media: string) => ({
-    media,
-    matches: false,
-    addEventListener() {},
-    removeEventListener() {},
-  }));
+  installTestEnv();
 });
 
 afterEach(() => {
   for (const controller of controllers) controller.destroy();
   controllers.length = 0;
-  vi.unstubAllGlobals();
   vi.useRealTimers();
 });
 
@@ -267,6 +212,56 @@ describe("documented guarantees", () => {
     await settle();
     expect(controller.getState().snapIndex).toBe(0);
     expect(yOf(el.content)).toBe(700);
+  });
+
+  it("the handle's arrows step one snap and clamp at both ends", async () => {
+    const el = fixture();
+    const controller = make(el, { snapPoints: [0.3, 0.6, 0.9] });
+    const handle = el.handle as HTMLElement;
+
+    const opened = controller.open();
+    await settle();
+    await opened;
+    expect(controller.getState().snapIndex).toBe(0);
+    expect(yOf(el.content)).toBe(700);
+
+    // Up means a taller sheet, one snap at a time.
+    press(handle, "ArrowUp");
+    await settle();
+    expect(controller.getState().snapIndex).toBe(1);
+    expect(yOf(el.content)).toBe(400);
+
+    press(handle, "ArrowUp");
+    await settle();
+    expect(controller.getState().snapIndex).toBe(2);
+    expect(yOf(el.content)).toBe(100);
+
+    // The top clamps: unlike Enter, the arrows never wrap.
+    press(handle, "ArrowUp");
+    await settle();
+    expect(controller.getState().snapIndex).toBe(2);
+    expect(yOf(el.content)).toBe(100);
+
+    press(handle, "ArrowDown");
+    await settle();
+    expect(controller.getState().snapIndex).toBe(1);
+
+    press(handle, "ArrowDown");
+    await settle();
+    expect(controller.getState().snapIndex).toBe(0);
+
+    // …and so does the bottom: the lowest snap is not a dismissal.
+    press(handle, "ArrowDown");
+    await settle();
+    expect(controller.getState().snapIndex).toBe(0);
+    expect(controller.getState().open).toBe(true);
+
+    // A handled key is consumed, so the arrows do not scroll a parent and
+    // Space does not page down. Anything else is left alone.
+    expect(press(handle, "ArrowUp").defaultPrevented).toBe(true);
+    expect(press(handle, " ").defaultPrevented).toBe(true);
+    expect(press(handle, "Tab").defaultPrevented).toBe(false);
+    await settle();
   });
 
   it("'header' resolves from offsetHeight, so margins are excluded", async () => {

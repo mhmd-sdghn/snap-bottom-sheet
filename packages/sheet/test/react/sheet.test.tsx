@@ -1,5 +1,5 @@
 import { act, render, screen } from "@testing-library/react";
-import { createRef, useState } from "react";
+import { createRef, StrictMode, useState } from "react";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { createSheet } from "../../src/core/sheet.ts";
 import type { SheetHandle } from "../../src/react/index.ts";
@@ -196,6 +196,28 @@ describe("controller lifecycle", () => {
       describedBy: screen.getByTestId("description").id,
     });
   });
+  it("nets one live controller under StrictMode", () => {
+    render(
+      <StrictMode>
+        <Sheet open>
+          <Panel />
+        </Sheet>
+      </StrictMode>,
+    );
+
+    // React runs mount effects twice in development, so the count is not the
+    // point — what matters is that exactly one controller is left over.
+    const created = createSheetMock.mock.calls.length;
+    const destroyed = vi.mocked(fake.destroy).mock.calls.length;
+    expect(created - destroyed).toBe(1);
+
+    // And that it holds the nodes that are actually in the document, not the
+    // ones from the discarded first pass.
+    expect(fake.elements?.content).toBe(screen.getByTestId("content"));
+    expect(fake.elements?.body).toBe(screen.getByTestId("body"));
+    expect(screen.getByTestId("content").isConnected).toBe(true);
+  });
+
   it("destroys the controller exactly once on unmount", () => {
     const { unmount } = render(
       <Sheet open>

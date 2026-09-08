@@ -107,7 +107,6 @@ beforeEach(() => {
 afterEach(() => {
   for (const controller of controllers) controller.destroy();
   controllers.length = 0;
-  vi.unstubAllGlobals();
   vi.useRealTimers();
 });
 

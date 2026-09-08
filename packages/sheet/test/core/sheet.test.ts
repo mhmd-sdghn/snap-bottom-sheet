@@ -14,7 +14,7 @@ import {
   settle,
   ViewHeight,
 } from "../helpers/env.ts";
-import { fire } from "../helpers/pointer.ts";
+import { fire, press } from "../helpers/pointer.ts";
 
 interface Fixture extends SheetElements {
   wrapper: HTMLElement;
@@ -104,7 +104,6 @@ beforeEach(() => {
 afterEach(() => {
   for (const controller of controllers) controller.destroy();
   controllers.length = 0;
-  vi.unstubAllGlobals();
   vi.useRealTimers();
 });
 
@@ -580,6 +579,55 @@ describe("createSheet", () => {
     overlay.dispatchEvent(new MouseEvent("click", { bubbles: true }));
     await settle();
     expect(controller.getState().open).toBe(true);
+  });
+
+  it("12e. setElements hands over a body and a handle in place", async () => {
+    const el = fixture();
+    const body = el.body as HTMLElement;
+    const handle = el.handle as HTMLElement;
+    const controller = make(
+      { content: el.content },
+      { snapPoints: [0.3, { value: 0.9, scroll: true }] },
+    );
+    const opened = controller.open();
+    await settle();
+    await opened;
+    expect(yOf(el.content)).toBe(700);
+
+    controller.setElements({ body, handle });
+
+    // The handle is labelled, and the body carries the layout of the snap the
+    // sheet is already resting at — no scrolling at 0.3.
+    expect(handle.getAttribute("aria-label")).toBe("Resize sheet");
+    expect(body.style.overflow).toBe("hidden");
+    expect(body.style.overflowY).toBe("");
+
+    // Clicking the fresh handle cycles, and the body follows the new snap.
+    handle.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    await settle();
+    expect(controller.getState().snapIndex).toBe(1);
+    expect(yOf(el.content)).toBe(100);
+    expect(body.style.overflowY).toBe("auto");
+    expect(body.style.overflow).toBe("");
+
+    // So do its keys: Enter wraps back to the lowest snap.
+    press(handle, "Enter");
+    await settle();
+    expect(controller.getState().snapIndex).toBe(0);
+    expect(body.style.overflow).toBe("hidden");
+
+    controller.setElements({ body: null, handle: null });
+
+    expect(handle.getAttribute("aria-label")).toBeNull();
+    // Everything the sheet wrote on the body is handed back.
+    expect(body.style.overflow).toBe("");
+    expect(body.style.overflowY).toBe("");
+    expect(body.style.flex).toBe("");
+
+    handle.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+    press(handle, "Enter");
+    await settle();
+    expect(controller.getState().snapIndex).toBe(0);
   });
 
   it("12c. every method is a no-op after destroy()", async () => {

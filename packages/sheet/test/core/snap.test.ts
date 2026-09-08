@@ -180,19 +180,25 @@ describe("normalize", () => {
 });
 
 describe("steps", () => {
+  /**
+   * Precision 10, not the default 2: these values become pixel heights, and
+   * `toBeCloseTo(x)` alone accepts a 0.005 error — 5 px of a 1000 px view.
+   */
+  const Precision = 10;
+
   it("spreads evenly to 1 by default", () => {
     const result = steps(3);
     expect(result).toHaveLength(3);
-    expect(result[0]).toBeCloseTo(1 / 3);
-    expect(result[1]).toBeCloseTo(2 / 3);
-    expect(result[2]).toBeCloseTo(1);
+    expect(result[0]).toBeCloseTo(1 / 3, Precision);
+    expect(result[1]).toBeCloseTo(2 / 3, Precision);
+    expect(result[2]).toBeCloseTo(1, Precision);
   });
 
   it("honours from/to", () => {
     const result = steps(4, { from: 0.25, to: 1 });
     expect(result).toHaveLength(4);
     for (const [i, expected] of [0.25, 0.5, 0.75, 1].entries()) {
-      expect(result[i]).toBeCloseTo(expected);
+      expect(result[i]).toBeCloseTo(expected, Precision);
     }
   });
 
@@ -200,8 +206,19 @@ describe("steps", () => {
     expect(steps(0)).toEqual([]);
     expect(steps(-1)).toEqual([]);
     const two = steps(2, { from: 0.5 });
-    expect(two[0]).toBeCloseTo(0.5);
-    expect(two[1]).toBeCloseTo(1);
+    expect(two[0]).toBeCloseTo(0.5, Precision);
+    expect(two[1]).toBeCloseTo(1, Precision);
+  });
+
+  it("is exact for a single step, and drops what is not a count", () => {
+    // One step is `to` by default, and `from` when one is given — never both
+    // ends of a stride that does not exist.
+    expect(steps(1)).toEqual([1]);
+    expect(steps(1, { from: 0.3, to: 0.9 })).toEqual([0.3]);
+    // A fractional count is floored, not rounded.
+    expect(steps(2.9)).toHaveLength(2);
+    expect(steps(Number.NaN)).toEqual([]);
+    expect(steps(Number.POSITIVE_INFINITY)).toEqual([]);
   });
 
   it("ends exactly at `to` and starts exactly at `from` (C.1)", () => {

@@ -42,7 +42,6 @@ beforeEach(() => {
 
 afterEach(() => {
   cleanup();
-  vi.unstubAllGlobals();
   vi.useRealTimers();
 });
 

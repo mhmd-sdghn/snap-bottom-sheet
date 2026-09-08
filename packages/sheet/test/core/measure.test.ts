@@ -1,12 +1,4 @@
-import {
-  afterEach,
-  beforeAll,
-  beforeEach,
-  describe,
-  expect,
-  it,
-  vi,
-} from "vitest";
+import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { observeHeight, observeViewHeight } from "../../src/core/measure.ts";
 
 type Entry = { target: Element };
@@ -64,11 +56,11 @@ function setInnerHeight(height: number) {
   });
 }
 
-beforeAll(() => {
-  vi.stubGlobal("ResizeObserver", FakeResizeObserver);
-});
-
 beforeEach(() => {
+  // Per test, not once: `unstubGlobals` puts the real global back between
+  // tests. measure.ts keeps the first observer it built, so the fake's
+  // instance list survives the restubbing.
+  vi.stubGlobal("ResizeObserver", FakeResizeObserver);
   ro()?.observed.splice(0);
   ro()?.unobserved.splice(0);
 });

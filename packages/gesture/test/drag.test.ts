@@ -213,6 +213,32 @@ describe("cancelling", () => {
     expect(ends).toHaveLength(1);
     expect(ends[0]?.cancelled).toBe(true);
   });
+
+  it("reports capture lost mid-drag as a cancelled end", () => {
+    fire(el, "pointerdown", { clientY: 0 });
+    fire(el, "pointermove", { clientY: 10 });
+    fire(el, "lostpointercapture", { clientY: 10 });
+    expect(ends).toHaveLength(1);
+    expect(ends[0]?.cancelled).toBe(true);
+
+    // And the gesture is over: further moves belong to nobody.
+    fire(el, "pointermove", { clientY: 40 });
+    expect(ends).toHaveLength(1);
+  });
+
+  it("ignores the capture loss our own release causes", () => {
+    fire(el, "pointerdown", { clientY: 0 });
+    fire(el, "pointermove", { clientY: 10 });
+    fire(el, "pointerup", { clientY: 10 });
+    expect(ends).toHaveLength(1);
+    expect(ends[0]?.cancelled).toBe(false);
+
+    // `reset()` releases the capture, so the browser's lostpointercapture
+    // lands after the pointer id is already forgotten — and must not report a
+    // second, cancelled end for the same gesture.
+    fire(el, "lostpointercapture", { clientY: 10 });
+    expect(ends).toHaveLength(1);
+  });
 });
 
 describe("detach", () => {

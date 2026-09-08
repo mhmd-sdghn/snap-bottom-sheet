@@ -5,5 +5,7 @@ export default defineConfig({
     environment: "node",
     include: ["test/**/*.test.ts"],
     restoreMocks: true,
+    // Stubs are undone before the next test, so no suite has to remember to.
+    unstubGlobals: true,
   },
 });
