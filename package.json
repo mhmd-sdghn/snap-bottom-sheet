@@ -20,7 +20,7 @@
     "verify:pkg": "pnpm --filter snap-bottom-sheet verify:pkg",
     "check:dist": "pnpm --filter snap-bottom-sheet check:dist",
     "changeset": "changeset",
-    "release": "pnpm typecheck && pnpm test && pnpm build && pnpm check:dist && pnpm verify:pkg && changeset publish"
+    "release": "pnpm build && pnpm typecheck && pnpm test && pnpm check:dist && pnpm verify:pkg && changeset publish"
   },
   "devDependencies": {
     "@biomejs/biome": "^2.5.12",
