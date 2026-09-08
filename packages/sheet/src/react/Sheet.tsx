@@ -100,6 +100,17 @@ export const Sheet = forwardRef<SheetHandle, SheetProps>(
     });
 
     const [closing, setClosing] = useState(false);
+    /**
+     * Whether `onAnimationEnd(false)` has already fired for the close now in
+     * progress. `animating` cannot answer that question: it is false both
+     * *before* the closing spring starts and *after* it finishes, and the
+     * controller announces a dismissal (`onOpenChange(false)`) before it starts
+     * the spring. A consumer whose state update flushes synchronously therefore
+     * renders `closing` and runs the effect below in that gap, where reading
+     * `animating` says "nothing is animating" and the panel is unmounted with
+     * no animation at all.
+     */
+    const closeEnded = useRef(false);
 
     // Resolvers for handle.open()/close() calls still waiting on their
     // animation, keyed by the state they are waiting for.
@@ -217,7 +228,10 @@ export const Sheet = forwardRef<SheetHandle, SheetProps>(
         onDragStart: () => latest.current.onDragStart?.(),
         onDragEnd: (targetIndex) => latest.current.onDragEnd?.(targetIndex),
         onAnimationEnd: (isOpen) => {
-          if (!isOpen) setClosing(false);
+          if (!isOpen) {
+            closeEnded.current = true;
+            setClosing(false);
+          }
           for (const resolve of pendingRef.current[
             isOpen ? "open" : "close"
           ].splice(0))
@@ -271,13 +285,20 @@ export const Sheet = forwardRef<SheetHandle, SheetProps>(
         // (reducedMotion) started by the sheet itself fires onAnimationEnd
         // *before* the render that turns `closing` on, so nothing else would
         // ever turn it off and the panel would stay mounted for good.
-        if (!open && closing && !controller.getState().animating) {
-          setClosing(false);
-        }
+        //
+        // The test is "has this close already ended", not "is the spring
+        // animating" — the latter is also false in the gap between the
+        // dismissal being announced and the spring being started, and
+        // releasing there cuts the animation off before its first frame.
+        if (!open && closing && closeEnded.current) setClosing(false);
         return;
       }
-      if (open) controller.open();
-      else controller.close();
+      if (open) {
+        closeEnded.current = false;
+        controller.open();
+      } else {
+        controller.close();
+      }
     }, [open, closing, controllerVersion, reconcileVersion]);
 
     // Same shape for the snap index: in controlled mode `setSnapIndex` cannot
