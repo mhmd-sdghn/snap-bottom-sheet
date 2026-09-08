@@ -1,16 +1,16 @@
-# Graph Report - bottom-sheet-audit-f63d97  (2026-09-08)
+# Graph Report - snap-bottom-sheet  (2026-09-08)
 
 ## Corpus Check
-- 167 files · ~106,009 words
+- 176 files · ~114,618 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1386 nodes · 1815 edges · 144 communities (104 shown, 40 thin omitted)
-- Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 34 edges (avg confidence: 0.73)
+- 1458 nodes · 1943 edges · 153 communities (112 shown, 41 thin omitted)
+- Extraction: 98% EXTRACTED · 2% INFERRED · 0% AMBIGUOUS · INFERRED: 36 edges (avg confidence: 0.72)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `89faefa4`
+- Built from commit: `4fc704ac`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -148,18 +148,27 @@
 - Task 14 — review-loop fixes, React layer
 - SheetHandle
 - Task 15 — documentation style pass
+- Task 11 — core/react follow-ups surfaced by the docs pass
+- index.md
+- Task 14 — review-loop fixes, React layer
+- playwright.config.ts
+- Basic
+- Controlled
+- nested.md
+- snap-points.md
+- vanilla.md
 
 ## God Nodes (most connected - your core abstractions)
-1. `createSheet()` - 52 edges
+1. `createSheet()` - 54 edges
 2. `react` - 31 edges
-3. `SheetController` - 22 edges
-4. `isBrowser()` - 18 edges
-5. `settle()` - 18 edges
-6. `SheetOptions` - 17 edges
-7. `compilerOptions` - 16 edges
-8. `keywords` - 16 edges
+3. `SheetController` - 23 edges
+4. `settle()` - 20 edges
+5. `isBrowser()` - 18 edges
+6. `SheetOptions` - 18 edges
+7. `scripts` - 17 edges
+8. `DragDeps` - 17 edges
 9. `compilerOptions` - 16 edges
-10. `compilerOptions` - 16 edges
+10. `keywords` - 16 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `Snap points: pixels, percentages, dynamic` --semantically_similar_to--> `Pixel y-offset-from-top internal model`  [INFERRED] [semantically similar]
@@ -181,11 +190,11 @@
 - **Optional Graph Export Targets** — _claude_skills_graphify_references_exports_neo4j_export, _claude_skills_graphify_references_exports_falkordb_export, _claude_skills_graphify_references_exports_svg_export, _claude_skills_graphify_references_exports_graphml_export, _claude_skills_graphify_references_exports_wiki_export, _claude_skills_graphify_references_exports_mcp_server [EXTRACTED 1.00]
 - **Query Expansion, Traversal and Self-Improving Feedback Loop** — _claude_skills_graphify_references_query_constrained_query_expansion, _claude_skills_graphify_references_query_graph_vocabulary, _claude_skills_graphify_references_query_bfs_traversal, _claude_skills_graphify_references_query_save_result, _claude_skills_graphify_references_query_work_memory_lessons [EXTRACTED 1.00]
 
-## Communities (144 total, 40 thin omitted)
+## Communities (153 total, 41 thin omitted)
 
 ### Community 0 - "Lint and Tooling Dev Deps"
 Cohesion: 0.06
-Nodes (30): @biomejs/biome, @changesets/changelog-github, @changesets/cli, lefthook, devDependencies, @biomejs/biome, @changesets/changelog-github, @changesets/cli (+22 more)
+Nodes (33): @biomejs/biome, @changesets/changelog-github, @changesets/cli, lefthook, devDependencies, @biomejs/biome, @changesets/changelog-github, @changesets/cli (+25 more)
 
 ### Community 1 - "Package Manifest and Publishing"
 Cohesion: 0.13
@@ -196,16 +205,16 @@ Cohesion: 0.50
 Nodes (4): graphify skill trigger (/graphify), graphify query-first workflow for this repo, snap-bottom-sheet (library overview), Vite playground HTML entry
 
 ### Community 3 - "Compound Component and Types"
-Cohesion: 0.36
-Nodes (8): elementCallbacks, handleViewResize(), HeightCallback, heightOf(), notify(), observeHeight(), observeViewHeight(), viewCallbacks
+Cohesion: 0.27
+Nodes (17): index1Y(), openHandoff(), settled(), toIndex1(), cdp(), dispatch(), line(), Point (+9 more)
 
 ### Community 4 - "Context, Overlay and Drag Events"
 Cohesion: 0.67
 Nodes (3): Pixel y-offset-from-top internal model, Consumer best practices, Snap points: pixels, percentages, dynamic
 
 ### Community 5 - "App TypeScript Config"
-Cohesion: 0.12
-Nodes (12): attachDrag(), DragHandlers, DragOptions, DragState, Phase, Sample, ends, FakePointerEvent (+4 more)
+Cohesion: 0.18
+Nodes (7): DragState, ends, FakePointerEvent, FireInit, handlers, moves, starts
 
 ### Community 6 - "Library Declarations Config"
 Cohesion: 0.15
@@ -245,7 +254,7 @@ Nodes (8): API (exact), Behaviour, Done when, Goal, Report, Scope, Task 01 — `
 
 ### Community 16 - "Watch and Auto-Rebuild Hooks"
 Cohesion: 0.07
-Nodes (26): compilerOptions, allowImportingTsExtensions, esModuleInterop, forceConsistentCasingInFileNames, isolatedModules, jsx, lib, module (+18 more)
+Nodes (26): DOM, DOM.Iterable, ES2022, node, src, test, vitest.config.ts, tsdown.config.ts (+18 more)
 
 ### Community 18 - "Visualization and Wiki Exports"
 Cohesion: 0.06
@@ -260,16 +269,16 @@ Cohesion: 0.32
 Nodes (8): Watch Debounce Window, needs_update Flag, --watch Folder Watcher, Post-Commit Auto-Rebuild Hook, Work Memory and LESSONS.md Reflection, Code-Only Change Fast Path, No API Key Requirement, Part A Structural AST Extraction
 
 ### Community 25 - "ESLint Config File"
-Cohesion: 0.22
-Nodes (8): 04b — review findings to fix on the same branch (orchestrator review of 816d148), Contract, Done when, Goal, Report, Scope, Task 04 — core controller (`createSheet`), Tests (jsdom; stub `ResizeObserver`, `requestAnimationFrame` as in task 01, `matchMedia`)
+Cohesion: 0.20
+Nodes (9): FakeObserver, observers, ResizeCallback, ResizeEntryLike, resizeTo(), setHeight(), yOf(), controllers (+1 more)
 
 ### Community 26 - "Vite Env Types"
-Cohesion: 0.09
-Nodes (8): DragDeps, scrollWins(), createSpring(), hasRaf(), now(), SetOptions, Spring, SpringConfig
+Cohesion: 0.13
+Nodes (5): attachSheetDrag(), DragDeps, dragFilter(), ResolvedSnap, useControllableState()
 
 ### Community 27 - "Playground Vite Config"
-Cohesion: 0.16
-Nodes (11): Animatable, FakeObserver, installTestEnv(), observers, ResizeCallback, ResizeEntryLike, settle(), yOf() (+3 more)
+Cohesion: 0.18
+Nodes (7): Animatable, settle(), flush(), opened(), controllers, make(), opened()
 
 ### Community 28 - "Library Vite Config"
 Cohesion: 0.33
@@ -280,8 +289,8 @@ Cohesion: 0.07
 Nodes (26): dependencies, react, react-dom, snap-bottom-sheet, devDependencies, @types/react, @types/react-dom, typescript (+18 more)
 
 ### Community 30 - "config.json"
-Cohesion: 0.12
-Nodes (16): access, baseBranch, changelog, commit, fixed, ignore, linked, $schema (+8 more)
+Cohesion: 0.11
+Nodes (17): access, baseBranch, changelog, commit, fixed, ignore, linked, $schema (+9 more)
 
 ### Community 31 - "package.json"
 Cohesion: 0.33
@@ -289,7 +298,7 @@ Nodes (6): source_file Verbatim Rule, build_merge Replace-on-Re-Extract, prune_s
 
 ### Community 32 - "Contracts"
 Cohesion: 0.07
-Nodes (27): jsdom, @types/node, typescript, vitest, author, description, devDependencies, jsdom (+19 more)
+Nodes (27): author, description, devDependencies, jsdom, @types/node, typescript, vitest, exports (+19 more)
 
 ### Community 33 - "devDependencies"
 Cohesion: 0.33
@@ -308,12 +317,12 @@ Cohesion: 0.67
 Nodes (3): Content mode (no real snap points), Sheet.DynamicHeight must be the first child, Dynamic height handling usage
 
 ### Community 37 - "Task 00 — monorepo scaffold (nBridge tooling)"
-Cohesion: 0.29
-Nodes (6): Done when, Goal, Report, Rules, Scope, Task 08 — playgrounds (vanilla, react, next)
+Cohesion: 0.20
+Nodes (9): devDependencies, @playwright/test, name, private, scripts, test, type, version (+1 more)
 
 ### Community 39 - "graphify reference: add a URL and watch a folder"
 Cohesion: 0.07
-Nodes (26): compilerOptions, allowJs, esModuleInterop, incremental, isolatedModules, jsx, lib, module (+18 more)
+Nodes (27): compilerOptions, allowJs, esModuleInterop, incremental, isolatedModules, jsx, lib, module (+19 more)
 
 ### Community 53 - "compilerOptions"
 Cohesion: 0.08
@@ -321,51 +330,55 @@ Nodes (23): DOM, DOM.Iterable, ES2022, node, src, test, vitest.config.ts, compil
 
 ### Community 54 - "package.json"
 Cohesion: 0.11
-Nodes (17): @types/node, typescript, vitest, devDependencies, @types/node, typescript, vitest, exports (+9 more)
+Nodes (17): devDependencies, @types/node, typescript, vitest, exports, @types/node, typescript, vitest (+9 more)
 
 ### Community 55 - "Contracts"
 Cohesion: 0.14
 Nodes (13): Contracts, Done when, Goal, Report, Scope, `src/core/env.ts`, `src/core/measure.ts`, `src/core/scroll-lock.ts` (fixes P0-6) (+5 more)
 
 ### Community 56 - "Task 07 — React bindings (`snap-bottom-sheet/react`)"
-Cohesion: 0.25
-Nodes (7): Behaviour, Done when, Goal, Report, Scope, Task 07 — React bindings (`snap-bottom-sheet/react`), Tests (mock `createSheet` with `vi.mock("../../src/core/sheet.ts")` returning a fake controller whose methods are `vi.fn()` and whose `subscribe` lets tests push states)
+Cohesion: 0.27
+Nodes (5): attachDrag(), DragHandlers, DragOptions, Phase, Sample
 
 ### Community 57 - "Task 05 — documentation site (VitePress)"
-Cohesion: 0.29
-Nodes (6): Done when, Goal, Reference, Report, Scope, Task 05 — documentation site (VitePress)
+Cohesion: 0.20
+Nodes (9): Controlled, Controlled State, `onAnimationEnd` and unmounting, Reading live state, The dismissal contract, The imperative handle, The two pairs of props, Uncontrolled (+1 more)
 
 ### Community 58 - "Task 06 — repository meta: README, CONTRIBUTING, CLAUDE.md, changeset"
-Cohesion: 0.33
-Nodes (5): Done when, Goal, Report, Scope, Task 06 — repository meta: README, CONTRIBUTING, CLAUDE.md, changeset
+Cohesion: 0.31
+Nodes (7): controllers, make(), open(), Snaps, swipe(), stubScroller(), fire()
 
 ### Community 62 - "Task 09 — live demos in the docs site"
-Cohesion: 0.29
-Nodes (6): Done when, Goal, Report, Rules, Scope, Task 09 — live demos in the docs site
+Cohesion: 0.22
+Nodes (8): Accessibility, Dialog semantics, Escape, Next, Reduced motion, The handle, What `modal` turns on, Your checklist
 
 ### Community 63 - "Task 10 — integration tests, regression suite, bundle budget"
-Cohesion: 0.29
-Nodes (6): Done when, Goal, Report, Rules, Scope, Task 10 — integration tests, regression suite, bundle budget
+Cohesion: 0.22
+Nodes (8): Content mode, Dynamic Height, How each one is measured, Live re-measure, and the spring-not-jump rule, The peek-and-list pattern, The two values, The vanilla contract for the inner element, Where next
 
 ### Community 64 - "sheet.ts"
-Cohesion: 0.11
-Nodes (32): applyInert(), applySnapLayout(), bodyBaseStyles(), contentBaseStyles(), findContentInner(), FOCUSABLE, hasInertProp(), innerBaseStyles() (+24 more)
+Cohesion: 0.05
+Nodes (60): applyInert(), applySnapLayout(), bodyBaseStyles(), contentBaseStyles(), findContentInner(), FOCUSABLE, focusFirst(), hasInertProp() (+52 more)
 
 ### Community 65 - "sheet.test.ts"
-Cohesion: 0.20
-Nodes (5): controllers, drag(), Fixture, make(), isObserved()
+Cohesion: 0.14
+Nodes (10): SheetElements, Fixture, Fixture, controllers, drag(), Fixture, make(), isObserved() (+2 more)
+
+### Community 68 - "vitest.setup.ts"
+Cohesion: 0.22
+Nodes (8): A mixed array, Indices stay in your order, Per-snap options, Snap Points, `steps()`, Value forms, When a measured value changes, Where next
 
 ### Community 69 - "devDependencies"
-Cohesion: 0.08
-Nodes (24): devDependencies, react, react-dom, snap-bottom-sheet, @types/react, @types/react-dom, typescript, vitepress (+16 more)
+Cohesion: 0.07
+Nodes (26): devDependencies, react, react-dom, snap-bottom-sheet, @types/node, @types/react, @types/react-dom, typescript (+18 more)
 
 ### Community 74 - "Core API"
 Cohesion: 0.11
 Nodes (17): `close()`, Core API, `createSheet(elements, options?)`, `destroy()`, `getState()`, `open()`, Semantics, `setElements(elements)` (+9 more)
 
 ### Community 75 - "drag.ts"
-Cohesion: 0.17
-Nodes (9): controllers, drag(), resizeTo(), setHeight(), FakePointerEvent, FireInit, press(), controllers (+1 more)
+Cohesion: 0.20
+Nodes (6): controllers, drag(), make(), FakePointerEvent, FireInit, press()
 
 ### Community 76 - "Parts"
 Cohesion: 0.12
@@ -380,8 +393,8 @@ Cohesion: 0.18
 Nodes (10): A complete sheet, Controller lifecycle, Dialog semantics without React, The content-inner measurement contract, The CSS, The JavaScript, The markup, Vanilla JS (+2 more)
 
 ### Community 80 - "Controlled State"
-Cohesion: 0.20
-Nodes (9): Controlled, Controlled State, `onAnimationEnd` and unmounting, Reading live state, The dismissal contract, The imperative handle, The two pairs of props, Uncontrolled (+1 more)
+Cohesion: 0.22
+Nodes (8): 04b — review findings to fix on the same branch (orchestrator review of 816d148), Contract, Done when, Goal, Report, Scope, Task 04 — core controller (`createSheet`), Tests (jsdom; stub `ResizeObserver`, `requestAnimationFrame` as in task 01, `matchMedia`)
 
 ### Community 81 - "Gestures"
 Cohesion: 0.20
@@ -393,31 +406,31 @@ Nodes (9): A starter stylesheet, CSS custom properties, Data attributes, Next, S
 
 ### Community 83 - "Accessibility"
 Cohesion: 0.22
-Nodes (8): Accessibility, Dialog semantics, Escape, Next, Reduced motion, The handle, What `modal` turns on, Your checklist
+Nodes (8): Build / CI / config, Core (6), Docs site code (5, all Medium), Done when, Playgrounds, React layer (5), Task 16 — OpenCodeReview (delegation mode) fixes, Test suite (11)
 
 ### Community 84 - "Core Concepts"
 Cohesion: 0.22
 Nodes (8): Content mode, Controller and bindings, Core Concepts, Everything is a y-offset, Measured snap values, Modal and non-modal, Snap indices are your array order, Where next
 
 ### Community 85 - "Dynamic Height"
-Cohesion: 0.22
-Nodes (8): Content mode, Dynamic Height, How each one is measured, Live re-measure, and the spring-not-jump rule, The peek-and-list pattern, The two values, The vanilla contract for the inner element, Where next
+Cohesion: 0.36
+Nodes (5): createSpring(), hasRaf(), now(), SetOptions, SpringConfig
 
 ### Community 86 - "Snap Points"
-Cohesion: 0.22
-Nodes (8): A mixed array, Indices stay in your order, Per-snap options, Snap Points, `steps()`, Value forms, When a measured value changes, Where next
+Cohesion: 0.25
+Nodes (7): App Router, Other server renderers, Pages Router, SSR & Next.js, The `"use client"` banner, What the library guarantees, Where next
 
 ### Community 87 - "Styling Hooks"
 Cohesion: 0.22
 Nodes (8): CSS custom properties, Data attributes, Overlay fade, Recipes, Style by active snap, Styling Hooks, Where next, Write cadence
 
 ### Community 88 - "Scrolling"
-Cohesion: 0.25
-Nodes (7): A scrollable list, Reaching the end of the content, Scroll versus drag, Scrolling, `Sheet.Body` is the scroll region, Where next, Why the panel is `touch-action: none`
+Cohesion: 0.22
+Nodes (8): A scrollable list, After you let go, One gesture, two phases, Reaching the end of the content, Scrolling, `Sheet.Body` is the scroll region, Where next, Why the panel is `touch-action: none`
 
 ### Community 89 - "SSR & Next.js"
 Cohesion: 0.25
-Nodes (7): App Router, Other server renderers, Pages Router, SSR & Next.js, The `"use client"` banner, What the library guarantees, Where next
+Nodes (7): Behaviour, Done when, Goal, Report, Scope, Task 07 — React bindings (`snap-bottom-sheet/react`), Tests (mock `createSheet` with `vi.mock("../../src/core/sheet.ts")` returning a fake controller whose methods are `vi.fn()` and whose `subscribe` lets tests push states)
 
 ### Community 90 - "Snap Points"
 Cohesion: 0.25
@@ -425,19 +438,19 @@ Nodes (7): Resolution rules, Snap Points, `SnapPointConfig`, `SnapValue` forms, 
 
 ### Community 91 - "Getting Started"
 Cohesion: 0.29
-Nodes (6): 1. Install, 2. A sheet in React, 3. The same sheet in vanilla JS, Getting Started, Next steps, Two entry points
+Nodes (6): Done when, Goal, Reference, Report, Scope, Task 05 — documentation site (VitePress)
 
 ### Community 92 - "Migrating from 0.x"
-Cohesion: 0.33
-Nodes (5): Before and after, Migrating from 0.x, Removals and replacements, What also changed, Where next
+Cohesion: 0.29
+Nodes (6): 1. Install, 2. A sheet in React, 3. The same sheet in vanilla JS, Getting Started, Next steps, Two entry points
 
 ### Community 93 - "Nested Sheets"
-Cohesion: 0.33
-Nodes (5): A two-level example, Nested Sheets, Next, What nesting does not do for you, What nesting gives you
+Cohesion: 0.29
+Nodes (6): Done when, Goal, Report, Rules, Scope, Task 08 — playgrounds (vanilla, react, next)
 
 ### Community 94 - "FakeResizeObserver"
 Cohesion: 0.11
-Nodes (18): compilerOptions, isolatedModules, lib, module, moduleResolution, noEmit, noUncheckedIndexedAccess, skipLibCheck (+10 more)
+Nodes (18): DOM, DOM.Iterable, ES2022, src, vite.config.ts, compilerOptions, isolatedModules, lib (+10 more)
 
 ### Community 95 - "Spring"
 Cohesion: 0.12
@@ -445,63 +458,87 @@ Nodes (16): dependencies, snap-bottom-sheet, devDependencies, typescript, vite, 
 
 ### Community 96 - "ReactDemo.vue"
 Cohesion: 0.07
-Nodes (26): compilerOptions, allowImportingTsExtensions, esModuleInterop, forceConsistentCasingInFileNames, isolatedModules, jsx, lib, module (+18 more)
+Nodes (26): DOM, DOM.Iterable, ES2022, node, frame, props, .vitepress/config.ts, .vitepress/env.d.ts (+18 more)
 
 ### Community 97 - "Task 11 — core/react follow-ups surfaced by the docs pass"
-Cohesion: 0.50
-Nodes (3): Changes, Done when, Task 11 — core/react follow-ups surfaced by the docs pass
+Cohesion: 0.29
+Nodes (6): Done when, Goal, Report, Rules, Scope, Task 09 — live demos in the docs site
+
+### Community 98 - "index.md"
+Cohesion: 0.29
+Nodes (6): Done when, Goal, Report, Rules, Scope, Task 10 — integration tests, regression suite, bundle budget
 
 ### Community 101 - "main.ts"
-Cohesion: 0.15
-Nodes (15): actions, app, button(), el(), hint, host, mount(), page (+7 more)
+Cohesion: 0.17
+Nodes (14): actions, app, button(), el(), hint, host, mount(), pick (+6 more)
 
 ### Community 102 - "sheet.test.tsx"
-Cohesion: 0.18
-Nodes (12): attachSheetDrag(), blurInside(), BlurredTags, dragFilter(), SheetDrag, clamp(), cycleFrom(), progressOf() (+4 more)
+Cohesion: 0.26
+Nodes (10): blurInside(), BlurredTags, Mode, clamp(), cycleFrom(), progressOf(), stepFrom(), topmostY() (+2 more)
 
 ### Community 103 - "App.tsx"
 Cohesion: 0.18
 Nodes (8): declarations, dist, files, isDir(), manifest, problems, scripts, walk()
 
 ### Community 104 - "SheetController"
-Cohesion: 0.14
-Nodes (11): Sheet, SheetHandle, useSheetState(), createSheetMock, Threshold(), All(), createSheetMock, OpenOnly() (+3 more)
+Cohesion: 0.11
+Nodes (15): Sheet, SheetHandle, useSheetState(), FakeController, makeFakeController(), createSheetMock, Threshold(), createSheetMock (+7 more)
 
 ### Community 107 - "snap-bottom-sheet playgrounds"
-Cohesion: 0.40
-Nodes (4): Manual QA checklist, Running, snap-bottom-sheet playgrounds, The styling contract
+Cohesion: 0.29
+Nodes (6): Also (tiny), Changes, Done when, Escape lost after a vetoed dismissal (task 10 finding — real bug, fix here), Task 12 — container-scoped modal behaviour + handle JSDoc, Tests
 
 ### Community 110 - "pointer.ts"
 Cohesion: 0.18
 Nodes (3): mountDemo(), metadata, react
 
+### Community 112 - "SheetElements"
+Cohesion: 0.14
+Nodes (7): SheetController, controllers, drag(), Fixture, make(), opened(), rest()
+
 ### Community 113 - "SheetController"
-Cohesion: 0.16
-Nodes (8): PartName, SheetContext, SheetContextValue, Portal(), PortalProps, Parts, Sheet, useControllableState()
+Cohesion: 0.17
+Nodes (8): PartName, SheetContext, SheetContextValue, Portal(), PortalProps, Parts, Sheet, SheetProps
 
 ### Community 114 - "Task 12 — container-scoped modal behaviour + handle JSDoc"
-Cohesion: 0.29
-Nodes (6): Also (tiny), Changes, Done when, Escape lost after a vetoed dismissal (task 10 finding — real bug, fix here), Task 12 — container-scoped modal behaviour + handle JSDoc, Tests
+Cohesion: 0.33
+Nodes (5): Done when, Goal, Report, Scope, Task 06 — repository meta: README, CONTRIBUTING, CLAUDE.md, changeset
+
+### Community 115 - "basic.md"
+Cohesion: 0.33
+Nodes (5): Behaviour, Done when, Playwright e2e (new), Task 19 — continuous drag ↔ scroll handoff (library-driven touch scrolling), Unit tests (jsdom, existing helpers; stub `scrollHeight`/`clientHeight` with defineProperty, `scrollTop` is writable in jsdom)
+
+### Community 116 - "controlled.md"
+Cohesion: 0.33
+Nodes (5): Ceilings, Decisions, Done when, Scope, Task 20 — publish the React playground on GitHub Pages
+
+### Community 118 - "nested.md"
+Cohesion: 0.33
+Nodes (5): Done when, Scope, Task 21 — docs messaging: capabilities, not 0.x bugs, What to say instead, Why
+
+### Community 121 - "vanilla.md"
+Cohesion: 0.33
+Nodes (5): Before and after, Migrating from 0.x, Removals and replacements, What also changed, Where next
 
 ### Community 124 - "vanilla.test.ts"
 Cohesion: 0.18
 Nodes (3): drag(), flush(), StateProbe()
 
 ### Community 125 - "review-lifecycle.test.ts"
-Cohesion: 0.16
-Nodes (12): SnapPoint, SheetElements, SheetState, SheetProps, Fixture, FakeController, INITIAL, makeFakeController() (+4 more)
+Cohesion: 0.33
+Nodes (5): A two-level example, Nested Sheets, Next, What nesting does not do for you, What nesting gives you
 
 ### Community 126 - "scroll-lock.ts"
-Cohesion: 0.13
-Nodes (23): focusFirst(), isBrowser(), noop(), once(), resetWarnings(), warned, EscapeEntry, onDocumentKeyDown() (+15 more)
+Cohesion: 0.33
+Nodes (5): A. Independent core review (W2), B. Automated review — core, spring, gesture, build (W1), C. Sweep (fresh reviewer, gaps only) — W1, Done when, Task 13 — review-loop fixes
 
 ### Community 127 - "Hand-off — snap-bottom-sheet 1.0 on branch `v1`"
 Cohesion: 0.33
 Nodes (5): Hand-off — snap-bottom-sheet 1.0, How it was checked, Known limits (deliberate), What is left for you, What is on `main`
 
 ### Community 128 - "snap.ts"
-Cohesion: 0.26
-Nodes (13): closest(), decideRelease(), isConfig(), isContentMode(), MeasureContext, normalize(), NormalizedSnap, project() (+5 more)
+Cohesion: 0.19
+Nodes (16): closest(), decideRelease(), isConfig(), isContentMode(), MeasureContext, normalize(), NormalizedSnap, project() (+8 more)
 
 ### Community 129 - "package.json"
 Cohesion: 0.17
@@ -516,8 +553,8 @@ Cohesion: 0.33
 Nodes (5): Also, Escape and the modal lock, Fixed, Removed, Two entry points
 
 ### Community 133 - "SheetHandle"
-Cohesion: 0.19
-Nodes (11): isInert(), fire(), controllers, drag(), Fixture, opened(), rest(), controllers (+3 more)
+Cohesion: 0.29
+Nodes (6): isInert(), attach(), controllers, drag(), Fixture, opened()
 
 ### Community 134 - "scripts"
 Cohesion: 0.22
@@ -529,7 +566,7 @@ Nodes (7): react, react-dom, react, react-dom, peerDependencies, react, react-do
 
 ### Community 136 - "Task 13 — review-loop fixes"
 Cohesion: 0.33
-Nodes (5): A. Independent core review (W2), B. Automated review — core, spring, gesture, build (W1), C. Sweep (fresh reviewer, gaps only) — W1, Done when, Task 13 — review-loop fixes
+Nodes (5): Done when, Report, Steps, Task 15 — documentation style pass, The style (owner's requirement)
 
 ### Community 137 - "exports"
 Cohesion: 0.40
@@ -544,36 +581,40 @@ Cohesion: 0.50
 Nodes (4): repository, directory, type, url
 
 ### Community 140 - "use-controllable-state.ts"
-Cohesion: 0.22
-Nodes (8): Build / CI / config, Core (6), Docs site code (5, all Medium), Done when, Playgrounds, React layer (5), Task 16 — OpenCodeReview (delegation mode) fixes, Test suite (11)
+Cohesion: 0.40
+Nodes (3): installTestEnv(), controllers, make()
+
+### Community 141 - "Task 14 — review-loop fixes, React layer"
+Cohesion: 0.40
+Nodes (4): Manual QA checklist, Running, snap-bottom-sheet playgrounds, The styling contract
 
 ### Community 142 - "SheetHandle"
 Cohesion: 0.29
 Nodes (6): Done when, Goal, Reference material (read first), Report, Steps, Task 00 — monorepo scaffold (nBridge tooling)
 
-### Community 143 - "Task 15 — documentation style pass"
-Cohesion: 0.33
-Nodes (5): Done when, Report, Steps, Task 15 — documentation style pass, The style (owner's requirement)
+### Community 144 - "Task 11 — core/react follow-ups surfaced by the docs pass"
+Cohesion: 0.50
+Nodes (3): Changes, Done when, Task 11 — core/react follow-ups surfaced by the docs pass
 
 ## Knowledge Gaps
-- **698 isolated node(s):** `$schema`, `@changesets/changelog-github`, `commit`, `fixed`, `linked` (+693 more)
+- **729 isolated node(s):** `$schema`, `@changesets/changelog-github`, `commit`, `fixed`, `linked` (+724 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **40 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **41 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `react` connect `pointer.ts` to `Package Manifest and Publishing`, `SheetController`, `Semantic Extraction Spec`, `sheet-demo.tsx`, `Sheet.tsx`, `SheetController`, `Playground Vite Config`, `vanilla.test.ts`, `review-lifecycle.test.ts`?**
-  _High betweenness centrality (0.050) - this node is a cross-community bridge._
+- **Why does `react` connect `pointer.ts` to `Package Manifest and Publishing`, `SheetController`, `Semantic Extraction Spec`, `sheet-demo.tsx`, `Sheet.tsx`, `SheetController`, `Vite Env Types`, `Playground Vite Config`, `vanilla.test.ts`?**
+  _High betweenness centrality (0.052) - this node is a cross-community bridge._
+- **Why does `createSheet()` connect `sheet.ts` to `snap.ts`, `sheet.test.ts`, `Task 06 — repository meta: README, CONTRIBUTING, CLAUDE.md, changeset`, `main.ts`, `sheet.test.tsx`, `SheetHandle`, `SheetController`, `drag.ts`, `use-controllable-state.ts`, `Task 15 — documentation style pass`, `SheetElements`, `SheetController`, `Dynamic Height`, `ESLint Config File`, `Vite Env Types`, `Playground Vite Config`?**
+  _High betweenness centrality (0.031) - this node is a cross-community bridge._
 - **Why does `keywords` connect `Package Manifest and Publishing` to `package.json`, `pointer.ts`?**
-  _High betweenness centrality (0.035) - this node is a cross-community bridge._
-- **Why does `createSheet()` connect `sheet.ts` to `snap.ts`, `sheet.test.ts`, `Compound Component and Types`, `vitest.setup.ts`, `main.ts`, `sheet.test.tsx`, `SheetHandle`, `SheetController`, `drag.ts`, `SheetElements`, `SheetController`, `Vite Env Types`, `Playground Vite Config`, `review-lifecycle.test.ts`, `scroll-lock.ts`?**
-  _High betweenness centrality (0.024) - this node is a cross-community bridge._
+  _High betweenness centrality (0.028) - this node is a cross-community bridge._
 - **Are the 2 inferred relationships involving `createSheet()` (e.g. with `.cycle()` and `el()`) actually correct?**
   _`createSheet()` has 2 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `$schema`, `@changesets/changelog-github`, `commit` to the rest of the system?**
-  _698 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _729 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `Lint and Tooling Dev Deps` be split into smaller, more focused modules?**
-  _Cohesion score 0.06451612903225806 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.058823529411764705 - nodes in this community are weakly interconnected._
 - **Should `Package Manifest and Publishing` be split into smaller, more focused modules?**
   _Cohesion score 0.13333333333333333 - nodes in this community are weakly interconnected._

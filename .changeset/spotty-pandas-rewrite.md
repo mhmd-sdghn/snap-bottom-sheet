@@ -37,6 +37,14 @@ Also new: `Sheet.Handle`, `Sheet.Header`, `Sheet.Body`, `Sheet.Title`,
 `Sheet.Description`, `Sheet.Close`, a `SheetHandle` ref (`open`, `close`,
 `snapTo`, `activeSnapIndex`, `y`), `useSheetState()`, and `steps()`.
 
+- **Dragging and scrolling are one gesture now.** Drag up with your finger
+  inside `Sheet.Body` and the sheet rises to the first snap you marked
+  `scroll: true`, where the same movement carries on as scrolling. Scroll back
+  to the top of the list and the same movement drags the sheet down again. You
+  never have to lift your finger, neither handoff jumps, and letting go while
+  the content is moving leaves it coasting to a stop. `Sheet.Content` carries a
+  new `data-scrolling` attribute for the scrolling half of a gesture.
+
 ### Fixed
 
 These are the 0.x bugs that the rewrite removes. Each one has a regression test.

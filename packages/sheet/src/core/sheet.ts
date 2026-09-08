@@ -312,6 +312,8 @@ export function createSheet(
     }
     const seq = ++snapSeq;
     if (target.index !== snapIndex) {
+      // A fling on the content belongs to the snap it started at.
+      drag.stopScroll();
       snapIndex = target.index;
       notify();
       // Content mode synthesizes its single position, so there is no index the
@@ -417,6 +419,7 @@ export function createSheet(
       return Promise.resolve();
     }
     isOpen = false;
+    drag.stopScroll();
     // Cancels a still-deferred open, whose waiter beginTransition settles.
     deferredOpen = null;
     const done = beginTransition("close");
@@ -473,9 +476,24 @@ export function createSheet(
     isOpen: () => isOpen,
     resolved: () => resolved,
     viewHeight: () => viewHeight,
+    contentHeight: () => contentHeight,
     snapIndex: () => snapIndex,
     dismissible,
+    reducedMotion: immediateByPreference,
     snapTo: (index, o) => void snapTo(index, o),
+    // The gesture crossed into a scrolling snap and the content takes the rest
+    // of it. The sheet is already resting at `snap.y`, so this is that snap's
+    // at-rest DOM — above all, the body laid out as a scroller — applied
+    // mid-gesture, where the drag would otherwise hold it back.
+    enterScrollSnap: (snap) => {
+      const changed = snap.index !== snapIndex;
+      snapIndex = snap.index;
+      applyRest(snap);
+      notify();
+      if (changed && !contentMode()) {
+        opts.onSnapIndexChange?.(snap.index, snap.point);
+      }
+    },
     dismiss: () => dismiss(),
     notify,
     onDragStart: () => opts.onDragStart?.(),
@@ -791,7 +809,7 @@ export function createSheet(
       content.style.removeProperty(`--snap-sheet-${prop}`);
     }
     // data-content-mode and the aria refs come back through `restoreAria`.
-    for (const attr of ["data-snap-index", "data-dragging"]) {
+    for (const attr of ["data-snap-index", "data-dragging", "data-scrolling"]) {
       content.removeAttribute(attr);
     }
     parts.overlay?.removeAttribute("data-state");

@@ -64,10 +64,11 @@ get their own version.
 | `snap.ts` | snap types, `steps`, resolution, closest/projection, release decision |
 | `position.ts` | y math, progress, and the index/step/cycle helpers |
 | `measure.ts` | shared `ResizeObserver` for `"header"` / `"content"` / view height |
-| `drag.ts` | gesture bindings and the drag/scroll arbitration |
+| `drag.ts` | gesture bindings and the per-move drag ↔ scroll arbiter (one finger moves the sheet up to its scroll ceiling, then the content, and back) |
 | `keyboard.ts` | handle keys, the Escape stack |
 | `modal.ts` | scroll lock + `inert` + focus capture/restore, as one guard |
 | `scroll-lock.ts` | refcounted document scroll lock that restores what it saved |
+| `scroll-momentum.ts` | the decay loop for a released content fling |
 | `dom.ts` | the frame and rest writes, attribute/style helpers, base style tables, `inert`, focus, content-inner lookup |
 | `env.ts` | `isBrowser`, `clamp`, `warnOnce` |
 | `types.ts` | the public core types |

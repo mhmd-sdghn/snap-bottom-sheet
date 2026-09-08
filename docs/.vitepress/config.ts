@@ -82,7 +82,7 @@ export default defineConfig({
           items: [
             { text: "SSR & Next.js", link: "/guide/ssr-nextjs" },
             { text: "Vanilla JS", link: "/guide/vanilla" },
-            { text: "Migrating from 0.x", link: "/guide/migration" },
+            { text: "Migration guide", link: "/guide/migration" },
           ],
         },
       ],

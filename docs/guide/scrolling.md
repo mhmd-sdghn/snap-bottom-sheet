@@ -103,32 +103,70 @@ document.querySelector("#pick")?.addEventListener("click", () => {
 
 :::
 
-The `body` element has to be the scroll region for the rule below to work. In
-the vanilla version, that means you pass `createSheet` the same element your CSS
-gives `flex: 1`. The engine sets `overflow-y` and `overscroll-behavior` on it.
-Padding, gaps and item styling stay yours.
+The `body` element has to be the scroll region for the behaviour below to work.
+In the vanilla version, that means you pass `createSheet` the same element your
+CSS gives `flex: 1`. The engine sets `overflow`, `touch-action` and
+`overscroll-behavior` on it, and it drives its `scrollTop` during a touch
+gesture. Padding, gaps and item styling stay yours.
 
-## Scroll versus drag
+## One gesture, two phases
 
-At a `scroll: true` snap, one downward gesture inside the body could mean two
-things. Here is the rule the engine applies, at the moment the drag crosses its
-3 px threshold:
+At a `scroll: true` snap the library drives the touch scrolling inside
+`Sheet.Body` itself, in JavaScript. The mouse wheel, the keyboard and the
+scrollbar stay native, because the body is still `overflow-y: auto`. A single
+touch gesture can therefore move the sheet and then scroll the content, or the
+other way round, and you never have to lift your finger in between.
 
-**The sheet takes over the gesture only when `body.scrollTop <= 0` and the user
-is pulling down, or when the sheet has already moved away from its snap. In
-every other case the native scroll continues and the drag is cancelled.**
+**Dragging up from a lower snap.** With the finger inside the body, the sheet
+rises until it reaches the nearest `scroll: true` snap at or above where it
+started. It stops there, and the rest of the same movement scrolls the content.
+Nothing jumps: the frame that crosses that snap splits its movement between the
+sheet and the content.
+
+**Scrolling towards the top of the list.** Once `scrollTop` reaches `0` and the
+finger keeps moving down, the same movement starts dragging the sheet down. The
+crossing frame is split again. Direction locks still apply, so a snap with
+`drag: { down: false }` stays exactly where it is.
 
 In practice:
 
 | Situation | What happens |
 |---|---|
-| List scrolled part-way, drag down | Native scroll, sheet stays put |
-| List at the top (`scrollTop <= 0`), drag down | Sheet drags down |
-| Any position, drag up | Native scroll up to the list's end |
-| Sheet already mid-drag between snaps | Sheet keeps dragging, scroll ignored |
+| Drag up inside the body, below a `scroll: true` snap | The sheet rises to that snap, then the same movement scrolls the content |
+| Drag up inside the body, content shorter than the body | There is nothing to scroll, so the drag carries on to the higher snaps |
+| Keep dragging up once the list has reached its end | The list stops there and the sheet stays put |
+| Drag down inside the body, list scrolled part-way | The content scrolls towards its top |
+| Keep dragging down once `scrollTop` has reached `0` | The sheet drags down, subject to the snap's direction locks |
+| Drag on the handle, the header, or anywhere outside the body | The sheet drags across every snap, the ones above the scrolling snap included |
 
-A cancelled drag calls neither `onDragStart` nor `onDragEnd`. As far as the
-sheet is concerned, the gesture never started.
+Snaps above the scrolling one are still reachable, then. You just reach them
+from outside `Sheet.Body`. A `data-snap-sheet-no-drag` region is unchanged, and
+still opted out of both: neither a drag nor a library scroll starts inside it.
+
+### After you let go
+
+If you let go while the content was scrolling, the content carries on with a
+momentum fling and comes smoothly to a stop, at the top or the bottom of the
+list. It never bounces past either end, and it never moves the sheet. The next
+touch cancels it, and so do a snap change and a close. Under
+`prefers-reduced-motion: reduce`, or with `reducedMotion: true`, there is no
+fling at all.
+
+If you let go while the sheet was moving, the release is the usual one: the
+velocity is projected forward and the sheet springs to the snap it was heading
+for. See [Gestures](/guide/gestures#where-a-release-lands).
+
+The sheet itself only moves while your finger is down, plus that spring
+afterwards. The momentum belongs to the content alone.
+
+A gesture inside a scrollable body belongs to the sheet in both phases, so
+`onDragStart` and `onDragEnd` both fire for it. When the release happened during
+the scrolling phase, `onDragEnd` reports the snap the sheet is resting at.
+
+For CSS, `Sheet.Content` carries `data-scrolling` while the finger is scrolling
+the content and `data-dragging` while the finger is moving the sheet. The two
+never appear together. See
+[Styling Hooks](/reference/styling-hooks#data-attributes).
 
 ## Why the panel is `touch-action: none`
 
@@ -142,25 +180,25 @@ So:
 - `Sheet.Content`, the panel, gets `touch-action: none`. Nothing above the body
   can pan or zoom, so the panel's own drag recogniser receives every pointer.
 - At a snap with `scroll: true`, `Sheet.Body` gets
-  `overflow-y: auto; overscroll-behavior: contain` and keeps its default
-  `touch-action`. The body is now a scroller, so the browser **stops there**. It
-  never reads the panel's `touch-action: none`, and native scrolling keeps its
-  full momentum. `overscroll-behavior: contain` stops the page behind from
+  `overflow-y: auto; overscroll-behavior: contain` and `touch-action: pan-x`.
+  The `pan-x` hands the **vertical** touch to us, which is what lets one gesture
+  move the sheet and then scroll the list without a break. Horizontal panning
+  stays native, so a carousel inside the body keeps its own gesture. The
+  `overflow-y: auto` is what keeps the wheel, the keyboard and the scrollbar
+  native, and `overscroll-behavior: contain` stops the page behind from
   rubber-banding when the list reaches an edge.
 - At every other snap, `Sheet.Body` gets `overflow: hidden`. It is no longer a
   scroller, so the browser carries on up to the panel and the drag wins.
 
-That leaves one case that CSS cannot express: pulling down when the list is
-already at `scrollTop <= 0`. The engine decides that one in JavaScript, with the
-rule above.
-
 ::: warning
-Please leave two things to the engine:
+Please leave three things to the engine:
 
 - `overflow` and `overflow-y` on `Sheet.Body`. They change with every snap, and
   your own value would decide for the engine whether the body is a scroller.
 - `touch-action` on `Sheet.Content` and on `Sheet.Body`. It is what tells the
   browser where a gesture belongs.
+- `scrollTop` on `Sheet.Body` during a touch gesture. The engine writes it while
+  the finger is scrolling the content, and while the momentum afterwards runs.
 
 Everything else is yours, `overflow: hidden` on `Sheet.Content` included — the
 engine never writes it there.

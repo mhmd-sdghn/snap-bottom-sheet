@@ -158,7 +158,10 @@ export function writeRest(content: HTMLElement, y: number): void {
  *
  * - `scroll: true` — the wrapper fills the panel's content box and the body is
  *   the scroller inside it, so the scrollable area ends exactly where the
- *   viewport does.
+ *   viewport does. `overflow-y: auto` keeps the wheel, the keyboard and the
+ *   scrollbar native; `touch-action: pan-x` hands the vertical touch to the
+ *   drag layer, which drives `scrollTop` itself so a gesture can cross between
+ *   the sheet and the content without a lift (PLAN §3.4).
  * - otherwise — the wrapper takes its natural height (which is what a
  *   `"content"` snap measures) and the body is clipped rather than scrollable.
  *
@@ -180,36 +183,17 @@ export function applySnapLayout(
     body.style.overflowY = "auto";
     body.style.flex = "1 1 auto";
     body.style.minHeight = "0";
+    // pan-x, not none: a horizontal carousel inside the body keeps its native
+    // panning, and only the axis we drive is taken from the browser.
+    body.style.touchAction = "pan-x";
   } else {
     body.style.removeProperty("overflow-y");
     body.style.overflow = "hidden";
     body.style.flex = "0 0 auto";
+    body.style.removeProperty("touch-action");
     // Leaving a scrolled body clipped puts the top of the list out of reach.
     body.scrollTop = 0;
   }
-}
-
-/**
- * Freeze the body's own scrolling for the duration of a gesture the sheet has
- * taken over, so a reversal mid-drag scrolls the list instead of moving the
- * sheet. Returns the release.
- */
-export function suspendBodyScroll(body: HTMLElement): () => void {
-  // `?? ""`: a property never set reads back undefined in some DOM
-  // implementations, and restoring that would write `undefined` into the style.
-  const previous = {
-    overflow: body.style.overflow ?? "",
-    overflowY: body.style.overflowY ?? "",
-    touchAction: body.style.touchAction ?? "",
-  };
-  body.style.removeProperty("overflow-y");
-  body.style.overflow = "hidden";
-  body.style.touchAction = "none";
-  return () => {
-    body.style.overflow = previous.overflow;
-    body.style.overflowY = previous.overflowY;
-    body.style.touchAction = previous.touchAction;
-  };
 }
 
 /** Snapshot the one property `applySnapLayout` writes on the wrapper. */
@@ -221,9 +205,8 @@ export function rememberSnapLayout(inner: HTMLElement): () => void {
 }
 
 /**
- * Snapshot every property `applySnapLayout` and `suspendBodyScroll` write on
- * Body, so they can be put back exactly as the consumer left them. Returns the
- * restore closure.
+ * Snapshot every property `applySnapLayout` writes on Body, so they can be put
+ * back exactly as the consumer left them. Returns the restore closure.
  */
 export function rememberBodyScroll(body: HTMLElement): () => void {
   const previous = {

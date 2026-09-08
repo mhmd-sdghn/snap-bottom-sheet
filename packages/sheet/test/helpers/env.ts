@@ -66,6 +66,31 @@ export function installTestEnv(
   }));
 }
 
+/**
+ * Describe an element as a scroll container. jsdom lays nothing out, so
+ * `scrollHeight`/`clientHeight` always report 0 and `scrollTop` is read-only on
+ * a plain element — the three values the drag arbiter reads have to be stubbed
+ * for it to see a scroller at all.
+ */
+export function stubScroller(
+  el: HTMLElement,
+  sizes: { scrollHeight: number; clientHeight: number; scrollTop?: number },
+): void {
+  Object.defineProperty(el, "scrollHeight", {
+    value: sizes.scrollHeight,
+    configurable: true,
+  });
+  Object.defineProperty(el, "clientHeight", {
+    value: sizes.clientHeight,
+    configurable: true,
+  });
+  Object.defineProperty(el, "scrollTop", {
+    value: sizes.scrollTop ?? 0,
+    writable: true,
+    configurable: true,
+  });
+}
+
 /** Give an element a height jsdom would otherwise report as 0. */
 export function setHeight(el: HTMLElement, height: number): void {
   Object.defineProperty(el, "offsetHeight", {

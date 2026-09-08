@@ -56,7 +56,7 @@ await controller.open();
 | --- | --- | --- | --- |
 | `content` | `HTMLElement` | yes | The panel. It receives the transform, `padding-bottom`, the `data-*` attributes, the CSS custom properties, `role`/`aria-*` and the drag listeners. **Fixed for the controller's lifetime.** |
 | `header` | `HTMLElement \| null` | no | Measured with a shared `ResizeObserver` for the `"header"` snap value. |
-| `body` | `HTMLElement \| null` | no | The scroll region. Its `overflow` is set for each active snap, and the choice between scrolling and dragging reads its `scrollTop`. |
+| `body` | `HTMLElement \| null` | no | The scroll region. The engine sets its `overflow`, `touch-action` and `overscroll-behavior` for each active snap. At a snap with `scroll: true` it also drives the element's `scrollTop` for touch gestures, so one gesture can move the sheet and then scroll the content. The wheel, the keyboard and the scrollbar stay native. See [Scrolling](/guide/scrolling). |
 | `overlay` | `HTMLElement \| null` | no | Positioned at attach, with `position: fixed` (or `absolute` when there is a `container`) and `inset: 0`. It also gets `data-state`, `aria-hidden="true"`, `--snap-sheet-progress` and a click listener that closes the sheet when `dismissible`. Under `modal: false` it is hidden with `display: none`, and shown again if `modal` turns back on, so a non-modal panel leaves no invisible click catcher over the page. The colour, `pointer-events` and `z-index` remain yours. |
 | `handle` | `HTMLElement \| null` | no | Gets `aria-label="Resize sheet"` if it has none, plus the keyboard handlers. <kbd>ArrowUp</kbd>/<kbd>ArrowDown</kbd> step and clamp, and <kbd>Enter</kbd>/<kbd>Space</kbd> cycle and wrap. |
 | `container` | `HTMLElement \| null` | no | The source of the view height, and the scope of modal behaviour. It defaults to the window and `document.body`. With a container the panel is `position: absolute; height: 100%`, and the view height is the container's `offsetHeight`. Only the container's own children are made inert. `modal` then locks the **container's** `overflow`/`overscroll-behavior` rather than the document's, saved and restored with a reference count per container, so an embedded sheet leaves the host page scrolling. Escape still works page-wide. **Fixed for the controller's lifetime.** |
@@ -82,8 +82,8 @@ All optional.
 | `describedBy` | `string` | — | Written as `aria-describedby` on `content`. |
 | `onOpenChange` | `(open: boolean) => void` | — | Runs after the internal state has changed. It also runs when the sheet dismisses itself. |
 | `onSnapIndexChange` | `(index: number, point: SnapPoint) => void` | — | Runs only when the index really changes, and before the animation starts. A drag released back onto the snap it started from stays **silent**, so use `onDragEnd` if you need every release. It never runs in content mode. |
-| `onDragStart` | `() => void` | — | The drag passed the 3 px threshold. |
-| `onDragEnd` | `(targetIndex: number) => void` | — | The target of the release has been chosen, and the spring has not started yet. It runs on **every** release, including one that lands back on the snap it started from. `-1` means the sheet is closing. When a drag dismisses the sheet, `onDragEnd(-1)` runs **before** `onOpenChange(false)`. |
+| `onDragStart` | `() => void` | — | The gesture passed the 3 px threshold and the sheet has taken it. A gesture inside a scrollable `body` counts, because the sheet owns both its phases. |
+| `onDragEnd` | `(targetIndex: number) => void` | — | The target of the release has been chosen, and the spring has not started yet. It runs on **every** release, including one that lands back on the snap it started from. `-1` means the sheet is closing. When a drag dismisses the sheet, `onDragEnd(-1)` runs **before** `onOpenChange(false)`. When the release happened while the gesture was scrolling the body's content, it reports the snap the sheet is resting at. |
 | `onAnimationEnd` | `(open: boolean) => void` | — | The open or close spring came to rest. It runs once per transition. |
 
 ## `SheetState`
@@ -240,7 +240,9 @@ The details that decide how the engine behaves in the difficult cases.
   **On each frame**, the spring writes `transform`, `--snap-sheet-y` and
   `--snap-sheet-progress` on `content` and on `overlay`. **At rest only**, the
   controller writes `padding-bottom` and `--snap-sheet-offset`,
-  `data-snap-index`, and the Body `overflow` and `flex` for the active snap.
+  `data-snap-index`, and the Body `overflow`, `flex` and `touch-action` for the
+  active snap. The Body's `scrollTop` is written outside that cadence, while a
+  touch gesture scrolls the content and while the momentum afterwards runs.
   Ancestors and the document root are never touched. While attached, `content`
   and `overlay` also carry `data-snap-sheet-part`. The drag layer uses that
   marker to tell its own parts from those of a nested sheet, so please treat it

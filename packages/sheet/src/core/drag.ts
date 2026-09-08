@@ -1,14 +1,20 @@
 import { attachDrag } from "@snap-bottom-sheet/gesture";
 import type { Spring } from "@snap-bottom-sheet/spring";
-import { SheetPartAttr, suspendBodyScroll } from "./dom.ts";
+import { SheetPartAttr } from "./dom.ts";
 import { clamp, isBrowser } from "./env.ts";
 import { topmostY } from "./position.ts";
+import { startScrollMomentum } from "./scroll-momentum.ts";
 import { decideRelease, type ResolvedSnap } from "./snap.ts";
 
-/** px of slack before the sheet counts as displaced from its snap. */
-const DisplacedEpsilon = 1;
-
 const BlurredTags = new Set(["INPUT", "TEXTAREA"]);
+
+/** px of slack when comparing scroll offsets and snap positions. */
+const Epsilon = 0.5;
+/** ms of scroll history kept for the release velocity. */
+const SampleWindowMs = 100;
+
+/** Which half of the gesture the finger is currently moving. */
+type Mode = "sheet" | "scroll";
 
 /** The controller's side of the drag layer. */
 export interface DragDeps {
@@ -20,9 +26,17 @@ export interface DragDeps {
   isOpen(): boolean;
   resolved(): ResolvedSnap[];
   viewHeight(): number;
+  /** Last measured natural height of the panel's content wrapper. */
+  contentHeight(): number;
   snapIndex(): number;
   dismissible(): boolean;
+  reducedMotion(): boolean;
   snapTo(index: number, opts?: { velocity?: number }): void;
+  /**
+   * The sheet reached `snap` mid-gesture and the content takes over from here:
+   * make that snap the active one and lay the body out as its scroller.
+   */
+  enterScrollSnap(snap: ResolvedSnap): void;
   dismiss(): void;
   notify(): void;
   onDragStart?(): void;
@@ -42,8 +56,8 @@ function blurInside(content: HTMLElement) {
 }
 
 /**
- * The same lock `onMove` applies to `dy`, applied to the release velocity. The
- * panel does not move in a locked direction, so a fling that way must not
+ * The same lock `onMove` applies to the sheet, applied to the release velocity.
+ * The panel does not move in a locked direction, so a fling that way must not
  * project past a snap either — otherwise a fast flick down dismisses a sheet
  * whose active snap sets `drag: { down: false }`.
  */
@@ -72,34 +86,186 @@ function dragFilter(content: HTMLElement, target: Element): boolean {
   return true;
 }
 
-/**
- * PLAN §3.4 rule 2: inside a scrollable Body the native scroll keeps the
- * gesture, unless the sheet is already displaced or the user pulls down from
- * the very top.
- */
-function scrollWins(deps: DragDeps, dy: number, target: EventTarget | null) {
-  const { spring } = deps;
-  const body = deps.body();
-  const snap = deps.activeSnap();
-  if (!snap?.scroll || !body) return false;
-  if (!(target instanceof Node) || !body.contains(target)) return false;
-  if (Math.abs(spring.get() - snap.y) > DisplacedEpsilon) return false;
-  return !(body.scrollTop <= 0 && dy > 0);
-}
-
 /** The drag layer: `detach` tears it down, `isDragging` is the flag itself. */
 export interface SheetDrag {
   detach(): void;
   isDragging(): boolean;
+  /** Cancel a running momentum fling (a snap change, a close, teardown). */
+  stopScroll(): void;
 }
 
-/** Wire the gesture recogniser to the controller. */
+/**
+ * Wire the gesture recogniser to the controller.
+ *
+ * PLAN §3.4 rule 2: one finger, two phases. Every move is arbitrated on its
+ * *incremental* delta, so the frame that crosses from one phase to the other
+ * splits its movement between them and nothing jumps.
+ */
 export function attachSheetDrag(deps: DragDeps): SheetDrag {
   const { content, spring } = deps;
-  let startY = 0;
   let dragging = false;
-  /** Set while the sheet has taken a gesture away from a scrolling Body. */
-  let releaseBody: (() => void) | null = null;
+  let mode: Mode = "sheet";
+  /** The pointer started inside Body, so the content can claim the gesture. */
+  let inBody = false;
+  /** Where the finger was on the previous frame; deltas are read from it. */
+  let lastClientY = 0;
+  /** `[timeStamp, scrollTop]`, cleared whenever the mode changes. */
+  let scrollSamples: [number, number][] = [];
+  let cancelMomentum: (() => void) | null = null;
+
+  const stopScroll = () => {
+    cancelMomentum?.();
+    cancelMomentum = null;
+  };
+
+  const setMode = (next: Mode) => {
+    if (next === mode) return;
+    mode = next;
+    scrollSamples = [];
+    writeModeAttrs();
+  };
+
+  const writeModeAttrs = () => {
+    const scrolling = dragging && mode === "scroll";
+    content.toggleAttribute("data-dragging", dragging && !scrolling);
+    content.toggleAttribute("data-scrolling", scrolling);
+  };
+
+  // --------------------------------------------------------------- scrolling
+
+  /** px the content can still travel, or 0 when the body is not a scroller. */
+  const scrollMax = (body: HTMLElement) =>
+    Math.max(0, body.scrollHeight - body.clientHeight);
+
+  /**
+   * Would the body scroll at `snap`? It is only a real scroller at a
+   * `scroll: true` snap; anywhere else it has its natural height and
+   * `scrollHeight === clientHeight` no matter how long the list is, so the
+   * measured content height is what answers the question there.
+   */
+  const willScroll = (snap: ResolvedSnap, body: HTMLElement) =>
+    deps.activeSnap()?.scroll
+      ? scrollMax(body) > 1
+      : deps.contentHeight() > snap.height;
+
+  /**
+   * The nearest `scroll: true` snap at or above `y`: the highest the sheet may
+   * go on this gesture before the content takes over. Null when the pointer is
+   * outside Body, when there is no such snap, or when there is nothing to
+   * scroll there — a list shorter than the body must not block the drag.
+   */
+  const scrollCeiling = (y: number): ResolvedSnap | null => {
+    const body = deps.body();
+    if (!inBody || !body) return null;
+    let best: ResolvedSnap | null = null;
+    for (const snap of deps.resolved()) {
+      if (!snap.scroll || snap.y > y + Epsilon) continue;
+      if (!best || snap.y > best.y) best = snap;
+    }
+    if (!best) return null;
+    return willScroll(best, body) ? best : null;
+  };
+
+  /** Room left in the finger's direction (negative delta = finger up). */
+  const scrollRoom = (delta: number): boolean => {
+    const body = deps.body();
+    if (!body) return false;
+    const max = scrollMax(body);
+    if (max <= 1) return false;
+    return delta < 0
+      ? body.scrollTop < max - Epsilon
+      : body.scrollTop > Epsilon;
+  };
+
+  /**
+   * Scroll the content by a finger delta (finger up = content up = a bigger
+   * `scrollTop`). Returns the part of the delta the content could not take,
+   * which only ever happens at the top: the end of the list absorbs the rest
+   * rather than overscrolling or pushing the sheet up past its ceiling.
+   */
+  const scrollBy = (delta: number, time: number): number => {
+    const body = deps.body();
+    if (!body) return delta;
+    const next = body.scrollTop - delta;
+    let left = 0;
+    if (next < 0) {
+      body.scrollTop = 0;
+      left = -next;
+    } else {
+      body.scrollTop = Math.min(next, scrollMax(body));
+    }
+    scrollSamples.push([time, body.scrollTop]);
+    while (
+      scrollSamples.length > 1 &&
+      (scrollSamples[0]?.[0] ?? 0) < time - SampleWindowMs
+    ) {
+      scrollSamples.shift();
+    }
+    return left;
+  };
+
+  /**
+   * px/ms of `scrollTop` over the last ~100 ms. Positive means the content is
+   * travelling upwards under the finger, which is the direction a fling
+   * continues in.
+   */
+  const scrollVelocity = (): number => {
+    const first = scrollSamples[0];
+    const last = scrollSamples[scrollSamples.length - 1];
+    if (!first || !last) return 0;
+    const elapsed = last[0] - first[0];
+    return elapsed === 0 ? 0 : (last[1] - first[1]) / elapsed;
+  };
+
+  // ------------------------------------------------------------- the arbiter
+
+  /**
+   * A gesture the sheet consumed still ends in a `click`: the browser only
+   * suppresses that one when *the browser* scrolled, and here we did the
+   * scrolling ourselves. Without this, dragging a list of links by touch
+   * follows whichever link the finger happened to lift over.
+   */
+  const swallowClick = (event: Event) => {
+    event.stopPropagation();
+    event.preventDefault();
+  };
+  const armClickGuard = () => {
+    content.addEventListener("click", swallowClick, { capture: true });
+    // The click, if any, is dispatched in the task right after pointerup.
+    setTimeout(() => {
+      content.removeEventListener("click", swallowClick, { capture: true });
+    }, 0);
+  };
+
+  /**
+   * Move the sheet by a finger delta. Returns the remainder the sheet refused
+   * because it reached its scroll ceiling; a lock or the topmost clamp swallow
+   * the movement instead — neither of them means "scroll this".
+   */
+  const moveSheet = (delta: number): number => {
+    const snap = deps.activeSnap();
+    if (snap && !snap.drag.up && delta < 0) return 0;
+    if (snap && !snap.drag.down && delta > 0) return 0;
+
+    const y = spring.get();
+    let next = y + delta;
+    let left = 0;
+    const ceiling = delta < 0 ? scrollCeiling(y) : null;
+    if (ceiling && next < ceiling.y) {
+      left = next - ceiling.y;
+      next = ceiling.y;
+    }
+    void spring.set(clamp(next, topmostY(deps.resolved()), deps.viewHeight()), {
+      immediate: true,
+    });
+    if (left !== 0 && ceiling && ceiling.index !== deps.snapIndex()) {
+      // The body is the scroller of *that* snap, and it is not laid out as one
+      // yet — the sheet has only just arrived. Hand the snap over before the
+      // remainder is measured against a body that still has its natural height.
+      deps.enterScrollSnap(ceiling);
+    }
+    return left;
+  };
 
   const detach = attachDrag(
     content,
@@ -112,47 +278,60 @@ export function attachSheetDrag(deps: DragDeps): SheetDrag {
           state.cancel();
           return;
         }
-        if (scrollWins(deps, state.dy, state.target)) {
-          state.cancel();
-          return;
-        }
         blurInside(content);
-        // The sheet owns this gesture now: freeze the body's own scrolling for
-        // its duration, or a reversal mid-drag scrolls the list while the sheet
-        // is still moving (and can pointercancel out from under us).
         const body = deps.body();
-        if (body) releaseBody = suspendBodyScroll(body);
+        inBody =
+          state.target instanceof Node && !!body && body.contains(state.target);
+        // A list that is already scrolled owns the gesture until it is back at
+        // its top, whichever way the finger goes first.
+        mode =
+          inBody && body && body.scrollTop > Epsilon && scrollRoom(1)
+            ? "scroll"
+            : "sheet";
+        scrollSamples = [];
+        // The threshold the recogniser swallowed is part of the gesture: the
+        // first move must carry it, so the finger's own start is the origin.
+        lastClientY = state.event.clientY - state.dy;
         // Set before stop(): a spring that stops mid-open would otherwise let
         // the controller finalise the transition here, one grab too early.
         dragging = true;
-        // Freeze under the finger *before* startY is read. A running spring
-        // keeps flying until the first onMove, so a drag that starts during an
-        // animation records a startY the panel has already left behind and
-        // snaps back by that distance.
+        // Freeze under the finger. A running spring keeps flying until the
+        // first onMove, so a drag that starts during an animation would fight
+        // an animation that is still writing frames.
         spring.stop();
-        startY = spring.get();
-        content.setAttribute("data-dragging", "");
+        writeModeAttrs();
         deps.onDragStart?.();
         deps.notify();
       },
       onMove(state) {
         if (!dragging) return;
-        const snap = deps.activeSnap();
-        let dy = state.dy;
-        if (snap && !snap.drag.up && dy < 0) dy = 0;
-        if (snap && !snap.drag.down && dy > 0) dy = 0;
-        const resolved = deps.resolved();
-        void spring.set(
-          clamp(startY + dy, topmostY(resolved), deps.viewHeight()),
-          { immediate: true },
-        );
+        const time = state.event.timeStamp;
+        let delta = state.event.clientY - lastClientY;
+        lastClientY = state.event.clientY;
+        if (delta === 0) return;
+
+        if (mode === "scroll") {
+          delta = scrollBy(delta, time);
+          if (delta === 0) {
+            deps.notify();
+            return;
+          }
+          // The list is back at its top and the finger is still going down.
+          setMode("sheet");
+        }
+
+        const left = moveSheet(delta);
+        if (left !== 0 && scrollRoom(left)) {
+          setMode("scroll");
+          scrollBy(left, time);
+        }
+        deps.notify();
       },
       onEnd(state) {
         if (!dragging) return;
         dragging = false;
-        releaseBody?.();
-        releaseBody = null;
-        content.removeAttribute("data-dragging");
+        writeModeAttrs();
+        if (!state.cancelled) armClickGuard();
         // Closed while this drag ran: onMove killed the close animation with
         // its immediate sets, and snapTo/dismiss are no-ops on a closed sheet,
         // so nothing else would finalise the pending close — the panel would
@@ -168,6 +347,19 @@ export function attachSheetDrag(deps: DragDeps): SheetDrag {
           deps.onDragEnd?.(deps.snapIndex());
           deps.snapTo(deps.snapIndex());
           deps.notify();
+          return;
+        }
+        if (mode === "scroll") {
+          const velocity = scrollVelocity();
+          deps.onDragEnd?.(deps.snapIndex());
+          // The sheet is resting at its snap; this re-applies that snap's
+          // at-rest DOM, which the drag suppressed, and moves nothing.
+          deps.snapTo(deps.snapIndex());
+          deps.notify();
+          const body = deps.body();
+          if (body && !deps.reducedMotion()) {
+            cancelMomentum = startScrollMomentum(body, velocity);
+          }
           return;
         }
         const vy = lockVelocity(deps.activeSnap(), state.vy);
@@ -190,5 +382,19 @@ export function attachSheetDrag(deps: DragDeps): SheetDrag {
     { filter: (target) => dragFilter(content, target) },
   );
 
-  return { detach, isDragging: () => dragging };
+  // A tap anywhere on the panel stops a fling, the way a native scroller does.
+  // On pointerdown, not on the drag threshold: catching the list mid-flight is
+  // a tap, not a drag.
+  const onPointerDown = () => stopScroll();
+  content.addEventListener("pointerdown", onPointerDown, { passive: true });
+
+  return {
+    detach() {
+      content.removeEventListener("pointerdown", onPointerDown);
+      stopScroll();
+      detach();
+    },
+    isDragging: () => dragging,
+    stopScroll,
+  };
 }

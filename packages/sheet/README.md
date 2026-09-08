@@ -1,12 +1,14 @@
 # snap-bottom-sheet
 
-A draggable, snappable bottom sheet for the web. The core works with any
-framework, the React bindings are thin, and there are no runtime dependencies.
+A draggable, snappable bottom sheet for the web. Snap points you define down to
+the pixel, one touch that drags the sheet and then scrolls its content, dialog
+behaviour out of the box, and no runtime dependencies. The core works with any
+framework, and the React bindings are thin.
 
 **[Documentation](https://mhmd-sdghn.github.io/snap-bottom-sheet/)** ·
 [Live demo](https://mhmd-sdghn.github.io/snap-bottom-sheet/playground/) ·
 [Demos](https://mhmd-sdghn.github.io/snap-bottom-sheet/demos/) ·
-[Migrating from 0.x](https://mhmd-sdghn.github.io/snap-bottom-sheet/guide/migration)
+[Getting started](https://mhmd-sdghn.github.io/snap-bottom-sheet/guide/getting-started)
 
 ```bash
 npm install snap-bottom-sheet
@@ -117,11 +119,20 @@ the order you wrote.
 - **Measured, not guessed.** `"header"` and `"content"` are measured live by a
   shared `ResizeObserver`. When the height of the active snap changes, the sheet
   springs to the new position rather than jumping.
-- **Per-snap scroll and drag rules.** A scrollable list and a peek header can
-  live in one sheet without fighting each other for the gesture.
-- **Zero runtime dependencies.** The library brings its own spring integrator
-  and Pointer Events recogniser. That comes to about 13 kB gzipped for the core,
-  and 17 kB with the React bindings.
+- **One gesture, drag then scroll.** The touch that drags the sheet to the top
+  snap carries on scrolling the list. Pull down from the top of the list and the
+  sheet takes the gesture back. You choose which snaps scroll, and which
+  directions each snap may be dragged in.
+- **Small, and dependency-free.** The library brings its own spring integrator
+  and Pointer Events recogniser, so it installs nothing else. Minified and
+  gzipped, that is about 10 kB with the React bindings, and about 8 kB for the
+  core alone.
+- **Ready for real screens.** Content mode sizes the sheet to its own content.
+  Sheets nest, each with its own overlay and its own place in the scroll lock. A
+  portal `container` puts a sheet inside a card instead of the page. Open state
+  and active snap are controlled or uncontrolled, whichever suits you.
+- **TypeScript first.** The whole library is written in TypeScript, and the
+  types ship with the package.
 - **Dialog semantics included.** The sheet gets `role="dialog"` and is labelled
   by your title. Focus moves into it, and returns where it came from on close.
   While the sheet is modal its siblings are marked `inert`. Escape closes the
@@ -148,10 +159,7 @@ properties.
 | Focus, `inert`, Escape, reduced motion | [Accessibility](https://mhmd-sdghn.github.io/snap-bottom-sheet/guide/accessibility) |
 | Next.js, `renderToString` | [SSR & Next.js](https://mhmd-sdghn.github.io/snap-bottom-sheet/guide/ssr-nextjs) |
 | Every prop and method | [React API](https://mhmd-sdghn.github.io/snap-bottom-sheet/reference/react) · [Core API](https://mhmd-sdghn.github.io/snap-bottom-sheet/reference/core) |
-
-Coming from 0.x? Almost every name has changed.
-[The migration guide](https://mhmd-sdghn.github.io/snap-bottom-sheet/guide/migration)
-has a full before and after table.
+| Upgrading an existing install | [Migration guide](https://mhmd-sdghn.github.io/snap-bottom-sheet/guide/migration) |
 
 ## License
 
