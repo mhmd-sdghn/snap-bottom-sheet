@@ -57,6 +57,8 @@ export function attachDrag(
 ): () => void {
   const { threshold = DEFAULT_THRESHOLD, axis = "y", filter } = options;
 
+  const trackingListen = { passive: true } as const;
+
   let phase: Phase = "idle";
   let pointerId = NO_POINTER;
   let startX = 0;
@@ -68,13 +70,14 @@ export function attachDrag(
   // `lostpointercapture` arrives unrecognised — that is how our own releases
   // are told apart from the browser's.
   const reset = () => {
-    if (phase !== "idle") {
+    if (phase === "dragging") {
       try {
         el.releasePointerCapture?.(pointerId);
       } catch {
         // nothing captured (jsdom, or the pointer is already gone)
       }
     }
+    if (phase !== "idle") stopTracking();
     phase = "idle";
     pointerId = NO_POINTER;
     target = null;
@@ -118,6 +121,26 @@ export function attachDrag(
     };
   };
 
+  /*
+   * Moves and releases are followed on the document rather than on `el`, so a
+   * gesture that crosses the element's edge before the threshold is not lost
+   * even though nothing is captured yet. Listening in one place also keeps a
+   * captured move — which still bubbles out of `el` — from being handled twice.
+   */
+  const startTracking = () => {
+    const doc = el.ownerDocument;
+    doc.addEventListener("pointermove", onPointerMove, trackingListen);
+    doc.addEventListener("pointerup", onPointerUp, trackingListen);
+    doc.addEventListener("pointercancel", onPointerAbort, trackingListen);
+  };
+
+  const stopTracking = () => {
+    const doc = el.ownerDocument;
+    doc.removeEventListener("pointermove", onPointerMove);
+    doc.removeEventListener("pointerup", onPointerUp);
+    doc.removeEventListener("pointercancel", onPointerAbort);
+  };
+
   const onPointerDown = (event: PointerEvent) => {
     // a second pointer while one is active is ignored
     if (phase !== "idle") return;
@@ -134,11 +157,7 @@ export function attachDrag(
     target = from;
     samples = [];
     track(event);
-    try {
-      el.setPointerCapture?.(event.pointerId);
-    } catch {
-      // jsdom has no pointer capture; drags outside `el` are then lost
-    }
+    startTracking();
   };
 
   const onPointerMove = (event: PointerEvent) => {
@@ -157,6 +176,17 @@ export function attachDrag(
         return;
       }
       phase = "dragging";
+      // Capture is taken *here*, not on pointerdown. A captured pointer
+      // retargets its own `pointerup` — and with it the `click` the browser
+      // derives from the pair — to the capturing element, so capturing up
+      // front makes every button inside `el` unclickable. Waiting for the
+      // threshold means a real click never sees capture at all, and a real
+      // drag is captured before it can leave the element.
+      try {
+        el.setPointerCapture?.(event.pointerId);
+      } catch {
+        // jsdom has no pointer capture; drags outside `el` are then lost
+      }
       handlers.onStart?.(makeState(event, 0, false));
       return;
     }
@@ -176,6 +206,11 @@ export function attachDrag(
   /** pointercancel, or capture lost to something other than our own release */
   const onPointerAbort = (event: PointerEvent) => {
     if (event.pointerId !== pointerId) return;
+    // `lostpointercapture` bubbles. A touch is implicitly captured by whatever
+    // it landed on, so taking our own capture at the threshold makes that
+    // descendant lose its implicit one — an event that reaches us here and
+    // means nothing. Only `el` losing *our* capture is an abort.
+    if (event.type === "lostpointercapture" && event.target !== el) return;
     if (phase === "dragging") {
       handlers.onEnd?.(makeState(event, velocity(), true));
     }
@@ -184,16 +219,10 @@ export function attachDrag(
 
   const listen = { passive: true } as const;
   el.addEventListener("pointerdown", onPointerDown, listen);
-  el.addEventListener("pointermove", onPointerMove, listen);
-  el.addEventListener("pointerup", onPointerUp, listen);
-  el.addEventListener("pointercancel", onPointerAbort, listen);
   el.addEventListener("lostpointercapture", onPointerAbort, listen);
 
   return () => {
     el.removeEventListener("pointerdown", onPointerDown);
-    el.removeEventListener("pointermove", onPointerMove);
-    el.removeEventListener("pointerup", onPointerUp);
-    el.removeEventListener("pointercancel", onPointerAbort);
     el.removeEventListener("lostpointercapture", onPointerAbort);
     reset();
   };
