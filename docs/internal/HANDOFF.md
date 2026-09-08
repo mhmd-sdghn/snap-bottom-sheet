@@ -1,6 +1,6 @@
 # Hand-off — snap-bottom-sheet 1.0
 
-This note is for the repository owner. It explains what is on `main` (fast-forwarded from `v1` on 2026-09-08), how it was checked, and what is left for you to do.
+This note is for the repository owner. It explains what is on `main` (fast-forwarded from `v1` on 2026-09-08, then the OpenCodeReview fixes), how it was checked, and what is left for you to do.
 
 ## What is on `main`
 
@@ -12,15 +12,15 @@ This note is for the repository owner. It explains what is on `main` (fast-forwa
 
 ## How it was checked
 
-Every change went through the same gate before it was merged into `v1`: `pnpm install --frozen-lockfile`, `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`, `pnpm verify:pkg`, the bundle-size check, `pnpm docs:build`, and the three playground builds (the Next.js build is the SSR/RSC smoke test). Two review rounds were run over the finished code (an independent read of the core and a ten-angle automated review). All 15 confirmed findings are fixed and merged.
+Every change went through the same gate before it was merged into `v1`: `pnpm install --frozen-lockfile`, `pnpm lint`, `pnpm typecheck`, `pnpm test`, `pnpm build`, `pnpm verify:pkg`, the bundle-size check, `pnpm docs:build`, and the three playground builds (the Next.js build is the SSR/RSC smoke test). Three review rounds were run over the finished code: an independent read of the core, a ten-angle automated review (15 confirmed findings), and OpenCodeReview in delegation mode over the whole change set (`ocr delegate preview --from 58d0cc2 --to main`; 6 High and 27 Medium findings). All of them are fixed and merged; see `docs/internal/tasks/13-review-fixes.md`, `14-review-fixes-react.md` and `16-ocr-review-fixes.md`.
 
 ## What is left for you
 
 1. **Push `main`.** `main` already contains everything (`git push origin main`). The push starts CI, the docs deployment, and the release workflow, so do steps 2 and 3 first if you want them to succeed on the first run.
 2. **Enable GitHub Pages** for the repository (source: GitHub Actions). The `docs.yml` workflow deploys the site to `https://mhmd-sdghn.github.io/react-bottom-sheet/` on the first push to `main`.
 3. **Set up npm trusted publishing** for `snap-bottom-sheet` (OIDC, no token), the same way nBridge does it. The `release.yml` workflow then opens a "chore: release" pull request; merging it publishes 1.0.0 from the changeset already on `v1`.
-4. **Optional: run OpenCodeReview.** The `ocr` CLI is installed, but it needs an LLM endpoint (`OCR_LLM_URL`, `OCR_LLM_TOKEN`, `OCR_LLM_MODEL`, or `~/.opencodereview/config.json`). Run `ocr review --from main --to v1 --audience agent` once that is set.
-5. **Housekeeping.** Most worker branches are already deleted. Three are still checked out in the closed worker sessions' worktrees (`w1/13-review-fixes`, `w2/14-review-fixes-react`, `w3/15-docs-style`); close those sessions, then `git worktree prune` and delete the branches. `v1` can be deleted once `main` is pushed. The root checkout's `node_modules` predates the monorepo: run `pnpm install` there before working in it. `docs/internal/` is a historical record of the rewrite; keep it or prune it before publishing the repository.
+4. **Optional: OpenCodeReview with its own model.** The delegation-mode review is done. If you also want OCR's LLM-backed pass, give the `ocr` CLI an endpoint (`ocr config provider`, or `OCR_LLM_URL` / `OCR_LLM_TOKEN` / `OCR_LLM_MODEL`) and run `ocr review --from 58d0cc2 --to main --audience agent`.
+5. **Housekeeping.** All work branches and worktrees are gone; only `main` and the desktop app's own session branches remain. The root checkout's `node_modules` predates the monorepo: run `pnpm install` there before working in it (pnpm will switch itself to the version in `packageManager`). `docs/internal/` is a historical record of the rewrite; keep it or prune it before publishing the repository.
 
 ## Known limits (deliberate)
 
