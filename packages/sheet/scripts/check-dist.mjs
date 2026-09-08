@@ -11,6 +11,9 @@ import { fileURLToPath } from "node:url";
  * 2. exactly one `"use client"`, in the React entry — the core entry is
  *    framework-agnostic and must not be marked as a client module.
  * 3. no declaration that points at a `.d.ts.map` that was never emitted.
+ * 4. no import of a private workspace package — those are bundled in, and a
+ *    surviving import would be unresolvable for the consumer.
+ * 5. no runtime `dependencies` in package.json — the bundle is self-contained.
  */
 
 const dist = resolve(fileURLToPath(import.meta.url), "../..", "dist");
@@ -45,11 +48,14 @@ const read = (file) => readFileSync(join(dist, file), "utf8");
 const scripts = files.filter((file) => file.endsWith(".js"));
 const declarations = files.filter((file) => file.endsWith(".d.ts"));
 
-// 1. the production guard
+// 1. the production guard, as a comparison and not just as a mention: a
+// substring search passes on a comment that merely names it.
+const NODE_ENV_GUARD = /process\.env(\?)?\.NODE_ENV\s*===\s*["']production["']/;
 check(
-  scripts.some((file) => read(file).includes("process.env.NODE_ENV")),
-  "no `process.env.NODE_ENV` anywhere in dist — the dev-only guard was folded " +
-    "away at build time (see the `define` in tsdown.config.ts).",
+  scripts.some((file) => NODE_ENV_GUARD.test(read(file))),
+  'no `process.env.NODE_ENV === "production"` comparison anywhere in dist ' +
+    "— the dev-only guard was folded away at build time (see the `define` in " +
+    "tsdown.config.ts).",
 );
 
 // 2. the client directive
@@ -77,6 +83,24 @@ for (const file of declarations) {
     `${file} points at ${url}, which was not emitted (dts sourcemaps).`,
   );
 }
+
+// 4. the private packages are bundled, never imported
+for (const file of [...scripts, ...declarations]) {
+  check(
+    !read(file).includes("@snap-bottom-sheet/"),
+    `${file} still references @snap-bottom-sheet/* — the private packages must ` +
+      "be bundled in (see `deps.alwaysBundle` in tsdown.config.ts).",
+  );
+}
+
+// 5. nothing to install alongside the package
+const manifest = JSON.parse(
+  readFileSync(resolve(dist, "..", "package.json"), "utf8"),
+);
+check(
+  Object.keys(manifest.dependencies ?? {}).length === 0,
+  `package.json declares dependencies (${Object.keys(manifest.dependencies ?? {}).join(", ")}) — the bundle is meant to be self-contained.`,
+);
 
 if (problems.length > 0) {
   for (const problem of problems) console.error(`check-dist: ${problem}`);

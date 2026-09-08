@@ -6,37 +6,40 @@ on:
 
 concurrency: release-${{ github.ref }}
 
+# Nothing at workflow level: only the release job needs write access, and a
+# job that is added later should have to ask for it.
 permissions:
-  contents: write
-  pull-requests: write
-  id-token: write # npm provenance
+  contents: read
 
 jobs:
   release:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write # the release PR and its tags
+      pull-requests: write # the release PR itself
+      id-token: write # npm provenance / trusted publishing
     steps:
-      - uses: actions/checkout@v4
+      # Pinned to commits; see the note in ci.yml.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
         with:
           fetch-depth: 0
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 24
           cache: pnpm
           registry-url: https://registry.npmjs.org
 
-      # Trusted publishing (OIDC) needs npm >= 11.5.1. Bump to latest in case
-      # changesets shells out to a bundled npm older than that.
-      - name: Ensure OIDC-capable npm
-        run: npm install -g npm@latest
-
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      # Publishing runs through `pnpm publish` (see the `release` script), and
+      # the pnpm version comes from `packageManager` in the root package.json.
+      # It has to be recent enough for OIDC trusted publishing: pnpm >= 10.13.
       - name: Create release PR or publish
-        uses: changesets/action@v1
+        uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1.9.0
         with:
           publish: pnpm release
           commit: "chore: release"

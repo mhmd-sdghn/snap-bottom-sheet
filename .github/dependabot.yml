@@ -1,0 +1,12 @@
+version: 2
+
+# The workflows pin every action to a commit SHA, which is safe but frozen.
+# This is what unfreezes it: Dependabot raises a PR with the new SHA and keeps
+# the `# vX.Y.Z` comment in step.
+updates:
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule:
+      interval: monthly
+    commit-message:
+      prefix: ci

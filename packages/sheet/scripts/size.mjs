@@ -31,16 +31,27 @@ const isFile = (path) => statSync(path, { throwIfNoEntry: false })?.isFile();
 
 if (!isDir(dist)) die(`${dist} is missing — run \`pnpm build\` first.`);
 
-/** The code-split chunk: the top-level dist/*.js that is not the entry. */
-const shared = readdirSync(dist).find(
+/**
+ * The code-split chunks: every top-level dist/*.js that is not the entry.
+ * There is exactly one today. Measuring only the first would hide a second one
+ * appearing, so the count is part of the tripwire — when a build legitimately
+ * splits differently, change `SharedChunks` here and say why.
+ */
+const SharedChunks = 1;
+const shared = readdirSync(dist).filter(
   (name) => name.endsWith(".js") && name !== "index.js",
 );
-if (!shared) die("no shared chunk in dist/ — run `pnpm build` first.");
+if (shared.length !== SharedChunks) {
+  die(
+    `expected ${SharedChunks} shared chunk(s) in dist/, found ${shared.length}` +
+      `${shared.length > 0 ? ` (${shared.join(", ")})` : " — run `pnpm build` first"}.`,
+  );
+}
 
 const entries = [
   { file: "index.js", budget: Budgets.core },
   { file: join("react", "index.js"), budget: Budgets.react },
-  { file: shared, budget: Budgets.shared },
+  ...shared.map((file) => ({ file, budget: Budgets.shared })),
 ];
 
 const kb = (bytes) => `${(bytes / 1024).toFixed(2)} kB`;

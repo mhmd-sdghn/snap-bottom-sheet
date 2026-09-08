@@ -9,15 +9,21 @@ concurrency:
   group: ci-${{ github.ref }}
   cancel-in-progress: true
 
+# Nothing here writes to the repository.
+permissions:
+  contents: read
+
 jobs:
   verify:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      # Third-party actions are pinned to a commit, not a tag: a tag can be
+      # moved. Dependabot (.github/dependabot.yml) raises the bumps.
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
 
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
         with:
           node-version: 24
           cache: pnpm
@@ -45,6 +51,12 @@ jobs:
 
       - name: Bundle size budget
         run: pnpm --filter snap-bottom-sheet size
+
+      # The site imports the built library and typechecks its demos, so a
+      # library change can break it. Deploying it is docs.yml's job; this is
+      # only the check, and it runs on pull requests too.
+      - name: Build docs
+        run: pnpm docs:build
 
       - name: Build playgrounds (consume dist through workspace:*)
         run: |
