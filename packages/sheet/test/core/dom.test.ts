@@ -135,7 +135,8 @@ describe("applySnapLayout", () => {
     expect(inner.style.flex).toBe("1 1 auto");
     expect(body.style.overflowY).toBe("auto");
     expect(body.style.flex).toBe("1 1 auto");
-    expect(body.style.minHeight).toBe("0");
+    // jsdom >= 27 serialises lengths the way browsers do: `0` reads back `0px`.
+    expect(body.style.minHeight).toBe("0px");
     expect(body.style.getPropertyValue("overflow")).toBe("");
 
     applySnapLayout(inner, body, false);

@@ -255,7 +255,7 @@ describe("vanilla integration", () => {
 
     expect(el.body.style.overflow).toBe("hidden");
     expect(el.body.style.flex).toBe("0 0 auto");
-    expect(el.body.style.minHeight).toBe("0");
+    expect(el.body.style.minHeight).toBe("0px");
 
     const up = c.snapTo(1);
     await rest(c);
