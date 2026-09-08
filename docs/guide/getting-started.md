@@ -6,9 +6,7 @@ import basicDemo from "../.vitepress/theme/demos/basic.tsx";
 
 Install the package, render the parts, and hand them to the engine. This works the same way in React and in plain JavaScript.
 
-<ClientOnly>
-  <ReactDemo :mount="basicDemo" />
-</ClientOnly>
+<ReactDemo :mount="basicDemo" />
 
 ## Two entry points
 

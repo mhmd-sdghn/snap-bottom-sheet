@@ -1,8 +1,10 @@
+// #region demo
 import { useState } from "react";
 import { Sheet, useSheetState } from "snap-bottom-sheet/react";
-import { mountDemo } from "./mount.tsx";
 
-// #region demo
+// `frame` is the box this demo runs in: it is passed to
+// `Sheet.Portal container`, so the sheet stays inside the box instead of
+// covering the page. Leave `container` out and the sheet portals to <body>.
 function Readout() {
   const { snapIndex, progress } = useSheetState();
   return (
@@ -48,7 +50,10 @@ function SnapPoints({ frame }: { frame: HTMLElement }) {
     </div>
   );
 }
+
 // #endregion demo
+
+import { mountDemo } from "./mount.tsx";
 
 export default (frame: HTMLElement) =>
   mountDemo(frame, (el) => <SnapPoints frame={el} />);

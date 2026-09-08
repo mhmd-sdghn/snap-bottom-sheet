@@ -6,9 +6,7 @@ import controlledDemo from "../.vitepress/theme/demos/controlled.tsx";
 
 You can drive two things about a sheet from outside: whether it is open, and which snap it rests at. Each one is controlled or uncontrolled on its own.
 
-<ClientOnly>
-  <ReactDemo :mount="controlledDemo" />
-</ClientOnly>
+<ReactDemo :mount="controlledDemo" />
 
 ## The two pairs of props
 

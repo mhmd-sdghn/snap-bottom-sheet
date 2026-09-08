@@ -1,6 +1,9 @@
+// #region demo
 import { createSheet } from "snap-bottom-sheet";
 
-// #region demo
+// `frame` is the box this demo runs in: it is passed as the sheet's
+// `container`, so the sheet stays inside the box instead of covering the
+// page. Leave `container` out and the sheet attaches to the page itself.
 export function mountVanilla(frame: HTMLElement) {
   frame.innerHTML = `
     <div class="demo-host">

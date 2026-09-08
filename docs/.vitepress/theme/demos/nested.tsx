@@ -1,8 +1,10 @@
+// #region demo
 import { useState } from "react";
 import { Sheet } from "snap-bottom-sheet/react";
-import { mountDemo } from "./mount.tsx";
 
-// #region demo
+// `frame` is the box this demo runs in: it is passed to
+// `Sheet.Portal container`, so the sheet stays inside the box instead of
+// covering the page. Leave `container` out and the sheet portals to <body>.
 function Nested({ frame }: { frame: HTMLElement }) {
   const [outer, setOuter] = useState(false);
   const [inner, setInner] = useState(false);
@@ -27,7 +29,7 @@ function Nested({ frame }: { frame: HTMLElement }) {
             </Sheet.Header>
             <Sheet.Body className="demo-body">
               <p>
-                The inner sheet is another &lt;Sheet&gt;, portalled to the same
+                The inner sheet is another {"<Sheet>"}, portalled to the same
                 frame.
               </p>
               <button
@@ -60,7 +62,10 @@ function Nested({ frame }: { frame: HTMLElement }) {
     </div>
   );
 }
+
 // #endregion demo
+
+import { mountDemo } from "./mount.tsx";
 
 export default (frame: HTMLElement) =>
   mountDemo(frame, (el) => <Nested frame={el} />);

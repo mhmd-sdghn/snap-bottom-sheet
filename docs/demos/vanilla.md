@@ -7,8 +7,6 @@ written by hand. There is no React in this demo at all.
 import mount from "../.vitepress/theme/demos/vanilla.ts";
 </script>
 
-<ClientOnly>
-  <ReactDemo :mount="mount" />
-</ClientOnly>
+<ReactDemo :mount="mount" />
 
 <<< @/.vitepress/theme/demos/vanilla.ts#demo{ts}

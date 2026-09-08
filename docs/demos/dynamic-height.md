@@ -7,8 +7,6 @@ sheet measures itself again and springs to the new height instead of jumping.
 import mount from "../.vitepress/theme/demos/dynamic-height.tsx";
 </script>
 
-<ClientOnly>
-  <ReactDemo :mount="mount" />
-</ClientOnly>
+<ReactDemo :mount="mount" />
 
 <<< @/.vitepress/theme/demos/dynamic-height.tsx#demo{tsx}

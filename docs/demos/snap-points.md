@@ -7,8 +7,6 @@ Three snap points, at 25%, 50% and 90% of the frame. The sheet opens at index
 import mount from "../.vitepress/theme/demos/snap-points.tsx";
 </script>
 
-<ClientOnly>
-  <ReactDemo :mount="mount" />
-</ClientOnly>
+<ReactDemo :mount="mount" />
 
 <<< @/.vitepress/theme/demos/snap-points.tsx#demo{tsx}

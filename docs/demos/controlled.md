@@ -7,8 +7,6 @@ closes the sheet. Drag the sheet yourself and the buttons stay in sync.
 import mount from "../.vitepress/theme/demos/controlled.tsx";
 </script>
 
-<ClientOnly>
-  <ReactDemo :mount="mount" />
-</ClientOnly>
+<ReactDemo :mount="mount" />
 
 <<< @/.vitepress/theme/demos/controlled.tsx#demo{tsx}

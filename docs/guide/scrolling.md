@@ -6,9 +6,7 @@ import scrollableDemo from "../.vitepress/theme/demos/scrollable.tsx";
 
 A sheet scrolls its content only at the snap points you mark with `scroll: true`, and only inside `Sheet.Body`.
 
-<ClientOnly>
-  <ReactDemo :mount="scrollableDemo" />
-</ClientOnly>
+<ReactDemo :mount="scrollableDemo" />
 
 ## `Sheet.Body` is the scroll region
 
@@ -157,9 +155,15 @@ already at `scrollTop <= 0`. The engine decides that one in JavaScript, with the
 rule above.
 
 ::: warning
-Please do not set `touch-action` or `overflow` on `Sheet.Content` or
-`Sheet.Body` yourself. The engine changes both per snap, and overriding them
-breaks the choice between scrolling and dragging in one direction or the other.
+Please leave two things to the engine:
+
+- `overflow` and `overflow-y` on `Sheet.Body`. They change with every snap, and
+  your own value would decide for the engine whether the body is a scroller.
+- `touch-action` on `Sheet.Content` and on `Sheet.Body`. It is what tells the
+  browser where a gesture belongs.
+
+Everything else is yours, `overflow: hidden` on `Sheet.Content` included — the
+engine never writes it there.
 :::
 
 ## Reaching the end of the content

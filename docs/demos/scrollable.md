@@ -7,8 +7,6 @@ reach the top and keep pulling down, the drag takes over.
 import mount from "../.vitepress/theme/demos/scrollable.tsx";
 </script>
 
-<ClientOnly>
-  <ReactDemo :mount="mount" />
-</ClientOnly>
+<ReactDemo :mount="mount" />
 
 <<< @/.vitepress/theme/demos/scrollable.tsx#demo{tsx}

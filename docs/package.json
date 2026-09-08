@@ -6,7 +6,8 @@
   "scripts": {
     "docs:dev": "vitepress dev --port 5175 --strictPort",
     "docs:build": "vitepress build",
-    "docs:preview": "vitepress preview"
+    "docs:preview": "vitepress preview",
+    "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
     "@types/react": "^19.2.0",
@@ -14,6 +15,7 @@
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "snap-bottom-sheet": "workspace:*",
+    "typescript": "^5.9.0",
     "vitepress": "^1.6.0"
   }
 }

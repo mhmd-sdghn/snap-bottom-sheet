@@ -7,8 +7,6 @@ Closing the inner sheet leaves the outer sheet exactly where it was.
 import mount from "../.vitepress/theme/demos/nested.tsx";
 </script>
 
-<ClientOnly>
-  <ReactDemo :mount="mount" />
-</ClientOnly>
+<ReactDemo :mount="mount" />
 
 <<< @/.vitepress/theme/demos/nested.tsx#demo{tsx}

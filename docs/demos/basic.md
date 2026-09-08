@@ -8,9 +8,7 @@ closes. Clicking the overlay closes it too.
 import mount from "../.vitepress/theme/demos/basic.tsx";
 </script>
 
-<ClientOnly>
-  <ReactDemo :mount="mount" />
-</ClientOnly>
+<ReactDemo :mount="mount" />
 
 <<< @/.vitepress/theme/demos/basic.tsx#demo{tsx}
 

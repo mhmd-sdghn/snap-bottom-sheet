@@ -1,8 +1,10 @@
+// #region demo
 import { useState } from "react";
 import { Sheet } from "snap-bottom-sheet/react";
-import { mountDemo } from "./mount.tsx";
 
-// #region demo
+// `frame` is the box this demo runs in: it is passed to
+// `Sheet.Portal container`, so the sheet stays inside the box instead of
+// covering the page. Leave `container` out and the sheet portals to <body>.
 function Scrollable({ frame }: { frame: HTMLElement }) {
   const [open, setOpen] = useState(false);
 
@@ -47,7 +49,10 @@ function Scrollable({ frame }: { frame: HTMLElement }) {
     </div>
   );
 }
+
 // #endregion demo
+
+import { mountDemo } from "./mount.tsx";
 
 export default (frame: HTMLElement) =>
   mountDemo(frame, (el) => <Scrollable frame={el} />);

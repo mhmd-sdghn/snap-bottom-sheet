@@ -13,7 +13,7 @@
     "test": "pnpm -r --filter \"./packages/*\" test",
     "lint": "biome check .",
     "lint:fix": "biome check --write .",
-    "typecheck": "pnpm -r --filter \"./packages/*\" typecheck",
+    "typecheck": "pnpm -r --filter \"./packages/*\" --filter snap-bottom-sheet-docs typecheck",
     "docs:dev": "pnpm --filter snap-bottom-sheet-docs docs:dev",
     "docs:build": "pnpm --filter snap-bottom-sheet-docs docs:build",
     "docs:preview": "pnpm --filter snap-bottom-sheet-docs docs:preview",
