@@ -8,6 +8,10 @@ import { createRoot } from "react-dom/client";
  * React renders into a child of the frame rather than the frame itself, so the
  * frame stays free to be the sheet's `Sheet.Portal container` — the portal
  * appends beside the React root instead of inside it.
+ *
+ * Every demo runs modal, which is the default. Because each sheet is given the
+ * frame as its container, the scroll lock and `inert` cover that frame only.
+ * The docs page around it keeps scrolling, and several demos can share a page.
  */
 export function mountDemo(
   frame: HTMLElement,

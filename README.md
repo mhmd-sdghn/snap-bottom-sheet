@@ -1,7 +1,7 @@
 <h1 align="center">Snap Bottom Sheet</h1>
 
 <p align="center">
-  A draggable, snappable bottom sheet for the web — framework-agnostic core, thin React bindings, zero runtime dependencies.
+  A draggable, snappable bottom sheet for the web. The core works with any framework, the React bindings are thin, and there are no runtime dependencies.
 </p>
 
 <p align="center">
@@ -76,43 +76,48 @@ void sheet.open();
 
 ## Why this one
 
-- **Snap points that mean what you wrote.** Fractions, percentages, pixels, or
-  the measured height of your header or content. Indices refer to *your* array
-  order, never a sorted rewrite of it.
-- **Measured, not guessed.** `"header"` and `"content"` are live-measured with a
-  shared `ResizeObserver`; when the active snap's height changes the sheet
+- **Snap points that mean what you wrote.** A snap point is a height the sheet
+  rests at. Write it as a fraction, a percentage, a pixel value, or the measured
+  height of your header or content. An index always refers to *your* array
+  order, never to a sorted version of it.
+- **Measured, not guessed.** `"header"` and `"content"` are measured live by a
+  shared `ResizeObserver`. When the height of the active snap changes, the sheet
   springs to the new position instead of jumping.
-- **Per-snap scroll and drag rules.** `{ value: 1, scroll: true }` makes the body
-  scroll at that snap and hands the gesture back to the sheet when you pull down
-  at the top. `drag: { up: false }` pins a direction.
-- **Zero runtime dependencies.** Its own spring integrator and its own Pointer
-  Events recogniser — about 13 kB gzipped for the core, 17 kB with the React
-  bindings. `react` and `react-dom` are optional peers; the core entry needs
-  neither.
-- **Dialog semantics included.** `role="dialog"`, labelled by your title, focus
-  moved in and restored on close, siblings `inert` while modal, Escape to the
-  innermost sheet, `prefers-reduced-motion` honoured.
-- **SSR-safe on purpose.** No `window` or `document` at module scope or during
-  render; the portal renders `null` until mounted. App Router, Pages Router and
-  `renderToString` all work without a dynamic import.
+- **Per-snap scroll and drag rules.** `{ value: 1, scroll: true }` lets the body
+  scroll at that snap. Pull down when the body is already at the top, and the
+  gesture goes back to the sheet. `drag: { up: false }` stops the sheet moving
+  in one direction.
+- **Zero runtime dependencies.** The library brings its own spring integrator
+  and its own Pointer Events recogniser. That comes to about 13 kB gzipped for
+  the core, and 17 kB with the React bindings. `react` and `react-dom` are
+  optional peers, and the core entry needs neither.
+- **Dialog semantics included.** The sheet gets `role="dialog"` and is labelled
+  by your title. Focus moves into it, and returns where it came from on close.
+  While the sheet is modal its siblings are marked `inert`. Escape closes the
+  innermost sheet, and `prefers-reduced-motion` is honoured.
+- **Safe for server-side rendering (SSR).** Nothing touches `window` or
+  `document` at module scope or during render, and the portal renders `null`
+  until it is mounted. App Router, Pages Router and `renderToString` all work
+  without a dynamic import.
 
 No stylesheet ships. You get `data-state`, `data-snap-index`, `data-dragging`
-and CSS custom properties for position and progress — see
+and CSS custom properties for position and progress. See
 [Styling](https://mhmd-sdghn.github.io/react-bottom-sheet/guide/styling).
 
 ## Repository layout
 
 | Path | What |
 | --- | --- |
-| [`packages/sheet`](./packages/sheet) | `snap-bottom-sheet` — the published package (`.` core, `./react` bindings) |
-| `packages/spring` | `@snap-bottom-sheet/spring` — private scalar spring, bundled in |
-| `packages/gesture` | `@snap-bottom-sheet/gesture` — private pointer drag recogniser, bundled in |
+| [`packages/sheet`](./packages/sheet) | `snap-bottom-sheet`, the published package. `.` is the core, `./react` the bindings. |
+| `packages/spring` | `@snap-bottom-sheet/spring`, a private scalar spring that is bundled in |
+| `packages/gesture` | `@snap-bottom-sheet/gesture`, a private pointer drag recogniser that is bundled in |
 | `docs` | the VitePress site |
 | [`playgrounds`](./playgrounds) | React, vanilla and Next.js apps for manual testing |
 
 ## Contributing
 
-Node 22+ and pnpm. See [CONTRIBUTING.md](./CONTRIBUTING.md).
+You need Node 22 or later, and pnpm. Please see
+[CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## License
 

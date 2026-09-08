@@ -1,10 +1,10 @@
 # Vanilla JS
 
-`createSheet` attaches the engine to elements you already rendered — no framework, no build step required.
+`createSheet` attaches the engine to elements you have already rendered. You need no framework and no build step.
 
 ## A complete sheet
 
-Three files: markup, CSS, and one call.
+Three parts: the markup, the CSS, and a single call.
 
 ### The markup
 
@@ -33,12 +33,13 @@ Three files: markup, CSS, and one call.
 
 ### The CSS
 
-The library writes only what it must own on the panel — `position`, `inset`,
-`height`, `display: flex`, `box-sizing`, `touch-action`, `overscroll-behavior`,
-and `transform`. On the overlay it writes `position` (`fixed`, or `absolute` when
-you pass a `container`) and `inset: 0`, and nothing else — so your overlay rule
-carries the colour and leaves the positioning alone. Everything that makes it
-*look* like a sheet is yours, and no `z-index` is ever written on any element.
+On the panel, the library writes only what it has to own: `position`, `inset`,
+`height`, `display: flex`, `box-sizing`, `touch-action`, `overscroll-behavior`
+and `transform`. On the overlay it writes `inset: 0` and `position`, which is
+`fixed`, or `absolute` when you pass a `container`. It writes nothing else
+there, so your overlay rule sets the colour and leaves the positioning alone.
+Everything that makes the panel look like a sheet is yours, and no `z-index` is
+ever written on any element.
 
 ```css
 .sheet-overlay {
@@ -71,9 +72,9 @@ carries the colour and leaves the positioning alone. Everything that makes it
 }
 ```
 
-Don't set `position`, `height` or `transform` on the panel. Every other inline
-style you set wins: the controller writes its base layout styles **once** at
-attach, so your own declarations applied afterwards are not overwritten.
+Please do not set `position`, `height` or `transform` on the panel. Every other
+inline style you set wins. The controller writes its base layout styles **once**
+at attach, so anything you apply afterwards is not overwritten.
 
 ### The JavaScript
 
@@ -104,96 +105,99 @@ el("open").addEventListener("click", () => void sheet.open());
 el("close").addEventListener("click", () => void sheet.close());
 ```
 
-That is the whole integration. Dragging, the spring, snap resolution,
-scroll-vs-drag arbitration, page scroll lock, `inert` on siblings, focus
-trapping and restoration, Escape handling, and every `data-*` / `aria-*` /
-CSS-variable write are the controller's job.
+That is the whole integration. The controller takes care of the rest: dragging,
+the spring, resolving the snap points, choosing between scrolling and dragging,
+locking the page scroll, marking siblings `inert`, trapping and restoring focus,
+handling Escape, and writing every `data-*` attribute, `aria-*` attribute and
+CSS variable.
 
 ## What `createSheet` needs
 
-Only `content` is required, and it is **fixed for the controller's lifetime** —
-to move the sheet to a different panel element, `destroy()` and create a new
-controller. `container` is fixed for the same reason. Every other element may be
-`null` at attach and arrive later through `setElements`.
+Only `content` is required, and it is **fixed for the lifetime of the
+controller**. To move the sheet to a different panel element, call `destroy()`
+and create a new controller. `container` is fixed for the same reason. Every
+other element may be `null` at attach and arrive later through `setElements`.
 
 | Element | Required | What it does |
 | --- | --- | --- |
-| `content` | Yes | The panel. Receives the transform, the padding, the `data-*`, the CSS variables and the dialog role. |
+| `content` | Yes | The panel. It receives the transform, the padding, the `data-*` attributes, the CSS variables and the dialog role. |
 | `header` | No | Measured for the `"header"` snap value. |
-| `body` | No | The scroll region: `overflow` is toggled per snap, and scroll-vs-drag is decided here. |
-| `overlay` | No | Click closes the sheet when `dismissible`. Receives `data-state` and `aria-hidden`. |
-| `handle` | No | Keyboard target: ArrowUp/ArrowDown step one snap and clamp at the ends, Enter/Space cycles to the next snap and wraps. |
-| `container` | No | View-height source and `inert` scope. Defaults to `document.body` (window height). |
+| `body` | No | The scroll region. Its `overflow` changes per snap, and the choice between scrolling and dragging is made here. |
+| `overlay` | No | A click on it closes the sheet when `dismissible` is set. It receives `data-state` and `aria-hidden`. |
+| `handle` | No | The keyboard target. ArrowUp and ArrowDown step one snap and stop at the ends. Enter and Space move to the next snap and wrap around. |
+| `container` | No | The source of the view height and the scope for `inert`. Defaults to `document.body`, which means the window height. |
 
 ::: warning A custom `container` narrows the `inert` scope
-`inert` is applied to the *children of the container*, so with the default
-`document.body` the whole page behind the sheet goes inert. Pass your own
-`container` and only its children do — anything outside it stays interactive and
-reachable by screen reader while the modal sheet is open.
+`inert` is applied to the children of the container. With the default
+`document.body`, the whole page behind the sheet becomes inert. If you pass your
+own `container`, only its children do. Anything outside it stays interactive and
+reachable by a screen reader while the modal sheet is open.
 :::
 
 ::: warning The controller starts closed
-`createSheet` translates the panel to `viewHeight` and sets
-`data-state="closed"` immediately. Nothing is visible until you call `open()`.
-There is no `defaultOpen` on the core — call `open()` right after creating the
-controller, or pass `skipInitialAnimation: true` and `open()` to appear at
-position instead of animating up. `skipInitialAnimation` applies to the **first
-`open()` of a controller instance** only: every later `open()` animates
-normally, and creating a new controller gets a fresh first open.
+`createSheet` moves the panel to `viewHeight` and sets `data-state="closed"`
+straight away, so nothing is visible until you call `open()`. The core has no
+`defaultOpen`. Call `open()` right after you create the controller. If you want
+the sheet to appear in place instead of animating up, pass
+`skipInitialAnimation: true` and then call `open()`. `skipInitialAnimation`
+applies to the **first `open()` of a controller instance** only. Every later
+`open()` animates as usual, and a new controller gets a fresh first open.
 :::
 
-`content` is also validated: `createSheet` throws a `TypeError` when
-`elements.content` is missing, and `setElements` throws a `TypeError` if you try
-to pass `content` or `container` to it — those two are fixed for the
-controller's lifetime, so `setElements({ content })` and
-`setElements({ container })` are errors, not silent no-ops.
+`content` is validated as well. `createSheet` throws a `TypeError` when
+`elements.content` is missing, and `setElements` throws a `TypeError` if you
+pass it `content` or `container`. Both are fixed for the lifetime of the
+controller, so `setElements({ content })` and `setElements({ container })` are
+errors rather than silent no-ops.
 
 ## The content-inner measurement contract
 
-`"content"` (and content mode, which is what you get with no snap points) needs
-one element whose height is the natural content height. The controller looks
-for it in this order:
+The `"content"` value needs one element whose height is the natural height of
+the content. So does content mode, which is what you get when you pass no snap
+points. The controller looks for that element in this order:
 
 1. `content.querySelector(":scope > [data-snap-sheet-inner]")`
 2. `content.firstElementChild`, if `content` has exactly **one** element child
 3. `content` itself
 
-So either add `data-snap-sheet-inner` to a single wrapper div — as the example
-above does — or keep exactly one element child inside the panel. If the panel
-has several children and none is attributed, the measurement falls back to the
-panel, which is full-height, and `"content"` collapses to the view height.
+So you have two options. Add `data-snap-sheet-inner` to a single wrapper div, as
+the example above does, or keep exactly one element child inside the panel. If
+the panel has several children and none of them carries the attribute, the
+measurement falls back to the panel itself. The panel is full-height, so
+`"content"` then collapses to the view height.
 
 The wrapper is resolved **once, at attach**, and observed for as long as the
-controller lives. If you swap that element out later — re-rendering the panel's
-markup wholesale, say — the controller keeps measuring the old, detached node
-and `"content"` stops responding. Keep the wrapper stable and replace what is
-inside it, or `destroy()` and create the sheet again.
+controller lives. If you replace that element later, for example by rendering
+the panel's markup again from scratch, the controller keeps measuring the old
+node, which is no longer in the document, and `"content"` stops responding.
+Keep the wrapper in place and replace what is inside it, or call `destroy()` and
+create the sheet again.
 
 ::: tip
-The React bindings always render the attributed inner div, which is why this
-only comes up in vanilla usage.
+The React bindings always render the inner div with that attribute, so this only
+comes up in vanilla usage.
 :::
 
 ## Controller lifecycle
 
 | Method | Returns | Description |
 | --- | --- | --- |
-| `open()` | `Promise<void>` | Animates to the active snap. Resolves when the spring rests. |
+| `open()` | `Promise<void>` | Animates to the active snap. Resolves when the spring comes to rest. |
 | `close()` | `Promise<void>` | Animates to `viewHeight` and reports `onOpenChange(false)`. |
-| `snapTo(index, { immediate })` | `Promise<void>` | Moves to a snap point by **your array index**. `immediate: true` jumps. On a **closed** sheet it only records the snap to open at — it does not open the sheet; call `open()` for that. |
-| `update(options)` | `void` | Merges into the options: re-resolves snap points, keeps `snapIndex` if still valid, clamps otherwise, and re-animates if the active snap's position changed. |
-| `setElements(elements)` | `void` | Registers or replaces optional parts after attach; `null` removes one. Rewires only the parts that changed; the current position is kept. |
+| `snapTo(index, { immediate })` | `Promise<void>` | Moves to a snap point by **your array index**. `immediate: true` jumps there. On a **closed** sheet it only records the snap to open at. It does not open the sheet, so call `open()` for that. |
+| `update(options)` | `void` | Merges the values into the options. It resolves the snap points again, keeps `snapIndex` if it is still valid and clamps it if not, and animates again if the active snap moved. |
+| `setElements(elements)` | `void` | Adds or replaces optional parts after attach, and `null` removes one. Only the parts that changed are rewired, and the current position is kept. |
 | `getState()` | `SheetState` | `{ open, snapIndex, y, progress, dragging, animating, contentMode }`. |
 | `subscribe(fn)` | `() => void` | Calls `fn(state)` on every state change. Returns the unsubscribe function. |
-| `destroy()` | `void` | Detaches the gesture and observers and restores scroll lock, `inert`, focus and styles. |
+| `destroy()` | `void` | Detaches the gesture and the observers, and restores the scroll lock, `inert`, focus and styles. |
 
-Two details worth relying on:
+You can rely on two more details:
 
-- **`getState()` returns the same object reference until the next state
-  change.** The controller replaces the object rather than mutating it, so a
-  reference comparison is a valid "did anything change" test.
-- **`destroy()` is idempotent.** After it, every method is a no-op and the
-  promise-returning ones resolve immediately.
+- **`getState()` returns the same object until the state changes.** The
+  controller replaces the object instead of changing it in place, so comparing
+  references is a valid way to ask whether anything changed.
+- **`destroy()` is safe to call more than once.** After it, every method does
+  nothing, and the ones that return a promise resolve at once.
 
 ```ts
 // Late-arriving parts, live option changes, and teardown.
@@ -211,8 +215,9 @@ sheet.destroy();
 
 ## Dialog semantics without React
 
-React wires `aria-labelledby` and `aria-describedby` from `Sheet.Title` and
-`Sheet.Description` via `useId`. In vanilla you own the ids and pass them:
+In React, `aria-labelledby` and `aria-describedby` are wired up from
+`Sheet.Title` and `Sheet.Description` with `useId`. In vanilla you own the ids
+and pass them yourself:
 
 ```ts
 createSheet(elements, {
@@ -221,11 +226,12 @@ createSheet(elements, {
 });
 ```
 
-The controller adds `role="dialog"` and `aria-modal` itself, and — while
-`modal` is `true` — moves focus into the panel on open, marks the container's
-other children `inert`, and returns focus to the previously focused element on
-close. Give the handle a real `<button>` element (not a styled `div`) so the
-keyboard bindings land on something focusable.
+The controller adds `role="dialog"` and `aria-modal` itself. While `modal` is
+`true`, it also moves focus into the panel when the sheet opens, marks the
+container's other children `inert`, and returns focus to the previously focused
+element when the sheet closes. Please use a real `<button>` element for the
+handle, rather than a styled `div`, so the keyboard bindings land on something
+that can take focus.
 
 ## Where next
 

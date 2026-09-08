@@ -4,7 +4,7 @@ import basicDemo from "../.vitepress/theme/demos/basic.tsx";
 
 # Getting Started
 
-Install the package, render the parts, and hand them to the engine — in React or in plain JavaScript.
+Install the package, render the parts, and hand them to the engine. This works the same way in React and in plain JavaScript.
 
 <ClientOnly>
   <ReactDemo :mount="basicDemo" />
@@ -14,8 +14,8 @@ Install the package, render the parts, and hand them to the engine — in React 
 
 | Import | What it is |
 | --- | --- |
-| `snap-bottom-sheet` | The framework-agnostic core: `createSheet`, `steps`, and the types. No dependencies, no peers. |
-| `snap-bottom-sheet/react` | The React bindings: `Sheet` and its parts, `useSheetState`. Built on the same core. |
+| `snap-bottom-sheet` | The core, which needs no framework. It gives you `createSheet`, `steps`, and the types. It has no dependencies and no peers. |
+| `snap-bottom-sheet/react` | The React bindings. They give you `Sheet` with its parts, and `useSheetState`. They are built on the same core. |
 
 There is no default export and no deeper subpath than these two.
 
@@ -38,14 +38,14 @@ yarn add snap-bottom-sheet
 :::
 
 `react` and `react-dom` (`^18 || ^19`) are declared as **optional** peer
-dependencies — your package manager will not nag you for them. The core entry
-has no peers at all, so a vanilla project installs nothing else. The package is
-ESM only.
+dependencies, so your package manager will not ask you to install them. The core
+entry has no peers at all. A vanilla project installs nothing else. The package
+is ESM only.
 
 ## 2. A sheet in React
 
-Everything state-dependent is written by the controller, so the React side is
-just the part tree plus your own state.
+The controller writes everything that depends on state. On the React side you
+only write the part tree and your own state.
 
 ```tsx
 import { useState } from "react";
@@ -88,8 +88,8 @@ export function RideOptions() {
 }
 ```
 
-No stylesheet ships with the package, so without CSS the sheet is invisible.
-This is the minimum that makes it look like a sheet:
+The package ships no stylesheet, so the sheet stays invisible until you add CSS.
+Here is the minimum that makes it look like a sheet:
 
 ```css
 /* sheet.css */
@@ -125,11 +125,14 @@ This is the minimum that makes it look like a sheet:
 ```
 
 ::: tip
-The controller positions the overlay for you — at attach it writes
-`position: fixed` (or `absolute` when `Sheet.Portal` has a `container`) and
-`inset: 0` on it, so your rule only needs the colour. It also fades on its own:
-the controller writes `--snap-sheet-progress` (`0` closed → `1` at the topmost
-snap) onto the overlay element and its default opacity reads that variable. See
+The controller positions the overlay for you. When it attaches, it writes
+`position: fixed` and `inset: 0` on the overlay. It writes `absolute` instead of
+`fixed` when `Sheet.Portal` has a `container`. Your own rule only needs to set
+the colour.
+
+The overlay fades on its own too. The controller writes
+`--snap-sheet-progress` onto the overlay element, from `0` when closed to `1` at
+the topmost snap, and the default opacity reads that variable. See
 [Styling](/guide/styling) for every hook.
 :::
 
@@ -174,8 +177,8 @@ el("choose").addEventListener("click", () => void sheet.open());
 ```
 
 The controller starts **closed**, so nothing is visible until you call `open()`.
-The `data-snap-sheet-inner` wrapper is what `"content"` measures — the full
-contract is in [Vanilla JS](/guide/vanilla).
+The `data-snap-sheet-inner` wrapper is the element that `"content"` measures.
+The full contract is in [Vanilla JS](/guide/vanilla).
 
 ## Next steps
 

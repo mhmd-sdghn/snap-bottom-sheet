@@ -21,9 +21,9 @@ Two snap values are measured from the DOM instead of computed from the view: `"h
 <Sheet snapPoints={["header", "content"]}>
 ```
 
-Both are ordinary snap points otherwise: they take a position in your array,
-they can be wrapped in a `SnapPointConfig` for `scroll` and `drag`, and their
-index is wherever you put them. Neither requires a special component or a
+In every other way they are ordinary snap points. They take a position in your
+array, you can wrap them in a `SnapPointConfig` to set `scroll` and `drag`, and
+their index is wherever you put them. Neither one needs a special component or a
 different prop.
 
 ## How each one is measured
@@ -35,41 +35,42 @@ measuring. There is no polling and no per-frame layout read.
 is the snap height, so padding and borders on the header count.
 
 ::: warning Margins on `Sheet.Header` are excluded
-`offsetHeight` does not include margins, so a margin on `Sheet.Header` is
-invisible to the `"header"` snap and the peek state lands that many pixels
+`offsetHeight` does not include margins. A margin on `Sheet.Header` is therefore
+invisible to the `"header"` snap, and the peek state lands that many pixels
 short. Use padding on the header instead of margins when you want the space to
 count.
 :::
 
 **`"content"`** observes an inner element inside `Sheet.Content` rather than the
-panel itself — the panel is deliberately full-height, so measuring it would
-always return the view height. `Sheet.Content` renders that inner wrapper for
-you, marked with `data-snap-sheet-inner`, and everything you put inside
-`Sheet.Content` goes into it. The measured number is therefore the height of
-`Sheet.Header` plus `Sheet.Body`'s content plus whatever else you rendered in the
-panel.
+panel itself. The panel is deliberately full height, so measuring it would always
+return the view height. `Sheet.Content` renders that inner wrapper for you and
+marks it with `data-snap-sheet-inner`. Everything you put inside `Sheet.Content`
+goes into it. The measured number is therefore the height of `Sheet.Header`, plus
+the content of `Sheet.Body`, plus anything else you rendered in the panel.
 
 For `"content"` to be the *natural* height, `Sheet.Body` must not be a scroller
-at that moment — so whenever the active snap has `scroll !== true`, Body is laid
-out as `overflow: hidden; flex: none`, and the inner wrapper's height is exactly
-the content height. At a `scroll: true` snap, Body becomes
-`flex: 1; min-height: 0; overflow-y: auto` and `"content"` measurement is paused,
-because the value cannot mean anything there. The **last measured value is
-retained** while it is paused, so a `"content"` snap elsewhere in the array keeps
-the height it had before the sheet reached the scrolling snap, and measurement
-resumes — with a fresh value — as soon as the sheet leaves it.
+at that moment. So whenever the active snap has `scroll !== true`, Body is laid
+out as `overflow: hidden; flex: none`, and the height of the inner wrapper is
+exactly the content height.
+
+At a `scroll: true` snap, Body becomes `flex: 1; min-height: 0; overflow-y: auto`
+and `"content"` measurement pauses, because the value cannot mean anything there.
+The **last measured value is kept** while measurement is paused. A `"content"`
+snap elsewhere in the array therefore keeps the height it had before the sheet
+reached the scrolling snap. Measurement starts again, with a fresh value, as soon
+as the sheet leaves that snap.
 
 ::: info
-Both values are capped at the view height. Content taller than the screen
-resolves to a full-height sheet, not to something taller than the view that you
-can never see.
+Both values are capped at the view height. Content that is taller than the screen
+resolves to a full-height sheet. It never resolves to something taller than the
+view, which you could not see anyway.
 :::
 
 ## Live re-measure, and the spring-not-jump rule
 
 Measurements are live. Content loads, an accordion expands, the keyboard opens
-and shrinks the view, the user rotates the phone — the observer fires and the
-controller re-resolves the snap points. Then:
+and shrinks the view, or the user rotates the phone. In each case the observer
+fires and the controller resolves the snap points again. Then:
 
 - If the **active** snap's height changed, the sheet animates to the new position
   with the spring.
@@ -78,33 +79,34 @@ controller re-resolves the snap points. Then:
 - During a drag, a view-height change is applied immediately instead, so the
   panel stays under the finger.
 
-The consequence worth designing around: a sheet at a `"content"` snap grows and
-shrinks *smoothly* as its content changes, which looks intentional for a loaded
-list and distracting for a spinner that resolves in 200 ms. If you have a
-loading state, render a placeholder at roughly the final height rather than
-letting the sheet spring twice.
+There is one thing to design around. A sheet at a `"content"` snap grows and
+shrinks *smoothly* as its content changes. That looks deliberate for a list that
+has just loaded, but distracting for a spinner that finishes in 200 ms. If you
+have a loading state, render a placeholder at roughly the final height rather
+than letting the sheet spring twice.
 
 ::: tip
 Before the first measurement, an unmeasured `"header"` or `"content"` resolves to
-half the view height as a placeholder so the sheet has somewhere to be on first
-paint. The real value replaces it on the next measurement, with a spring. Pass
-`skipInitialAnimation` if you would rather the sheet appear at position than
-animate in.
+half the view height. This placeholder gives the sheet somewhere to be on first
+paint. The real value replaces it at the next measurement, with a spring. Pass
+`skipInitialAnimation` if you would rather the sheet appeared in position instead
+of animating in.
 :::
 
 ## Content mode
 
-Omitting `snapPoints` entirely — or passing only `"content"` — puts the sheet in
-**content mode**: the controller synthesises one snap from the measured content
-height, so the sheet is exactly as tall as what is inside it, drag up is pinned,
-and drag down past the threshold closes it (or clamps back when `dismissible` is
-`false`). `data-content-mode` on the panel and `contentMode` in
+The sheet enters **content mode** when you leave out `snapPoints`, or when you
+pass only `"content"`. The controller then builds one snap from the measured
+content height. The sheet is exactly as tall as what is inside it, drag up is
+pinned, and drag down past the threshold closes it. It clamps back instead when
+`dismissible` is `false`. `data-content-mode` on the panel and `contentMode` in
 [`useSheetState()`](/reference/react) let you style and branch on it.
 
 ## The peek-and-list pattern
 
-The common mobile shape: the sheet rests showing only its header, and the user
-drags it up to read the list. Two variants, depending on how tall the list is.
+This is the common shape on mobile. The sheet rests with only its header showing,
+and the user drags it up to read the list. There are two variants, depending on
+how tall the list is.
 
 ::: code-group
 
@@ -156,10 +158,10 @@ void sheet.open();
 
 :::
 
-Reach for `["header", "content"]` when the content is reliably shorter than the
-screen, and `["header", { value: 1, scroll: true }]` when it is not — `"content"`
-capped at the view height gives you a full-height sheet whose body cannot scroll,
-which is rarely what you want.
+Use `["header", "content"]` when the content is reliably shorter than the screen,
+and `["header", { value: 1, scroll: true }]` when it is not. Once `"content"` is
+capped at the view height, you get a full-height sheet whose body cannot scroll,
+and that is rarely what you want.
 
 ## The vanilla contract for the inner element
 
@@ -170,10 +172,10 @@ JS you own the markup, so the controller looks for it in this order:
    marked direct child. Add the attribute and there is no ambiguity.
 2. `content.firstElementChild`, but **only** when `content` has exactly one
    element child.
-3. `content` itself — which is full height, so `"content"` will resolve to the
-   view height.
+3. `content` itself. That element is full height, so `"content"` will resolve to
+   the view height.
 
-In practice: mark the wrapper, or keep a single element child.
+In practice, mark the wrapper or keep a single element child.
 
 ```html
 <div id="sheet">
@@ -184,10 +186,10 @@ In practice: mark the wrapper, or keep a single element child.
 </div>
 ```
 
-`"header"` has no such ambiguity — it measures whatever element you passed as
-`elements.header`, so pass it if you use `"header"` as a snap value. Both parts
-can also arrive later via `setElements`; measurement starts when the element
-does.
+`"header"` has no such ambiguity. It measures whatever element you passed as
+`elements.header`, so please pass one if you use `"header"` as a snap value. Both
+elements can also arrive later through `setElements`. Measurement starts as soon
+as the element does.
 
 ## Where next
 

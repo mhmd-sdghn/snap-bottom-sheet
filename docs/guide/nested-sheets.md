@@ -1,17 +1,17 @@
 # Nested Sheets
 
-A sheet opened from inside another sheet works without any special prop. Each sheet is an independent controller with its own portal, overlay and gesture bindings.
+You can open a sheet from inside another sheet without any special prop. Each sheet is its own controller, with its own portal, overlay and gesture bindings.
 
 ## What nesting gives you
 
-- **No shared DOM.** Every sheet renders its own portal wrapper and its own overlay element. There are no shared ids, so two open sheets never fight over the same node.
-- **Drags stay local.** A drag that starts inside a sheet's Content does not bubble past it, so dragging the inner panel never moves the outer one.
-- **One scroll lock, reference-counted.** The page lock is a module-level counter. Opening the inner sheet increments it; closing the inner sheet decrements it, and the page stays locked because the outer sheet still holds a reference. The original `overflow`, `overscroll-behavior` and `padding-right` are restored only when the last modal sheet closes.
-- **Escape hits the innermost sheet.** Open `modal && dismissible` controllers are kept on a stack, and the shared `document` keydown listener closes `stack.at(-1)` only. One <kbd>Esc</kbd> per sheet, innermost first.
+- **No shared DOM.** Every sheet renders its own portal wrapper and its own overlay element. No ids are shared, so two open sheets never compete for the same node.
+- **Drags stay local.** A drag that starts inside a sheet's Content does not bubble past it. Dragging the inner panel never moves the outer one.
+- **One scroll lock, counted by reference.** The page lock is a single counter. Opening the inner sheet adds one to it, and closing the inner sheet takes one away. The page stays locked because the outer sheet still holds a reference. The original `overflow`, `overscroll-behavior` and `padding-right` come back only when the last modal sheet closes.
+- **Escape closes the innermost sheet.** Open controllers that are both `modal` and `dismissible` are kept on a stack, and the shared `document` keydown listener closes `stack.at(-1)` only. So one <kbd>Esc</kbd> closes one sheet, innermost first.
 
 ## A two-level example
 
-The inner sheet is just another `<Sheet>`, rendered inside the outer one's `Sheet.Body`. Its portal still targets `document.body`, so it is not clipped by the outer panel.
+The inner sheet is simply another `<Sheet>`, rendered inside the outer one's `Sheet.Body`. Its portal still targets `document.body`, so the outer panel does not clip it.
 
 ```tsx
 import { useState } from "react";
@@ -70,17 +70,17 @@ export function RideOptions() {
 }
 ```
 
-The inner sheet has no `snapPoints`, so it is in content mode and hugs its own content. Closing it leaves the outer sheet exactly where it was — the same snap index, the same scroll position in `Sheet.Body`, and the page still locked.
+The inner sheet has no `snapPoints`, so it is in content mode and takes the height of its own content. Closing it leaves the outer sheet exactly where it was: the same snap index, the same scroll position in `Sheet.Body`, and the page still locked.
 
 ::: tip
-Nesting in the React tree is a convenience, not a requirement. Two sibling `<Sheet>` roots driven by two pieces of state behave identically — the stack is built from open controllers, not from JSX ancestry.
+Nesting the sheets in the React tree is a convenience, not a requirement. Two sibling `<Sheet>` roots driven by two pieces of state behave in the same way. The stack is built from the open controllers, not from the JSX structure.
 :::
 
 ## What nesting does not do for you
 
-Be honest with yourself about these before shipping a stack of sheets.
+Please consider these points before you ship a stack of sheets.
 
-**Stacking order is your CSS.** The library never writes a `z-index` — not on the panel, not on the overlay, not on the portal wrapper, on no element ever — so stacking is decided entirely by your stylesheet and by DOM order. Both portals append to `document.body` in mount order, so the inner sheet usually lands on top, but "usually" is not a guarantee and it will not survive an inner sheet that mounts first. Give each level an explicit `z-index`; nothing in the library will compete with it:
+**Stacking order is your CSS.** The library never writes a `z-index`, on any element at all. Stacking is decided entirely by your stylesheet and by DOM order. Both portals are appended to `document.body` in mount order, so the inner sheet usually lands on top. That is not a guarantee, though, and it does not hold if the inner sheet mounts first. Give each level an explicit `z-index`. Nothing in the library will compete with it:
 
 ```css
 .sheet--outer,
@@ -93,7 +93,7 @@ Be honest with yourself about these before shipping a stack of sheets.
 }
 ```
 
-**Backdrop dimming stacks literally.** Each modal sheet renders its own overlay, and two overlays at 40% black compose to about 64%. If you want the second layer lighter, give it its own class:
+**The dimming adds up.** Each modal sheet renders its own overlay, and two overlays at 40% black come out at about 64%. If you want the second layer to be lighter, give it its own class:
 
 ```css
 .sheet--inner ~ .overlay,
@@ -102,13 +102,13 @@ Be honest with yourself about these before shipping a stack of sheets.
 }
 ```
 
-Or drop the inner overlay entirely with `modal={false}` on the inner sheet — but then you also lose its `inert` scope, its focus trap and its Escape handling, so only do that for a sheet that is genuinely non-blocking.
+You can also remove the inner overlay altogether with `modal={false}` on the inner sheet. You then lose its `inert` scope, its focus trap and its Escape handling as well, so please do that only for a sheet that really does not block the page.
 
-**Focus return is per sheet.** Each sheet restores focus to whatever was focused when it opened. Closing the inner sheet returns focus into the outer sheet, which is what you want; closing both in the wrong order does not corrupt anything, but the final focus target is the element that opened the outermost sheet.
+**Each sheet returns focus on its own.** A sheet restores focus to whatever was focused when it opened. Closing the inner sheet returns focus into the outer sheet, which is what you want. Closing them in the wrong order breaks nothing, but the final focus target is then the element that opened the outermost sheet.
 
-**Nothing coordinates positions.** The outer sheet does not move, shrink, or scale when the inner one opens. If you want an iOS-style card stack, animate the outer panel yourself off `data-state` on the inner one — the two sheets share no state, so that means your own class or CSS variable on a common ancestor.
+**Nothing coordinates the positions.** The outer sheet does not move, shrink or scale when the inner one opens. For an iOS-style card stack, animate the outer panel yourself from `data-state` on the inner one. The two sheets share no state, so you need your own class or CSS variable on a shared ancestor.
 
 ## Next
 
-- [Accessibility](/guide/accessibility) — what `modal` turns on, and Escape routing.
-- [Styling](/guide/styling) — the attributes and custom properties the `z-index` and dim recipes above hang off.
+- [Accessibility](/guide/accessibility) — what `modal` turns on, and how Escape is routed.
+- [Styling](/guide/styling) — the attributes and custom properties that the `z-index` and dimming recipes above rely on.

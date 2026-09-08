@@ -16,8 +16,6 @@ function Basic({ frame }: { frame: HTMLElement }) {
         Open the sheet
       </button>
 
-      {/* modal (the default): the lock is scoped to the Portal container, so
-          the docs page you are reading keeps scrolling */}
       <Sheet open={open} onOpenChange={setOpen}>
         <Sheet.Portal container={frame}>
           <Sheet.Overlay className="demo-overlay" />

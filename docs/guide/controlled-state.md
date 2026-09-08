@@ -4,7 +4,7 @@ import controlledDemo from "../.vitepress/theme/demos/controlled.tsx";
 
 # Controlled State
 
-Two things about a sheet can be driven from outside — whether it is open, and which snap it rests at — and each one is controlled or uncontrolled on its own.
+You can drive two things about a sheet from outside: whether it is open, and which snap it rests at. Each one is controlled or uncontrolled on its own.
 
 <ClientOnly>
   <ReactDemo :mount="controlledDemo" />
@@ -21,15 +21,15 @@ Two things about a sheet can be driven from outside — whether it is open, and 
 | `defaultSnapIndex` | `number` | `0` | Initial snap index when `activeSnapIndex` is omitted |
 | `onSnapIndexChange` | `(index: number, snapPoint: SnapPoint) => void` | — | Called with the new index and the entry from your array |
 
-Indices always refer to your array order. Internally the engine sorts snaps by
-position to find neighbours, but that ordering never leaks out: index `2` is
-`snapPoints[2]`, whatever its height.
+Indices always refer to your array order. The engine sorts snaps by position
+internally so that it can find neighbours, but that order never leaks out. Index
+`2` is `snapPoints[2]`, whatever its height.
 
 ::: info
-Passing `open` without `onOpenChange` produces a sheet that can never close;
-passing `activeSnapIndex` without `onSnapIndexChange` produces one that can
-never move. That is the standard controlled-component contract, not a bug — but
-it is usually a mistake.
+If you pass `open` without `onOpenChange`, the sheet can never close. If you pass
+`activeSnapIndex` without `onSnapIndexChange`, it can never move. That is the
+standard controlled-component contract rather than a bug, but it is usually a
+mistake.
 :::
 
 ## Uncontrolled
@@ -71,19 +71,20 @@ export function Filters() {
 }
 ```
 
-No `open` prop, no `onOpenChange`, no state in the parent: the sheet opens
-itself on mount, the handle moves it between snaps, and `Sheet.Close` closes it.
+There is no `open` prop, no `onOpenChange`, and no state in the parent. The sheet
+opens itself on mount, the handle moves it between snaps, and `Sheet.Close`
+closes it.
 
 ::: tip
 `defaultOpen` covers "open on mount". To open an uncontrolled sheet later, call
-`ref.current.open()` from your trigger — a click-to-open button does not require
-controlling `open`. Reach for the controlled version in the next section when the
-parent needs to *render* off the open state, not merely to set it.
+`ref.current.open()` from your trigger. A click-to-open button does not need you
+to control `open`. Use the controlled version in the next section when the parent
+needs to *render* from the open state, not only to set it.
 :::
 
 ## Controlled
 
-Mix and match freely — here `open` is controlled and the snap index is not:
+You can mix the two freely. Here `open` is controlled and the snap index is not:
 
 ```tsx
 import { useState } from "react";
@@ -123,9 +124,9 @@ export function Checkout() {
 }
 ```
 
-Prop changes are diffed against the engine's own state, so re-rendering with the
-same `activeSnapIndex` the user just dragged to does nothing — no second
-animation, no loop.
+Prop changes are compared against the engine's own state. So if you re-render
+with the same `activeSnapIndex` that the user has just dragged to, nothing
+happens. There is no second animation and no loop.
 
 ## The imperative handle
 
@@ -163,8 +164,8 @@ When the promise resolves depends on the call:
   resolves immediately.
 - Any call that asks for the state the sheet is already in resolves immediately.
 
-`activeSnapIndex` and `y` are live reads, not React state — reading them does
-not subscribe you to anything and will not re-render your component.
+`activeSnapIndex` and `y` are live reads, not React state. Reading them does not
+subscribe you to anything, and it will not re-render your component.
 
 ## Reading live state
 
@@ -191,29 +192,31 @@ function Dimmer() {
 | `progress` | `number` | `0` closed → `1` at the topmost snap |
 | `dragging` | `boolean` | A drag is in progress |
 | `animating` | `boolean` | The spring has not rested yet |
-| `contentMode` | `boolean` | No real snap points; the sheet hugs its content |
+| `contentMode` | `boolean` | No real snap points, so the sheet is as tall as its content |
 
-It must be called inside a `<Sheet>` subtree — there is no provider-less
-fallback. Note that it re-renders on every state change, which during a drag
-means every frame; for pure visuals prefer the CSS custom properties the engine
-writes straight to the DOM (see [Styling](/guide/styling)).
+You have to call it inside a `<Sheet>` subtree, because there is no fallback
+without a provider. Please note that it re-renders on every state change, which
+during a drag means every frame. For visuals alone, prefer the CSS custom
+properties that the engine writes straight to the DOM. See
+[Styling](/guide/styling).
 
 ## The dismissal contract
 
-Drag past the threshold, click the overlay, or press <kbd>Escape</kbd>, and the
-engine **closes itself first, then reports** with `onOpenChange(false)`. The
-animation has already begun by the time your handler runs.
+When you drag past the threshold, click the overlay, or press <kbd>Escape</kbd>,
+the engine **closes itself first and reports afterwards** with
+`onOpenChange(false)`. The animation has already started by the time your handler
+runs.
 
-That ordering has a consequence worth stating plainly: a controlled parent that
-receives `onOpenChange(false)` and keeps `open={true}` gets a **one-frame
-bounce** — the sheet starts closing, the next render re-opens it, and the user
-sees a flicker. This is documented behaviour, not a bug to work around with
-timers.
+That order has one important result. A controlled parent that receives
+`onOpenChange(false)` and keeps `open={true}` gets a **one-frame bounce**. The
+sheet starts closing, the next render re-opens it, and the user sees a flicker.
+This is documented behaviour, not a bug to work around with timers.
 
 ::: warning
-To refuse dismissals, use `dismissible={false}`. It disables the drag-close
+To refuse dismissals, use `dismissible={false}`. It turns off the drag-close
 threshold, the overlay click and <kbd>Escape</kbd> at the source, so nothing
-ever starts closing. Do not try to veto by ignoring `onOpenChange`.
+ever starts closing. Please do not try to refuse one by ignoring
+`onOpenChange`.
 :::
 
 ```tsx
@@ -223,23 +226,23 @@ ever starts closing. Do not try to veto by ignoring `onOpenChange`.
 ## `onAnimationEnd` and unmounting
 
 `onAnimationEnd(open)` fires when the spring rests after an open or a close.
-`Sheet.Portal` uses it internally: children stay mounted for the whole closing
-animation and unmount only once `onAnimationEnd(false)` has fired. Without that,
-unmounting on `open === false` would remove the panel before it had animated
-anywhere.
+`Sheet.Portal` uses it internally. Children stay mounted for the whole closing
+animation, and they unmount only once `onAnimationEnd(false)` has fired. Without
+that, unmounting on `open === false` would remove the panel before it had
+animated anywhere.
 
-Two things follow. Component state inside the sheet survives a close-and-reopen
-only until that final unmount, so reset it in `onAnimationEnd` (as the
-controlled example does with `step`) rather than on the click that closes.
-And a sheet in its closing animation is still in the DOM, with `animating` `true`
-in `useSheetState()`.
+Two things follow from this. First, component state inside the sheet survives a
+close and reopen only until that final unmount. Reset it in `onAnimationEnd`, as
+the controlled example does with `step`, rather than on the click that closes.
+Second, a sheet in its closing animation is still in the DOM, and `animating` is
+`true` in `useSheetState()`.
 
-The two open signals move at different times, which matters if you read both:
-`SheetState.open` (and so `useSheetState().open`) flips to `false` the moment
-closing **starts**, while `data-state="closed"` is written at the **end**, once
-the spring rests. So during the closing window the panel still reads
-`data-state="open"` in CSS even though `open` is already `false` in JavaScript —
-use `data-state` for the exit transition and `open` for logic that must react
+The two open signals change at different times, which matters if you read both.
+`SheetState.open`, and so `useSheetState().open`, flips to `false` the moment
+closing **starts**. `data-state="closed"` is written at the **end**, once the
+spring rests. So while the sheet is closing, the panel still reads
+`data-state="open"` in CSS even though `open` is already `false` in JavaScript.
+Use `data-state` for the exit transition, and `open` for logic that has to react
 immediately.
 
 ## Where next

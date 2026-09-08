@@ -1,6 +1,7 @@
 # Dynamic height
 
-"header" and "content" together. Add a row while the sheet is open and it re-measures, springing to the new height instead of jumping.
+"header" and "content" used together. Add a row while the sheet is open. The
+sheet measures itself again and springs to the new height instead of jumping.
 
 <script setup>
 import mount from "../.vitepress/theme/demos/dynamic-height.tsx";

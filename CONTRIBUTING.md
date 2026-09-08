@@ -1,12 +1,13 @@
 # Contributing
 
-Thanks for looking. This is a small repository with a strict set of quality
-gates, so most of this page is about where things live and what has to pass.
+Thank you for taking a look. This is a small repository with a strict set of
+quality gates. Most of this page is therefore about where things live, and about
+what your change has to pass.
 
 ## Prerequisites
 
-- **Node 22+** (24 in CI; `.nvmrc` pins it)
-- **pnpm** — the repo is a pnpm workspace and `packageManager` is pinned
+- **Node 22 or later.** CI uses 24, and `.nvmrc` pins it.
+- **pnpm.** The repo is a pnpm workspace, and `packageManager` is pinned.
 
 ## Setup
 
@@ -20,14 +21,14 @@ pnpm build       # the docs and playgrounds import the built package
 | Path | What |
 | --- | --- |
 | `packages/sheet` | `snap-bottom-sheet`, the published package. `src/core` is the engine, `src/react` the bindings. |
-| `packages/spring` | `@snap-bottom-sheet/spring` — private, zero-dependency scalar spring |
-| `packages/gesture` | `@snap-bottom-sheet/gesture` — private, zero-dependency pointer drag recogniser |
-| `docs` | VitePress site. `docs/internal/` is orchestration notes, excluded from the site. |
+| `packages/spring` | `@snap-bottom-sheet/spring`, a private scalar spring with no dependencies |
+| `packages/gesture` | `@snap-bottom-sheet/gesture`, a private pointer drag recogniser with no dependencies |
+| `docs` | VitePress site. `docs/internal/` holds orchestration notes and is excluded from the site. |
 | `playgrounds/react`, `playgrounds/vanilla`, `playgrounds/next` | manual testing |
 
-The two private packages are bundled into the published output (tsdown
-`deps.alwaysBundle`) and are in the changesets `ignore` list, so they never get
-versions of their own.
+The two private packages are bundled into the published output by tsdown, using
+`deps.alwaysBundle`. They are also in the changesets `ignore` list, so they
+never get versions of their own.
 
 ## Development loop
 
@@ -37,14 +38,14 @@ pnpm --filter playground-react dev    # or playground-vanilla / playground-next
 pnpm docs:dev                         # the docs site
 ```
 
-Leave `pnpm dev` running: the playgrounds and docs depend on
-`snap-bottom-sheet: workspace:*` and resolve through its `exports` to `dist/`,
-so without a build they import nothing. `.claude/launch.json` has
-configurations for all three.
+Please leave `pnpm dev` running. The playgrounds and the docs depend on
+`snap-bottom-sheet: workspace:*`, and they resolve through its `exports` to
+`dist/`. Without a build there is nothing for them to import.
+`.claude/launch.json` has configurations for all three.
 
 ## Quality gates
 
-Everything here runs in CI, and the same commands work locally:
+Everything below runs in CI, and the same commands work on your machine:
 
 ```bash
 pnpm lint          # biome check .
@@ -57,23 +58,43 @@ pnpm docs:build    # needs pnpm build first
 
 lefthook runs biome on staged files before each commit.
 
-One expected piece of noise: building the docs prints Rollup's `Module level
-directives cause errors when bundled, "use client" … was ignored` for the React
-entry. Any `"use client"` in a bundled dependency triggers it, so every
-RSC-aware library does the same. It is not a sign of a duplicate directive —
-`dist/react/index.js` carries exactly one, and the core entry carries none.
+There is one warning you can expect to see. Building the docs prints Rollup's
+`Module level directives cause errors when bundled, "use client" … was ignored`
+for the React entry. Any `"use client"` in a bundled dependency triggers it, so
+every RSC-aware library does the same. It does not mean the directive is
+duplicated. `dist/react/index.js` carries exactly one, and the core entry
+carries none.
 
 Tests live in `<package>/test/**/*.test.{ts,tsx}`. React tests use React
-Testing Library; cleanup is registered in `packages/sheet/vitest.setup.ts`
-rather than per file, because `globals` is off in the vitest config.
+Testing Library. Cleanup is registered once in `packages/sheet/vitest.setup.ts`
+rather than in each file, because `globals` is off in the vitest config.
 
-Two rules that are easy to break by accident:
+Two rules are easy to break by accident:
 
-- **SSR.** No `window` or `document` at module scope or during render. There
-  are tests that render in a `node` environment; they will catch you.
+- **Server-side rendering (SSR).** Nothing may touch `window` or `document` at
+  module scope or during render. Some tests render in a `node` environment, and
+  they will catch you.
 - **Public exports** must be added to `src/index.ts` (core) or
   `src/react/index.ts` (React). The published types are rolled up from those
-  two entries, so an export that is not there does not exist.
+  two entries, so an export that is missing there does not exist.
+
+## Writing style
+
+The prose in this project has one voice: polite, a bit formal, and easy to
+read. It applies to everything in `docs/`, to both READMEs, and to changeset
+entries.
+
+- Write short sentences, with one idea in each.
+- Say "you", and use the active voice. "The sheet closes when you press
+  Escape", not "Escape dismissal is performed by the controller".
+- Choose common words over rare ones. "use", not "leverage". "show", not
+  "surface".
+- Say what to do first, then say why.
+- Explain a technical term the first time it appears on a page, then use that
+  same term throughout.
+- Avoid stacked clauses, chains of em dashes, and long asides in brackets.
+- Keep the headings, tables and VitePress callouts as they are. They carry
+  meaning of their own.
 
 ## Commits and changesets
 
@@ -86,50 +107,53 @@ Anything a user would notice needs a changeset:
 pnpm changeset
 ```
 
-Pick `snap-bottom-sheet` (the private packages are ignored), choose the bump,
-and write the entry for someone reading a changelog — what changed, and what
-they have to do about it.
+Pick `snap-bottom-sheet`, since the private packages are ignored, then choose
+the bump. Write the entry for someone reading a changelog. Say what changed, and
+say what they have to do about it.
 
 ## Releasing
 
-Merging to `main` opens or updates a release pull request via changesets.
-Merging *that* publishes to npm from GitHub Actions using OIDC trusted
-publishing — no npm token lives in this repository. The docs site deploys to
-GitHub Pages from the same push.
+Merging to `main` opens or updates a release pull request through changesets.
+Merging *that* pull request publishes to npm from GitHub Actions, using OIDC
+trusted publishing. No npm token lives in this repository. The docs site deploys
+to GitHub Pages from the same push.
 
 ## How the engine works
 
-The short version, for orientation:
+Here is the short version, to help you find your way:
 
-1. `createSheet(elements, options)` returns a controller. It owns the spring,
-   the gesture bindings, the observers, and every state-dependent DOM write —
-   `role`/`aria-*`, all `data-*`, and the CSS custom properties.
-2. Positions are pixel offsets from the top of the view: `0` is fully open,
-   `viewHeight` is closed. Snap points are heights and get resolved into
+1. `createSheet(elements, options)` returns a controller. The controller owns
+   the spring, the gesture bindings and the observers. It also owns every DOM
+   write that depends on state: `role` and `aria-*`, all `data-*`, and the CSS
+   custom properties.
+2. Positions are pixel offsets from the top of the view. `0` is fully open, and
+   `viewHeight` is closed. Snap points are heights, and they are resolved into
    offsets.
-3. Snap indices are the consumer's array order. A y-sorted view is kept
-   separately for neighbour and closest searches, and never leaks into an index.
+3. Snap indices follow the consumer's array order. A y-sorted view is kept
+   separately, for neighbour and closest searches, and it never leaks into an
+   index.
 4. `"header"` and `"content"` are measured live through one shared
-   `ResizeObserver`. When the active snap's measured value changes, the sheet
-   springs to the new offset instead of jumping.
-5. On release, velocity is projected 200 ms ahead and the nearest snap to that
-   projection wins; past the lowest snap by the dismiss threshold it closes, if
-   `dismissible`.
-6. The React layer renders elements, registers them through context, mirrors
+   `ResizeObserver`. When the measured value of the active snap changes, the
+   sheet springs to the new offset instead of jumping.
+5. On release, the velocity is projected 200 ms ahead, and the snap nearest to
+   that projection wins. If the projection passes the lowest snap by the dismiss
+   threshold, the sheet closes, as long as it is `dismissible`.
+6. The React layer renders the elements, registers them through context, mirrors
    props into the controller, and keeps children mounted while the close
    animation plays. No behaviour lives there.
 
-The full design, and the audit of the 0.x code that motivated the rewrite, are
-in [`docs/internal/PLAN.md`](./docs/internal/PLAN.md) and
-[`docs/internal/AUDIT.md`](./docs/internal/AUDIT.md). They are historical
-records, not maintained specs — the code and the
+The full design, and the audit of the 0.x code that led to the rewrite, are in
+[`docs/internal/PLAN.md`](./docs/internal/PLAN.md) and
+[`docs/internal/AUDIT.md`](./docs/internal/AUDIT.md). Please treat them as
+historical records rather than maintained specs. The code and the
 [docs site](https://mhmd-sdghn.github.io/react-bottom-sheet/) are the truth.
 
 ## Deliberate shortcuts
 
-Simplifications with a known ceiling carry a `// ponytail:` comment naming the
-ceiling and the upgrade path. If you hit one of those ceilings for real, that
-comment is your permission to replace it — please say so in the changeset.
+A simplification with a known ceiling carries a `// ponytail:` comment. The
+comment names the ceiling and the way to move past it. If you reach one of those
+ceilings in real use, the comment is your permission to replace the code. Please
+say so in the changeset when you do.
 
 ## License
 
