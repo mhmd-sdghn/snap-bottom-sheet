@@ -107,7 +107,9 @@ export function createModalGuard(parts: ModalGuardParts): ModalGuard {
       previousFocus = null;
       const active = isBrowser() ? document.activeElement : null;
       const inside = active instanceof HTMLElement && content.contains(active);
-      if (previous?.isConnected) previous.focus?.();
+      // preventScroll for the same reason as focusFirst: restoring focus must
+      // not scroll an ancestor to reveal the element it hands focus back to.
+      if (previous?.isConnected) previous.focus?.({ preventScroll: true });
       // A non-focusable previous holder (document.body, the usual case when
       // nothing was focused) silently ignores focus(). Focus must not stay
       // inside a dialog that is now closed, so blur our way out.

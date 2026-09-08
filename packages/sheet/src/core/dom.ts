@@ -278,9 +278,14 @@ export function applyInert(
  */
 export function focusFirst(el: HTMLElement): void {
   const target = el.querySelector<HTMLElement>(FOCUSABLE) ?? el;
-  target.focus?.();
+  // `preventScroll` matters most in container mode: the panel is absolutely
+  // positioned and translated down by `y`, so it overflows the container and
+  // makes it scrollable. Focus lands while the panel is still at its closed
+  // position, and without this the browser scrolls the container to reveal it —
+  // dragging the overlay (and everything else) up out of the frame with it.
+  target.focus?.({ preventScroll: true });
   if (target !== el && isBrowser() && document.activeElement !== target) {
-    el.focus?.();
+    el.focus?.({ preventScroll: true });
   }
 }
 
