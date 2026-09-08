@@ -1,8 +1,6 @@
-import { isBrowser } from "./env.ts";
+import { isBrowser, noop, once } from "./env.ts";
 
 type HeightCallback = (height: number) => void;
-
-const noop = () => {};
 
 let observer: ResizeObserver | null = null;
 const elementCallbacks = new Map<Element, Set<HeightCallback>>();
@@ -46,11 +44,7 @@ export function observeHeight(el: Element, cb: HeightCallback): () => void {
   }
   callbacks.add(cb);
 
-  let released = false;
-  return () => {
-    if (released) return;
-    released = true;
-
+  return once(() => {
     const current = elementCallbacks.get(el);
     if (!current) return;
     current.delete(cb);
@@ -61,7 +55,7 @@ export function observeHeight(el: Element, cb: HeightCallback): () => void {
     // The observer itself is kept deliberately: it is a process-wide singleton
     // shared by every sheet, and disconnecting on an empty map would just make
     // the next sheet build a new one. Nothing is observed once the map empties.
-  };
+  });
 }
 
 function handleViewResize(): void {
@@ -90,16 +84,12 @@ export function observeViewHeight(
     window.visualViewport?.addEventListener("resize", handleViewResize);
   }
 
-  let released = false;
-  return () => {
-    if (released) return;
-    released = true;
-
+  return once(() => {
     viewCallbacks.delete(cb);
     if (viewCallbacks.size > 0 || !viewListening) return;
 
     viewListening = false;
     window.removeEventListener("resize", handleViewResize);
     window.visualViewport?.removeEventListener("resize", handleViewResize);
-  };
+  });
 }

@@ -8,19 +8,21 @@ import {
   overlayBaseStyles,
   rememberBodyScroll,
   rememberSnapLayout,
+  SheetPartAttr,
   setAttrs,
   setStyles,
   writeFrame,
   writeRest,
 } from "./dom.ts";
 import { attachSheetDrag } from "./drag.ts";
-import { warnOnce } from "./env.ts";
+import { isBrowser, warnOnce } from "./env.ts";
 import { attachHandleKeys } from "./keyboard.ts";
 import { observeHeight, observeViewHeight } from "./measure.ts";
 import { createModalGuard } from "./modal.ts";
 import { cycleFrom, pickIndex, progressOf, stepFrom } from "./position.ts";
 import {
   isContentMode,
+  normalize,
   type ResolvedSnap,
   resolveSnapPoints,
   type SnapPoint,
@@ -43,6 +45,16 @@ export type {
 type PartKey = "header" | "body" | "overlay" | "handle";
 const PartKeys: PartKey[] = ["header", "body", "overlay", "handle"];
 
+/** How long after a drag a click on the handle is treated as its tail. */
+const ClickAfterDragMs = 300;
+
+/**
+ * A container that is none of these is not a containing block, so the panel's
+ * `position: absolute` would escape it. Tested by exclusion because jsdom
+ * reports "" rather than "static" for an unstyled element.
+ */
+const PositionedValues = new Set(["relative", "absolute", "fixed", "sticky"]);
+
 /**
  * Attach the engine to elements the consumer already rendered. Starts closed:
  * the panel is translated to the bottom of the view and `data-state="closed"`.
@@ -59,7 +71,14 @@ export function createSheet(
   let opts: SheetOptions = { ...options };
   let destroyed = false;
   let isOpen = false;
-  let dragging = false;
+  /**
+   * Set while the observers wired during attach are firing. They call back
+   * synchronously, and every one of them would re-resolve and re-snap a sheet
+   * that is not wired up yet; attach resolves once, at the end.
+   */
+  let attaching = true;
+  /** When the last drag ended, so the click it produces can be ignored. */
+  let draggedAt = 0;
 
   /**
    * Which transition is waiting to be finalised. Completion is a function of
@@ -111,9 +130,16 @@ export function createSheet(
    * Content mode has no snap points of its own, but the controller still needs
    * one resolved position to rest at — otherwise `decideRelease` sees an empty
    * list and closes on every release, `dismissible: false` included.
+   *
+   * One rule for detection and resolution: whatever `isContentMode` calls
+   * content mode resolves to exactly one snap, keeping the first entry's
+   * `scroll`/`drag` — nothing else can express them.
    */
-  const effectivePoints = (): SnapPoint[] =>
-    points().length === 0 ? ["content"] : points();
+  const effectivePoints = (): SnapPoint[] => {
+    if (!contentMode()) return points();
+    const first = points()[0];
+    return [first ? normalize(first) : "content"];
+  };
 
   const resolve = () => {
     resolved = resolveSnapPoints(effectivePoints(), {
@@ -128,6 +154,9 @@ export function createSheet(
 
   // ------------------------------------------------------------------- state
 
+  /** The drag layer owns the flag; this is the only reader side. */
+  const dragging = (): boolean => drag.isDragging();
+
   const computeState = (): SheetState => {
     const y = spring.get();
     return {
@@ -135,7 +164,7 @@ export function createSheet(
       snapIndex,
       y,
       progress: progressOf(y, viewHeight, resolved),
-      dragging,
+      dragging: dragging(),
       animating: spring.animating,
       contentMode: contentMode(),
     };
@@ -150,7 +179,9 @@ export function createSheet(
     a.animating === b.animating &&
     a.contentMode === b.contentMode;
 
-  let state: SheetState = Object.freeze(computeState());
+  // Assigned once the drag layer exists (computeState reads its flag); nothing
+  // reads `state` before then.
+  let state: SheetState;
 
   /** Replaces the cached snapshot only when a field actually moved. */
   const syncState = (): boolean => {
@@ -192,25 +223,21 @@ export function createSheet(
     content.setAttribute("data-snap-index", String(snap.index));
   };
 
-  // Only attributes we wrote get removed again — a consumer who put
-  // aria-labelledby in their own markup keeps it.
-  const ariaWritten = new Set<string>();
-  const applyAriaRef = (attr: string, value: string | undefined) => {
-    if (value) {
-      content.setAttribute(attr, value);
-      ariaWritten.add(attr);
-    } else if (ariaWritten.delete(attr)) {
-      content.removeAttribute(attr);
-    }
-  };
-
+  /**
+   * Restore-then-reapply, through the same `setAttrs` bookkeeping every other
+   * attribute uses: a consumer who wrote their own `aria-labelledby` on the
+   * panel gets it back when the option is cleared and when the sheet is
+   * destroyed, instead of having it deleted.
+   */
+  let restoreAria: (() => void) | null = null;
   const applyAria = () => {
-    if (modal()) content.setAttribute("aria-modal", "true");
-    else content.removeAttribute("aria-modal");
-    applyAriaRef("aria-labelledby", opts.labelledBy);
-    applyAriaRef("aria-describedby", opts.describedBy);
-    if (contentMode()) content.setAttribute("data-content-mode", "");
-    else content.removeAttribute("data-content-mode");
+    restoreAria?.();
+    const attrs: Record<string, string> = {};
+    if (modal()) attrs["aria-modal"] = "true";
+    if (opts.labelledBy) attrs["aria-labelledby"] = opts.labelledBy;
+    if (opts.describedBy) attrs["aria-describedby"] = opts.describedBy;
+    if (contentMode()) attrs["data-content-mode"] = "";
+    restoreAria = setAttrs(content, attrs);
   };
 
   // -------------------------------------------------------- transition end
@@ -242,7 +269,7 @@ export function createSheet(
    * every rest, from whichever code path got there.
    */
   const maybeFinalize = () => {
-    if (!pending || destroyed || dragging || spring.animating) return;
+    if (!pending || destroyed || dragging() || spring.animating) return;
     const which = pending;
     pending = null;
     if (which === "open") {
@@ -287,15 +314,13 @@ export function createSheet(
     // where it is — animating behind `data-state="closed"` is invisible work.
     if (!isOpen) return;
     const immediate = o.immediate === true || immediateByPreference();
-    const rested = await spring.set(target.y, {
-      immediate,
-      velocity: o.velocity,
-    });
+    // The at-rest DOM is written from the rest notification, not from this
+    // promise: a snapTo superseded by a re-snap resolves `false` and would
+    // otherwise leave data-snap-index and the padding stale until the churn
+    // stopped, even though the panel did come to rest.
+    await spring.set(target.y, { immediate, velocity: o.velocity });
     if (destroyed) return;
-    if (rested) {
-      applyRest(target);
-      notify();
-    }
+    notify();
     maybeFinalize();
   };
 
@@ -393,7 +418,7 @@ export function createSheet(
   // ------------------------------------------------------------ measurement
 
   const refresh = (viewHeightChanged: boolean) => {
-    if (destroyed) return;
+    if (destroyed || attaching) return;
     const before = activeSnap()?.y;
     resolve();
     const after = activeSnap();
@@ -403,17 +428,20 @@ export function createSheet(
       return;
     }
     if (!isOpen) {
-      void spring.set(viewHeight, { immediate: true });
+      // Parked at the bottom — except while a close is still running, where a
+      // jump to viewHeight would teleport the panel instead of letting it
+      // slide. A measurement landing mid-close only updates the target.
+      void spring.set(viewHeight, { immediate: pending !== "close" });
       return;
     }
     if (before !== after.y) {
       void snapTo(after.index, {
-        immediate: dragging || viewHeightChanged,
+        immediate: dragging() || viewHeightChanged,
       });
     }
   };
 
-  const detachDrag = attachSheetDrag({
+  const drag = attachSheetDrag({
     content,
     body: () => parts.body,
     spring,
@@ -423,20 +451,46 @@ export function createSheet(
     viewHeight: () => viewHeight,
     snapIndex: () => snapIndex,
     dismissible,
-    setDragging: (next) => {
-      dragging = next;
-    },
     snapTo: (index, o) => void snapTo(index, o),
     dismiss: () => dismiss(),
     notify,
     onDragStart: () => opts.onDragStart?.(),
-    onDragEnd: (index) => opts.onDragEnd?.(index),
+    onDragEnd: (index) => {
+      draggedAt = Date.now();
+      opts.onDragEnd?.(index);
+    },
   });
+
+  state = Object.freeze(computeState());
 
   // ------------------------------------------------------------ part wiring
 
   const onOverlayClick = () => {
     if (dismissible()) dismiss();
+  };
+
+  /** The current frame, written to whatever parts exist right now. */
+  const paint = () => {
+    const y = spring.get();
+    writeFrame(content, parts.overlay, y, progressOf(y, viewHeight, resolved));
+  };
+
+  /**
+   * A non-modal sheet is a panel, not a dialog: its overlay would be an
+   * invisible full-viewport click-catcher that dismisses on any outside click.
+   * React renders `Sheet.Overlay` unconditionally, so the controller is the one
+   * that has to hide it — restorably, and re-checked on every `update`.
+   */
+  let restoreOverlayDisplay: (() => void) | null = null;
+  const syncOverlayDisplay = () => {
+    const el = parts.overlay;
+    if (!el) return;
+    if (modal()) {
+      restoreOverlayDisplay?.();
+      restoreOverlayDisplay = null;
+    } else if (!restoreOverlayDisplay) {
+      restoreOverlayDisplay = setStyles(el, { display: "none" });
+    }
   };
 
   /** Everything one optional part owns, and how to give it all back. */
@@ -466,28 +520,43 @@ export function createSheet(
       const restore = setAttrs(el, {
         "aria-hidden": "true",
         "data-state": isOpen ? "open" : "closed",
+        [SheetPartAttr]: "overlay",
       });
       el.addEventListener("click", onOverlayClick);
+      syncOverlayDisplay();
       return () => {
         el.removeEventListener("click", onOverlayClick);
         el.style.removeProperty("--snap-sheet-progress");
+        restoreOverlayDisplay?.();
+        restoreOverlayDisplay = null;
         restore();
         restoreStyles();
       };
     },
     handle: (el) => {
       const restore = setAttrs(el, { "aria-label": "Resize sheet" }, true);
+      const cycle = () => {
+        const target = cycleFrom(resolved, snapIndex);
+        if (target) void snapTo(target.index);
+      };
+      // A drag that ends on the handle also produces a click; cycling then
+      // would fight the release the user just made.
+      // ponytail: a time window, not the pointer distance — the gesture layer
+      // already rejects taps, so only the tail of a real drag lands here.
+      const onClick = () => {
+        if (Date.now() - draggedAt < ClickAfterDragMs) return;
+        cycle();
+      };
       const detach = attachHandleKeys(el, {
         step(delta) {
           const target = stepFrom(resolved, snapIndex, delta);
           if (target) void snapTo(target.index);
         },
-        cycle() {
-          const target = cycleFrom(resolved, snapIndex);
-          if (target) void snapTo(target.index);
-        },
+        cycle,
       });
+      el.addEventListener("click", onClick);
       return () => {
+        el.removeEventListener("click", onClick);
         detach();
         restore();
       };
@@ -525,20 +594,55 @@ export function createSheet(
     }
     if ("overlay" in next) setDataState(isOpen);
     refresh(false);
+    // A part handed over between frames has none of the state-dependent DOM
+    // the frame writer puts there — an overlay mounted at rest
+    // (`{modal && <Sheet.Overlay/>}` flipped on) would carry no
+    // `--snap-sheet-progress` at all until something moved next.
+    paint();
+    const snap = activeSnap();
+    if (snap && isOpen && !spring.animating && !dragging()) applyRest(snap);
     notify();
   };
 
   // --------------------------------------------------------------- attach
 
+  // `viewHeight` is measured from the container and the panel is positioned
+  // against it, so a static container is measured as one box and painted in
+  // another. Making it a containing block is the smallest correct fix.
+  if (
+    container &&
+    isBrowser() &&
+    !PositionedValues.has(getComputedStyle(container).position)
+  ) {
+    warnOnce(
+      "container:static",
+      "The sheet container is `position: static` — set `position: relative` " +
+        "on it. The sheet positions itself against the container, so it is " +
+        "being made relative for you.",
+    );
+    restores.push(setStyles(container, { position: "relative" }));
+  }
+
   restores.push(setStyles(content, contentBaseStyles(Boolean(container))));
   restores.push(
-    setAttrs(content, { role: "dialog", "data-state": "closed" }),
+    setAttrs(content, {
+      role: "dialog",
+      "data-state": "closed",
+      [SheetPartAttr]: "content",
+    }),
     setAttrs(content, { tabindex: "-1" }, true),
   );
   applyAria();
+  restores.push(() => restoreAria?.());
 
   const unsubscribeSpring = spring.subscribe((y) => {
     writeFrame(content, parts.overlay, y, progressOf(y, viewHeight, resolved));
+    // Rest is where the at-rest DOM belongs, whichever `set()` got us here —
+    // including a superseded one, whose promise resolves `false` (B.17).
+    if (!spring.animating && !dragging() && isOpen) {
+      const snap = activeSnap();
+      if (snap && snap.y === y) applyRest(snap);
+    }
     notify();
     maybeFinalize();
   });
@@ -567,7 +671,14 @@ export function createSheet(
 
   for (const key of PartKeys) wirePart(key, parts[key]);
 
+  // Every observer above called back synchronously while `attaching` held them
+  // off; this is the one resolve of the attach.
+  attaching = false;
   resolve();
+  // The body wirer above ran before anything was resolved, so the per-snap
+  // layout it would have written is written here instead — once.
+  const initial = activeSnap();
+  if (initial) applySnapLayout(contentInner, parts.body, initial.scroll);
   writeFrame(content, parts.overlay, viewHeight, 0);
   void spring.set(viewHeight, { immediate: true });
 
@@ -581,6 +692,7 @@ export function createSheet(
     const beforeScroll = before?.scroll;
     opts = { ...opts, ...next };
     applyAria();
+    syncOverlayDisplay();
     resolve();
     // A.11: the two directions must be symmetric, focus included.
     if (isOpen && wasModal !== modal()) {
@@ -601,7 +713,7 @@ export function createSheet(
       return;
     }
     if (target.index !== snapIndex || target.y !== beforeY) {
-      void snapTo(target.index, { immediate: dragging });
+      void snapTo(target.index, { immediate: dragging() });
       return;
     }
     // Same index, same y, but the snap's own config may have changed — a
@@ -616,15 +728,17 @@ export function createSheet(
   const destroy = () => {
     if (destroyed) return;
     destroyed = true;
-    detachDrag();
+    drag.detach();
     for (const key of PartKeys) {
       unwire[key]?.();
       delete unwire[key];
     }
     unobserveView();
     unobserveContent();
-    spring.stop();
+    // Unsubscribe first: stop() notifies, and the frame writer would put
+    // --snap-sheet-progress back on an overlay the part unwire just cleaned.
     unsubscribeSpring();
+    spring.stop();
     // Unconditional: a close whose animation never rested (or was superseded)
     // still holds the lock, and `isOpen` already flipped false when it started.
     guard.disengage();
@@ -637,11 +751,8 @@ export function createSheet(
     for (const prop of ["y", "progress", "offset"]) {
       content.style.removeProperty(`--snap-sheet-${prop}`);
     }
-    for (const attr of [
-      "data-snap-index",
-      "data-dragging",
-      "data-content-mode",
-    ]) {
+    // data-content-mode and the aria refs come back through `restoreAria`.
+    for (const attr of ["data-snap-index", "data-dragging"]) {
       content.removeAttribute(attr);
     }
     parts.overlay?.removeAttribute("data-state");

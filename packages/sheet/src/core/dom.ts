@@ -4,6 +4,8 @@
  * returns the closure that puts things back.
  */
 
+import { isBrowser } from "./env.ts";
+
 /** The string-valued (i.e. settable) properties of CSSStyleDeclaration. */
 type StyleKey = keyof {
   [K in keyof CSSStyleDeclaration as CSSStyleDeclaration[K] extends string
@@ -14,10 +16,18 @@ type StyleKey = keyof {
 /** camelCase inline styles, assignable straight onto `el.style`. */
 export type Styles = Partial<Record<StyleKey, string>>;
 
+/**
+ * Marks the two elements a sheet owns as pointer targets: the panel and the
+ * overlay. The drag layer reads it to tell its own parts from a nested sheet's
+ * (which, without a portal, are descendants of the outer panel).
+ */
+export const SheetPartAttr = "data-snap-sheet-part";
+
 const FOCUSABLE = [
   "a[href]",
   "button:not([disabled])",
-  "input:not([disabled])",
+  // A hidden input matches every "focusable" selector and focuses nothing.
+  'input:not([disabled]):not([type="hidden"])',
   "select:not([disabled])",
   "textarea:not([disabled])",
   '[tabindex]:not([tabindex="-1"])',
@@ -276,10 +286,18 @@ export function applyInert(
   };
 }
 
-/** Focus the first focusable descendant of `el`, falling back to `el` itself. */
+/**
+ * Focus the first focusable descendant of `el`, falling back to `el` itself.
+ * The selector is a guess — a `display: none` button matches it and takes no
+ * focus — so the result is verified, and the panel takes the focus otherwise.
+ * A modal dialog must never open with focus left on `<body>`.
+ */
 export function focusFirst(el: HTMLElement): void {
   const target = el.querySelector<HTMLElement>(FOCUSABLE) ?? el;
-  if (typeof target.focus === "function") target.focus();
+  target.focus?.();
+  if (target !== el && isBrowser() && document.activeElement !== target) {
+    el.focus?.();
+  }
 }
 
 /**

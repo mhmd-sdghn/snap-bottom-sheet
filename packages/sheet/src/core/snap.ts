@@ -57,6 +57,10 @@ const isConfig = (point: SnapPoint): point is SnapPointConfig =>
 /**
  * Evenly spaced fractions: steps(3) → [1/3, 2/3, 1];
  * steps(4, { from: 0.25, to: 1 }) → [0.25, 0.5, 0.75, 1]. count < 1 → [].
+ *
+ * Both ends are returned exactly, never as `from + i * stride`: steps(6) ends
+ * in 1.0000000000000002 that way, and `toHeight` reads anything above 1 as a
+ * pixel height — a full-height snap silently becomes a 1 px sliver.
  */
 export function steps(
   count: number,
@@ -68,7 +72,9 @@ export function steps(
   const from = opts?.from ?? to / n;
   if (n === 1) return [from];
   const stride = (to - from) / (n - 1);
-  return Array.from({ length: n }, (_, i) => from + i * stride);
+  return Array.from({ length: n }, (_, i) =>
+    i === n - 1 ? to : from + i * stride,
+  );
 }
 
 export function normalize(point: SnapPoint): NormalizedSnap {
@@ -106,7 +112,11 @@ export function toHeight(value: SnapValue, ctx: MeasureContext): number {
 
   if (typeof value === "number") {
     if (!Number.isFinite(value) || value <= 0) return Number.NaN;
-    height = value <= 1 ? value * viewHeight : value;
+    // Rounded before the fraction test: a computed 1.0000000000000002 means
+    // "the whole view", not "one pixel". 6 decimals is far below the
+    // sub-pixel resolution of any real fraction.
+    const n = Math.round(value * 1e6) / 1e6;
+    height = n <= 1 ? n * viewHeight : n;
   } else if (typeof value === "string" && PERCENT.test(value)) {
     height = (Number.parseFloat(value) / 100) * viewHeight;
   } else if (typeof value === "string" && PIXELS.test(value)) {
@@ -157,10 +167,15 @@ export function resolveSnapPoints(
     }
 
     if (!(height > 0)) {
-      warnOnce(
-        `snap:${String(value)}`,
-        `Invalid snap point ${JSON.stringify(value)} — dropped.`,
-      );
+      // An unmeasured view makes *every* point invalid, and warnOnce burns the
+      // key for the session — the later, real warning would never be seen. The
+      // deferred-open path treats viewHeight <= 0 as legitimate and transient.
+      if (viewHeight > 0) {
+        warnOnce(
+          `snap:${String(value)}`,
+          `Invalid snap point ${JSON.stringify(value)} — dropped.`,
+        );
+      }
       return;
     }
 
@@ -240,5 +255,6 @@ export function decideRelease(args: {
 
   if (dismissible && projected - lowest.y > threshold) return { close: true };
 
-  return { close: false, snap: closest(resolved, projected) ?? lowest };
+  const snap = closest(resolved, projected);
+  return snap ? { close: false, snap } : { close: true };
 }

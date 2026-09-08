@@ -7,11 +7,16 @@ import { gzipSync } from "node:zlib";
  * Gzip budget for the published bundles. Run after `pnpm build`.
  *
  * Each budget is the size measured when it was set, plus 20 % (measured:
- * 97 B / 4279 B / 13399 B gzipped). They are a tripwire, not a target — when a
+ * 97 B / 4915 B / 16849 B gzipped). They are a tripwire, not a target — when a
  * change legitimately grows a bundle, re-baseline these numbers in the same
  * commit and say why. Never silently.
+ *
+ * `shared` was re-baselined from 16_100 in task 13 (review fixes): keeping
+ * `process.env.NODE_ENV` verbatim restores the dev-only guard rolldown used to
+ * fold away, and the review fixes themselves are mostly comments — the chunk
+ * ships unminified, and ~6 kB gzipped of it is prose.
  */
-const Budgets = { core: 120, react: 5_200, shared: 16_100 };
+const Budgets = { core: 120, react: 5_900, shared: 20_200 };
 
 const dist = resolve(fileURLToPath(import.meta.url), "../..", "dist");
 

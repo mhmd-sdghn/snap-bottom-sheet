@@ -38,7 +38,11 @@ Turn the single-package Vite library into the nBridge-style pnpm monorepo **with
 5. **`playgrounds/react/`**: `package.json` (`name: "playground-react"`, private, scripts `dev`/`build`/`preview`, deps `snap-bottom-sheet: workspace:*`, `react`, `react-dom`, `@react-spring/web`, `@use-gesture/react`; devDeps `vite`, `@vitejs/plugin-react-swc`, `typescript`, `@types/react`, `@types/react-dom`), `tsconfig.json`, `vite.config.ts`. `playgrounds/README.md` explaining `pnpm build` first then `pnpm --filter playground-react dev`.
 6. **`CLAUDE.md`**: update only paths and commands (`lib/` → `packages/sheet/src/`, `pnpm dev` → `pnpm --filter playground-react dev`, lint = biome, build = tsdown). Note at the top: "Architecture section describes the legacy 0.x engine; see docs/internal/PLAN.md for the 1.0 design." Full rewrite is task 07.
 7. `pnpm install` (lockfile regenerates — commit the new `pnpm-lock.yaml`), `pnpm lint:fix`, then the Done-when commands.
-8. `graphify update .` and include `graphify-out/` changes.
+8. `graphify update .` and include `graphify-out/` changes. *(Historical: this
+   was the policy for task 00 only. From task 01 on, PLAN §4.1 rule 4
+   applies — workers never run `graphify update` and never commit anything
+   under `graphify-out/`; the orchestrator regenerates the graph once per
+   merge, because generated files conflict on every parallel branch.)*
 9. Commit (one commit): `chore!: restructure into pnpm monorepo with tsdown, biome, vitest, changesets` — body lists what moved, what was deleted, and that library behaviour is unchanged.
 
 ## Done when

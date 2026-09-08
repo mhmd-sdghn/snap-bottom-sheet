@@ -1,4 +1,4 @@
-import { isBrowser } from "./env.ts";
+import { isBrowser, noop, once } from "./env.ts";
 
 interface SavedStyles {
   htmlOverflow: string;
@@ -7,8 +7,6 @@ interface SavedStyles {
   bodyOverscroll: string;
   bodyPaddingRight: string;
 }
-
-const noop = () => {};
 
 let count = 0;
 let saved: SavedStyles | null = null;
@@ -63,13 +61,10 @@ export function lockBodyScroll(): () => void {
   if (count === 0) apply();
   count += 1;
 
-  let released = false;
-  return () => {
-    if (released) return;
-    released = true;
+  return once(() => {
     count -= 1;
     if (count === 0) restore();
-  };
+  });
 }
 
 /** @internal test seam — no `src` callers. */
@@ -117,10 +112,7 @@ export function lockContainerScroll(container: HTMLElement): () => void {
     container.style.overscrollBehavior = "none";
   }
 
-  let released = false;
-  return () => {
-    if (released) return;
-    released = true;
+  return once(() => {
     const lock = containerLocks.get(container);
     if (!lock) return;
     lock.count -= 1;
@@ -128,7 +120,7 @@ export function lockContainerScroll(container: HTMLElement): () => void {
     container.style.overflow = lock.saved.overflow;
     container.style.overscrollBehavior = lock.saved.overscrollBehavior;
     containerLocks.delete(container);
-  };
+  });
 }
 
 /** Test/debug helper: is this container currently locked by a sheet? */

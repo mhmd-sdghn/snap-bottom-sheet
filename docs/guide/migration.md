@@ -125,8 +125,10 @@ What changed, line by line:
 4. **`Sheet.DynamicHeight` is gone.** Content height is measured from the panel
    directly, so the content that used to be wrapped is now just content — put
    the non-scrolling part in `Sheet.Header` and the rest in `Sheet.Body`.
-5. **`Sheet.Overlay` is a part**, not a colour prop. It only renders when
-   `modal` (the default) and it fades with `--snap-sheet-progress`.
+5. **`Sheet.Overlay` is a part**, not a colour prop. It fades with
+   `--snap-sheet-progress`, and it is only shown when `modal` (the default):
+   under `modal: false` the controller hides it with `display: none` rather
+   than leave an invisible click-catcher over the page.
 6. **`Sheet.Body` is where scrolling happens.** In 0.x you marked a snap
    `{ scroll: true }` and the container handled it; that config still exists,
    but the scroll region is now an explicit part. See

@@ -50,6 +50,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "size": "node scripts/size.mjs",
+    "check:dist": "node scripts/check-dist.mjs",
     "typecheck": "tsc --noEmit",
     "verify:pkg": "publint && attw --pack . --profile esm-only --exclude-entrypoints ./package.json"
   },

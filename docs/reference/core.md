@@ -57,7 +57,7 @@ await controller.open();
 | `content` | `HTMLElement` | yes | The panel. Receives the transform, `padding-bottom`, `data-*`, the CSS custom properties, `role`/`aria-*`, and the drag listeners. **Fixed for the controller's lifetime.** |
 | `header` | `HTMLElement \| null` | no | Measured with a shared `ResizeObserver` for the `"header"` snap value. |
 | `body` | `HTMLElement \| null` | no | The scroll region: `overflow` is toggled per active snap, and scroll-vs-drag arbitration reads its `scrollTop`. |
-| `overlay` | `HTMLElement \| null` | no | Positioned at attach (`position: fixed`, or `absolute` with a `container`, plus `inset: 0`). Gets `data-state`, `aria-hidden="true"`, `--snap-sheet-progress`, and a click listener that closes when `dismissible`. Colour, `pointer-events` and `z-index` stay yours. |
+| `overlay` | `HTMLElement \| null` | no | Positioned at attach (`position: fixed`, or `absolute` with a `container`, plus `inset: 0`). Gets `data-state`, `aria-hidden="true"`, `--snap-sheet-progress`, and a click listener that closes when `dismissible`. Under `modal: false` it is hidden with `display: none` (restored if `modal` flips back), so a non-modal panel has no invisible click-catcher over the page. Colour, `pointer-events` and `z-index` stay yours. |
 | `handle` | `HTMLElement \| null` | no | Gets `aria-label="Resize sheet"` when it has none, plus the keyboard handlers (<kbd>ArrowUp</kbd>/<kbd>ArrowDown</kbd> step and clamp, <kbd>Enter</kbd>/<kbd>Space</kbd> cycle and wrap). |
 | `container` | `HTMLElement \| null` | no | View-height source and modal scope; defaults to the window / `document.body`. With a container the panel is `position: absolute; height: 100%` and view height is the container's `offsetHeight`. Only the container's own children are made inert, and `modal` locks the **container's** `overflow`/`overscroll-behavior` (saved and restored, reference-counted per container) instead of the document's — so an embedded sheet leaves the host page scrolling. Escape stays global. **Fixed for the controller's lifetime.** |
 
@@ -81,9 +81,9 @@ All optional.
 | `labelledBy` | `string` | — | Written as `aria-labelledby` on `content`. Removed again when set back to `undefined` via `update()`. |
 | `describedBy` | `string` | — | Written as `aria-describedby` on `content`. |
 | `onOpenChange` | `(open: boolean) => void` | — | Fires after internal state updated, including on self-initiated dismissals. |
-| `onSnapIndexChange` | `(index: number, point: SnapPoint) => void` | — | Only when the index actually changes, and before the animation starts. Never fires in content mode. |
+| `onSnapIndexChange` | `(index: number, point: SnapPoint) => void` | — | Only when the index actually changes, and before the animation starts. A drag that is released back onto the snap it started from is **silent** — use `onDragEnd` if you want every release. Never fires in content mode. |
 | `onDragStart` | `() => void` | — | Drag passed the 3 px threshold. |
-| `onDragEnd` | `(targetIndex: number) => void` | — | Release target decided, before the spring starts. `-1` = closing; on a drag dismissal `onDragEnd(-1)` fires **before** `onOpenChange(false)`. |
+| `onDragEnd` | `(targetIndex: number) => void` | — | Release target decided, before the spring starts. Fires on **every** release, including one that lands back on the snap it started from. `-1` = closing; on a drag dismissal `onDragEnd(-1)` fires **before** `onOpenChange(false)`. |
 | `onAnimationEnd` | `(open: boolean) => void` | — | The open/close spring reached rest. Fires once per transition. |
 
 ## `SheetState`
@@ -236,7 +236,12 @@ The details that decide how the engine behaves at the edges.
   spring: `transform`, `--snap-sheet-y`, and `--snap-sheet-progress` on `content`
   and on `overlay`. **At rest only**: `padding-bottom` / `--snap-sheet-offset`,
   `data-snap-index`, and the Body `overflow`/`flex` for the active snap.
-  Ancestors and the document root are never touched.
+  Ancestors and the document root are never touched. `content` and `overlay`
+  also carry `data-snap-sheet-part` while attached — the marker the drag layer
+  uses to tell its own parts from a nested sheet's; treat it as internal.
+  A `container` that is not already positioned is given `position: relative`
+  (restored on `destroy()`), with a dev warning: the panel is positioned
+  against it.
 - **Callbacks run after state is updated, and re-entrant calls work.** Calling
   `open()` from inside `onOpenChange(false)` is supported and is exactly how the
   React layer bounces a controlled veto.

@@ -67,6 +67,13 @@ describe("toHeight", () => {
       toHeight("content", ctx({ viewHeight: -1, contentHeight: 200 })),
     ).toBeNaN();
   });
+
+  it("reads a float-error 1 as the whole view, not one pixel (C.1)", () => {
+    expect(toHeight(1.0000000000000002, ctx())).toBe(800);
+    expect(toHeight(0.9999999999999998, ctx())).toBe(800);
+    // A real pixel value just above 1 is still a pixel value.
+    expect(toHeight(1.5, ctx())).toBe(2);
+  });
 });
 
 describe("resolveSnapPoints", () => {
@@ -120,6 +127,16 @@ describe("resolveSnapPoints", () => {
     expect(resolveSnapPoints([0.5, "content"], ctx({ viewHeight: 0 }))).toEqual(
       [],
     );
+  });
+
+  it("stays silent while the view is unmeasured (C.6)", () => {
+    // Warning once per key is per process: burning "snap:0.5" here would hide
+    // the real warning when the same point is genuinely invalid later.
+    resolveSnapPoints([0.5], ctx({ viewHeight: 0 }));
+    expect(console.warn).not.toHaveBeenCalled();
+
+    resolveSnapPoints([0.5, 0], ctx());
+    expect(console.warn).toHaveBeenCalledTimes(1);
   });
 
   it("carries scroll and drag config through", () => {
@@ -185,6 +202,17 @@ describe("steps", () => {
     const two = steps(2, { from: 0.5 });
     expect(two[0]).toBeCloseTo(0.5);
     expect(two[1]).toBeCloseTo(1);
+  });
+
+  it("ends exactly at `to` and starts exactly at `from` (C.1)", () => {
+    // Not toBeCloseTo: 1.0000000000000002 resolves as a 1 px snap.
+    expect(steps(6).at(-1)).toBe(1);
+    expect(steps(24).at(-1)).toBe(1);
+    expect(steps(7, { from: 0.1, to: 0.9 })[0]).toBe(0.1);
+    expect(steps(7, { from: 0.1, to: 0.9 }).at(-1)).toBe(0.9);
+    for (const value of steps(6)) {
+      expect(toHeight(value, ctx())).toBeGreaterThan(100);
+    }
   });
 });
 
