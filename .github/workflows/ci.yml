@@ -75,14 +75,16 @@ jobs:
   e2e:
     needs: verify
     runs-on: ubuntu-latest
+    # A hung browser should not hold a runner for the default six hours.
+    timeout-minutes: 15
     steps:
       # Third-party actions are pinned to a commit, not a tag: a tag can be
       # moved. Dependabot (.github/dependabot.yml) raises the bumps.
-      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4.4.0
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
       - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v4.4.0
 
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: 24
           cache: pnpm
@@ -90,14 +92,31 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      # Filtered to the package that depends on it: at the workspace root
+      # there is no playwright binary on PATH, and `pnpm exec` exits 254 with
+      # `Command "playwright" not found`.
       - name: Install Chromium for Playwright
-        run: pnpm exec playwright install --with-deps chromium
+        run: pnpm --filter snap-bottom-sheet-e2e exec playwright install --with-deps chromium
 
       - name: Build library
         run: pnpm build
 
+      # Explicitly at the root base, matching e2e/playwright.config.ts, whose
+      # webServer rebuilds it the same way. Doing it here too keeps a build
+      # failure reported as a build failure instead of a server timeout.
       - name: Build the React playground
-        run: pnpm --filter playground-react build
+        run: PLAYGROUND_BASE=/ pnpm --filter playground-react build
 
       - name: End-to-end tests
         run: pnpm e2e
+
+      # The traces and videos the config retains on failure are only useful if
+      # they leave the runner.
+      - name: Upload Playwright artifacts
+        if: failure()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: e2e-test-results
+          path: e2e/test-results
+          retention-days: 7
+          if-no-files-found: ignore

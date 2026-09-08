@@ -47,6 +47,24 @@ async function settled(page: Page) {
     .toBe(true);
 }
 
+/**
+ * Wait until the list stops scrolling and return where it came to rest. Two
+ * consecutive equal reads, because a fling decays smoothly and any single read
+ * mid-brake looks as still as the real thing.
+ */
+async function restingScrollTop(page: Page) {
+  let previous = Number.NaN;
+  await expect
+    .poll(async () => {
+      const { scrollTop } = await readState(page);
+      const still = scrollTop === previous;
+      previous = scrollTop;
+      return still;
+    })
+    .toBe(true);
+  return (await readState(page)).scrollTop;
+}
+
 /** Viewport-relative y of the `scroll: true` snap. */
 function index1Y(page: Page) {
   return page.evaluate(() => window.innerHeight / 2);
@@ -118,15 +136,10 @@ test("(b) scrolling back to the top hands back to dragging", async ({
 }) => {
   const y1 = await index1Y(page);
 
-  // Scroll down ~300 px. The repeated last point parks the finger, so the
-  // release carries no velocity and no fling follows.
+  // Scroll down ~300 px, parking the finger before the lift so the release
+  // carries no velocity.
   const rest = { x: X, y: 500 };
-  await touchDrag(page, [
-    ...line({ x: X, y: 800 }, rest, 15),
-    rest,
-    rest,
-    rest,
-  ]);
+  await touchDrag(page, line({ x: X, y: 800 }, rest, 15), { park: true });
   await expect
     .poll(async () => (await readState(page)).scrollTop)
     .toBeGreaterThan(200);
@@ -153,13 +166,11 @@ test("(c) a release during the scroll phase flings and settles", async ({
 }) => {
   const y1 = await index1Y(page);
 
-  // Park ~100 px from the top: a short scroll with the finger held still at the
+  // Stop ~100 px from the top: a short scroll with the finger parked at the
   // end, so the release carries no velocity.
-  await touchDrag(page, [
-    ...line({ x: X, y: 700 }, { x: X, y: 600 }, 8),
-    { x: X, y: 600 },
-    { x: X, y: 600 },
-  ]);
+  await touchDrag(page, line({ x: X, y: 700 }, { x: X, y: 600 }, 8), {
+    park: true,
+  });
   await expect
     .poll(async () => (await readState(page)).scrollTop)
     .toBeGreaterThan(40);
@@ -181,17 +192,16 @@ test("(c) a release during the scroll phase flings and settles", async ({
   await touchDrag(page, line({ x: X, y: 800 }, { x: X, y: 300 }, 8));
   const atRelease = (await readState(page)).scrollTop;
   await trace(page, "flung up: released");
-  await page.waitForTimeout(150);
-  const soonAfter = (await readState(page)).scrollTop;
-  await trace(page, "flung up: +150ms");
-  await page.waitForTimeout(1500);
-  const stopped = (await readState(page)).scrollTop;
-  await trace(page, "flung up: +1.5s");
 
-  expect(soonAfter).toBeGreaterThan(atRelease);
-  expect(stopped).toBeGreaterThan(soonAfter);
-  await page.waitForTimeout(400);
-  expect((await readState(page)).scrollTop).toBe(stopped);
+  // The brake is exponential — 325·ln(v0/0.02) ms, so 1.5-1.7 s at these
+  // velocities. Fixed sleeps landed right on that boundary; poll instead.
+  await expect
+    .poll(async () => (await readState(page)).scrollTop)
+    .toBeGreaterThan(atRelease);
+  const stopped = await restingScrollTop(page);
+  await trace(page, "flung up: stopped");
+
+  expect(stopped).toBeGreaterThan(atRelease);
   expect(Math.abs((await readState(page)).y - y1)).toBeLessThan(2);
 });
 
