@@ -142,7 +142,7 @@ Here is the short version, to help you find your way:
    props into the controller, and keeps children mounted while the close
    animation plays. No behaviour lives there.
 
-The full design, and the audit of the 0.x code that led to the rewrite, are in
+The design notes written while the engine was built are in
 [`docs/internal/PLAN.md`](./docs/internal/PLAN.md) and
 [`docs/internal/AUDIT.md`](./docs/internal/AUDIT.md). Please treat them as
 historical records rather than maintained specs. The code and the

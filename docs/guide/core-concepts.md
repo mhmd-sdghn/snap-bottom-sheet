@@ -46,9 +46,9 @@ the nearest neighbour on release. That sorted copy stays private.
 `onSnapIndexChange(index, point)` and `data-snap-index` all use your order.
 
 ::: tip
-This is the one behaviour that 0.x got wrong. If you are coming from 0.x,
-indices no longer depend on the sorted order. See
-[Migrating from 0.x](/guide/migration).
+You are free to write the array in whatever order reads best. `[1, "header"]`
+puts full height at index `0` and the peek at index `1`, and both keep those
+indices for as long as the array stands.
 :::
 
 ## Measured snap values
