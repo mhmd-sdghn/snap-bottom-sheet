@@ -280,6 +280,88 @@ describe("drag ↔ scroll handoff", () => {
     expect(yOf(el.content)).toBe(500);
   });
 
+  it("7b. a locked direction still hands the gesture to the content", async () => {
+    const el = fixture();
+    await open(el, {
+      snapPoints: [
+        "header",
+        { value: 0.5, scroll: true, drag: { up: false } },
+        1,
+      ],
+      defaultSnapIndex: 1,
+    });
+
+    // The snap refuses to be dragged up, but the list under the finger is not
+    // refusing anything: the movement is the content's.
+    swipe(el.body, 800, -20, 10);
+
+    expect(el.body.scrollTop).toBe(200);
+    expect(yOf(el.content)).toBe(500);
+  });
+
+  it("9. releases the sheet at the speed the sheet was moving", async () => {
+    const el = fixture();
+    const sheet = await open(el, { defaultSnapIndex: 1 });
+    el.body.scrollTop = 60;
+
+    // Two fast frames clear the last 60 px of scroll, and only the tail of the
+    // second one reaches the sheet, moving it 20 px. The pointer was travelling
+    // at 2.5 px/ms throughout, so releasing on the recogniser's own velocity
+    // projects far below the lowest snap and dismisses the sheet.
+    fire(el.body, "pointerdown", { clientY: 100, timeStamp: 0 });
+    fire(el.body, "pointermove", { clientY: 104, timeStamp: 16 });
+    fire(el.body, "pointermove", { clientY: 144, timeStamp: 32 });
+    fire(el.body, "pointermove", { clientY: 184, timeStamp: 48 });
+    fire(el.body, "pointerup", { clientY: 184, timeStamp: 58 });
+    await settle();
+
+    expect(el.body.scrollTop).toBe(0);
+    expect(sheet.getState().open).toBe(true);
+    expect(sheet.getState().snapIndex).toBe(1);
+    expect(yOf(el.content)).toBe(500);
+  });
+
+  it("10. swapping Body stops a fling on the old one", async () => {
+    const el = fixture();
+    const sheet = await open(el, { defaultSnapIndex: 1 });
+    el.body.scrollTop = 500;
+
+    swipe(el.body, 800, -20, 5).release();
+    await vi.advanceTimersByTimeAsync(32);
+    const caught = el.body.scrollTop;
+    expect(caught).toBeGreaterThan(600);
+
+    const next = document.createElement("div");
+    el.inner.append(next);
+    stubScroller(next, { scrollHeight: 3000, clientHeight: 400 });
+    sheet.setElements({ body: next });
+
+    await settle();
+    expect(el.body.scrollTop).toBe(caught);
+  });
+
+  it("11. reports the mid-gesture snap change only once the finger lifts", async () => {
+    const el = fixture();
+    const onSnapIndexChange = vi.fn();
+    const onDragEnd = vi.fn(() => {
+      expect(onSnapIndexChange).not.toHaveBeenCalled();
+    });
+    await open(el, { defaultSnapIndex: 0, onSnapIndexChange, onDragEnd });
+
+    // Up from the header snap: the sheet rises to the scrolling snap and the
+    // content takes the rest of the gesture.
+    const gesture = swipe(el.body, 800, -30, 20);
+    expect(el.body.scrollTop).toBeGreaterThan(0);
+    expect(onSnapIndexChange).not.toHaveBeenCalled();
+
+    gesture.release();
+    await settle();
+
+    expect(onDragEnd).toHaveBeenCalledTimes(1);
+    expect(onSnapIndexChange).toHaveBeenCalledTimes(1);
+    expect(onSnapIndexChange).toHaveBeenCalledWith(1, Snaps?.[1]);
+  });
+
   it("8. a new pointer cancels a running fling", async () => {
     const el = fixture();
     await open(el, { defaultSnapIndex: 1 });

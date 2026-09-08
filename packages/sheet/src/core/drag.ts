@@ -16,6 +16,26 @@ const SampleWindowMs = 100;
 /** Which half of the gesture the finger is currently moving. */
 type Mode = "sheet" | "scroll";
 
+/** `[timeStamp, position]`, oldest first. */
+type Sample = [number, number];
+
+/** Record a position, dropping anything older than the sample window. */
+function pushSample(samples: Sample[], time: number, value: number): void {
+  samples.push([time, value]);
+  while (samples.length > 1 && (samples[0]?.[0] ?? 0) < time - SampleWindowMs) {
+    samples.shift();
+  }
+}
+
+/** px/ms across the samples held, or 0 when there is nothing to measure. */
+function velocityOf(samples: Sample[]): number {
+  const first = samples[0];
+  const last = samples[samples.length - 1];
+  if (!first || !last) return 0;
+  const elapsed = last[0] - first[0];
+  return elapsed === 0 ? 0 : (last[1] - first[1]) / elapsed;
+}
+
 /** The controller's side of the drag layer. */
 export interface DragDeps {
   content: HTMLElement;
@@ -110,7 +130,15 @@ export function attachSheetDrag(deps: DragDeps): SheetDrag {
   /** Where the finger was on the previous frame; deltas are read from it. */
   let lastClientY = 0;
   /** `[timeStamp, scrollTop]`, cleared whenever the mode changes. */
-  let scrollSamples: [number, number][] = [];
+  let scrollSamples: Sample[] = [];
+  /**
+   * `[timeStamp, clientY]` for the frames the *sheet* moved, cleared whenever
+   * the mode changes. The recogniser's own `vy` spans the last 100 ms of
+   * pointer movement whatever it was doing, so after a scroll phase it
+   * describes the content's speed, not the panel's. Releasing on that would
+   * fling the sheet at a velocity the panel never had.
+   */
+  let sheetSamples: Sample[] = [];
   let cancelMomentum: (() => void) | null = null;
 
   const stopScroll = () => {
@@ -122,6 +150,7 @@ export function attachSheetDrag(deps: DragDeps): SheetDrag {
     if (next === mode) return;
     mode = next;
     scrollSamples = [];
+    sheetSamples = [];
     writeModeAttrs();
   };
 
@@ -194,13 +223,7 @@ export function attachSheetDrag(deps: DragDeps): SheetDrag {
     } else {
       body.scrollTop = Math.min(next, scrollMax(body));
     }
-    scrollSamples.push([time, body.scrollTop]);
-    while (
-      scrollSamples.length > 1 &&
-      (scrollSamples[0]?.[0] ?? 0) < time - SampleWindowMs
-    ) {
-      scrollSamples.shift();
-    }
+    pushSample(scrollSamples, time, body.scrollTop);
     return left;
   };
 
@@ -209,13 +232,14 @@ export function attachSheetDrag(deps: DragDeps): SheetDrag {
    * travelling upwards under the finger, which is the direction a fling
    * continues in.
    */
-  const scrollVelocity = (): number => {
-    const first = scrollSamples[0];
-    const last = scrollSamples[scrollSamples.length - 1];
-    if (!first || !last) return 0;
-    const elapsed = last[0] - first[0];
-    return elapsed === 0 ? 0 : (last[1] - first[1]) / elapsed;
-  };
+  const scrollVelocity = (): number => velocityOf(scrollSamples);
+
+  /**
+   * px/ms the panel travelled over the last ~100 ms of the sheet phase, from
+   * the finger positions that actually moved it. Positive is downwards, the
+   * same sign `decideRelease` projects with.
+   */
+  const sheetVelocity = (): number => velocityOf(sheetSamples);
 
   // ------------------------------------------------------------- the arbiter
 
@@ -238,14 +262,26 @@ export function attachSheetDrag(deps: DragDeps): SheetDrag {
   };
 
   /**
-   * Move the sheet by a finger delta. Returns the remainder the sheet refused
-   * because it reached its scroll ceiling; a lock or the topmost clamp swallow
-   * the movement instead — neither of them means "scroll this".
+   * Move the sheet by a finger delta. Returns the remainder the sheet refused,
+   * which the caller offers to the content.
+   *
+   * A direction lock refuses the whole delta, but refusing it is not the same
+   * as swallowing it. `drag: { up: false }` means "this panel does not rise",
+   * not "this gesture is over": where there is something to scroll, the
+   * movement belongs to the content, and a locked snap that is also
+   * `scroll: true` would otherwise be impossible to touch-scroll at all. With
+   * no scroll ceiling there is nowhere for it to go, so it is dropped. The
+   * topmost clamp still swallows its movement — the sheet is simply at the end
+   * of its travel there.
    */
   const moveSheet = (delta: number): number => {
     const snap = deps.activeSnap();
-    if (snap && !snap.drag.up && delta < 0) return 0;
-    if (snap && !snap.drag.down && delta > 0) return 0;
+    if (snap && !snap.drag.up && delta < 0) {
+      return scrollCeiling(spring.get()) ? delta : 0;
+    }
+    if (snap && !snap.drag.down && delta > 0) {
+      return scrollCeiling(spring.get()) ? delta : 0;
+    }
 
     const y = spring.get();
     let next = y + delta;
@@ -289,6 +325,7 @@ export function attachSheetDrag(deps: DragDeps): SheetDrag {
             ? "scroll"
             : "sheet";
         scrollSamples = [];
+        sheetSamples = [];
         // The threshold the recogniser swallowed is part of the gesture: the
         // first move must carry it, so the finger's own start is the origin.
         lastClientY = state.event.clientY - state.dy;
@@ -306,25 +343,30 @@ export function attachSheetDrag(deps: DragDeps): SheetDrag {
       onMove(state) {
         if (!dragging) return;
         const time = state.event.timeStamp;
-        let delta = state.event.clientY - lastClientY;
-        lastClientY = state.event.clientY;
-        if (delta === 0) return;
+        const clientY = state.event.clientY;
+        let delta = clientY - lastClientY;
+        lastClientY = clientY;
 
-        if (mode === "scroll") {
-          delta = scrollBy(delta, time);
-          if (delta === 0) {
-            deps.notify();
-            return;
+        if (delta !== 0) {
+          if (mode === "scroll") {
+            delta = scrollBy(delta, time);
+            // The list is back at its top and the finger is still going down.
+            if (delta !== 0) setMode("sheet");
           }
-          // The list is back at its top and the finger is still going down.
-          setMode("sheet");
+          if (delta !== 0) {
+            const left = moveSheet(delta);
+            if (left !== 0 && scrollRoom(left)) {
+              setMode("scroll");
+              scrollBy(left, time);
+            }
+          }
         }
 
-        const left = moveSheet(delta);
-        if (left !== 0 && scrollRoom(left)) {
-          setMode("scroll");
-          scrollBy(left, time);
-        }
+        // The finger's path for as long as the sheet phase owns the gesture,
+        // recorded after any crossing this frame so a sample never lands in the
+        // wrong phase. Frames the finger rested on count too: they are what
+        // makes a slow release slow.
+        if (mode === "sheet") pushSample(sheetSamples, time, clientY);
         deps.notify();
       },
       onEnd(state) {
@@ -362,7 +404,7 @@ export function attachSheetDrag(deps: DragDeps): SheetDrag {
           }
           return;
         }
-        const vy = lockVelocity(deps.activeSnap(), state.vy);
+        const vy = lockVelocity(deps.activeSnap(), sheetVelocity());
         const decision = decideRelease({
           y: spring.get(),
           vy,
