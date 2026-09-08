@@ -1,12 +1,10 @@
-import { isBrowser } from "./env.ts";
+import { isBrowser, noop, once } from "./env.ts";
 
 interface EscapeEntry {
   onEscape: () => void;
   /** A non-dismissible modal still owns Escape — it just does nothing with it. */
   dismissible: () => boolean;
 }
-
-const noop = () => {};
 
 const stack: EscapeEntry[] = [];
 
@@ -50,11 +48,7 @@ export function pushEscapeTarget(
     document.addEventListener("keydown", onDocumentKeyDown);
   }
 
-  let released = false;
-  return () => {
-    if (released) return;
-    released = true;
-
+  return once(() => {
     // Splice by identity: entries below this one may already be gone, so the
     // index at push time is meaningless.
     const index = stack.indexOf(entry);
@@ -62,7 +56,7 @@ export function pushEscapeTarget(
     if (stack.length === 0) {
       document.removeEventListener("keydown", onDocumentKeyDown);
     }
-  };
+  });
 }
 
 export interface HandleKeyActions {
@@ -102,10 +96,7 @@ export function attachHandleKeys(
 
   handle.addEventListener("keydown", onKeyDown);
 
-  let detached = false;
-  return () => {
-    if (detached) return;
-    detached = true;
+  return once(() => {
     handle.removeEventListener("keydown", onKeyDown);
-  };
+  });
 }

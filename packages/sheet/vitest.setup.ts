@@ -1,4 +1,12 @@
 import { afterEach } from "vitest";
+import { resetWarnings } from "./src/core/env.ts";
+
+/**
+ * `warnOnce` keys are remembered for the life of the module, so a warning
+ * asserted in one test would be silently missing in the next file that expects
+ * it. Cleared between tests, warning assertions stop depending on file order.
+ */
+afterEach(resetWarnings);
 
 /**
  * `globals` is off in this project, so React Testing Library cannot register

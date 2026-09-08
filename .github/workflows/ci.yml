@@ -37,6 +37,9 @@ jobs:
       - name: Build
         run: pnpm build
 
+      - name: Check dist shape (NODE_ENV guard, "use client", dts maps)
+        run: pnpm --filter snap-bottom-sheet check:dist
+
       - name: Validate package (publint + arethetypeswrong)
         run: pnpm verify:pkg
 
