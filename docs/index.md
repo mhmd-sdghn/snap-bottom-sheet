@@ -28,7 +28,7 @@ features:
     details: The library brings its own spring and its own Pointer Events drag recogniser. React and react-dom are optional peers, and the core entry needs neither of them.
   - icon: 📜
     title: Scrolling and dragging take turns
-    details: Mark a snap point scroll and Sheet.Body scrolls there. Pull down at the top of the scroll and the sheet takes over. Nothing is handled twice, and no gesture gets stuck.
+    details: Mark a snap point scroll and Sheet.Body scrolls there. One finger does both. The sheet rises to that snap and the same movement carries on as scrolling, and scrolling back to the top hands the movement back to the sheet.
   - icon: 🎨
     title: Style it with CSS, not props
     details: No stylesheet ships with the library. You get data-state, data-snap-index, data-dragging and CSS custom properties for position and progress. They are written straight to the DOM on each frame.

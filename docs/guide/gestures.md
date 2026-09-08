@@ -10,8 +10,10 @@ header, the body, buttons and empty space. Mouse, touch and pen all go through
 the same Pointer Events recogniser. A drag begins after 3 px of movement, and
 only when that movement is more vertical than horizontal.
 
-The one exception is a body that is allowed to scroll at the active snap. See
-[Scrolling](/guide/scrolling) for the rule that decides between the two.
+A body that is allowed to scroll at the active snap is not an exception to that.
+The gesture still belongs to the sheet: it moves the sheet up to the scrolling
+snap, and the rest of the same movement scrolls the content, with no lift in
+between. See [Scrolling](/guide/scrolling) for both handoffs.
 
 ## Locking a direction per snap
 
@@ -155,8 +157,13 @@ On a drag dismissal the two callbacks fire in a fixed order. `onDragEnd(-1)`
 comes first, then `onOpenChange(false)`. So by the time your open-state handler
 runs, the drag handler has already seen the dismissal.
 
+A gesture inside a scrollable `Sheet.Body` belongs to the sheet in both of its
+phases, so both callbacks fire for it as well. If the release happened while the
+content was scrolling rather than the sheet moving, `onDragEnd` reports the snap
+the sheet is resting at.
+
 ## Where next
 
-- [Scrolling](/guide/scrolling) — the scroll-versus-drag rule inside `Sheet.Body`.
+- [Scrolling](/guide/scrolling) — how one gesture moves the sheet and then scrolls `Sheet.Body`.
 - [Controlled State](/guide/controlled-state) — driving snaps from props and the imperative handle.
 - [Snap Points](/guide/snap-points) — value forms, `scroll`, and `drag` in one place.
