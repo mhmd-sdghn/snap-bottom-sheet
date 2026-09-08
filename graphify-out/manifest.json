@@ -150,8 +150,8 @@
     "semantic_hash": ""
   },
   "docs/internal/PLAN.md": {
-    "mtime": 1788855670.4986284,
-    "ast_hash": "bc6542d35316397203e4039fc6cf712d",
+    "mtime": 1788858203.4209423,
+    "ast_hash": "aa2fdcb37e9d73af4d01d65c55073b00",
     "semantic_hash": ""
   },
   "docs/internal/tasks/00-scaffold.md": {
@@ -520,8 +520,8 @@
     "semantic_hash": ""
   },
   "docs/demos/index.md": {
-    "mtime": 1788801393.9451022,
-    "ast_hash": "982d5689b243b3fc5482c4f5a4d583de",
+    "mtime": 1788858588.1760917,
+    "ast_hash": "018426df7716fba8416d6dcedb63f1f5",
     "semantic_hash": ""
   },
   "docs/guide/accessibility.md": {
@@ -530,8 +530,8 @@
     "semantic_hash": ""
   },
   "docs/guide/controlled-state.md": {
-    "mtime": 1788800386.6878324,
-    "ast_hash": "f1fa9ce6d8e923854167851625f18a20",
+    "mtime": 1788858588.1764224,
+    "ast_hash": "bedeae360c6f1ddceee74081e9f69f56",
     "semantic_hash": ""
   },
   "docs/guide/core-concepts.md": {
@@ -580,8 +580,8 @@
     "semantic_hash": ""
   },
   "docs/guide/styling.md": {
-    "mtime": 1788798662.166688,
-    "ast_hash": "ab4aeb04da48924ec1865ae90b90390b",
+    "mtime": 1788858588.1767511,
+    "ast_hash": "5ee9f6242707f99752b8f3d00da3cae8",
     "semantic_hash": ""
   },
   "docs/guide/vanilla.md": {
@@ -605,8 +605,8 @@
     "semantic_hash": ""
   },
   "docs/reference/react.md": {
-    "mtime": 1788803068.6029062,
-    "ast_hash": "d6aeb44dfe561cdf3b5b64f18dc3fe8d",
+    "mtime": 1788858588.1772237,
+    "ast_hash": "3169b6a781967d0035e1a550ed2a8045",
     "semantic_hash": ""
   },
   "docs/reference/snap-points.md": {
@@ -615,8 +615,8 @@
     "semantic_hash": ""
   },
   "docs/reference/styling-hooks.md": {
-    "mtime": 1788798662.1676986,
-    "ast_hash": "7f3b6c324a1483a9e75404ad23d1c986",
+    "mtime": 1788858588.1775763,
+    "ast_hash": "29f347decceab5e59a772d3518fc5d2e",
     "semantic_hash": ""
   },
   "docs/public/logo.svg": {
@@ -700,13 +700,13 @@
     "semantic_hash": ""
   },
   "docs/.vitepress/theme/demos/controlled.tsx": {
-    "mtime": 1788800386.6852152,
-    "ast_hash": "ac66374ee42111fe9bb3120ff21645f4",
+    "mtime": 1788858588.174358,
+    "ast_hash": "7c986a6436bbac7529bcfb48dc8171a1",
     "semantic_hash": ""
   },
   "docs/.vitepress/theme/demos/dynamic-height.tsx": {
-    "mtime": 1788800386.6855555,
-    "ast_hash": "8697cf980cdda93b1356ab866cfa7d8f",
+    "mtime": 1788858588.1748302,
+    "ast_hash": "009bc08c953266cfc38f3f0d46d89802",
     "semantic_hash": ""
   },
   "docs/.vitepress/theme/demos/mount.tsx": {
@@ -715,23 +715,23 @@
     "semantic_hash": ""
   },
   "docs/.vitepress/theme/demos/nested.tsx": {
-    "mtime": 1788800386.6858168,
-    "ast_hash": "8921f24aba73d99f1e9361b6b621e3e1",
+    "mtime": 1788858588.1750045,
+    "ast_hash": "93f5d9bfb3a8ff89571f3260c6dd4711",
     "semantic_hash": ""
   },
   "docs/.vitepress/theme/demos/scrollable.tsx": {
-    "mtime": 1788800386.685949,
-    "ast_hash": "a918e181eebe41854a1d26609e0ba616",
+    "mtime": 1788858588.1751893,
+    "ast_hash": "2122f6ebbc07e1fe2232e6a5fe035c00",
     "semantic_hash": ""
   },
   "docs/.vitepress/theme/demos/snap-points.tsx": {
-    "mtime": 1788800386.6860845,
-    "ast_hash": "bf520cced07fbaf3024b16474170daf3",
+    "mtime": 1788858588.1753616,
+    "ast_hash": "db8972e00351db8214b23055e0ba5640",
     "semantic_hash": ""
   },
   "docs/.vitepress/theme/demos/vanilla.ts": {
-    "mtime": 1788800386.6862168,
-    "ast_hash": "c1f69eab458f849b0f36ac69efff3231",
+    "mtime": 1788858588.175523,
+    "ast_hash": "8486430a97fbb27188a2c491349e10c8",
     "semantic_hash": ""
   },
   "docs/tsconfig.json": {
@@ -740,8 +740,8 @@
     "semantic_hash": ""
   },
   "docs/demos/basic.md": {
-    "mtime": 1788801393.9449153,
-    "ast_hash": "e224a7c3c009eb489994d97c8ac4edb6",
+    "mtime": 1788858588.175928,
+    "ast_hash": "7e048bcb2d1bc5aba1273d6600b055cf",
     "semantic_hash": ""
   },
   "docs/demos/controlled.md": {
@@ -805,8 +805,8 @@
     "semantic_hash": ""
   },
   ".changeset/spotty-pandas-rewrite.md": {
-    "mtime": 1788801017.8879128,
-    "ast_hash": "d6d3a23960635f96c9af3cecefecd7cc",
+    "mtime": 1788858588.1738937,
+    "ast_hash": "f2b81c67a92cb0374c931ec598e32674",
     "semantic_hash": ""
   },
   "CONTRIBUTING.md": {
