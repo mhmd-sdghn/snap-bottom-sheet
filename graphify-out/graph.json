@@ -334,8 +334,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "docs_vitepress_theme_demos_basic",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 64,
+      "community_name": "sheet.ts",
       "norm_label": "basic.tsx"
     },
     {
@@ -345,8 +345,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "docs_vitepress_theme_demos_basic_basic",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 64,
+      "community_name": "sheet.ts",
       "norm_label": "basic()"
     },
     {
@@ -356,8 +356,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "docs_vitepress_theme_demos_controlled",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 64,
+      "community_name": "sheet.ts",
       "norm_label": "controlled.tsx"
     },
     {
@@ -367,8 +367,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "docs_vitepress_theme_demos_controlled_controlled",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 64,
+      "community_name": "sheet.ts",
       "norm_label": "controlled()"
     },
     {
@@ -378,8 +378,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "docs_vitepress_theme_demos_dynamic_height",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 64,
+      "community_name": "sheet.ts",
       "norm_label": "dynamic-height.tsx"
     },
     {
@@ -389,8 +389,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "docs_vitepress_theme_demos_dynamic_height_dynamicheight",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 64,
+      "community_name": "sheet.ts",
       "norm_label": "dynamicheight()"
     },
     {
@@ -400,8 +400,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "docs_vitepress_theme_demos_mount",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 64,
+      "community_name": "sheet.ts",
       "norm_label": "mount.tsx"
     },
     {
@@ -411,8 +411,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "docs_vitepress_theme_demos_mount_mountdemo",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 64,
+      "community_name": "sheet.ts",
       "norm_label": "mountdemo()"
     },
     {
@@ -422,8 +422,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "docs_vitepress_theme_demos_nested",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 64,
+      "community_name": "sheet.ts",
       "norm_label": "nested.tsx"
     },
     {
@@ -433,8 +433,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "docs_vitepress_theme_demos_nested_nested",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 64,
+      "community_name": "sheet.ts",
       "norm_label": "nested()"
     },
     {
@@ -444,8 +444,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "docs_vitepress_theme_demos_scrollable",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 64,
+      "community_name": "sheet.ts",
       "norm_label": "scrollable.tsx"
     },
     {
@@ -455,8 +455,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "docs_vitepress_theme_demos_scrollable_scrollable",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 64,
+      "community_name": "sheet.ts",
       "norm_label": "scrollable()"
     },
     {
@@ -466,8 +466,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "docs_vitepress_theme_demos_snap_points",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 64,
+      "community_name": "sheet.ts",
       "norm_label": "snap-points.tsx"
     },
     {
@@ -477,8 +477,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "docs_vitepress_theme_demos_snap_points_readout",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 64,
+      "community_name": "sheet.ts",
       "norm_label": "readout()"
     },
     {
@@ -488,8 +488,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "docs_vitepress_theme_demos_snap_points_snappoints",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 64,
+      "community_name": "sheet.ts",
       "norm_label": "snappoints()"
     },
     {
@@ -1186,10 +1186,21 @@
       "norm_label": "test"
     },
     {
+      "label": "test:site",
+      "file_type": "code",
+      "source_file": "e2e/package.json",
+      "source_location": "L8",
+      "_origin": "ast",
+      "id": "e2e_package_scripts_test_site",
+      "community": 37,
+      "community_name": "Task 00 \u2014 monorepo scaffold (nBridge tooling)",
+      "norm_label": "test:site"
+    },
+    {
       "label": "devDependencies",
       "file_type": "code",
       "source_file": "e2e/package.json",
-      "source_location": "L9",
+      "source_location": "L10",
       "_origin": "ast",
       "id": "e2e_package_devdependencies",
       "community": 37,
@@ -1200,7 +1211,7 @@
       "label": "@playwright/test",
       "file_type": "code",
       "source_file": "e2e/package.json",
-      "source_location": "L10",
+      "source_location": "L11",
       "_origin": "ast",
       "id": "e2e_package_devdependencies_playwright_test",
       "community": 37,
@@ -1211,7 +1222,7 @@
       "label": "@playwright/test",
       "file_type": "concept",
       "source_file": "e2e/package.json",
-      "source_location": "L10",
+      "source_location": "L11",
       "_origin": "ast",
       "id": "playwright_test",
       "community": 37,
@@ -1239,6 +1250,127 @@
       "community": 147,
       "community_name": "playwright.config.ts",
       "norm_label": "port"
+    },
+    {
+      "label": "playwright.site.config.ts",
+      "file_type": "code",
+      "source_file": "e2e/playwright.site.config.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "e2e_playwright_site_config",
+      "community": 154,
+      "community_name": "playwright.site.config.ts",
+      "norm_label": "playwright.site.config.ts"
+    },
+    {
+      "label": "port",
+      "file_type": "code",
+      "source_file": "e2e/playwright.site.config.ts",
+      "source_location": "L12",
+      "_origin": "ast",
+      "id": "e2e_playwright_site_config_port",
+      "community": 154,
+      "community_name": "playwright.site.config.ts",
+      "norm_label": "port"
+    },
+    {
+      "label": "container-close.spec.ts",
+      "file_type": "code",
+      "source_file": "e2e/site-tests/container-close.spec.ts",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "e2e_site_tests_container_close_spec",
+      "community": 3,
+      "community_name": "Compound Component and Types",
+      "norm_label": "container-close.spec.ts"
+    },
+    {
+      "label": "Sample",
+      "file_type": "code",
+      "source_file": "e2e/site-tests/container-close.spec.ts",
+      "source_location": "L11",
+      "_origin": "ast",
+      "id": "e2e_site_tests_container_close_spec_sample",
+      "community": 3,
+      "community_name": "Compound Component and Types",
+      "norm_label": "sample"
+    },
+    {
+      "label": "readY()",
+      "file_type": "code",
+      "source_file": "e2e/site-tests/container-close.spec.ts",
+      "source_location": "L24",
+      "_origin": "ast",
+      "id": "e2e_site_tests_container_close_spec_ready",
+      "community": 3,
+      "community_name": "Compound Component and Types",
+      "norm_label": "ready()"
+    },
+    {
+      "label": "waitForRest()",
+      "file_type": "code",
+      "source_file": "e2e/site-tests/container-close.spec.ts",
+      "source_location": "L32",
+      "_origin": "ast",
+      "id": "e2e_site_tests_container_close_spec_waitforrest",
+      "community": 3,
+      "community_name": "Compound Component and Types",
+      "norm_label": "waitforrest()"
+    },
+    {
+      "label": "startSampler()",
+      "file_type": "code",
+      "source_file": "e2e/site-tests/container-close.spec.ts",
+      "source_location": "L48",
+      "_origin": "ast",
+      "id": "e2e_site_tests_container_close_spec_startsampler",
+      "community": 3,
+      "community_name": "Compound Component and Types",
+      "norm_label": "startsampler()"
+    },
+    {
+      "label": "collect()",
+      "file_type": "code",
+      "source_file": "e2e/site-tests/container-close.spec.ts",
+      "source_location": "L88",
+      "_origin": "ast",
+      "id": "e2e_site_tests_container_close_spec_collect",
+      "community": 3,
+      "community_name": "Compound Component and Types",
+      "norm_label": "collect()"
+    },
+    {
+      "label": "expectAnimatedClose()",
+      "file_type": "code",
+      "source_file": "e2e/site-tests/container-close.spec.ts",
+      "source_location": "L105",
+      "_origin": "ast",
+      "id": "e2e_site_tests_container_close_spec_expectanimatedclose",
+      "community": 3,
+      "community_name": "Compound Component and Types",
+      "norm_label": "expectanimatedclose()"
+    },
+    {
+      "label": "Scenario",
+      "file_type": "code",
+      "source_file": "e2e/site-tests/container-close.spec.ts",
+      "source_location": "L144",
+      "_origin": "ast",
+      "id": "e2e_site_tests_container_close_spec_scenario",
+      "community": 3,
+      "community_name": "Compound Component and Types",
+      "norm_label": "scenario"
+    },
+    {
+      "label": "scenarios",
+      "file_type": "code",
+      "source_file": "e2e/site-tests/container-close.spec.ts",
+      "source_location": "L154",
+      "_origin": "ast",
+      "id": "e2e_site_tests_container_close_spec_scenarios",
+      "community": 3,
+      "community_name": "Compound Component and Types",
+      "norm_label": "scenarios"
     },
     {
       "label": "handoff.spec.ts",
@@ -1736,10 +1868,21 @@
       "norm_label": "release"
     },
     {
+      "label": "e2e:site",
+      "file_type": "code",
+      "source_file": "package.json",
+      "source_location": "L27",
+      "_origin": "ast",
+      "id": "package_scripts_e2e_site",
+      "community": 0,
+      "community_name": "Lint and Tooling Dev Deps",
+      "norm_label": "e2e:site"
+    },
+    {
       "label": "devDependencies",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L28",
+      "source_location": "L29",
       "_origin": "ast",
       "id": "package_devdependencies",
       "community": 0,
@@ -1750,7 +1893,7 @@
       "label": "@biomejs/biome",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L29",
+      "source_location": "L30",
       "_origin": "ast",
       "id": "package_devdependencies_biomejs_biome",
       "community": 0,
@@ -1761,7 +1904,7 @@
       "label": "@biomejs/biome",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L29",
+      "source_location": "L30",
       "_origin": "ast",
       "id": "biomejs_biome",
       "community": 0,
@@ -1772,7 +1915,7 @@
       "label": "@changesets/changelog-github",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L30",
+      "source_location": "L31",
       "_origin": "ast",
       "id": "package_devdependencies_changesets_changelog_github",
       "community": 0,
@@ -1783,7 +1926,7 @@
       "label": "@changesets/changelog-github",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L30",
+      "source_location": "L31",
       "_origin": "ast",
       "id": "changesets_changelog_github",
       "community": 0,
@@ -1794,7 +1937,7 @@
       "label": "@changesets/cli",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L31",
+      "source_location": "L32",
       "_origin": "ast",
       "id": "package_devdependencies_changesets_cli",
       "community": 0,
@@ -1805,7 +1948,7 @@
       "label": "@changesets/cli",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L31",
+      "source_location": "L32",
       "_origin": "ast",
       "id": "changesets_cli",
       "community": 0,
@@ -1816,7 +1959,7 @@
       "label": "lefthook",
       "file_type": "code",
       "source_file": "package.json",
-      "source_location": "L32",
+      "source_location": "L33",
       "_origin": "ast",
       "id": "package_devdependencies_lefthook",
       "community": 0,
@@ -1827,7 +1970,7 @@
       "label": "lefthook",
       "file_type": "concept",
       "source_file": "package.json",
-      "source_location": "L32",
+      "source_location": "L33",
       "_origin": "ast",
       "id": "lefthook",
       "community": 0,
@@ -2149,8 +2292,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_gesture_src_index",
-      "community": 5,
-      "community_name": "App TypeScript Config",
+      "community": 133,
+      "community_name": "index.ts",
       "norm_label": "index.ts"
     },
     {
@@ -2182,8 +2325,8 @@
       "source_location": "L25",
       "_origin": "ast",
       "id": "packages_gesture_src_index_draghandlers",
-      "community": 5,
-      "community_name": "App TypeScript Config",
+      "community": 133,
+      "community_name": "index.ts",
       "norm_label": "draghandlers"
     },
     {
@@ -2193,8 +2336,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "packages_gesture_src_index_draghandlers_onstart",
-      "community": 5,
-      "community_name": "App TypeScript Config",
+      "community": 133,
+      "community_name": "index.ts",
       "norm_label": ".onstart()"
     },
     {
@@ -2204,8 +2347,8 @@
       "source_location": "L28",
       "_origin": "ast",
       "id": "packages_gesture_src_index_draghandlers_onmove",
-      "community": 5,
-      "community_name": "App TypeScript Config",
+      "community": 133,
+      "community_name": "index.ts",
       "norm_label": ".onmove()"
     },
     {
@@ -2215,8 +2358,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "packages_gesture_src_index_draghandlers_onend",
-      "community": 5,
-      "community_name": "App TypeScript Config",
+      "community": 133,
+      "community_name": "index.ts",
       "norm_label": ".onend()"
     },
     {
@@ -2226,8 +2369,8 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "packages_gesture_src_index_dragoptions",
-      "community": 5,
-      "community_name": "App TypeScript Config",
+      "community": 133,
+      "community_name": "index.ts",
       "norm_label": "dragoptions"
     },
     {
@@ -2237,8 +2380,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "packages_gesture_src_index_dragoptions_filter",
-      "community": 5,
-      "community_name": "App TypeScript Config",
+      "community": 133,
+      "community_name": "index.ts",
       "norm_label": ".filter()"
     },
     {
@@ -2248,8 +2391,8 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "packages_gesture_src_index_sample",
-      "community": 5,
-      "community_name": "App TypeScript Config",
+      "community": 133,
+      "community_name": "index.ts",
       "norm_label": "sample"
     },
     {
@@ -2259,8 +2402,8 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "packages_gesture_src_index_phase",
-      "community": 5,
-      "community_name": "App TypeScript Config",
+      "community": 133,
+      "community_name": "index.ts",
       "norm_label": "phase"
     },
     {
@@ -2270,8 +2413,8 @@
       "source_location": "L53",
       "_origin": "ast",
       "id": "packages_gesture_src_index_attachdrag",
-      "community": 5,
-      "community_name": "App TypeScript Config",
+      "community": 133,
+      "community_name": "index.ts",
       "norm_label": "attachdrag()"
     },
     {
@@ -2908,8 +3051,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "ref_react",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 64,
+      "community_name": "sheet.ts",
       "norm_label": "react"
     },
     {
@@ -3865,8 +4008,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_core_dom",
-      "community": 64,
-      "community_name": "sheet.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "dom.ts"
     },
     {
@@ -3876,8 +4019,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "packages_sheet_src_core_dom_stylekey",
-      "community": 64,
-      "community_name": "sheet.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "stylekey"
     },
     {
@@ -3887,8 +4030,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "packages_sheet_src_core_dom_styles",
-      "community": 64,
-      "community_name": "sheet.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "styles"
     },
     {
@@ -3898,8 +4041,8 @@
       "source_location": "L26",
       "_origin": "ast",
       "id": "packages_sheet_src_core_dom_focusable",
-      "community": 64,
-      "community_name": "sheet.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "focusable"
     },
     {
@@ -3909,8 +4052,8 @@
       "source_location": "L37",
       "_origin": "ast",
       "id": "packages_sheet_src_core_dom_setstyles",
-      "community": 64,
-      "community_name": "sheet.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "setstyles()"
     },
     {
@@ -3920,8 +4063,8 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "packages_sheet_src_core_dom_setattrs",
-      "community": 64,
-      "community_name": "sheet.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "setattrs()"
     },
     {
@@ -3931,8 +4074,8 @@
       "source_location": "L85",
       "_origin": "ast",
       "id": "packages_sheet_src_core_dom_contentbasestyles",
-      "community": 64,
-      "community_name": "sheet.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "contentbasestyles()"
     },
     {
@@ -3942,8 +4085,8 @@
       "source_location": "L104",
       "_origin": "ast",
       "id": "packages_sheet_src_core_dom_overlaybasestyles",
-      "community": 64,
-      "community_name": "sheet.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "overlaybasestyles()"
     },
     {
@@ -3953,8 +4096,8 @@
       "source_location": "L124",
       "_origin": "ast",
       "id": "packages_sheet_src_core_dom_innerbasestyles",
-      "community": 64,
-      "community_name": "sheet.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "innerbasestyles()"
     },
     {
@@ -3964,8 +4107,8 @@
       "source_location": "L133",
       "_origin": "ast",
       "id": "packages_sheet_src_core_dom_bodybasestyles",
-      "community": 64,
-      "community_name": "sheet.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "bodybasestyles()"
     },
     {
@@ -3975,8 +4118,8 @@
       "source_location": "L138",
       "_origin": "ast",
       "id": "packages_sheet_src_core_dom_writeframe",
-      "community": 64,
-      "community_name": "sheet.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "writeframe()"
     },
     {
@@ -3986,8 +4129,8 @@
       "source_location": "L151",
       "_origin": "ast",
       "id": "packages_sheet_src_core_dom_writerest",
-      "community": 64,
-      "community_name": "sheet.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "writerest()"
     },
     {
@@ -3997,8 +4140,8 @@
       "source_location": "L171",
       "_origin": "ast",
       "id": "packages_sheet_src_core_dom_applysnaplayout",
-      "community": 64,
-      "community_name": "sheet.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "applysnaplayout()"
     },
     {
@@ -4008,8 +4151,8 @@
       "source_location": "L200",
       "_origin": "ast",
       "id": "packages_sheet_src_core_dom_remembersnaplayout",
-      "community": 64,
-      "community_name": "sheet.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "remembersnaplayout()"
     },
     {
@@ -4019,8 +4162,8 @@
       "source_location": "L211",
       "_origin": "ast",
       "id": "packages_sheet_src_core_dom_rememberbodyscroll",
-      "community": 64,
-      "community_name": "sheet.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "rememberbodyscroll()"
     },
     {
@@ -4030,8 +4173,8 @@
       "source_location": "L233",
       "_origin": "ast",
       "id": "packages_sheet_src_core_dom_hasinertprop",
-      "community": 64,
-      "community_name": "sheet.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "hasinertprop()"
     },
     {
@@ -4041,8 +4184,8 @@
       "source_location": "L235",
       "_origin": "ast",
       "id": "packages_sheet_src_core_dom_isinert",
-      "community": 64,
-      "community_name": "sheet.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "isinert()"
     },
     {
@@ -4052,8 +4195,8 @@
       "source_location": "L238",
       "_origin": "ast",
       "id": "packages_sheet_src_core_dom_writeinert",
-      "community": 64,
-      "community_name": "sheet.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "writeinert()"
     },
     {
@@ -4063,8 +4206,8 @@
       "source_location": "L253",
       "_origin": "ast",
       "id": "packages_sheet_src_core_dom_applyinert",
-      "community": 64,
-      "community_name": "sheet.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "applyinert()"
     },
     {
@@ -4074,8 +4217,8 @@
       "source_location": "L279",
       "_origin": "ast",
       "id": "packages_sheet_src_core_dom_focusfirst",
-      "community": 64,
-      "community_name": "sheet.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "focusfirst()"
     },
     {
@@ -4085,8 +4228,8 @@
       "source_location": "L299",
       "_origin": "ast",
       "id": "packages_sheet_src_core_dom_findcontentinner",
-      "community": 64,
-      "community_name": "sheet.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "findcontentinner()"
     },
     {
@@ -4096,8 +4239,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_core_drag",
-      "community": 26,
-      "community_name": "Vite Env Types",
+      "community": 128,
+      "community_name": "drag.ts",
       "norm_label": "drag.ts"
     },
     {
@@ -4107,8 +4250,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "packages_sheet_src_core_drag_blurredtags",
-      "community": 26,
-      "community_name": "Vite Env Types",
+      "community": 128,
+      "community_name": "drag.ts",
       "norm_label": "blurredtags"
     },
     {
@@ -4118,8 +4261,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "packages_sheet_src_core_drag_mode",
-      "community": 26,
-      "community_name": "Vite Env Types",
+      "community": 128,
+      "community_name": "drag.ts",
       "norm_label": "mode"
     },
     {
@@ -4129,8 +4272,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "packages_sheet_src_core_drag_sample",
-      "community": 26,
-      "community_name": "Vite Env Types",
+      "community": 128,
+      "community_name": "drag.ts",
       "norm_label": "sample"
     },
     {
@@ -4206,8 +4349,8 @@
       "source_location": "L47",
       "_origin": "ast",
       "id": "packages_sheet_src_core_drag_dragdeps_resolved",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 26,
+      "community_name": "Vite Env Types",
       "norm_label": ".resolved()"
     },
     {
@@ -4338,8 +4481,8 @@
       "source_location": "L67",
       "_origin": "ast",
       "id": "packages_sheet_src_core_drag_blurinside",
-      "community": 26,
-      "community_name": "Vite Env Types",
+      "community": 128,
+      "community_name": "drag.ts",
       "norm_label": "blurinside()"
     },
     {
@@ -4349,8 +4492,8 @@
       "source_location": "L84",
       "_origin": "ast",
       "id": "packages_sheet_src_core_drag_lockvelocity",
-      "community": 26,
-      "community_name": "Vite Env Types",
+      "community": 128,
+      "community_name": "drag.ts",
       "norm_label": "lockvelocity()"
     },
     {
@@ -4360,8 +4503,8 @@
       "source_location": "L100",
       "_origin": "ast",
       "id": "packages_sheet_src_core_drag_dragfilter",
-      "community": 26,
-      "community_name": "Vite Env Types",
+      "community": 128,
+      "community_name": "drag.ts",
       "norm_label": "dragfilter()"
     },
     {
@@ -4371,8 +4514,8 @@
       "source_location": "L110",
       "_origin": "ast",
       "id": "packages_sheet_src_core_drag_sheetdrag",
-      "community": 26,
-      "community_name": "Vite Env Types",
+      "community": 128,
+      "community_name": "drag.ts",
       "norm_label": "sheetdrag"
     },
     {
@@ -4382,8 +4525,8 @@
       "source_location": "L111",
       "_origin": "ast",
       "id": "packages_sheet_src_core_drag_sheetdrag_detach",
-      "community": 26,
-      "community_name": "Vite Env Types",
+      "community": 128,
+      "community_name": "drag.ts",
       "norm_label": ".detach()"
     },
     {
@@ -4393,8 +4536,8 @@
       "source_location": "L112",
       "_origin": "ast",
       "id": "packages_sheet_src_core_drag_sheetdrag_isdragging",
-      "community": 26,
-      "community_name": "Vite Env Types",
+      "community": 128,
+      "community_name": "drag.ts",
       "norm_label": ".isdragging()"
     },
     {
@@ -4404,8 +4547,8 @@
       "source_location": "L114",
       "_origin": "ast",
       "id": "packages_sheet_src_core_drag_sheetdrag_stopscroll",
-      "community": 26,
-      "community_name": "Vite Env Types",
+      "community": 128,
+      "community_name": "drag.ts",
       "norm_label": ".stopscroll()"
     },
     {
@@ -4426,8 +4569,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_core_env",
-      "community": 140,
-      "community_name": "use-controllable-state.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "env.ts"
     },
     {
@@ -4459,8 +4602,8 @@
       "source_location": "L8",
       "_origin": "ast",
       "id": "packages_sheet_src_core_env_noop",
-      "community": 68,
-      "community_name": "vitest.setup.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "noop()"
     },
     {
@@ -4481,8 +4624,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "packages_sheet_src_core_env_warned",
-      "community": 140,
-      "community_name": "use-controllable-state.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "warned"
     },
     {
@@ -4492,8 +4635,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "packages_sheet_src_core_env_warnonce",
-      "community": 140,
-      "community_name": "use-controllable-state.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "warnonce()"
     },
     {
@@ -4503,8 +4646,8 @@
       "source_location": "L43",
       "_origin": "ast",
       "id": "packages_sheet_src_core_env_resetwarnings",
-      "community": 140,
-      "community_name": "use-controllable-state.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "resetwarnings()"
     },
     {
@@ -4514,8 +4657,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_core_keyboard",
-      "community": 68,
-      "community_name": "vitest.setup.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "keyboard.ts"
     },
     {
@@ -4525,8 +4668,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "packages_sheet_src_core_keyboard_escapeentry",
-      "community": 68,
-      "community_name": "vitest.setup.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "escapeentry"
     },
     {
@@ -4536,8 +4679,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "packages_sheet_src_core_keyboard_stack",
-      "community": 68,
-      "community_name": "vitest.setup.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "stack"
     },
     {
@@ -4547,8 +4690,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "packages_sheet_src_core_keyboard_ondocumentkeydown",
-      "community": 68,
-      "community_name": "vitest.setup.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "ondocumentkeydown()"
     },
     {
@@ -4558,8 +4701,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "packages_sheet_src_core_keyboard_pushescapetarget",
-      "community": 68,
-      "community_name": "vitest.setup.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "pushescapetarget()"
     },
     {
@@ -4569,8 +4712,8 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "packages_sheet_src_core_keyboard_handlekeyactions",
-      "community": 68,
-      "community_name": "vitest.setup.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "handlekeyactions"
     },
     {
@@ -4580,8 +4723,8 @@
       "source_location": "L64",
       "_origin": "ast",
       "id": "packages_sheet_src_core_keyboard_handlekeyactions_step",
-      "community": 68,
-      "community_name": "vitest.setup.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": ".step()"
     },
     {
@@ -4591,8 +4734,8 @@
       "source_location": "L66",
       "_origin": "ast",
       "id": "packages_sheet_src_core_keyboard_handlekeyactions_cycle",
-      "community": 68,
-      "community_name": "vitest.setup.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": ".cycle()"
     },
     {
@@ -4602,8 +4745,8 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "packages_sheet_src_core_keyboard_attachhandlekeys",
-      "community": 68,
-      "community_name": "vitest.setup.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "attachhandlekeys()"
     },
     {
@@ -4712,8 +4855,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_core_modal",
-      "community": 68,
-      "community_name": "vitest.setup.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "modal.ts"
     },
     {
@@ -4723,8 +4866,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "packages_sheet_src_core_modal_modalguardparts",
-      "community": 68,
-      "community_name": "vitest.setup.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "modalguardparts"
     },
     {
@@ -4734,8 +4877,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "packages_sheet_src_core_modal_modalguardparts_dismissible",
-      "community": 68,
-      "community_name": "vitest.setup.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": ".dismissible()"
     },
     {
@@ -4745,8 +4888,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "packages_sheet_src_core_modal_modalguardparts_overlay",
-      "community": 68,
-      "community_name": "vitest.setup.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": ".overlay()"
     },
     {
@@ -4756,8 +4899,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "packages_sheet_src_core_modal_modalguardparts_onescape",
-      "community": 68,
-      "community_name": "vitest.setup.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": ".onescape()"
     },
     {
@@ -4844,8 +4987,8 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "packages_sheet_src_core_modal_rootof",
-      "community": 68,
-      "community_name": "vitest.setup.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "rootof()"
     },
     {
@@ -4855,8 +4998,8 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "packages_sheet_src_core_modal_createmodalguard",
-      "community": 68,
-      "community_name": "vitest.setup.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "createmodalguard()"
     },
     {
@@ -4899,8 +5042,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "packages_sheet_src_core_position_pickindex",
-      "community": 102,
-      "community_name": "sheet.test.tsx",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "pickindex()"
     },
     {
@@ -5075,8 +5218,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_core_sheet",
-      "community": 102,
-      "community_name": "sheet.test.tsx",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "sheet.ts"
     },
     {
@@ -5086,8 +5229,8 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "packages_sheet_src_core_sheet_partkey",
-      "community": 102,
-      "community_name": "sheet.test.tsx",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "partkey"
     },
     {
@@ -5097,8 +5240,8 @@
       "source_location": "L46",
       "_origin": "ast",
       "id": "packages_sheet_src_core_sheet_partkeys",
-      "community": 102,
-      "community_name": "sheet.test.tsx",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "partkeys"
     },
     {
@@ -5108,8 +5251,8 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "packages_sheet_src_core_sheet_positionedvalues",
-      "community": 64,
-      "community_name": "sheet.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "positionedvalues"
     },
     {
@@ -5119,8 +5262,8 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "packages_sheet_src_core_sheet_createsheet",
-      "community": 64,
-      "community_name": "sheet.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "createsheet()"
     },
     {
@@ -5130,8 +5273,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap",
-      "community": 104,
-      "community_name": "SheetController",
+      "community": 68,
+      "community_name": "vitest.setup.ts",
       "norm_label": "snap.ts"
     },
     {
@@ -5141,8 +5284,8 @@
       "source_location": "L3",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap_snapvalue",
-      "community": 104,
-      "community_name": "SheetController",
+      "community": 68,
+      "community_name": "vitest.setup.ts",
       "norm_label": "snapvalue"
     },
     {
@@ -5152,8 +5295,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap_snappointconfig",
-      "community": 104,
-      "community_name": "SheetController",
+      "community": 68,
+      "community_name": "vitest.setup.ts",
       "norm_label": "snappointconfig"
     },
     {
@@ -5163,8 +5306,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap_snappoint",
-      "community": 104,
-      "community_name": "SheetController",
+      "community": 68,
+      "community_name": "vitest.setup.ts",
       "norm_label": "snappoint"
     },
     {
@@ -5174,8 +5317,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap_measurecontext",
-      "community": 104,
-      "community_name": "SheetController",
+      "community": 68,
+      "community_name": "vitest.setup.ts",
       "norm_label": "measurecontext"
     },
     {
@@ -5185,8 +5328,8 @@
       "source_location": "L27",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap_resolvedsnap",
-      "community": 102,
-      "community_name": "sheet.test.tsx",
+      "community": 26,
+      "community_name": "Vite Env Types",
       "norm_label": "resolvedsnap"
     },
     {
@@ -5196,8 +5339,8 @@
       "source_location": "L39",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap_normalizedsnap",
-      "community": 104,
-      "community_name": "SheetController",
+      "community": 68,
+      "community_name": "vitest.setup.ts",
       "norm_label": "normalizedsnap"
     },
     {
@@ -5207,8 +5350,8 @@
       "source_location": "L54",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap_isconfig",
-      "community": 104,
-      "community_name": "SheetController",
+      "community": 68,
+      "community_name": "vitest.setup.ts",
       "norm_label": "isconfig()"
     },
     {
@@ -5218,8 +5361,8 @@
       "source_location": "L65",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap_steps",
-      "community": 104,
-      "community_name": "SheetController",
+      "community": 68,
+      "community_name": "vitest.setup.ts",
       "norm_label": "steps()"
     },
     {
@@ -5229,8 +5372,8 @@
       "source_location": "L80",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap_normalize",
-      "community": 104,
-      "community_name": "SheetController",
+      "community": 68,
+      "community_name": "vitest.setup.ts",
       "norm_label": "normalize()"
     },
     {
@@ -5240,8 +5383,8 @@
       "source_location": "L99",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap_toheight",
-      "community": 104,
-      "community_name": "SheetController",
+      "community": 68,
+      "community_name": "vitest.setup.ts",
       "norm_label": "toheight()"
     },
     {
@@ -5251,8 +5394,8 @@
       "source_location": "L142",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap_resolvesnappoints",
-      "community": 104,
-      "community_name": "SheetController",
+      "community": 68,
+      "community_name": "vitest.setup.ts",
       "norm_label": "resolvesnappoints()"
     },
     {
@@ -5262,8 +5405,8 @@
       "source_location": "L196",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap_byy",
-      "community": 104,
-      "community_name": "SheetController",
+      "community": 102,
+      "community_name": "sheet.test.tsx",
       "norm_label": "byy()"
     },
     {
@@ -5273,8 +5416,8 @@
       "source_location": "L201",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap_closest",
-      "community": 104,
-      "community_name": "SheetController",
+      "community": 68,
+      "community_name": "vitest.setup.ts",
       "norm_label": "closest()"
     },
     {
@@ -5284,8 +5427,8 @@
       "source_location": "L220",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap_project",
-      "community": 104,
-      "community_name": "SheetController",
+      "community": 68,
+      "community_name": "vitest.setup.ts",
       "norm_label": "project()"
     },
     {
@@ -5295,8 +5438,8 @@
       "source_location": "L229",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap_iscontentmode",
-      "community": 104,
-      "community_name": "SheetController",
+      "community": 68,
+      "community_name": "vitest.setup.ts",
       "norm_label": "iscontentmode()"
     },
     {
@@ -5306,8 +5449,8 @@
       "source_location": "L238",
       "_origin": "ast",
       "id": "packages_sheet_src_core_snap_deciderelease",
-      "community": 104,
-      "community_name": "SheetController",
+      "community": 68,
+      "community_name": "vitest.setup.ts",
       "norm_label": "deciderelease()"
     },
     {
@@ -5317,8 +5460,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_core_types",
-      "community": 104,
-      "community_name": "SheetController",
+      "community": 68,
+      "community_name": "vitest.setup.ts",
       "norm_label": "types.ts"
     },
     {
@@ -5515,8 +5658,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_index",
-      "community": 104,
-      "community_name": "SheetController",
+      "community": 68,
+      "community_name": "vitest.setup.ts",
       "norm_label": "index.ts"
     },
     {
@@ -5625,8 +5768,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_react_description",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 110,
+      "community_name": "context.ts",
       "norm_label": "description.tsx"
     },
     {
@@ -5636,8 +5779,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "packages_sheet_src_react_description_descriptionprops",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 110,
+      "community_name": "context.ts",
       "norm_label": "descriptionprops"
     },
     {
@@ -5647,8 +5790,8 @@
       "source_location": "L14",
       "_origin": "ast",
       "id": "packages_sheet_src_react_description_description",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 110,
+      "community_name": "context.ts",
       "norm_label": "description"
     },
     {
@@ -5757,8 +5900,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_react_portal",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 110,
+      "community_name": "context.ts",
       "norm_label": "portal.tsx"
     },
     {
@@ -5768,8 +5911,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "packages_sheet_src_react_portal_portalprops",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 110,
+      "community_name": "context.ts",
       "norm_label": "portalprops"
     },
     {
@@ -5779,8 +5922,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "packages_sheet_src_react_portal_portal",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 110,
+      "community_name": "context.ts",
       "norm_label": "portal()"
     },
     {
@@ -5790,8 +5933,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_react_sheet",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 120,
+      "community_name": "Sheet.tsx",
       "norm_label": "sheet.tsx"
     },
     {
@@ -5801,8 +5944,8 @@
       "source_location": "L24",
       "_origin": "ast",
       "id": "packages_sheet_src_react_sheet_sheetprops",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 120,
+      "community_name": "Sheet.tsx",
       "norm_label": "sheetprops"
     },
     {
@@ -5812,8 +5955,8 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "packages_sheet_src_react_sheet_sheethandle",
-      "community": 104,
-      "community_name": "SheetController",
+      "community": 120,
+      "community_name": "Sheet.tsx",
       "norm_label": "sheethandle"
     },
     {
@@ -5823,8 +5966,8 @@
       "source_location": "L62",
       "_origin": "ast",
       "id": "packages_sheet_src_react_sheet_sheethandle_open",
-      "community": 104,
-      "community_name": "SheetController",
+      "community": 120,
+      "community_name": "Sheet.tsx",
       "norm_label": ".open()"
     },
     {
@@ -5834,8 +5977,8 @@
       "source_location": "L68",
       "_origin": "ast",
       "id": "packages_sheet_src_react_sheet_sheethandle_close",
-      "community": 104,
-      "community_name": "SheetController",
+      "community": 120,
+      "community_name": "Sheet.tsx",
       "norm_label": ".close()"
     },
     {
@@ -5845,8 +5988,8 @@
       "source_location": "L69",
       "_origin": "ast",
       "id": "packages_sheet_src_react_sheet_sheethandle_snapto",
-      "community": 104,
-      "community_name": "SheetController",
+      "community": 120,
+      "community_name": "Sheet.tsx",
       "norm_label": ".snapto()"
     },
     {
@@ -5856,8 +5999,8 @@
       "source_location": "L75",
       "_origin": "ast",
       "id": "packages_sheet_src_react_sheet_parts",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 120,
+      "community_name": "Sheet.tsx",
       "norm_label": "parts"
     },
     {
@@ -5867,8 +6010,8 @@
       "source_location": "L77",
       "_origin": "ast",
       "id": "packages_sheet_src_react_sheet_sheet",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 120,
+      "community_name": "Sheet.tsx",
       "norm_label": "sheet"
     },
     {
@@ -5878,8 +6021,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_react_title",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 110,
+      "community_name": "context.ts",
       "norm_label": "title.tsx"
     },
     {
@@ -5889,8 +6032,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "packages_sheet_src_react_title_titleprops",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 110,
+      "community_name": "context.ts",
       "norm_label": "titleprops"
     },
     {
@@ -5900,8 +6043,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "packages_sheet_src_react_title_title",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 110,
+      "community_name": "context.ts",
       "norm_label": "title"
     },
     {
@@ -5911,8 +6054,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_react_context",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 110,
+      "community_name": "context.ts",
       "norm_label": "context.ts"
     },
     {
@@ -5922,8 +6065,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "packages_sheet_src_react_context_partname",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 120,
+      "community_name": "Sheet.tsx",
       "norm_label": "partname"
     },
     {
@@ -5933,8 +6076,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "packages_sheet_src_react_context_sheetcontextvalue",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 110,
+      "community_name": "context.ts",
       "norm_label": "sheetcontextvalue"
     },
     {
@@ -5944,8 +6087,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "packages_sheet_src_react_context_sheetcontextvalue_register",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 110,
+      "community_name": "context.ts",
       "norm_label": ".register()"
     },
     {
@@ -5955,8 +6098,8 @@
       "source_location": "L30",
       "_origin": "ast",
       "id": "packages_sheet_src_react_context_sheetcontextvalue_setopen",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 110,
+      "community_name": "context.ts",
       "norm_label": ".setopen()"
     },
     {
@@ -5966,8 +6109,8 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "packages_sheet_src_react_context_sheetcontext",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 120,
+      "community_name": "Sheet.tsx",
       "norm_label": "sheetcontext"
     },
     {
@@ -5977,8 +6120,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "packages_sheet_src_react_context_usesheetcontext",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 110,
+      "community_name": "context.ts",
       "norm_label": "usesheetcontext()"
     },
     {
@@ -5988,8 +6131,8 @@
       "source_location": "L56",
       "_origin": "ast",
       "id": "packages_sheet_src_react_context_useariaid",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 110,
+      "community_name": "context.ts",
       "norm_label": "useariaid()"
     },
     {
@@ -5999,8 +6142,8 @@
       "source_location": "L77",
       "_origin": "ast",
       "id": "packages_sheet_src_react_context_usepartref",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 110,
+      "community_name": "context.ts",
       "norm_label": "usepartref()"
     },
     {
@@ -6021,8 +6164,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "packages_sheet_src_react_index_sheet",
-      "community": 104,
-      "community_name": "SheetController",
+      "community": 9,
+      "community_name": "Semantic Extraction Spec",
       "norm_label": "sheet"
     },
     {
@@ -6032,8 +6175,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_react_use_controllable_state",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 120,
+      "community_name": "Sheet.tsx",
       "norm_label": "use-controllable-state.ts"
     },
     {
@@ -6043,8 +6186,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "packages_sheet_src_react_use_controllable_state_usecontrollablestate",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 120,
+      "community_name": "Sheet.tsx",
       "norm_label": "usecontrollablestate()"
     },
     {
@@ -6054,8 +6197,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_react_use_isomorphic_layout_effect",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 110,
+      "community_name": "context.ts",
       "norm_label": "use-isomorphic-layout-effect.ts"
     },
     {
@@ -6065,8 +6208,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_src_react_use_sheet_state",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 110,
+      "community_name": "context.ts",
       "norm_label": "use-sheet-state.ts"
     },
     {
@@ -6076,8 +6219,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "packages_sheet_src_react_use_sheet_state_closed_state",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 110,
+      "community_name": "context.ts",
       "norm_label": "closed_state"
     },
     {
@@ -6098,8 +6241,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_test_core_dom_test",
-      "community": 64,
-      "community_name": "sheet.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "dom.test.ts"
     },
     {
@@ -6109,8 +6252,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "packages_sheet_test_core_dom_test_div",
-      "community": 64,
-      "community_name": "sheet.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "div()"
     },
     {
@@ -6120,8 +6263,8 @@
       "source_location": "L22",
       "_origin": "ast",
       "id": "packages_sheet_test_core_dom_test_inert",
-      "community": 64,
-      "community_name": "sheet.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "inert()"
     },
     {
@@ -6208,8 +6351,8 @@
       "source_location": "L99",
       "_origin": "ast",
       "id": "packages_sheet_test_core_drag_scroll_test_swipe",
-      "community": 124,
-      "community_name": "vanilla.test.ts",
+      "community": 58,
+      "community_name": "Task 06 \u2014 repository meta: README, CONTRIBUTING, CLAUDE.md, changeset",
       "norm_label": "swipe()"
     },
     {
@@ -6219,8 +6362,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_test_core_env_test",
-      "community": 140,
-      "community_name": "use-controllable-state.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "env.test.ts"
     },
     {
@@ -6230,8 +6373,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_test_core_guarantees_test",
-      "community": 75,
-      "community_name": "drag.ts",
+      "community": 140,
+      "community_name": "use-controllable-state.ts",
       "norm_label": "guarantees.test.ts"
     },
     {
@@ -6252,8 +6395,8 @@
       "source_location": "L60",
       "_origin": "ast",
       "id": "packages_sheet_test_core_guarantees_test_controllers",
-      "community": 75,
-      "community_name": "drag.ts",
+      "community": 140,
+      "community_name": "use-controllable-state.ts",
       "norm_label": "controllers"
     },
     {
@@ -6263,8 +6406,8 @@
       "source_location": "L61",
       "_origin": "ast",
       "id": "packages_sheet_test_core_guarantees_test_make",
-      "community": 75,
-      "community_name": "drag.ts",
+      "community": 140,
+      "community_name": "use-controllable-state.ts",
       "norm_label": "make()"
     },
     {
@@ -6274,8 +6417,8 @@
       "source_location": "L68",
       "_origin": "ast",
       "id": "packages_sheet_test_core_guarantees_test_drag",
-      "community": 124,
-      "community_name": "vanilla.test.ts",
+      "community": 140,
+      "community_name": "use-controllable-state.ts",
       "norm_label": "drag()"
     },
     {
@@ -6285,8 +6428,8 @@
       "source_location": "L76",
       "_origin": "ast",
       "id": "packages_sheet_test_core_guarantees_test_progresson",
-      "community": 75,
-      "community_name": "drag.ts",
+      "community": 140,
+      "community_name": "use-controllable-state.ts",
       "norm_label": "progresson()"
     },
     {
@@ -6296,8 +6439,8 @@
       "source_location": "L79",
       "_origin": "ast",
       "id": "packages_sheet_test_core_guarantees_test_zindexof",
-      "community": 75,
-      "community_name": "drag.ts",
+      "community": 140,
+      "community_name": "use-controllable-state.ts",
       "norm_label": "zindexof()"
     },
     {
@@ -6307,8 +6450,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_test_core_measure_test",
-      "community": 111,
-      "community_name": "FakeResizeObserver",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "measure.test.ts"
     },
     {
@@ -6318,8 +6461,8 @@
       "source_location": "L4",
       "_origin": "ast",
       "id": "packages_sheet_test_core_measure_test_entry",
-      "community": 111,
-      "community_name": "FakeResizeObserver",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "entry"
     },
     {
@@ -6395,8 +6538,8 @@
       "source_location": "L31",
       "_origin": "ast",
       "id": "packages_sheet_test_core_measure_test_ro",
-      "community": 111,
-      "community_name": "FakeResizeObserver",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "ro()"
     },
     {
@@ -6406,8 +6549,8 @@
       "source_location": "L33",
       "_origin": "ast",
       "id": "packages_sheet_test_core_measure_test_element",
-      "community": 111,
-      "community_name": "FakeResizeObserver",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "element()"
     },
     {
@@ -6417,8 +6560,8 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "packages_sheet_test_core_measure_test_setheight",
-      "community": 111,
-      "community_name": "FakeResizeObserver",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "setheight()"
     },
     {
@@ -6428,8 +6571,8 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "packages_sheet_test_core_measure_test_setinnerheight",
-      "community": 111,
-      "community_name": "FakeResizeObserver",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "setinnerheight()"
     },
     {
@@ -6494,8 +6637,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "packages_sheet_test_core_sheet_test_fixture",
-      "community": 65,
-      "community_name": "sheet.test.ts",
+      "community": 75,
+      "community_name": "drag.ts",
       "norm_label": "fixture"
     },
     {
@@ -6549,8 +6692,8 @@
       "source_location": "L80",
       "_origin": "ast",
       "id": "packages_sheet_test_core_sheet_test_drag",
-      "community": 124,
-      "community_name": "vanilla.test.ts",
+      "community": 140,
+      "community_name": "use-controllable-state.ts",
       "norm_label": "drag()"
     },
     {
@@ -6582,8 +6725,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_test_core_snap_test",
-      "community": 104,
-      "community_name": "SheetController",
+      "community": 68,
+      "community_name": "vitest.setup.ts",
       "norm_label": "snap.test.ts"
     },
     {
@@ -6593,8 +6736,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "packages_sheet_test_core_snap_test_ctx",
-      "community": 104,
-      "community_name": "SheetController",
+      "community": 68,
+      "community_name": "vitest.setup.ts",
       "norm_label": "ctx()"
     },
     {
@@ -6681,8 +6824,8 @@
       "source_location": "L29",
       "_origin": "ast",
       "id": "packages_sheet_test_helpers_env_installtestenv",
-      "community": 25,
-      "community_name": "ESLint Config File",
+      "community": 27,
+      "community_name": "Playground Vite Config",
       "norm_label": "installtestenv()"
     },
     {
@@ -6747,8 +6890,8 @@
       "source_location": "L128",
       "_origin": "ast",
       "id": "packages_sheet_test_helpers_env_animatable",
-      "community": 27,
-      "community_name": "Playground Vite Config",
+      "community": 25,
+      "community_name": "ESLint Config File",
       "norm_label": "animatable"
     },
     {
@@ -6758,8 +6901,8 @@
       "source_location": "L129",
       "_origin": "ast",
       "id": "packages_sheet_test_helpers_env_animatable_getstate",
-      "community": 27,
-      "community_name": "Playground Vite Config",
+      "community": 25,
+      "community_name": "ESLint Config File",
       "norm_label": ".getstate()"
     },
     {
@@ -6802,8 +6945,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_test_helpers_pointer",
-      "community": 75,
-      "community_name": "drag.ts",
+      "community": 65,
+      "community_name": "sheet.test.ts",
       "norm_label": "pointer.ts"
     },
     {
@@ -6813,8 +6956,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "packages_sheet_test_helpers_pointer_fakepointerevent",
-      "community": 75,
-      "community_name": "drag.ts",
+      "community": 65,
+      "community_name": "sheet.test.ts",
       "norm_label": "fakepointerevent"
     },
     {
@@ -6824,8 +6967,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "packages_sheet_test_helpers_pointer_fakepointerevent_constructor",
-      "community": 75,
-      "community_name": "drag.ts",
+      "community": 65,
+      "community_name": "sheet.test.ts",
       "norm_label": ".constructor()"
     },
     {
@@ -6835,8 +6978,8 @@
       "source_location": "L18",
       "_origin": "ast",
       "id": "packages_sheet_test_helpers_pointer_fireinit",
-      "community": 75,
-      "community_name": "drag.ts",
+      "community": 65,
+      "community_name": "sheet.test.ts",
       "norm_label": "fireinit"
     },
     {
@@ -6846,8 +6989,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "packages_sheet_test_helpers_pointer_fire",
-      "community": 124,
-      "community_name": "vanilla.test.ts",
+      "community": 140,
+      "community_name": "use-controllable-state.ts",
       "norm_label": "fire()"
     },
     {
@@ -6857,8 +7000,8 @@
       "source_location": "L59",
       "_origin": "ast",
       "id": "packages_sheet_test_helpers_pointer_press",
-      "community": 75,
-      "community_name": "drag.ts",
+      "community": 65,
+      "community_name": "sheet.test.ts",
       "norm_label": "press()"
     },
     {
@@ -6890,8 +7033,8 @@
       "source_location": "L40",
       "_origin": "ast",
       "id": "packages_sheet_test_integration_container_close_test_app",
-      "community": 27,
-      "community_name": "Playground Vite Config",
+      "community": 101,
+      "community_name": "main.ts",
       "norm_label": "app()"
     },
     {
@@ -7033,8 +7176,8 @@
       "source_location": "L88",
       "_origin": "ast",
       "id": "packages_sheet_test_integration_react_real_controller_test_drag",
-      "community": 124,
-      "community_name": "vanilla.test.ts",
+      "community": 140,
+      "community_name": "use-controllable-state.ts",
       "norm_label": "drag()"
     },
     {
@@ -7264,8 +7407,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_test_react_parts_test",
-      "community": 104,
-      "community_name": "SheetController",
+      "community": 9,
+      "community_name": "Semantic Extraction Spec",
       "norm_label": "parts.test.tsx"
     },
     {
@@ -7275,8 +7418,8 @@
       "source_location": "L9",
       "_origin": "ast",
       "id": "packages_sheet_test_react_parts_test_createsheetmock",
-      "community": 104,
-      "community_name": "SheetController",
+      "community": 9,
+      "community_name": "Semantic Extraction Spec",
       "norm_label": "createsheetmock"
     },
     {
@@ -7407,8 +7550,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_test_react_ssr_test",
-      "community": 104,
-      "community_name": "SheetController",
+      "community": 9,
+      "community_name": "Semantic Extraction Spec",
       "norm_label": "ssr.test.tsx"
     },
     {
@@ -7418,8 +7561,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_test_react_use_controllable_state_test",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 120,
+      "community_name": "Sheet.tsx",
       "norm_label": "use-controllable-state.test.tsx"
     },
     {
@@ -7484,8 +7627,8 @@
       "source_location": "L76",
       "_origin": "ast",
       "id": "packages_sheet_test_regressions_audit_p0_test_drag",
-      "community": 124,
-      "community_name": "vanilla.test.ts",
+      "community": 140,
+      "community_name": "use-controllable-state.ts",
       "norm_label": "drag()"
     },
     {
@@ -7561,8 +7704,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_test_regressions_review_cleanups_test",
-      "community": 140,
-      "community_name": "use-controllable-state.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "review-cleanups.test.ts"
     },
     {
@@ -7572,8 +7715,8 @@
       "source_location": "L12",
       "_origin": "ast",
       "id": "packages_sheet_test_regressions_review_cleanups_test_controllers",
-      "community": 140,
-      "community_name": "use-controllable-state.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "controllers"
     },
     {
@@ -7583,8 +7726,8 @@
       "source_location": "L13",
       "_origin": "ast",
       "id": "packages_sheet_test_regressions_review_cleanups_test_make",
-      "community": 140,
-      "community_name": "use-controllable-state.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "make()"
     },
     {
@@ -7594,8 +7737,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "packages_sheet_test_regressions_review_cleanups_test_fixture",
-      "community": 140,
-      "community_name": "use-controllable-state.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "fixture()"
     },
     {
@@ -7605,8 +7748,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_test_regressions_review_lifecycle_test",
-      "community": 78,
-      "community_name": "DragDeps",
+      "community": 27,
+      "community_name": "Playground Vite Config",
       "norm_label": "review-lifecycle.test.ts"
     },
     {
@@ -7616,8 +7759,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "packages_sheet_test_regressions_review_lifecycle_test_fixture",
-      "community": 78,
-      "community_name": "DragDeps",
+      "community": 75,
+      "community_name": "drag.ts",
       "norm_label": "fixture"
     },
     {
@@ -7627,8 +7770,8 @@
       "source_location": "L44",
       "_origin": "ast",
       "id": "packages_sheet_test_regressions_review_lifecycle_test_controllers",
-      "community": 78,
-      "community_name": "DragDeps",
+      "community": 27,
+      "community_name": "Playground Vite Config",
       "norm_label": "controllers"
     },
     {
@@ -7638,8 +7781,8 @@
       "source_location": "L45",
       "_origin": "ast",
       "id": "packages_sheet_test_regressions_review_lifecycle_test_make",
-      "community": 78,
-      "community_name": "DragDeps",
+      "community": 27,
+      "community_name": "Playground Vite Config",
       "norm_label": "make()"
     },
     {
@@ -7649,8 +7792,8 @@
       "source_location": "L52",
       "_origin": "ast",
       "id": "packages_sheet_test_regressions_review_lifecycle_test_frame",
-      "community": 78,
-      "community_name": "DragDeps",
+      "community": 27,
+      "community_name": "Playground Vite Config",
       "norm_label": "frame()"
     },
     {
@@ -7660,8 +7803,8 @@
       "source_location": "L55",
       "_origin": "ast",
       "id": "packages_sheet_test_regressions_review_lifecycle_test_opened",
-      "community": 78,
-      "community_name": "DragDeps",
+      "community": 27,
+      "community_name": "Playground Vite Config",
       "norm_label": "opened()"
     },
     {
@@ -7990,8 +8133,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_sheet_vitest_setup",
-      "community": 140,
-      "community_name": "use-controllable-state.ts",
+      "community": 56,
+      "community_name": "Task 07 \u2014 React bindings (`snap-bottom-sheet/react`)",
       "norm_label": "vitest.setup.ts"
     },
     {
@@ -8199,8 +8342,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_spring_src_index",
-      "community": 5,
-      "community_name": "App TypeScript Config",
+      "community": 143,
+      "community_name": "index.ts",
       "norm_label": "index.ts"
     },
     {
@@ -8210,8 +8353,8 @@
       "source_location": "L2",
       "_origin": "ast",
       "id": "packages_spring_src_index_springconfig",
-      "community": 5,
-      "community_name": "App TypeScript Config",
+      "community": 143,
+      "community_name": "index.ts",
       "norm_label": "springconfig"
     },
     {
@@ -8221,8 +8364,8 @@
       "source_location": "L10",
       "_origin": "ast",
       "id": "packages_spring_src_index_setoptions",
-      "community": 5,
-      "community_name": "App TypeScript Config",
+      "community": 143,
+      "community_name": "index.ts",
       "norm_label": "setoptions"
     },
     {
@@ -8232,8 +8375,8 @@
       "source_location": "L15",
       "_origin": "ast",
       "id": "packages_spring_src_index_spring",
-      "community": 5,
-      "community_name": "App TypeScript Config",
+      "community": 153,
+      "community_name": "Spring",
       "norm_label": "spring"
     },
     {
@@ -8243,8 +8386,8 @@
       "source_location": "L16",
       "_origin": "ast",
       "id": "packages_spring_src_index_spring_get",
-      "community": 5,
-      "community_name": "App TypeScript Config",
+      "community": 153,
+      "community_name": "Spring",
       "norm_label": ".get()"
     },
     {
@@ -8254,8 +8397,8 @@
       "source_location": "L17",
       "_origin": "ast",
       "id": "packages_spring_src_index_spring_getvelocity",
-      "community": 5,
-      "community_name": "App TypeScript Config",
+      "community": 153,
+      "community_name": "Spring",
       "norm_label": ".getvelocity()"
     },
     {
@@ -8265,8 +8408,8 @@
       "source_location": "L19",
       "_origin": "ast",
       "id": "packages_spring_src_index_spring_set",
-      "community": 5,
-      "community_name": "App TypeScript Config",
+      "community": 153,
+      "community_name": "Spring",
       "norm_label": ".set()"
     },
     {
@@ -8276,8 +8419,8 @@
       "source_location": "L20",
       "_origin": "ast",
       "id": "packages_spring_src_index_spring_stop",
-      "community": 5,
-      "community_name": "App TypeScript Config",
+      "community": 153,
+      "community_name": "Spring",
       "norm_label": ".stop()"
     },
     {
@@ -8287,8 +8430,8 @@
       "source_location": "L21",
       "_origin": "ast",
       "id": "packages_spring_src_index_spring_subscribe",
-      "community": 5,
-      "community_name": "App TypeScript Config",
+      "community": 153,
+      "community_name": "Spring",
       "norm_label": ".subscribe()"
     },
     {
@@ -8298,8 +8441,8 @@
       "source_location": "L32",
       "_origin": "ast",
       "id": "packages_spring_src_index_now",
-      "community": 5,
-      "community_name": "App TypeScript Config",
+      "community": 143,
+      "community_name": "index.ts",
       "norm_label": "now()"
     },
     {
@@ -8309,8 +8452,8 @@
       "source_location": "L34",
       "_origin": "ast",
       "id": "packages_spring_src_index_hasraf",
-      "community": 5,
-      "community_name": "App TypeScript Config",
+      "community": 143,
+      "community_name": "index.ts",
       "norm_label": "hasraf()"
     },
     {
@@ -8320,8 +8463,8 @@
       "source_location": "L36",
       "_origin": "ast",
       "id": "packages_spring_src_index_createspring",
-      "community": 5,
-      "community_name": "App TypeScript Config",
+      "community": 143,
+      "community_name": "index.ts",
       "norm_label": "createspring()"
     },
     {
@@ -8331,8 +8474,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "packages_spring_test_spring_test",
-      "community": 5,
-      "community_name": "App TypeScript Config",
+      "community": 143,
+      "community_name": "index.ts",
       "norm_label": "spring.test.ts"
     },
     {
@@ -8342,8 +8485,8 @@
       "source_location": "L6",
       "_origin": "ast",
       "id": "packages_spring_test_spring_test_record",
-      "community": 5,
-      "community_name": "App TypeScript Config",
+      "community": 143,
+      "community_name": "index.ts",
       "norm_label": "record()"
     },
     {
@@ -8639,8 +8782,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "playgrounds_next_app_layout",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 64,
+      "community_name": "sheet.ts",
       "norm_label": "layout.tsx"
     },
     {
@@ -8650,8 +8793,8 @@
       "source_location": "L5",
       "_origin": "ast",
       "id": "playgrounds_next_app_layout_metadata",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 64,
+      "community_name": "sheet.ts",
       "norm_label": "metadata"
     },
     {
@@ -8661,8 +8804,8 @@
       "source_location": "L11",
       "_origin": "ast",
       "id": "playgrounds_next_app_layout_rootlayout",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 64,
+      "community_name": "sheet.ts",
       "norm_label": "rootlayout()"
     },
     {
@@ -9651,8 +9794,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "playgrounds_react_src_app",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 113,
+      "community_name": "App.tsx",
       "norm_label": "app.tsx"
     },
     {
@@ -9662,8 +9805,8 @@
       "source_location": "L7",
       "_origin": "ast",
       "id": "playgrounds_react_src_app_statereadout",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 113,
+      "community_name": "App.tsx",
       "norm_label": "statereadout()"
     },
     {
@@ -9673,8 +9816,8 @@
       "source_location": "L23",
       "_origin": "ast",
       "id": "playgrounds_react_src_app_filler",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 113,
+      "community_name": "App.tsx",
       "norm_label": "filler()"
     },
     {
@@ -9684,8 +9827,8 @@
       "source_location": "L35",
       "_origin": "ast",
       "id": "playgrounds_react_src_app_loginscenario",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 113,
+      "community_name": "App.tsx",
       "norm_label": "loginscenario()"
     },
     {
@@ -9695,8 +9838,8 @@
       "source_location": "L72",
       "_origin": "ast",
       "id": "playgrounds_react_src_app_peekscenario",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 113,
+      "community_name": "App.tsx",
       "norm_label": "peekscenario()"
     },
     {
@@ -9706,8 +9849,8 @@
       "source_location": "L103",
       "_origin": "ast",
       "id": "playgrounds_react_src_app_dynamicscenario",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 113,
+      "community_name": "App.tsx",
       "norm_label": "dynamicscenario()"
     },
     {
@@ -9717,8 +9860,8 @@
       "source_location": "L141",
       "_origin": "ast",
       "id": "playgrounds_react_src_app_nestedscenario",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 113,
+      "community_name": "App.tsx",
       "norm_label": "nestedscenario()"
     },
     {
@@ -9728,8 +9871,8 @@
       "source_location": "L188",
       "_origin": "ast",
       "id": "playgrounds_react_src_app_controlledscenario",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 113,
+      "community_name": "App.tsx",
       "norm_label": "controlledscenario()"
     },
     {
@@ -9739,8 +9882,8 @@
       "source_location": "L244",
       "_origin": "ast",
       "id": "playgrounds_react_src_app_reducedmotionscenario",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 113,
+      "community_name": "App.tsx",
       "norm_label": "reducedmotionscenario()"
     },
     {
@@ -9750,8 +9893,8 @@
       "source_location": "L288",
       "_origin": "ast",
       "id": "playgrounds_react_src_app_containerscenario",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 113,
+      "community_name": "App.tsx",
       "norm_label": "containerscenario()"
     },
     {
@@ -9761,8 +9904,8 @@
       "source_location": "L322",
       "_origin": "ast",
       "id": "playgrounds_react_src_app_handoffscenario",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 113,
+      "community_name": "App.tsx",
       "norm_label": "handoffscenario()"
     },
     {
@@ -9772,8 +9915,8 @@
       "source_location": "L352",
       "_origin": "ast",
       "id": "playgrounds_react_src_app_scenarios",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 113,
+      "community_name": "App.tsx",
       "norm_label": "scenarios"
     },
     {
@@ -9783,8 +9926,8 @@
       "source_location": "L403",
       "_origin": "ast",
       "id": "playgrounds_react_src_app_app",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 113,
+      "community_name": "App.tsx",
       "norm_label": "app()"
     },
     {
@@ -9794,8 +9937,8 @@
       "source_location": "L1",
       "_origin": "ast",
       "id": "playgrounds_react_src_main",
-      "community": 9,
-      "community_name": "Semantic Extraction Spec",
+      "community": 113,
+      "community_name": "App.tsx",
       "norm_label": "main.tsx"
     },
     {
@@ -10633,6 +10776,17 @@
       "community": 109,
       "community_name": "vite.config.ts",
       "norm_label": "vite.config.ts"
+    },
+    {
+      "label": "olive-moons-tap.md",
+      "file_type": "document",
+      "source_file": ".changeset/olive-moons-tap.md",
+      "source_location": "L1",
+      "_origin": "ast",
+      "id": "changeset_olive_moons_tap",
+      "community": 155,
+      "community_name": "olive-moons-tap.md",
+      "norm_label": "olive-moons-tap.md"
     },
     {
       "label": "quick-pugs-shake.md",
@@ -17703,7 +17857,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "e2e/package.json",
-      "source_location": "L9",
+      "source_location": "L10",
       "weight": 1.0,
       "_origin": "ast",
       "source": "e2e_package",
@@ -17780,7 +17934,18 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "e2e/package.json",
-      "source_location": "L10",
+      "source_location": "L8",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "e2e_package_scripts",
+      "target": "e2e_package_scripts_test_site",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e/package.json",
+      "source_location": "L11",
       "weight": 1.0,
       "_origin": "ast",
       "source": "e2e_package_devdependencies",
@@ -17791,7 +17956,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "e2e/package.json",
-      "source_location": "L10",
+      "source_location": "L11",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -17809,6 +17974,165 @@
       "source": "e2e_playwright_config",
       "target": "e2e_playwright_config_port",
       "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e/playwright.site.config.ts",
+      "source_location": "L12",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "e2e_playwright_site_config",
+      "target": "e2e_playwright_site_config_port",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e/site-tests/container-close.spec.ts",
+      "source_location": "L88",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "e2e_site_tests_container_close_spec",
+      "target": "e2e_site_tests_container_close_spec_collect",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e/site-tests/container-close.spec.ts",
+      "source_location": "L105",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "e2e_site_tests_container_close_spec",
+      "target": "e2e_site_tests_container_close_spec_expectanimatedclose",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e/site-tests/container-close.spec.ts",
+      "source_location": "L24",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "e2e_site_tests_container_close_spec",
+      "target": "e2e_site_tests_container_close_spec_ready",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e/site-tests/container-close.spec.ts",
+      "source_location": "L11",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "e2e_site_tests_container_close_spec",
+      "target": "e2e_site_tests_container_close_spec_sample",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e/site-tests/container-close.spec.ts",
+      "source_location": "L144",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "e2e_site_tests_container_close_spec",
+      "target": "e2e_site_tests_container_close_spec_scenario",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e/site-tests/container-close.spec.ts",
+      "source_location": "L154",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "e2e_site_tests_container_close_spec",
+      "target": "e2e_site_tests_container_close_spec_scenarios",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e/site-tests/container-close.spec.ts",
+      "source_location": "L48",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "e2e_site_tests_container_close_spec",
+      "target": "e2e_site_tests_container_close_spec_startsampler",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e/site-tests/container-close.spec.ts",
+      "source_location": "L32",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "e2e_site_tests_container_close_spec",
+      "target": "e2e_site_tests_container_close_spec_waitforrest",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "e2e/site-tests/container-close.spec.ts",
+      "source_location": "L25",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "e2e_site_tests_container_close_spec_ready",
+      "target": "playgrounds_vanilla_src_main_page"
+    },
+    {
+      "relation": "calls",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "source_file": "e2e/site-tests/container-close.spec.ts",
+      "source_location": "L35",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "e2e_site_tests_container_close_spec_waitforrest",
+      "target": "e2e_site_tests_container_close_spec_ready",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "references",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "e2e/site-tests/container-close.spec.ts",
+      "source_location": "L38",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "e2e_site_tests_container_close_spec_waitforrest",
+      "target": "playgrounds_vanilla_src_main_page"
+    },
+    {
+      "relation": "references",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "e2e/site-tests/container-close.spec.ts",
+      "source_location": "L49",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "e2e_site_tests_container_close_spec_startsampler",
+      "target": "playgrounds_vanilla_src_main_page"
+    },
+    {
+      "relation": "references",
+      "context": "call",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "e2e/site-tests/container-close.spec.ts",
+      "source_location": "L89",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "e2e_site_tests_container_close_spec_collect",
+      "target": "playgrounds_vanilla_src_main_page"
     },
     {
       "relation": "contains",
@@ -18420,7 +18744,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L28",
+      "source_location": "L29",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package",
@@ -18607,6 +18931,17 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
+      "source_location": "L27",
+      "weight": 1.0,
+      "_origin": "ast",
+      "source": "package_scripts",
+      "target": "package_scripts_e2e_site",
+      "confidence_score": 1.0
+    },
+    {
+      "relation": "contains",
+      "confidence": "EXTRACTED",
+      "source_file": "package.json",
       "source_location": "L14",
       "weight": 1.0,
       "_origin": "ast",
@@ -18695,7 +19030,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L29",
+      "source_location": "L30",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_devdependencies",
@@ -18706,7 +19041,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L30",
+      "source_location": "L31",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_devdependencies",
@@ -18717,7 +19052,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L31",
+      "source_location": "L32",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_devdependencies",
@@ -18728,7 +19063,7 @@
       "relation": "contains",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L32",
+      "source_location": "L33",
       "weight": 1.0,
       "_origin": "ast",
       "source": "package_devdependencies",
@@ -18739,7 +19074,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L29",
+      "source_location": "L30",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -18751,7 +19086,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L30",
+      "source_location": "L31",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -18763,7 +19098,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L31",
+      "source_location": "L32",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -18775,7 +19110,7 @@
       "relation": "imports",
       "confidence": "EXTRACTED",
       "source_file": "package.json",
-      "source_location": "L32",
+      "source_location": "L33",
       "weight": 1.0,
       "context": "import",
       "_origin": "ast",
@@ -19235,7 +19570,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "packages/gesture/src/index.ts",
-      "source_location": "L160",
+      "source_location": "L190",
       "weight": 1.0,
       "_origin": "ast",
       "source": "packages_gesture_src_index_attachdrag",
@@ -19247,7 +19582,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "packages/gesture/src/index.ts",
-      "source_location": "L164",
+      "source_location": "L194",
       "weight": 1.0,
       "_origin": "ast",
       "source": "packages_gesture_src_index_attachdrag",
@@ -19259,7 +19594,7 @@
       "context": "call",
       "confidence": "EXTRACTED",
       "source_file": "packages/gesture/src/index.ts",
-      "source_location": "L171",
+      "source_location": "L201",
       "weight": 1.0,
       "_origin": "ast",
       "source": "packages_gesture_src_index_attachdrag",
@@ -19283,7 +19618,7 @@
       "confidence": "INFERRED",
       "confidence_score": 0.8,
       "source_file": "packages/gesture/src/index.ts",
-      "source_location": "L86",
+      "source_location": "L89",
       "weight": 1.0,
       "_origin": "ast",
       "source": "packages_gesture_src_index_attachdrag",
@@ -38945,5 +39280,5 @@
       "source_file": ".claude/skills/graphify/references/query.md"
     }
   ],
-  "built_at_commit": "45df2fc2dac32c18e2c7e632d22d610a1492fc72"
+  "built_at_commit": "21db69c4fbd6f5c9263bcb6f8a5571cd21e2dc92"
 }
