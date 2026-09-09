@@ -235,13 +235,13 @@
     "semantic_hash": ""
   },
   "packages/gesture/src/index.ts": {
-    "mtime": 1788886161.6720905,
-    "ast_hash": "f351382949855f9df72f4c2cc612ab21",
+    "mtime": 1788943574.3533158,
+    "ast_hash": "3edf12f26fec6b5d88491046871476fd",
     "semantic_hash": ""
   },
   "packages/gesture/test/drag.test.ts": {
-    "mtime": 1788886161.6725342,
-    "ast_hash": "b72e8b0aa28edb92e03dd2c68b4d11b2",
+    "mtime": 1788943574.3537335,
+    "ast_hash": "99aa614c13178e662dd1cbe86b0d0cde",
     "semantic_hash": ""
   },
   "packages/gesture/test/ssr.test.ts": {
@@ -290,8 +290,8 @@
     "semantic_hash": ""
   },
   "packages/sheet/src/core/drag.ts": {
-    "mtime": 1788884028.9500964,
-    "ast_hash": "90b0458f7f54a80ba16622bd4ef6ac4b",
+    "mtime": 1788943874.507067,
+    "ast_hash": "4798f56f2b28e2dd609c99877b98d85f",
     "semantic_hash": ""
   },
   "packages/sheet/src/core/keyboard.ts": {
@@ -310,8 +310,8 @@
     "semantic_hash": ""
   },
   "packages/sheet/src/core/sheet.ts": {
-    "mtime": 1788884028.9504683,
-    "ast_hash": "4378998af819295462696d2db9da2a01",
+    "mtime": 1788943874.507468,
+    "ast_hash": "2cb2eee4d425212b9c368245a2d900c1",
     "semantic_hash": ""
   },
   "packages/sheet/src/core/types.ts": {
@@ -480,8 +480,8 @@
     "semantic_hash": ""
   },
   "docs/guide/gestures.md": {
-    "mtime": 1788882645.3017972,
-    "ast_hash": "f940f0118768bae220d56a6a71feecba",
+    "mtime": 1788943574.3521821,
+    "ast_hash": "057674cbe401d75c53b4d41757215996",
     "semantic_hash": ""
   },
   "docs/guide/getting-started.md": {
@@ -705,8 +705,8 @@
     "semantic_hash": ""
   },
   "packages/sheet/scripts/size.mjs": {
-    "mtime": 1788872180.8076086,
-    "ast_hash": "3c2c13e0e6c89dc76c296f05d517542e",
+    "mtime": 1788944246.8359377,
+    "ast_hash": "bc51b738c0ddd20c0807484aacf70df7",
     "semantic_hash": ""
   },
   "packages/sheet/test/helpers/env.ts": {
@@ -730,8 +730,8 @@
     "semantic_hash": ""
   },
   ".changeset/spotty-pandas-rewrite.md": {
-    "mtime": 1788940466.619788,
-    "ast_hash": "9b9b88bfc71827975e7204a47dd5d54d",
+    "mtime": 1788943574.3516972,
+    "ast_hash": "f89d7f7bf5e51215d8ba87387759925a",
     "semantic_hash": ""
   },
   "CONTRIBUTING.md": {
@@ -785,13 +785,13 @@
     "semantic_hash": ""
   },
   "e2e/playwright.config.ts": {
-    "mtime": 1788883792.8731058,
-    "ast_hash": "a2dc2d7883a030d6cdd2eb25f52fe521",
+    "mtime": 1788943574.3526933,
+    "ast_hash": "bdfca25114042fe3084973de9bd95f3d",
     "semantic_hash": ""
   },
   "e2e/tests/handoff.spec.ts": {
-    "mtime": 1788883792.8733914,
-    "ast_hash": "db5b40ec0be95e19ec7dd4779c0c02db",
+    "mtime": 1788943874.5064566,
+    "ast_hash": "1e65ed3bc3afa6c8e9a98d758f8704f3",
     "semantic_hash": ""
   },
   "e2e/tests/helpers.ts": {
@@ -805,8 +805,8 @@
     "semantic_hash": ""
   },
   "packages/sheet/test/core/drag-scroll.test.ts": {
-    "mtime": 1788884028.950933,
-    "ast_hash": "9c02a36869adf39d7a40a8ecd5547cf5",
+    "mtime": 1788943874.507874,
+    "ast_hash": "8934927ff566bb95091a17b88eb1cb22",
     "semantic_hash": ""
   },
   "packages/sheet/test/integration/container-close.test.tsx": {
@@ -822,6 +822,11 @@
   "e2e/site-tests/container-close.spec.ts": {
     "mtime": 1788886161.6715176,
     "ast_hash": "5321bfb6fe66fbc6d8cf4ce0191606e4",
+    "semantic_hash": ""
+  },
+  "e2e/tests/mouse.spec.ts": {
+    "mtime": 1788943574.3528962,
+    "ast_hash": "76e5ad0a08d39174811633df0afc05b5",
     "semantic_hash": ""
   }
 }
