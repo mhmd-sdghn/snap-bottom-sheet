@@ -89,8 +89,8 @@ These are the 0.x bugs that the rewrite removes. Each one has a regression test.
 
 - Zero runtime dependencies. `@react-spring/web` and `@use-gesture/react` are
   gone. In their place are a scalar spring and a Pointer Events recogniser
-  written for this library. That comes to about 13 kB gzipped for the core, and
-  17 kB with the React bindings.
+  written for this library. Minified and gzipped, that comes to about 9 kB for
+  the core, and about 11.5 kB with the React bindings.
 - Server-side rendering (SSR) is a requirement, not a hope. Nothing touches
   `window` or `document` at module scope or during render, and the portal
   renders `null` until it is mounted. CI checks this with a `next build` of an

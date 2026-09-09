@@ -28,7 +28,7 @@ features:
     details: A single touch drags the sheet to the top snap, carries on scrolling the body, and hands the gesture back to the sheet when you pull down from the top. You do not lift your finger, and you decide which snaps scroll.
   - icon: 🪶
     title: Small, and dependency-free
-    details: The library brings its own spring and its own Pointer Events drag recogniser, so it installs no runtime dependencies. Minified and gzipped, that is about 10 kB with the React bindings and about 8 kB for the core alone.
+    details: The library brings its own spring and its own Pointer Events drag recogniser, so it installs no runtime dependencies. Minified and gzipped, that is about 11.5 kB with the React bindings and about 9 kB for the core alone.
   - icon: 🎨
     title: Style it with CSS, not props
     details: No stylesheet ships with the library. You get data-state, data-snap-index, data-dragging and CSS custom properties for position and progress. They are written straight to the DOM on each frame.
