@@ -9,11 +9,13 @@ import { attachDrag, type DragState } from "../src/index.ts";
 class FakePointerEvent extends MouseEvent {
   readonly pointerId: number;
   readonly isPrimary: boolean;
+  readonly pointerType: string;
 
   constructor(type: string, init: MouseEventInit & FireInit = {}) {
     super(type, init);
     this.pointerId = init.pointerId ?? 0;
     this.isPrimary = init.isPrimary ?? false;
+    this.pointerType = init.pointerType ?? "mouse";
   }
 }
 
@@ -23,6 +25,7 @@ interface FireInit {
   pointerId?: number;
   button?: number;
   isPrimary?: boolean;
+  pointerType?: string;
   timeStamp?: number;
 }
 
@@ -38,6 +41,7 @@ function fire(el: HTMLElement, type: string, init: FireInit = {}) {
     pointerId = 1,
     button = 0,
     isPrimary = true,
+    pointerType = "mouse",
     timeStamp = 0,
   } = init;
   const event = new FakePointerEvent(type, {
@@ -47,6 +51,7 @@ function fire(el: HTMLElement, type: string, init: FireInit = {}) {
     pointerId,
     button,
     isPrimary,
+    pointerType,
   });
   Object.defineProperty(event, "timeStamp", { value: timeStamp });
   el.dispatchEvent(event);
@@ -241,6 +246,95 @@ describe("cancelling", () => {
   });
 });
 
+/** `selectstart` / `dragstart`, which the recogniser has to be able to refuse */
+function fireCancelable(target: EventTarget, type: string) {
+  const event = new Event(type, { bubbles: true, cancelable: true });
+  target.dispatchEvent(event);
+  return event;
+}
+
+describe("text selection and native drag", () => {
+  /*
+   * A mouse drag is also a text selection, and the browser autoscrolls the
+   * nearest scroller to follow it — which fights the caller's own handling of
+   * the very same movement.
+   */
+  it("refuses a selection started by a mouse we are following", () => {
+    fire(el, "pointerdown", { clientY: 0 });
+    expect(fireCancelable(el, "selectstart").defaultPrevented).toBe(true);
+  });
+
+  it("leaves a selection alone when no pointer of ours is down", () => {
+    expect(fireCancelable(el, "selectstart").defaultPrevented).toBe(false);
+  });
+
+  it("leaves a selection alone after the gesture has ended", () => {
+    fire(el, "pointerdown", { clientY: 0 });
+    fire(el, "pointerup", { clientY: 0 });
+    expect(fireCancelable(el, "selectstart").defaultPrevented).toBe(false);
+  });
+
+  // No selection happens under a touch until a long press, and taking that
+  // away would cost more than it buys.
+  it("leaves touch selection alone", () => {
+    fire(el, "pointerdown", { clientY: 0, pointerType: "touch" });
+    expect(fireCancelable(el, "selectstart").defaultPrevented).toBe(false);
+  });
+
+  it("leaves a text field's own selection alone", () => {
+    const field = document.createElement("textarea");
+    el.append(field);
+    fire(el, "pointerdown", { clientY: 0 });
+    expect(fireCancelable(field, "selectstart").defaultPrevented).toBe(false);
+  });
+
+  /*
+   * The promise the guide makes: a region the caller opts out of keeps its
+   * selection, because no gesture ever starts there. `filter` is the same hook
+   * the sheet uses for `[data-snap-sheet-no-drag]`.
+   */
+  it("leaves a region the filter refuses selectable", () => {
+    detach();
+    const opted = document.createElement("div");
+    opted.dataset.noDrag = "";
+    el.append(opted);
+    detach = attachDrag(el, handlers, {
+      filter: (target) => target.closest("[data-no-drag]") === null,
+    });
+
+    fire(opted, "pointerdown", { clientY: 0 });
+    expect(fireCancelable(opted, "selectstart").defaultPrevented).toBe(false);
+
+    // and still refused where a gesture does start
+    fire(el, "pointerdown", { clientY: 0 });
+    expect(fireCancelable(el, "selectstart").defaultPrevented).toBe(true);
+  });
+
+  it("refuses a native drag while a gesture is in flight", () => {
+    fire(el, "pointerdown", { clientY: 0 });
+    // still pending
+    expect(fireCancelable(el, "dragstart").defaultPrevented).toBe(true);
+    fire(el, "pointermove", { clientY: 20 });
+    // and once dragging
+    expect(fireCancelable(el, "dragstart").defaultPrevented).toBe(true);
+  });
+
+  it("leaves a native drag alone once the pointer is up", () => {
+    fire(el, "pointerdown", { clientY: 0 });
+    fire(el, "pointermove", { clientY: 20 });
+    fire(el, "pointerup", { clientY: 20 });
+    expect(fireCancelable(el, "dragstart").defaultPrevented).toBe(false);
+  });
+
+  it("stops refusing either of them once detached", () => {
+    detach();
+    detach = () => {};
+    fire(el, "pointerdown", { clientY: 0 });
+    expect(fireCancelable(el, "selectstart").defaultPrevented).toBe(false);
+    expect(fireCancelable(el, "dragstart").defaultPrevented).toBe(false);
+  });
+});
+
 describe("pointer capture", () => {
   /*
    * A captured pointer sends its `pointerup` to the capturing element, and the
@@ -289,8 +383,10 @@ describe("detach", () => {
     const removeFromDocument = vi.spyOn(document, "removeEventListener");
     detach();
     expect(remove.mock.calls.map(([type]) => type).sort()).toEqual([
+      "dragstart",
       "lostpointercapture",
       "pointerdown",
+      "selectstart",
     ]);
     expect(removeFromDocument.mock.calls.map(([type]) => type).sort()).toEqual([
       "pointercancel",

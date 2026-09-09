@@ -103,6 +103,10 @@ These are the 0.x bugs that the rewrite removes. Each one has a regression test.
 - Styling is CSS rather than props: `data-state`, `data-snap-index`,
   `data-dragging`, `data-content-mode`, and the `--snap-sheet-y` / `-progress` /
   `-offset` custom properties. No stylesheet ships.
+- With a mouse, dragging inside the sheet does not select the text you pass
+  over, so the browser does not scroll the list to follow a growing selection.
+  Text fields keep their normal selection, and so does any region marked with
+  `data-snap-sheet-no-drag`.
 
 ### Escape and the modal lock
 

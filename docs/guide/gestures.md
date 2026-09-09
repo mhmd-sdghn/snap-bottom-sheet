@@ -109,6 +109,17 @@ Three things are ignored without any markup:
 - Pointers starting while a text selection is active, so selecting text does not
   drag the sheet away.
 
+## Dragging with a mouse
+
+With a mouse, dragging inside the sheet does not select the text you pass over.
+A selection would otherwise grow as you drag, and the browser would scroll the
+list to follow it.
+
+Text inside the sheet is not meant to be selected with the mouse. Text fields
+keep their normal selection, and so does any region you mark with
+`data-snap-sheet-no-drag`, because no drag starts there. If your readers need to
+select or copy a passage, please mark that region.
+
 ## Keyboard
 
 `Sheet.Handle` renders a real `<button>`, so it is reachable by Tab and does the
