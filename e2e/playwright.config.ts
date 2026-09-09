@@ -24,7 +24,26 @@ export default defineConfig({
   // Kept only for failures: a green run leaves nothing behind, and the CI job
   // uploads e2e/test-results when it fails.
   use: { baseURL: url, trace: "retain-on-failure", video: "retain-on-failure" },
-  projects: [{ name: "chromium", use: { ...devices["Pixel 7"] } }],
+  // The handoff is a touch contract and runs on the phone; the mouse suite
+  // needs a pointer that hovers and selects text, which a touch device has not
+  // got, so it gets a desktop project of its own.
+  projects: [
+    {
+      name: "chromium",
+      testMatch: /handoff\.spec\.ts/,
+      use: { ...devices["Pixel 7"] },
+    },
+    {
+      name: "desktop",
+      testMatch: /mouse\.spec\.ts/,
+      use: {
+        ...devices["Desktop Chrome"],
+        viewport: { width: 1280, height: 800 },
+        hasTouch: false,
+        isMobile: false,
+      },
+    },
+  ],
   webServer: {
     command:
       "PLAYGROUND_BASE=/ pnpm --filter playground-react build && " +
