@@ -7,7 +7,7 @@ import { gzipSync } from "node:zlib";
  * Gzip budget for the published bundles. Run after `pnpm build`.
  *
  * Each budget is the size measured when it was set, plus 20 % (measured:
- * 97 B / 4915 B / 16849 B gzipped). They are a tripwire, not a target — when a
+ * 97 B / 5651 B / 20569 B gzipped). They are a tripwire, not a target — when a
  * change legitimately grows a bundle, re-baseline these numbers in the same
  * commit and say why. Never silently.
  *
@@ -15,8 +15,14 @@ import { gzipSync } from "node:zlib";
  * `process.env.NODE_ENV` verbatim restores the dev-only guard rolldown used to
  * fold away, and the review fixes themselves are mostly comments — the chunk
  * ships unminified, and ~6 kB gzipped of it is prose.
+ *
+ * `react` was re-baselined from 5_900 and `shared` from 20_200 after the
+ * handoff fixes: the drag/scroll arbiter now finds its scroll ceiling without
+ * waiting for the at-rest layout, and the recogniser refuses text selection and
+ * native drag-and-drop for the length of a mouse gesture. Both are behaviour we
+ * want, and about half of the growth is again the comments that explain it.
  */
-const Budgets = { core: 120, react: 5_900, shared: 20_200 };
+const Budgets = { core: 120, react: 6_800, shared: 24_700 };
 
 const dist = resolve(fileURLToPath(import.meta.url), "../..", "dist");
 
