@@ -376,4 +376,96 @@ describe("drag ↔ scroll handoff", () => {
     await settle();
     expect(el.body.scrollTop).toBe(caught);
   });
+  /**
+   * The body becomes a scroller only when `applyRest` runs, at the end of a
+   * transition. These model both layouts from one stub: the natural height
+   * until the controller writes `overflow-y: auto`, a clipped strip after.
+   */
+  function stubTwoLayouts(
+    body: HTMLElement,
+    sizes: { scrollHeight: number; strip: number; top?: number },
+  ) {
+    Object.defineProperty(body, "scrollHeight", {
+      value: sizes.scrollHeight,
+      configurable: true,
+    });
+    Object.defineProperty(body, "clientHeight", {
+      configurable: true,
+      get: () =>
+        body.style.overflowY === "auto" ? sizes.strip : sizes.scrollHeight,
+    });
+    let scrollTop = 0;
+    Object.defineProperty(body, "scrollTop", {
+      configurable: true,
+      get: () => scrollTop,
+      set: (next: number) => {
+        scrollTop = next;
+      },
+    });
+    // jsdom has no layout, so the body's offset inside the panel — the other
+    // half of the predicate — has to be stated.
+    body.getBoundingClientRect = () => ({ top: sizes.top ?? 0 }) as DOMRect;
+  }
+
+  it("9. scrolls when the sheet has arrived but the body is not laid out yet", async () => {
+    const el = fixture();
+    const controller = await open(el);
+    // Heading for the scroll snap, spring still settling: `snapIndex` is
+    // already 1 while the body keeps its natural height, which is the window
+    // the owner's gesture landed in.
+    void controller.snapTo(1);
+    await vi.advanceTimersByTimeAsync(80);
+    stubTwoLayouts(el.body, { scrollHeight: 3000, strip: 400 });
+    expect(el.body.clientHeight).toBe(3000);
+    expect(el.content.getAttribute("data-snap-index")).not.toBe("1");
+
+    const gesture = swipe(el.body, 800, -30, 12);
+
+    expect(yOf(el.content)).toBeCloseTo(500, 0);
+    expect(el.content.hasAttribute("data-scrolling")).toBe(true);
+    expect(el.body.scrollTop).toBeGreaterThan(0);
+    // `enterScrollSnap` laid the body out on the way through.
+    expect(el.content.getAttribute("data-snap-index")).toBe("1");
+
+    gesture.release();
+    await settle(controller);
+    expect(yOf(el.content)).toBeCloseTo(500, 0);
+  });
+
+  it("10. a list shorter than the snap leaves the drag alone", async () => {
+    const el = fixture();
+    const controller = await open(el, {}, { contentHeight: 300 });
+    void controller.snapTo(1);
+    await vi.advanceTimersByTimeAsync(80);
+    // 300 + 60 stays under the 500 px snap: nothing to scroll there, so the
+    // ceiling must not block the sheet.
+    stubTwoLayouts(el.body, { scrollHeight: 300, strip: 300, top: 60 });
+
+    swipe(el.body, 800, -30, 12);
+
+    expect(el.body.scrollTop).toBe(0);
+    expect(el.content.hasAttribute("data-scrolling")).toBe(false);
+    expect(yOf(el.content)).toBeLessThan(500);
+  });
+
+  it('11. finds the ceiling with no "content" snap to measure', async () => {
+    const el = fixture();
+    // `contentHeight` is 0 whenever no snap asks for it, which used to be the
+    // only thing the arbiter consulted before the sheet reached a scroll snap.
+    await open(el, {}, { contentHeight: 0 });
+    stubTwoLayouts(el.body, { scrollHeight: 3000, strip: 400, top: 60 });
+
+    const gesture = swipe(el.body, 800, -40, 15);
+
+    expect(yOf(el.content)).toBeCloseTo(500, 0);
+    expect(el.body.scrollTop).toBeGreaterThan(0);
+
+    gesture.release();
+    await settle(controller_of(el));
+  });
+
+  /** The controller `open` pushed for this fixture. */
+  function controller_of(_el: Fixture) {
+    return controllers[controllers.length - 1] as SheetController;
+  }
 });
