@@ -167,28 +167,39 @@ export function attachSheetDrag(deps: DragDeps): SheetDrag {
     Math.max(0, body.scrollHeight - body.clientHeight);
 
   /**
-   * Would the body scroll at `snap`? It is only a real scroller at a
-   * `scroll: true` snap; anywhere else it has its natural height and
-   * `scrollHeight === clientHeight` no matter how long the list is, so the
-   * measured content height is what answers the question there.
+   * Would the body have anything to scroll at `snap`?
+   *
+   * Answered without reference to the current layout, because the body becomes
+   * a scroller only when `applyRest` runs at the end of a transition, and this
+   * question gets asked during one. `scrollHeight` is the content's natural
+   * height in either layout, and the body's offset inside the panel is the same
+   * either way, so the sum is comparable with the snap's height in both. The
+   * `+ 1` is what lets a list shorter than the body pass the drag through.
    */
-  const willScroll = (snap: ResolvedSnap, body: HTMLElement) =>
-    deps.activeSnap()?.scroll
-      ? scrollMax(body) > 1
-      : deps.contentHeight() > snap.height;
+  const willScroll = (snap: ResolvedSnap, body: HTMLElement) => {
+    const top =
+      body.getBoundingClientRect().top - content.getBoundingClientRect().top;
+    return body.scrollHeight + top > snap.height + 1;
+  };
 
   /**
    * The nearest `scroll: true` snap at or above `y`: the highest the sheet may
    * go on this gesture before the content takes over. Null when the pointer is
    * outside Body, when there is no such snap, or when there is nothing to
    * scroll there — a list shorter than the body must not block the drag.
+   *
+   * The snap the sheet currently belongs to counts wherever it sits. A spring
+   * that is still settling overshoots its target by a few pixels, and a gesture
+   * that starts in that window would otherwise find its own snap ruled out for
+   * being marginally below the panel, and sail straight past it.
    */
   const scrollCeiling = (y: number): ResolvedSnap | null => {
     const body = deps.body();
     if (!inBody || !body) return null;
     let best: ResolvedSnap | null = null;
     for (const snap of deps.resolved()) {
-      if (!snap.scroll || snap.y > y + Epsilon) continue;
+      if (!snap.scroll) continue;
+      if (snap.y > y + Epsilon && snap.index !== deps.snapIndex()) continue;
       if (!best || snap.y > best.y) best = snap;
     }
     if (!best) return null;
@@ -294,10 +305,19 @@ export function attachSheetDrag(deps: DragDeps): SheetDrag {
     void spring.set(clamp(next, topmostY(deps.resolved()), deps.viewHeight()), {
       immediate: true,
     });
-    if (left !== 0 && ceiling && ceiling.index !== deps.snapIndex()) {
-      // The body is the scroller of *that* snap, and it is not laid out as one
-      // yet — the sheet has only just arrived. Hand the snap over before the
-      // remainder is measured against a body that still has its natural height.
+    const body = deps.body();
+    if (
+      left !== 0 &&
+      ceiling &&
+      (ceiling.index !== deps.snapIndex() ||
+        (body !== null && body !== undefined && scrollMax(body) <= 1))
+    ) {
+      // The body is the scroller of *that* snap and is not laid out as one yet.
+      // Either the sheet has not reached the snap, or it has but the spring is
+      // still settling, so `applyRest` has not run. Hand the snap over before
+      // the remainder is measured against a body of its natural height.
+      // `enterScrollSnap` on the index we already hold reports nothing; it just
+      // lays the body out.
       deps.enterScrollSnap(ceiling);
     }
     return left;
