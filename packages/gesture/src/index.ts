@@ -42,6 +42,8 @@ export interface DragOptions {
 const DEFAULT_THRESHOLD = 3;
 const SAMPLE_WINDOW = 100; // ms of pointer history kept for velocity
 const NO_POINTER = -1;
+/** selection inside these is the user's, never ours to suppress */
+const TEXT_FIELD = "input, textarea, [contenteditable]";
 
 type Sample = [timeStamp: number, clientY: number];
 type Phase = "idle" | "pending" | "dragging";
@@ -65,6 +67,7 @@ export function attachDrag(
   let startY = 0;
   let target: EventTarget | null = null;
   let samples: Sample[] = [];
+  let pointerType = "";
 
   // Releasing capture before clearing the id means the resulting
   // `lostpointercapture` arrives unrecognised — that is how our own releases
@@ -82,6 +85,7 @@ export function attachDrag(
     pointerId = NO_POINTER;
     target = null;
     samples = [];
+    pointerType = "";
   };
 
   const track = (event: PointerEvent) => {
@@ -156,6 +160,7 @@ export function attachDrag(
     startY = event.clientY;
     target = from;
     samples = [];
+    pointerType = event.pointerType;
     track(event);
     startTracking();
   };
@@ -217,13 +222,44 @@ export function attachDrag(
     reset();
   };
 
+  /*
+   * A mouse drag is also a text selection, and the browser autoscrolls the
+   * nearest scroller to follow it — which fights whatever the caller is doing
+   * with the same movement. Touch and pen are left alone: there is no
+   * selection until a long press, and suppressing it would take that away.
+   *
+   * Only a pointer we accepted is suppressed, so anywhere `filter` refuses a
+   * gesture stays selectable, and text fields keep their own selection.
+   */
+  const onSelectStart = (event: Event) => {
+    if (phase === "idle" || pointerType !== "mouse") return;
+    const from = event.target;
+    if (from instanceof Element && from.closest(TEXT_FIELD)) return;
+    event.preventDefault();
+  };
+
+  /*
+   * A link, an image or a selection under the pointer would otherwise start a
+   * native drag, and the browser cancels our pointer to do it. Any pointer
+   * type: touch can reach this through a long press.
+   */
+  const onDragStart = (event: Event) => {
+    if (phase !== "idle") event.preventDefault();
+  };
+
   const listen = { passive: true } as const;
+  // These two call preventDefault, so they cannot be passive.
+  const suppress = { passive: false } as const;
   el.addEventListener("pointerdown", onPointerDown, listen);
   el.addEventListener("lostpointercapture", onPointerAbort, listen);
+  el.addEventListener("selectstart", onSelectStart, suppress);
+  el.addEventListener("dragstart", onDragStart, suppress);
 
   return () => {
     el.removeEventListener("pointerdown", onPointerDown);
     el.removeEventListener("lostpointercapture", onPointerAbort);
+    el.removeEventListener("selectstart", onSelectStart);
+    el.removeEventListener("dragstart", onDragStart);
     reset();
   };
 }
