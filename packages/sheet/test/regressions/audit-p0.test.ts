@@ -1,7 +1,7 @@
 /**
- * One named test per audit P0, using the repro numbers from
- * docs/internal/AUDIT.md. Each name states the 0.x failure it locks out, so a
- * regression reads as "P0-n came back" rather than "some test broke".
+ * One named test per P0 bug from the audit of the 0.x engine that preceded the
+ * rewrite. Each name states the 0.x failure it locks out, so a regression reads
+ * as "P0-n came back" rather than "some test broke".
  *
  * Public entry points only — these have to survive refactors of src/core.
  */

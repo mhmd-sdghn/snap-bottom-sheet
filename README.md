@@ -91,8 +91,8 @@ void sheet.open();
   direction.
 - **Small, and dependency-free.** The library brings its own spring integrator
   and its own Pointer Events recogniser, so it installs nothing else. Minified
-  and gzipped, that is about 10 kB with the React bindings, and about 8 kB for
-  the core alone. `react` and `react-dom` are optional peers, and the core entry
+  and gzipped, that is about 11.5 kB with the React bindings, and about 9 kB
+  for the core alone. `react` and `react-dom` are optional peers, and the core entry
   needs neither.
 - **Ready for real screens.** Content mode sizes the sheet to its own content.
   Sheets nest, each with its own overlay and its own place in the scroll lock. A

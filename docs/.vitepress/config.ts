@@ -11,10 +11,6 @@ export default defineConfig({
     "A draggable, snappable bottom sheet for the web — framework-agnostic core, React bindings, zero runtime dependencies.",
   cleanUrls: true,
 
-  // The plan and task files live under docs/internal/ and are not part of the
-  // published site.
-  srcExclude: ["internal/**"],
-
   // `head` hrefs are emitted verbatim (no automatic base prefix).
   head: [
     ["link", { rel: "icon", type: "image/svg+xml", href: `${base}logo.svg` }],

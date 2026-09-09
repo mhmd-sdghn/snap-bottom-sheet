@@ -56,7 +56,7 @@ packages/sheet         snap-bottom-sheet           published
   src/core/              the engine (see below)
   src/react/index.ts     React entry  -> exports "./react"
   src/react/             Root, parts, hooks
-docs/                  VitePress site; docs/internal/ is orchestration notes, excluded from the site
+docs/                  VitePress site
 playgrounds/{react,vanilla,next}
 e2e/                   Playwright suite for the drag/scroll handoff; builds and previews the React playground itself
 ```

@@ -125,8 +125,8 @@ the order you wrote.
   directions each snap may be dragged in.
 - **Small, and dependency-free.** The library brings its own spring integrator
   and Pointer Events recogniser, so it installs nothing else. Minified and
-  gzipped, that is about 10 kB with the React bindings, and about 8 kB for the
-  core alone.
+  gzipped, that is about 11.5 kB with the React bindings, and about 9 kB for
+  the core alone.
 - **Ready for real screens.** Content mode sizes the sheet to its own content.
   Sheets nest, each with its own overlay and its own place in the scroll lock. A
   portal `container` puts a sheet inside a card instead of the page. Open state

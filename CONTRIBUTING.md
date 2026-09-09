@@ -27,7 +27,7 @@ pnpm build       # the docs and playgrounds import the built package
 | `packages/sheet` | `snap-bottom-sheet`, the published package. `src/core` is the engine, `src/react` the bindings. |
 | `packages/spring` | `@snap-bottom-sheet/spring`, a private scalar spring with no dependencies |
 | `packages/gesture` | `@snap-bottom-sheet/gesture`, a private pointer drag recogniser with no dependencies |
-| `docs` | VitePress site. `docs/internal/` holds orchestration notes and is excluded from the site. |
+| `docs` | VitePress site. |
 | `playgrounds/react`, `playgrounds/vanilla`, `playgrounds/next` | manual testing |
 
 The two private packages are bundled into the published output by tsdown, using
@@ -145,12 +145,6 @@ Here is the short version, to help you find your way:
 6. The React layer renders the elements, registers them through context, mirrors
    props into the controller, and keeps children mounted while the close
    animation plays. No behaviour lives there.
-
-The design notes written while the engine was built are in
-[`docs/internal/PLAN.md`](./docs/internal/PLAN.md) and
-[`docs/internal/AUDIT.md`](./docs/internal/AUDIT.md). Please treat them as
-historical records rather than maintained specs. The code and the
-[docs site](https://mhmd-sdghn.github.io/snap-bottom-sheet/) are the truth.
 
 ## Deliberate shortcuts
 
