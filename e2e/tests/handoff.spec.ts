@@ -215,3 +215,83 @@ test("(d) the handle is not subject to the scroll ceiling", async ({
   await trace(page, "handle dragged up from index 1");
   await expect.poll(async () => (await readState(page)).snapIndex).toBe("2");
 });
+
+/** One straight drag upwards inside the body, `distance` px in ~15 px steps. */
+async function dragBodyUp(page: Page, distance: number) {
+  const from = { x: X, y: 560 };
+  await touchStart(page, from);
+  for (const point of line(
+    from,
+    { x: X, y: from.y - distance },
+    Math.round(distance / 15),
+  ).slice(1)) {
+    await page.waitForTimeout(16);
+    await touchMove(page, point);
+  }
+}
+
+test("(e) a body drag in the settling window still scrolls", async ({
+  page,
+}) => {
+  const y1 = await index1Y(page);
+
+  // Back down to the header snap, so the next handle drag re-enters the scroll
+  // snap and the window can be caught on the way in.
+  const down = await page.getByTestId("handle").boundingBox();
+  if (!down) throw new Error("no handle");
+  const downFrom = { x: X, y: down.y + down.height / 2 };
+  // Parked before the lift: a release carrying velocity here projects past the
+  // lowest snap and dismisses the sheet instead of settling on it.
+  await touchDrag(page, line(downFrom, { x: X, y: downFrom.y + 300 }, 15), {
+    park: true,
+  });
+  await expect.poll(async () => (await readState(page)).snapIndex).toBe("0");
+  await settled(page);
+
+  // Up again, waiting only until the panel *looks* still. `data-snap-index`
+  // and the body's scroller layout both wait for the spring to report rest,
+  // which is later — the gap is the window the owner's gesture fell into.
+  const up = await page.getByTestId("handle").boundingBox();
+  if (!up) throw new Error("no handle");
+  const upFrom = { x: X, y: up.y + up.height / 2 };
+  await touchDrag(page, line(upFrom, { x: X, y: upFrom.y - 300 }, 15));
+  await expect
+    .poll(async () => Math.abs((await readState(page)).y - y1) < 2, {
+      intervals: [16],
+    })
+    .toBe(true);
+  await trace(page, "visually still at index 1");
+
+  await dragBodyUp(page, 180);
+  const held = await readState(page);
+  await trace(page, "body dragged during the settle");
+
+  // True in either layout, which is the point: the sheet holds its snap and
+  // the content takes the gesture. The jsdom tests pin the not-laid-out path
+  // exactly; here the window is only tens of ms wide, so this asserts the
+  // outcome rather than which side of the layout switch it landed on.
+  expect(held.scrolling).toBe(true);
+  expect(held.scrollTop).toBeGreaterThan(0);
+  expect(Math.abs(held.y - y1)).toBeLessThan(4);
+
+  await touchEnd(page);
+  await expect.poll(async () => (await readState(page)).snapIndex).toBe("1");
+});
+
+test("(f) a body drag straight up from a rested sheet scrolls", async ({
+  page,
+}) => {
+  // The owner's gesture: at the middle snap, drag the list upwards.
+  const y1 = await index1Y(page);
+
+  await dragBodyUp(page, 180);
+  const held = await readState(page);
+  await trace(page, "body dragged when rested");
+
+  expect(held.scrolling).toBe(true);
+  expect(held.scrollTop).toBeGreaterThan(0);
+  expect(Math.abs(held.y - y1)).toBeLessThan(4);
+
+  await touchEnd(page);
+  await expect.poll(async () => (await readState(page)).snapIndex).toBe("1");
+});

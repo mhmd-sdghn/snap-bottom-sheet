@@ -116,7 +116,11 @@ export function createSheet(
 
   const restores: (() => void)[] = [];
   const listeners = new Set<(state: SheetState) => void>();
-  const spring = createSpring(0);
+  // Rest thresholds well above the defaults (0.01 px / 0.01 px/ms): with
+  // stiffness 170 and damping 26 those leave roughly 400 ms of sub-pixel
+  // motion after the panel already looks still, and `data-snap-index`,
+  // `touch-action` and the body's scroller layout all wait for rest.
+  const spring = createSpring(0, { restDelta: 0.5, restSpeed: 0.05 });
 
   const modal = () => opts.modal ?? true;
   const dismissible = () => opts.dismissible ?? true;
