@@ -114,8 +114,13 @@ Three things are ignored without any markup:
 With a mouse, dragging inside the sheet does not select the text you pass over.
 A selection would otherwise grow as you drag, and the browser would scroll the
 list to follow it. Text fields keep their normal selection, and so does any
-region you have marked with `data-snap-sheet-no-drag`. To select text in the
-sheet itself, please double-click a word or use the keyboard.
+region you have marked with `data-snap-sheet-no-drag`.
+
+Everywhere else in the sheet, a mouse selects rather little: dragging selects
+nothing, and a double-click no longer picks out a word. A triple-click still
+selects a whole block. If your readers need to select or copy a passage freely,
+please mark that region with `data-snap-sheet-no-drag`. No drag begins there, so
+its text behaves as it normally would.
 
 ## Keyboard
 

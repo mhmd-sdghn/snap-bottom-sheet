@@ -288,6 +288,28 @@ describe("text selection and native drag", () => {
     expect(fireCancelable(field, "selectstart").defaultPrevented).toBe(false);
   });
 
+  /*
+   * The promise the guide makes: a region the caller opts out of keeps its
+   * selection, because no gesture ever starts there. `filter` is the same hook
+   * the sheet uses for `[data-snap-sheet-no-drag]`.
+   */
+  it("leaves a region the filter refuses selectable", () => {
+    detach();
+    const opted = document.createElement("div");
+    opted.dataset.noDrag = "";
+    el.append(opted);
+    detach = attachDrag(el, handlers, {
+      filter: (target) => target.closest("[data-no-drag]") === null,
+    });
+
+    fire(opted, "pointerdown", { clientY: 0 });
+    expect(fireCancelable(opted, "selectstart").defaultPrevented).toBe(false);
+
+    // and still refused where a gesture does start
+    fire(el, "pointerdown", { clientY: 0 });
+    expect(fireCancelable(el, "selectstart").defaultPrevented).toBe(true);
+  });
+
   it("refuses a native drag while a gesture is in flight", () => {
     fire(el, "pointerdown", { clientY: 0 });
     // still pending
