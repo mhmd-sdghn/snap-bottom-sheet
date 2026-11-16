@@ -6,7 +6,6 @@
 
 <p align="center">
   <a href="https://www.npmjs.com/package/snap-bottom-sheet"><img alt="npm" src="https://img.shields.io/npm/v/snap-bottom-sheet.svg"></a>
-  <a href="https://github.com/mhmd-sdghn/snap-bottom-sheet/actions/workflows/ci.yml"><img alt="CI" src="https://github.com/mhmd-sdghn/snap-bottom-sheet/actions/workflows/ci.yml/badge.svg"></a>
   <a href="./LICENSE"><img alt="MIT" src="https://img.shields.io/npm/l/snap-bottom-sheet.svg"></a>
 </p>
 
